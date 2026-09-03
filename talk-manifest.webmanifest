@@ -1,0 +1,18 @@
+{
+  "name": "LocalTalk",
+  "short_name": "LocalTalk",
+  "description": "LocalTalk chat on Muye.",
+  "start_url": "/talk/",
+  "scope": "/talk/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "/assets/icon-localtalk.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

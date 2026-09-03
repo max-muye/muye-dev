@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Muye mailbox.">
+    <title>Mailbox · Muye</title>
+    <meta name="theme-color" content="#050505">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Mailbox">
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="/mailbox/manifest.webmanifest">
+    <link rel="apple-touch-icon" href="/assets/icon-mailbox.svg">
+    <link rel="stylesheet" href="/styles.css?v=10">
+    <link rel="stylesheet" href="/mailbox/mailbox.css?v=8">
+  </head>
+  <body class="mailbox-page">
+    <main class="mailbox-shell">
+      <header class="mailbox-topbar">
+        <a class="mailbox-brand" href="/">Muye</a>
+        <a class="home-link" href="/">Home</a>
+      </header>
+
+      <section class="mailbox-login" id="mailbox-login" aria-labelledby="login-title">
+        <p class="eyebrow">Muye mail</p>
+        <h1 id="login-title">Your mailbox</h1>
+        <p class="mailbox-copy">Sign in with the Muye email and password you created.</p>
+        <form class="mailbox-form" id="login-form">
+          <label>Email<input name="mailbox" type="email" autocomplete="username" placeholder="you@muye.dev" required></label>
+          <label>Password
+            <span class="mailbox-password-field"><input id="login-password" name="password" type="password" autocomplete="current-password" required><button class="password-toggle" id="login-password-toggle" type="button" aria-label="Show password">Show</button></span>
+          </label>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEG-XIoYvPuejEbf" data-callback="muyeCaptchaCallback" data-expired-callback="muyeCaptchaExpired" data-error-callback="muyeCaptchaExpired"></div>
+          <label class="mailbox-keep-open"><input name="openForToday" type="checkbox" checked><span>Open mail for today</span></label>
+          <button class="mailbox-button primary" type="submit">Open mailbox</button>
+          <p class="mailbox-message" id="login-message" role="status" aria-live="polite"></p>
+        </form>
+        <button class="replace-password-link" id="show-reset-button" type="button">Replace password</button>
+        <p class="mailbox-switch">Need a Muye email? <a href="/create-email">Create one</a></p>
+      </section>
+
+      <section class="mailbox-login" id="reset-panel" hidden aria-labelledby="reset-title">
+        <p class="eyebrow">Account recovery</p>
+        <h1 id="reset-title">Replace password</h1>
+        <p class="mailbox-copy">Enter the email or phone used when you created your mailbox. Only one is needed.</p>
+        <form class="mailbox-form" id="reset-form">
+          <label>Verification email<input name="contactEmail" type="email" placeholder="you@example.com"></label>
+          <label>Phone number <span class="optional-label">or email above</span><input name="phone" type="tel" placeholder="+1 555 123 4567"></label>
+          <div class="reset-code-row"><label>Verification code<input name="code" type="text" maxlength="6" autocomplete="one-time-code" placeholder="6-character code"></label><button class="mailbox-button quiet" id="send-reset-code" type="button">Send verification code</button></div>
+          <label>New password<span class="mailbox-password-field"><input name="password" type="password" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-reset-toggle>Show</button></span></label>
+          <label>Confirm new password<span class="mailbox-password-field"><input name="passwordConfirm" type="password" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-reset-toggle>Show</button></span></label>
+          <button class="mailbox-button primary" type="submit">Replace password</button>
+          <p class="mailbox-message" id="reset-message" role="status" aria-live="polite"></p>
+        </form>
+        <button class="replace-password-link" id="back-to-login" type="button">Back to mailbox sign in</button>
+      </section>
+
+      <section class="mailbox-app" id="mailbox-app" hidden aria-labelledby="mailbox-title">
+        <div class="mailbox-heading">
+          <div>
+            <p class="eyebrow">Muye mail</p>
+            <h1 id="mailbox-title">Inbox</h1>
+            <p class="mailbox-address" id="mailbox-address"></p>
+          </div>
+          <button class="mailbox-button quiet" id="logout-button" type="button">Sign out</button>
+        </div>
+        <div class="mailbox-view-tabs" role="tablist" aria-label="Mailbox folders">
+          <button class="mailbox-view-tab active" id="inbox-view-button" type="button" role="tab" aria-selected="true" data-view="inbox">Inbox</button>
+          <button class="mailbox-view-tab" id="outbox-view-button" type="button" role="tab" aria-selected="false" data-view="outbox">Outbox</button>
+          <button class="mailbox-view-tab" id="trash-view-button" type="button" role="tab" aria-selected="false" data-view="trash">Trash</button>
+        </div>
+
+        <div class="mailbox-grid">
+          <section class="message-list-panel" aria-labelledby="messages-title">
+            <div class="panel-heading"><h2 id="messages-title">Messages</h2><button class="mailbox-button quiet" id="refresh-button" type="button">Refresh</button></div>
+            <div id="message-list" class="message-list"></div>
+            <p class="mailbox-message" id="inbox-message" role="status" aria-live="polite"></p>
+          </section>
+          <section class="message-preview-panel" id="message-preview-panel" aria-labelledby="preview-title">
+            <div class="panel-heading"><h2 id="preview-title">Preview</h2><button class="mailbox-button quiet" id="close-preview-button" type="button">Close</button></div>
+            <article class="message-detail" id="message-detail">
+              <p class="empty-state">Click a message to preview it.</p>
+            </article>
+          </section>
+
+          <section class="compose-panel" aria-labelledby="compose-title">
+            <h2 id="compose-title">New message</h2>
+            <form class="mailbox-form" id="compose-form">
+              <label>To<input name="recipient" type="email" placeholder="someone@example.com" required></label>
+              <label>Subject<input name="subject" type="text" maxlength="160" required></label>
+              <label>Message<textarea name="body" rows="8" maxlength="10000"></textarea></label>
+              <label>File<input name="attachment" type="file"></label>
+              <figure class="compose-image-preview" id="compose-image-preview" hidden>
+                <img alt="Selected image preview">
+                <figcaption></figcaption>
+                <button class="mailbox-button quiet" id="remove-image-button" type="button">Remove file</button>
+              </figure>
+              <button class="mailbox-button primary" type="submit">Send message</button>
+              <p class="mailbox-message" id="compose-message" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+        </div>
+      </section>
+
+      <section class="mailbox-admin" id="mailbox-admin" hidden aria-labelledby="admin-title">
+        <div class="mailbox-heading">
+          <div>
+            <p class="eyebrow">Admin</p>
+            <h1 id="admin-title">All mailboxes</h1>
+            <p class="mailbox-address" id="admin-summary"></p>
+          </div>
+          <button class="mailbox-button quiet" id="admin-refresh-button" type="button">Refresh</button>
+        </div>
+        <div class="admin-grid">
+          <section class="message-list-panel" aria-labelledby="admin-mailboxes-title">
+            <div class="panel-heading"><h2 id="admin-mailboxes-title">Mailboxes</h2></div>
+            <div id="admin-mailbox-list" class="message-list"></div>
+          </section>
+          <section class="message-list-panel" aria-labelledby="admin-requests-title">
+            <div class="panel-heading"><h2 id="admin-requests-title">Requests</h2></div>
+            <div id="admin-request-list" class="message-list"></div>
+          </section>
+          <section class="message-preview-panel" aria-labelledby="admin-messages-title">
+            <div class="panel-heading"><h2 id="admin-messages-title">Messages</h2></div>
+            <div id="admin-message-list" class="message-list"></div>
+            <p class="mailbox-message" id="admin-message" role="status" aria-live="polite"></p>
+          </section>
+          <section class="message-preview-panel" aria-labelledby="admin-preview-title">
+            <div class="panel-heading"><h2 id="admin-preview-title">Preview</h2></div>
+            <article class="message-detail" id="admin-message-detail">
+              <p class="empty-state">Choose a mailbox or message.</p>
+            </article>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
+    <script src="/mailbox/mailbox.js?v=19"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});</script>
+  </body>
+</html>

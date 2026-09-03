@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Edit your Muye profile.">
+    <title>Profile · Muye</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=10">
+    <link rel="stylesheet" href="/auth.css?v=12">
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <div class="auth-topbar">
+        <a class="auth-brand" href="/">Muye</a>
+        <a class="home-link" href="/">Home</a>
+      </div>
+      <section class="auth-panel profile-panel" aria-labelledby="profile-title">
+        <p class="eyebrow">Account</p>
+        <h1 id="profile-title">Profile</h1>
+        <form class="auth-form" id="profile-form">
+          <label>
+            <span>Display name</span>
+            <input name="displayName" type="text" autocomplete="name" required>
+          </label>
+          <button class="button primary" type="submit">Save profile</button>
+          <button class="button secondary" id="clerk-profile-button" type="button">Open Clerk profile</button>
+          <p class="auth-message" id="profile-message" role="status" aria-live="polite"></p>
+        </form>
+        <p class="auth-switch"><a href="/talk/">Open Talk</a> · <a href="/">Back home</a></p>
+      </section>
+    </main>
+    <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
+    <script defer src="/profile/profile.js?v=7"></script>
+  </body>
+</html>

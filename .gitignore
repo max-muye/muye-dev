@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+.wrangler/
+.worker-downloads/
+
+.env
+.env.*
+!.env.example

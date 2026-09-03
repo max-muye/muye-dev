@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A small browser-like tool on Muye.">
+    <title>Browser · Muye</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/misc/browser/browser.css?v=3">
+  </head>
+  <body class="browser-page">
+    <main class="browser-app" aria-label="Mini browser">
+      <header class="browser-chrome">
+        <div class="tabs" id="tabs" role="tablist" aria-label="Browser tabs"></div>
+        <button class="icon-button" id="new-tab" type="button" title="New tab" aria-label="New tab">+</button>
+      </header>
+
+      <section class="toolbar" aria-label="Navigation">
+        <button class="icon-button" id="back" type="button" title="Back" aria-label="Back">‹</button>
+        <button class="icon-button" id="forward" type="button" title="Forward" aria-label="Forward">›</button>
+        <button class="icon-button" id="reload" type="button" title="Reload" aria-label="Reload">↻</button>
+        <form class="address-form" id="address-form">
+          <input id="address" type="text" autocomplete="off" spellcheck="false" aria-label="Address or search" placeholder="Search or enter website">
+        </form>
+        <button class="mode-button" id="proxy-button" type="button">Proxy</button>
+        <button class="icon-button" id="open-tab" type="button" title="Open outside" aria-label="Open outside">↗</button>
+      </section>
+
+      <section class="viewport-shell">
+        <iframe id="viewer" title="Browser page preview" sandbox="allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        <div class="fallback" id="fallback" hidden>
+          <h1 id="fallback-title">This page may not open here</h1>
+          <p id="fallback-copy">Some websites block mini browsers. You can open it in a normal tab.</p>
+          <button id="fallback-open" type="button">Open page</button>
+        </div>
+      </section>
+
+      <footer class="browser-footer">
+        <button id="admin-open" type="button">Proxy Admin</button>
+        <a href="/misc/">Misc</a>
+        <a href="/">Home</a>
+      </footer>
+    </main>
+    <dialog class="admin-dialog" id="admin-dialog">
+      <form method="dialog" class="admin-panel">
+        <header>
+          <strong>Proxy Admin</strong>
+          <button type="submit" aria-label="Close">×</button>
+        </header>
+        <input id="admin-password" type="password" placeholder="Admin password" autocomplete="current-password">
+        <div class="admin-actions">
+          <button id="admin-load" type="button">Load</button>
+        </div>
+        <div class="admin-list" id="admin-list"></div>
+      </form>
+    </dialog>
+    <script src="/misc/browser/browser.js?v=6"></script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Test Cloudflare Turnstile on Muye.">
+    <title>CAPTCHA test · Muye</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=10">
+    <link rel="stylesheet" href="/auth.css?v=12">
+    <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <div class="auth-topbar">
+        <a class="auth-brand" href="/">Muye</a>
+        <a class="home-link" href="/">Home</a>
+      </div>
+      <section class="auth-panel" aria-labelledby="captcha-title">
+        <p class="eyebrow">Muye Security</p>
+        <h1 id="captcha-title">CAPTCHA test</h1>
+        <p class="field-hint">Complete the challenge, then test the server verification.</p>
+        <form class="auth-form" id="captcha-form">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEG-XIoYvPuejEbf"></div>
+          <button class="button primary" type="submit">Test CAPTCHA</button>
+          <p class="auth-message" id="captcha-result" role="status" aria-live="polite">false</p>
+        </form>
+      </section>
+    </main>
+    <script defer src="/captcha/captcha.js?v=1"></script>
+  </body>
+</html>

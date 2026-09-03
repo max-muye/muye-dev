@@ -1,0 +1,8 @@
+name = "muye-incoming-email"
+main = "email-worker.js"
+compatibility_date = "2026-07-27"
+
+[[d1_databases]]
+binding = "muye_mailboxes"
+database_name = "muye-mailboxes"
+database_id = "e5d4b5ea-97cb-42c9-b1a7-6b14473b288d"

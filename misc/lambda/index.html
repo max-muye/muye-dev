@@ -1,0 +1,1079 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111111">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Lambda2D">
+<link rel="manifest" href="/misc/lambda/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/icon-lambda.svg">
+<title>Lambda Projects</title>
+<style>
+body{margin:0;background:#111;color:#eee;font:16px system-ui}main{max-width:1100px;margin:auto;padding:18px}
+button,input,textarea{font:inherit}button,.buttonish{min-height:44px;border:0;border-radius:9px;padding:9px 14px}
+.buttonish{display:inline-flex;align-items:center;box-sizing:border-box;background:#eee;color:#111;text-decoration:none}
+.card{background:#1a1a1a;border:1px solid #444;border-radius:12px;padding:14px;margin:10px 0}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}#auth,#home{max-width:850px;margin:auto}
+#simulator{display:none}#home{display:none}#auth{display:none}
+.project{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.danger{background:#ff8e8e}a{color:#7ab8ff}textarea{width:100%;height:82px;background:#1b1b1b;color:#fff;border:1px solid #555;border-radius:10px;padding:12px;font:18px monospace;box-sizing:border-box}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.box{background:#000;overflow:auto;border-radius:10px;padding:12px}
+svg{display:block;touch-action:none;width:100%;height:auto;aspect-ratio:5/3}
+</style>
+<main>
+<div id=auth class=card>
+<h2>Lambda → 2D</h2>
+<p>Projects save automatically on this device. No account is required.</p>
+<div class=row>
+<button id=signInBtn>Sign in</button>
+<button id=signUpBtn>Sign up</button>
+<button id=offlineBtn>Use without account</button>
+</div>
+</div>
+<div id=home>
+ <div class=row><h2 style="flex:1">Your Lambda projects</h2><a href="/" class=buttonish>Home</a><button id=installApp>Install app</button><button id=accountBtn>Sign in / Sign up</button><span id=networkState style="font-weight:700"></span><button id=adminOpen>Admin</button><div id=userButton></div></div>
+ <div class=card><div class=row><input id=newName placeholder="project-name" maxlength=48 style="flex:1;min-width:180px;height:44px"><button id=createProject>Create new</button></div><div id=quota></div></div>
+ <div class=card>
+  <div class=row>
+    <h3 style="flex:1;margin:0">All published projects</h3>
+    <input id=publishedSearch placeholder="Search published…" style="min-width:180px;height:44px">
+    <button id=refreshPublished>Refresh</button>
+  </div>
+  <div id=allPublished></div>
+</div>
+<div id=projects></div>
+</div>
+<div id=publishedPage style="display:none">
+<div class=row><button id=publishedBack>← Home</button><h2 id=publishedTitle style="flex:1">Published project</h2></div>
+<div class=card><button id=copyPublished>Copy to my device</button></div>
+<div id=publishedExpression class=card style="font-family:monospace;white-space:pre-wrap;overflow-wrap:anywhere"></div>
+<div id=publishedFunctions></div></div>
+<div id=adminPage style="display:none">
+  <div class=row><button id=adminBack>← Home</button><button id=adminCopyLink>Copy link</button><h2 style="flex:1">Built-in function admin</h2></div>
+  <div id=adminLogin class=card>
+    <p>Enter the administrator password.</p>
+    <div class=row>
+      <input id=adminPassword type=password placeholder="ADMIN_PASSWD" style="flex:1;min-width:180px;height:44px">
+      <button id=adminLoginBtn>Sign in as admin</button>
+    </div>
+    <div id=adminMsg></div>
+  </div>
+  <div id=adminEditor style="display:none">
+    <div class=card><div class=row>
+      <input id=adminSearch placeholder="Search built-ins…" style="flex:1;min-width:180px;height:44px">
+      <button id=adminCreate>Create built-in</button>
+      <button id=adminLogout>Admin sign out</button>
+    </div></div>
+    <div id=adminForm class=card style="display:none">
+      <h3 id=adminFormTitle>Edit built-in</h3>
+      <div class=row>
+        <input id=adminName placeholder="name" maxlength=48 style="min-width:150px;height:44px">
+        <input id=adminExpr placeholder="/x.x" style="flex:1;min-width:220px;height:44px">
+        <button id=adminSave>Save</button>
+        <button id=adminCancel>Cancel</button>
+      </div>
+    </div>
+    <div id=adminList></div>
+  </div>
+</div>
+<div id=funcPage style="display:none">
+  <div class=row>
+    <button id=funcBack>← Project</button><button id=funcCopyLink>Copy link</button>
+    <h2 id=funcPageTitle style="flex:1">Functions</h2>
+  </div>
+  <div class=card>
+    <div class=row>
+      <label style="display:flex;align-items:center;gap:6px"><input id=useBuiltins type=checkbox> Use/show global built-ins in this project</label>
+    </div>
+    <div class=row>
+      <input id=funcSearch placeholder="Search functions…" style="flex:1;min-width:180px;height:44px">
+      <button id=funcCreate>Create function</button>
+    </div>
+  </div>
+  <div class=card>
+    <h3>Final output JavaScript</h3>
+    <p>Optional project-local JavaScript that changes the text shown beside the final diagram. It runs only for projects saved on this device.</p>
+    <p><code>result</code> is always the final lambda expression string, for example <code>"/x.x"</code>. Return text to show, or return <code>""</code>/<code>null</code> to hide it.</p>
+    <textarea id=outputJs style="width:100%;min-height:180px" spellcheck=false placeholder='function output(result) {
+  return "= " + result;
+}'></textarea>
+    <div class=row>
+      <button id=saveOutputJs>Save output JS</button>
+      <button id=testOutputJs>Test with current result</button>
+      <button id=clearOutputJs>Use default output</button>
+    </div>
+    <div id=outputJsMsg></div>
+  </div>
+  <div class=card>
+  <h3>Bulk create functions</h3>
+  <p>Paste definitions using <code>NAME := expression</code>. Lines beginning with <code>#</code> are comments. A definition may continue on following lines until the next <code>NAME :=</code>.</p>
+  <textarea id=bulkFunctions style="width:100%;min-height:240px" placeholder="PAIR := /a./b./p.p a b&#10;FST := /p.p (/a./b.a)&#10;&#10;# comments are allowed&#10;bin := /n.n INC EMPTY"></textarea>
+  <div class=row>
+    <button id=bulkImport>Import definitions</button>
+    <button id=copyFunctionBlock>Copy functions as :=</button>
+    <button id=clearAllProjectFunctions class=danger>Clear project functions</button>
+  </div>
+  <div id=bulkMsg></div>
+</div>
+<div id=funcEditor class=card style="display:none">
+    <h3 id=funcEditorTitle>New function</h3>
+    <div class=row>
+      <input id=funcEditName placeholder="name" maxlength=48 style="min-width:150px;height:44px">
+      <input id=funcEditExpr placeholder="/x.x" style="flex:1;min-width:220px;height:44px">
+      <button id=funcEditorSave>Save</button>
+      <button id=funcEditorCancel>Cancel</button>
+    </div>
+  </div>
+  <div id=funcPageList></div>
+</div>
+<div id=simulator><div id=functionPanel class=card style="display:none"><h3>Project functions</h3><div class=row><input id=fnName placeholder="name" maxlength=48><input id=fnExpr placeholder="/x.x" style="flex:1;min-width:220px"><button id=saveFn>Save function</button></div><div id=fnList></div></div>
+ <div class=row><button id=backHome>← Projects</button><strong id=projectTitle></strong><button id=saveProject>Save now</button><button id=publishProject>Publish</button><span id=saveStatus>Saved locally</span><button id=manageFunctions>Functions</button><button id=deleteProject class=danger>Delete project</button><div id=userButton2></div></div>
+ 
+<h2>Lambda → 2D Simulator</h2>
+<div>Normal-order reduction: <b>outermost first, then leftmost</b>. Common names such as <b>mul, add, succ, pred, fact</b> and numbers such as <b>0, 1, 2, 3, …</b> can be expanded automatically. Capture-avoiding substitution is used during simulation. The diagram always fits a <b>1000×600</b> canvas.</div>
+<textarea id=s>(/a./b.a b b)(mul)(add)</textarea>
+<div class=controls>
+<button id=draw>Draw / Reset</button>
+<button id=clear>Clear input</button>
+<button id=expand>Transform names → λ</button>
+<button id=step>Simulate one step</button>
+<button id=start>Start simulating</button>
+<label style="display:flex;align-items:center;gap:6px">Delay ticks <input id=delay type=number min=0 max=10000 value=650 inputmode=numeric style="width:90px;height:44px;font-size:16px;border-radius:8px;border:1px solid #666;background:#1b1b1b;color:white;padding:6px"></label>
+<button id=stop disabled>End simulating</button>
+<span id=reductionCount style="min-height:44px;display:inline-flex;align-items:center;padding:0 10px;background:#222;border:1px solid #555;border-radius:8px">Reductions: 0</span>
+<button id=resetReductions>Reset reductions</button>
+<button id=png>Save PNG</button>
+</div><div id=msg></div><div class=box style="position:relative"><div id=numBadge style="display:none;position:absolute;right:24px;top:24px;z-index:2;font:700 42px system-ui;color:white;background:#222;border:2px solid #666;border-radius:14px;padding:8px 16px"></div><canvas id=v width="1000" height="600" style="display:none"></canvas><img id=diagramImg alt="Lambda 2D diagram" draggable="false" style="display:block;width:100%;height:auto;aspect-ratio:5/3;object-fit:contain;background:#000"></div>
+
+</div>
+<script>
+// v37.1: make all element IDs explicit globals for Safari/iPad compatibility.
+for (const el of document.querySelectorAll("[id]")) {
+  if (!(el.id in window)) window[el.id] = el;
+}
+
+const API_BASE="/misc/lambda";
+const CLERK_PUBLISHABLE_KEY="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA";
+let currentProject=null,clerk=null,PROJECT_FUNCTIONS={},saveTimer=null,USE_GLOBAL_BUILTINS=false,OUTPUT_JS="";
+const FALLBACK_FUNCTIONS={
+ id:"/x.x",
+ true:"/t./f.t",
+ false:"/t./f.f",
+ if:"/p./a./b.p a b",
+ zero:"/f./x.x",
+ succ:"/n./f./x.f (n f x)",
+ add:"/m./n./f./x.m f (n f x)",
+ mul:"/m./n./f.m (n f)",
+ pow:"/b./e.e b",
+ pred:"/n./f./x.n (/g./h.h (g f)) (/u.x) (/u.u)",
+ sub:"/m./n.n pred m",
+ iszero:"/n.n (/x.false) true",
+ and:"/p./q.p q p",
+ or:"/p./q.p p q",
+ not:"/p.p false true",
+ pair:"/a./b./p.p a b",
+ fst:"/p.p true",
+ snd:"/p.p false",
+ Y:"/f.(/x.f (x x)) (/x.f (x x))",
+ fact:"Y (/r./n.if (iszero n) one (mul n (r (pred n))))"
+};
+let DEFAULT_FUNCTIONS={...FALLBACK_FUNCTIONS};
+const DB="lambda2d",STORE="projects";
+function odb(){return new Promise((ok,no)=>{let r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:"name"})};r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)})}
+async function put(p){let d=await odb();return new Promise((ok,no)=>{let t=d.transaction(STORE,"readwrite");t.objectStore(STORE).put(p);t.oncomplete=ok;t.onerror=()=>no(t.error)})}
+async function get(n){let d=await odb();return new Promise((ok,no)=>{let r=d.transaction(STORE).objectStore(STORE).get(n);r.onsuccess=()=>ok(r.result||null);r.onerror=()=>no(r.error)})}
+async function all(){let d=await odb();return new Promise((ok,no)=>{let r=d.transaction(STORE).objectStore(STORE).getAll();r.onsuccess=()=>ok(r.result||[]);r.onerror=()=>no(r.error)})}
+async function del(n){let d=await odb();return new Promise((ok,no)=>{let t=d.transaction(STORE,"readwrite");t.objectStore(STORE).delete(n);t.oncomplete=ok;t.onerror=()=>no(t.error)})}
+async function saveLocal(){if(!currentProject)return;let x=document.querySelector("#saveStatus");if(x)x.textContent="Saving…";await put({name:currentProject,expression:S.value,functions:{...PROJECT_FUNCTIONS},useGlobalBuiltins:USE_GLOBAL_BUILTINS,outputJs:OUTPUT_JS,updatedAt:Date.now()});if(x)x.textContent="Saved locally"}
+function autosave(){if(!currentProject)return;let x=document.querySelector("#saveStatus");if(x)x.textContent="Unsaved…";clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveLocal(),300)}
+async function refreshFunctions(){let list=document.querySelector("#fnList");list.innerHTML="";for(let [name,expression] of Object.entries(PROJECT_FUNCTIONS)){let r=document.createElement("div");r.className="card row";let t=document.createElement("div");t.style.flex="1";t.textContent=name+" = "+expression;let e=document.createElement("button");e.textContent="Edit";e.onclick=()=>{fnName.value=name;fnExpr.value=expression};let d=document.createElement("button");d.textContent="Delete";d.className="danger";d.onclick=()=>{if(confirm("Delete function '"+name+"'?")){delete PROJECT_FUNCTIONS[name];refreshFunctions();autosave()}};r.append(t,e,d);list.append(r)}}
+async function saveFunction(){let name=fnName.value.trim().toLowerCase(),expression=fnExpr.value.trim();if(!name||/[\s()/.?#]/u.test(name))return alert("Invalid function name.");try{parse(expression)}catch(e){return alert(e.message)}PROJECT_FUNCTIONS[name]=expression;fnName.value="";fnExpr.value="";await refreshFunctions();autosave()}
+async function openProject(name){let p=await get(name);if(!p)return alert("Project not found");currentProject=name;PROJECT_FUNCTIONS={...(p.functions||{})};USE_GLOBAL_BUILTINS=!!p.useGlobalBuiltins;OUTPUT_JS=String(p.outputJs||"");home.style.display="none";adminPage.style.display="none";publishedPage.style.display="none";funcPage.style.display="none";auth.style.display="none";simulator.style.display="block";projectTitle.textContent=name;S.value=p.expression||"/x.x";reset();await refreshFunctions()}
+async function loadHome(){currentProject=null;simulator.style.display="none";auth.style.display="none";adminPage.style.display="none";publishedPage.style.display="none";funcPage.style.display="none";home.style.display="block";try{history.pushState(null,"","/misc/lambda/")}catch{}let ps=await all();projects.innerHTML=ps.length?"":'<div class="card">No projects yet. Tap Create new.</div>';ps.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));for(let p of ps){let r=document.createElement("div");r.className="card project";let n=document.createElement("b");n.textContent=p.name;let o=document.createElement("button");o.textContent="Open";o.onclick=()=>openProject(p.name);r.append(n,o);projects.append(r)}quota.textContent="Saved directly on this device. No 1 MiB app limit."}
+
+
+async function loadGlobalBuiltins(){
+  try{
+    const r=await fetch(API_BASE+"/api/builtins");
+    if(!r.ok)throw Error("HTTP "+r.status);
+    const d=await r.json();
+    if(d?.builtins){
+      DEFAULT_FUNCTIONS={...FALLBACK_FUNCTIONS,...d.builtins};
+      try{localStorage.setItem("lambda2d-builtins",JSON.stringify(d.builtins))}catch{}
+      for(const [k,v] of Object.entries(DEFAULT_FUNCTIONS)) NAMED[k.toLowerCase()]=v;
+    }
+  }catch(e){
+    try{
+      const cached=JSON.parse(localStorage.getItem("lambda2d-builtins")||"null");
+      if(cached&&typeof cached==="object")DEFAULT_FUNCTIONS={...FALLBACK_FUNCTIONS,...cached};
+    }catch{}
+    for(const [k,v] of Object.entries(DEFAULT_FUNCTIONS)) NAMED[k.toLowerCase()]=v;
+    console.warn("Offline/cached built-ins",e);
+  }
+}
+
+let ADMIN_TOKEN=sessionStorage.getItem("lambdaAdminToken")||"";
+
+async function adminRequest(path,opt={}){
+  opt.headers={...(opt.headers||{}),"Content-Type":"application/json"};
+  if(ADMIN_TOKEN)opt.headers.Authorization="Bearer "+ADMIN_TOKEN;
+  const r=await fetch(API_BASE+path,opt);
+  let d={};try{d=await r.json()}catch{}
+  if(!r.ok)throw Error(d.error||("Admin API "+r.status));
+  return d;
+}
+
+async function adminLoginNow(){
+  try{
+    adminMsg.textContent="Signing in…";
+    const d=await adminRequest("/api/admin/login",{method:"POST",body:JSON.stringify({password:adminPassword.value})});
+    ADMIN_TOKEN=d.token;sessionStorage.setItem("lambdaAdminToken",ADMIN_TOKEN);
+    adminPassword.value="";adminLogin.style.display="none";adminEditor.style.display="block";adminMsg.textContent="";
+    await renderAdminBuiltins();
+  }catch(e){adminMsg.textContent=e.message}
+}
+
+async function renderAdminBuiltins(){
+  const d=await adminRequest("/api/admin/builtins");
+  const q=(adminSearch.value||"").toLowerCase();
+  adminList.innerHTML="";
+  for(const f of d.builtins.filter(x=>x.name.toLowerCase().includes(q)||x.expression.toLowerCase().includes(q))){
+    const row=document.createElement("div");row.className="card";
+    const top=document.createElement("div");top.className="row";
+    const name=document.createElement("b");name.style.flex="1";name.textContent=f.name;
+    const edit=document.createElement("button");edit.textContent="Edit";edit.onclick=()=>showAdminForm(f.name,f.expression);
+    const del=document.createElement("button");del.textContent="Delete";del.className="danger";
+    del.onclick=async()=>{if(!confirm("Delete built-in '"+f.name+"'?"))return;await adminRequest("/api/admin/builtins/"+encodeURIComponent(f.name),{method:"DELETE"});await loadGlobalBuiltins();await renderAdminBuiltins()};
+    const code=document.createElement("div");code.style.fontFamily="monospace";code.style.overflowWrap="anywhere";code.style.marginTop="8px";code.textContent=f.expression;
+    top.append(name,edit,del);row.append(top,code);adminList.append(row);
+  }
+}
+
+function showAdminForm(name="",expression=""){
+  adminForm.style.display="block";adminFormTitle.textContent=name?"Edit built-in":"Create built-in";
+  adminName.value=name;adminExpr.value=expression;adminName.disabled=!!name;adminExpr.focus();
+}
+
+async function openAdminPage(){
+  home.style.display="none";simulator.style.display="none";funcPage.style.display="none";auth.style.display="none";adminPage.style.display="block";
+  try{history.pushState(null,"","/misc/lambda/?admin=1")}catch{}
+  if(ADMIN_TOKEN){
+    try{adminLogin.style.display="none";adminEditor.style.display="block";await renderAdminBuiltins();return}
+    catch{ADMIN_TOKEN="";sessionStorage.removeItem("lambdaAdminToken")}
+  }
+  adminLogin.style.display="block";adminEditor.style.display="none";
+}
+
+function allFunctions(){
+  const project = Object.entries(PROJECT_FUNCTIONS).map(([name,expression])=>({
+    name, expression, source:"project", builtin:false, overridden:false
+  }));
+
+  if(!USE_GLOBAL_BUILTINS){
+    return project.sort((a,b)=>a.name.localeCompare(b.name));
+  }
+
+  const globals = Object.entries(DEFAULT_FUNCTIONS).map(([name,expression])=>({
+    name, expression, source:"global", builtin:true,
+    overridden:Object.prototype.hasOwnProperty.call(PROJECT_FUNCTIONS,name)
+  }));
+
+  const seen=new Set(project.map(x=>x.name));
+  return [...project,...globals.filter(x=>!seen.has(x.name))]
+    .sort((a,b)=>a.name.localeCompare(b.name));
+}
+function renderFunctionPage(){
+  const query=(funcSearch.value||"").toLowerCase();
+  funcPageList.innerHTML="";
+  for(const f of allFunctions().filter(x=>x.name.toLowerCase().includes(query)||x.expression.toLowerCase().includes(query))){
+    const row=document.createElement("div");row.className="card";
+    const top=document.createElement("div");top.className="row";
+    const name=document.createElement("b");name.style.flex="1";
+    name.textContent=f.name+(f.source==="global"?" — global built-in":" — project");
+    const action=document.createElement("button");
+    if(f.source==="global"){
+      action.textContent="Copy to project";
+      action.onclick=()=>{PROJECT_FUNCTIONS[f.name]=f.expression;queueSave();renderFunctionPage()};
+    }else{
+      action.textContent="Edit";
+      action.onclick=()=>showFunctionEditor(f.name,f.expression);
+    }
+    const del=document.createElement("button");del.className="danger";
+    if(f.source==="global"){
+      del.textContent="Global";del.disabled=true;
+    }else{
+      del.textContent="Delete";
+      del.onclick=()=>{if(confirm("Delete function '"+f.name+"'?")){delete PROJECT_FUNCTIONS[f.name];queueSave();renderFunctionPage()}};
+    }
+    const code=document.createElement("div");code.style.fontFamily="monospace";code.style.overflowWrap="anywhere";code.style.marginTop="8px";code.textContent=f.expression;
+    top.append(name,action,del);row.append(top,code);funcPageList.append(row);
+  }
+
+  if(!funcPageList.children.length){
+    funcPageList.innerHTML=
+      '<div class="card">No functions in this project yet. Use Create function or Bulk create functions.</div>';
+  }
+}
+function showFunctionEditor(name="",expression=""){
+  funcEditor.style.display="block";
+  funcEditorTitle.textContent=name?"Edit function":"Create function";
+  funcEditName.value=name;funcEditExpr.value=expression;
+  funcEditName.disabled=!!name;
+  funcEditExpr.focus();
+}
+
+function parseFunctionBlock(text){
+  const lines=String(text||"").replace(/\r/g,"").split("\n");
+  const defs=[];
+  let current=null;
+  for(const raw of lines){
+    const line=raw.trimEnd();
+    const trimmed=line.trim();
+    if(!trimmed || trimmed.startsWith("#")) continue;
+    const m=line.match(/^\s*([^\s:=]+)\s*:=\s*(.*)$/u);
+    if(m){
+      if(current)defs.push(current);
+      current={name:m[1].trim().toLowerCase(),parts:[m[2]]};
+    }else{
+      if(!current)throw Error("Expression before the first NAME := definition");
+      current.parts.push(trimmed);
+    }
+  }
+  if(current)defs.push(current);
+  if(!defs.length)throw Error("No definitions found.");
+  return defs.map(d=>({name:d.name,expression:d.parts.join(" ").trim()}));
+}
+
+function projectFunctionBlock(){
+  return Object.entries(PROJECT_FUNCTIONS)
+    .sort((a,b)=>a[0].localeCompare(b[0]))
+    .map(([name,expression])=>name+" := "+expression)
+    .join("\n");
+}
+
+async function copyProjectFunctionBlock(){
+  const text=projectFunctionBlock();
+  if(!text){bulkMsg.textContent="No project functions to copy.";return}
+  try{
+    await navigator.clipboard.writeText(text);
+    bulkMsg.textContent="Copied "+Object.keys(PROJECT_FUNCTIONS).length+" functions as := definitions.";
+  }catch{
+    bulkFunctions.value=text;
+    bulkMsg.textContent="Could not copy automatically, so the definitions were placed in the bulk box.";
+  }
+}
+
+function numeralLambda(n){
+  n=Number(n);
+  let body="x";
+  for(let i=0;i<n;i++)body="f ("+body+")";
+  return "/f./x."+body;
+}
+
+// Replace standalone decimal integers in a function expression before parser validation.
+// This allows definitions such as ONE := 1 or ADD1 := /n.ADD n 1.
+function expandNumericLiterals(text){
+  return String(text).replace(/(^|[^A-Za-z0-9_'])(\d+)(?=$|[^A-Za-z0-9_'])/g,(m,pre,num)=>{
+    const n=Number(num);
+    if(!Number.isSafeInteger(n)||n<0||n>10000)return m;
+    return pre+"("+numeralLambda(n)+")";
+  });
+}
+
+async function importFunctionBlock(){
+  try{
+    const defs=parseFunctionBlock(bulkFunctions.value);
+    const staged={};
+    for(const d of defs){
+      if(!d.name||[...d.name].length>48||/[\s()/.?#\u0000-\u001F\u007F]/u.test(d.name))
+        throw Error("Invalid function name: "+d.name);
+      const numericExpanded=expandNumericLiterals(d.expression);
+      // Validate syntax after numeric-literal expansion. Other function names may remain free.
+      parse(numericExpanded);
+      staged[d.name]=d.expression;
+    }
+    Object.assign(PROJECT_FUNCTIONS,staged);
+    await saveLocal();
+    bulkMsg.textContent="Imported "+Object.keys(staged).length+" functions.";
+    renderFunctionPage();
+  }catch(e){
+    bulkMsg.textContent="Import failed: "+String(e.message||e);
+  }
+}
+
+async function openFunctionPage(){
+  if(!currentProject)return;
+  simulator.style.display="none";home.style.display="none";auth.style.display="none";funcPage.style.display="block";
+  funcPageTitle.textContent=currentProject+" / Functions";
+  funcSearch.value="";funcEditor.style.display="none";useBuiltins.checked=USE_GLOBAL_BUILTINS;outputJs.value=OUTPUT_JS;outputJsMsg.textContent="";renderFunctionPage();
+  try{history.pushState(null,"","/misc/lambda/?project="+encodeURIComponent(currentProject)+"&view=func")}catch{}
+}
+function closeFunctionPage(){
+  funcPage.style.display="none";simulator.style.display="block";
+  try{history.pushState(null,"","/misc/lambda/?project="+encodeURIComponent(currentProject))}catch{}
+}
+async function initClerk(){
+  await loadHome();
+  loadAllPublished();
+
+  const params=new URLSearchParams(location.search);
+  const parts=location.pathname.split("/").filter(Boolean).map(decodeURIComponent);
+
+  if(params.get("published")){
+    const [userSlug,projectSlug]=params.get("published").split("/");
+    if(userSlug&&projectSlug){
+      await showPublished(userSlug,projectSlug);
+      return;
+    }
+  }
+
+  // Public published projects never require Clerk.
+  if(parts[0]==="p"&&parts[1]&&parts[2]){
+    await showPublished(parts[1],parts[2]);
+    return;
+  }
+
+  await loadGlobalBuiltins();
+
+  try{
+    // Load Clerk UI bundle.
+    await new Promise((resolve,reject)=>{
+      const ui=document.createElement("script");
+      ui.src="https://clerk.www.muye.dev/npm/@clerk/ui@1/dist/ui.browser.js";
+      ui.crossOrigin="anonymous";
+      ui.onload=resolve;
+      ui.onerror=()=>reject(new Error("Could not load Clerk UI"));
+      document.head.appendChild(ui);
+    });
+
+    // Load ClerkJS.
+    await new Promise((resolve,reject)=>{
+      const js=document.createElement("script");
+      js.src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js";
+      js.crossOrigin="anonymous";
+      js.dataset.clerkPublishableKey=CLERK_PUBLISHABLE_KEY;
+      js.onload=resolve;
+      js.onerror=()=>reject(new Error("Could not load ClerkJS"));
+      document.head.appendChild(js);
+    });
+
+    if(!window.Clerk)throw new Error("ClerkJS loaded but window.Clerk is missing");
+
+    await window.Clerk.load({
+      ui:{ClerkUI:window.__internal_ClerkUICtor}
+    });
+
+    clerk=window.Clerk;
+    updateAccountUI();
+
+    clerk.addListener?.(()=>{
+      updateAccountUI();
+      if(clerk?.session){
+        try{clerk.mountUserButton(document.querySelector("#userButton"))}catch{}
+        try{clerk.mountUserButton(document.querySelector("#userButton2"))}catch{}
+      }
+    });
+
+    if(clerk.session){
+      try{clerk.mountUserButton(document.querySelector("#userButton"))}catch{}
+      try{clerk.mountUserButton(document.querySelector("#userButton2"))}catch{}
+    }
+  }catch(e){
+    console.warn("Optional Clerk failed to load:",e);
+    updateAccountUI();
+  }
+
+  if(params.get("admin")==="1"||parts[0]==="admin"){
+    await openAdminPage();
+    return;
+  }
+
+  if(params.get("project")){
+    const id=params.get("project");
+    const p=await get(id);
+    if(p){
+      await openProject(id);
+      if(params.get("view")==="func")openFunctionPage();
+      return;
+    }
+  }
+
+  if(parts.length){
+    const p=await get(parts[0]);
+    if(p){
+      await openProject(parts[0]);
+      if(parts[1]==="func")openFunctionPage();
+    }
+  }
+}
+const S=document.querySelector("#s"),V=document.querySelector("#v"),M=document.querySelector("#msg");
+
+setTimeout(()=>{
+ createProject.onclick=async()=>{
+  let n=newName.value.trim();
+  if(!n)return alert("Enter a project name.");
+  if(await get(n))return alert("Project already exists.");
+
+  const useBuiltinsNow=confirm(
+    "Use built-in functions in this project?\n\n"+
+    "OK = built-ins such as id, add, mul, fact, Y are available.\n"+
+    "Cancel = start with no built-ins."
+  );
+
+  await put({
+    name:n,
+    expression:"/x.x",
+    functions:{},
+    useGlobalBuiltins:useBuiltinsNow,
+    outputJs:"",
+    updatedAt:Date.now()
+  });
+
+  await openProject(n);
+};
+ backHome.onclick=async()=>{await saveLocal();await loadHome()};
+ saveProject.onclick=saveLocal;
+ 
+ manageFunctions.onclick=()=>openFunctionPage();
+ saveFn.onclick=saveFunction;
+ deleteProject.onclick=async()=>{
+  const required="delete project ["+currentProject+"]";
+  const typed=prompt("Type exactly:\n"+required+"\n\nto delete this project.");
+  if(typed!==required){
+    if(typed!==null) alert("Project was not deleted.");
+    return;
+  }
+  await del(currentProject);
+  await loadHome();
+};
+ S.addEventListener("input",autosave);
+},0);
+let ast=null,timer=null,fastRunning=false,manual={},reductionSteps=0,lastFastPaint=0;
+function updateReductionCount(){reductionCount.textContent="Reductions: "+reductionSteps}
+function resetReductionCount(){reductionSteps=0;updateReductionCount()}
+function toks(s){let r=[],i=0;while(i<s.length){if(/\s/.test(s[i])){i++;continue}let c=s[i];
+if("λ/\\".includes(c)){r.push(["L",c]);i++;continue}if("().".includes(c)){r.push([c,c]);i++;continue}
+let m=s.slice(i).match(/^[A-Za-z_][A-Za-z0-9_']*/);if(!m)throw Error("Unexpected: "+c);r.push(["I",m[0]]);i+=m[0].length}return r}
+function parse(s){let t=toks(s),p=0,pk=()=>t[p]?.[0],tk=k=>{if(pk()!=k)throw Error("Expected "+k);return t[p++][1]};
+function at(){if(pk()=="I")return{k:"v",n:tk("I")};if(pk()=="L"){tk("L");let n=tk("I");tk(".");return{k:"l",n,b:ex()}}
+if(pk()=="("){tk("(");let q=ex();tk(")");return q}throw Error("Expected term")}
+function st(){return["I","L","("].includes(pk())}function ex(){let q=at();while(st())q={k:"a",f:q,x:at()};return q}
+let q=ex();if(p<t.length)throw Error("Extra token "+t[p][1]);return q}
+function clone(n){if(n.k=="v")return{k:"v",n:n.n};if(n.k=="l")return{k:"l",n:n.n,b:clone(n.b)};return{k:"a",f:clone(n.f),x:clone(n.x)}}
+const freeCache=new WeakMap();
+function freeSet(n){
+ let cached=freeCache.get(n);
+ if(cached)return cached;
+ let set;
+ if(n.k=="v")set=new Set([n.n]);
+ else if(n.k=="l"){set=new Set(freeSet(n.b));set.delete(n.n)}
+ else{set=new Set(freeSet(n.f));for(const v of freeSet(n.x))set.add(v)}
+ freeCache.set(n,set);
+ return set;
+}
+function free(n,set=new Set()){for(const v of freeSet(n))set.add(v);return set}
+function occursFree(n,name,bound=new Set()){
+ if(n.k=="v") return n.n==name && !bound.has(name);
+ if(n.k=="a") return occursFree(n.f,name,bound)||occursFree(n.x,name,bound);
+ let b2=new Set(bound); b2.add(n.n); return occursFree(n.b,name,b2);
+}
+// Alpha-rename occurrences bound by THIS lambda only.
+// Stop when a nested lambda shadows the same name.
+function alphaBody(n,oldName,newName){
+ if(n.k=="v") return {k:"v",n:n.n==oldName?newName:n.n};
+ if(n.k=="a") return {k:"a",f:alphaBody(n.f,oldName,newName),x:alphaBody(n.x,oldName,newName)};
+ if(n.n==oldName) return clone(n);
+ return {k:"l",n:n.n,b:alphaBody(n.b,oldName,newName)};
+}
+let freshN=0;function subst(n,name,val){
+ if(n.k=="v") return n.n==name?clone(val):clone(n);
+ if(n.k=="a") return {k:"a",f:subst(n.f,name,val),x:subst(n.x,name,val)};
+ if(n.n==name) return clone(n); // shadowed
+ // Only rename if substitution actually enters this body AND capture is possible.
+ if(occursFree(n.b,name) && freeSet(val).has(n.n)){
+   let nn=n.n+"_"+(++freshN);
+   let body=alphaBody(n.b,n.n,nn);
+   return {k:"l",n:nn,b:subst(body,name,val)};
+ }
+ return {k:"l",n:n.n,b:subst(n.b,name,val)};
+}
+// Normal order: inspect current node first (outermost), then function/left,
+// then argument/right; inside a lambda, reduce its body.
+function reduce1(n){
+ if(n.k=="a"&&n.f.k=="l")return [subst(n.f.b,n.f.n,n.x),true];
+ if(n.k=="a"){let [f,c]=reduce1(n.f);if(c)return[{k:"a",f,x:n.x},true];let[x,d]=reduce1(n.x);return[{k:"a",f:n.f,x},d]}
+ if(n.k=="l"){let[b,c]=reduce1(n.b);return[{k:"l",n:n.n,b},c]}return[n,false]
+}
+function displayRename(n){
+ let count=0;
+ function go(q,env){
+   if(q.k=="v"){
+     for(let i=env.length-1;i>=0;i--) if(env[i][0]===q.n) return {k:"v",n:env[i][1]};
+     return clone(q); // free variable: keep original name
+   }
+   if(q.k=="a") return {k:"a",f:go(q.f,env),x:go(q.x,env)};
+   count++;
+   let nn=count===1?"x":"x"+count;
+   return {k:"l",n:nn,b:go(q.b,env.concat([[q.n,nn]]))};
+ }
+ return go(n,[]);
+}
+
+function prec(n){return n.k=="v"?3:n.k=="a"?2:1}
+function str(n,p=0){let q;if(n.k=="v")q=n.n;else if(n.k=="l")q="/"+n.n+"."+str(n.b,1);else q=str(n.f,2)+" "+str(n.x,3);return prec(n)<p?"("+q+")":q}
+function measure(n,z){if(n.k=="v"){n.col=z.c++;n.lo=n.hi=n.col;return}if(n.k=="l"){measure(n.b,z);n.lo=n.b.lo;n.hi=n.b.hi;return}measure(n.f,z);measure(n.x,z);n.lo=n.f.lo;n.hi=n.x.hi}
+let outputRenderSeq=0;
+function setOutputBadge(text){
+  const badge=document.querySelector("#numBadge");
+  if(text===null||text===undefined||String(text)===""){badge.style.display="none";badge.textContent="";return}
+  badge.style.display="block";badge.textContent=String(text);
+}
+function runOutputJs(code,result,timeout=250){
+  return new Promise((resolve,reject)=>{
+    if(!code.trim())return resolve("");
+    const workerCode=`onmessage=async(e)=>{try{const code=e.data.code,result=e.data.result;const fn=(new Function('\"use strict\";\\n'+code+'\\n;return (typeof output===\"function\")?output:null;'))();if(!fn)throw new Error('Define function output(result) { ... }');const value=await fn(result);postMessage({ok:true,value:value==null?'':String(value)})}catch(err){postMessage({ok:false,error:String(err&&err.message||err)})}}`;
+    const url=URL.createObjectURL(new Blob([workerCode],{type:"text/javascript"}));
+    const w=new Worker(url);let done=false;
+    const finish=(cb,v)=>{if(done)return;done=true;clearTimeout(t);w.terminate();URL.revokeObjectURL(url);cb(v)};
+    const t=setTimeout(()=>finish(reject,new Error("Output JS timed out")),timeout);
+    w.onmessage=e=>e.data?.ok?finish(resolve,e.data.value):finish(reject,new Error(e.data?.error||"Output JS error"));
+    w.onerror=e=>finish(reject,new Error(e.message||"Output JS error"));
+    w.postMessage({code,result});
+  });
+}
+async function updateOutputBadge(){
+  const seq=++outputRenderSeq;
+  const number=churchValue(ast);
+  const lambda=ast?str(ast):"";
+  const result=lambda;
+  if(!OUTPUT_JS.trim()){if(seq===outputRenderSeq)setOutputBadge(number===null?"":"= "+number);return}
+  try{const text=await runOutputJs(OUTPUT_JS,result);if(seq===outputRenderSeq)setOutputBadge(text)}
+  catch(e){if(seq===outputRenderSeq){setOutputBadge(number===null?"":"= "+number);console.warn("Output JS:",e)}}
+}
+function hasRedex(n){if(!n)return false;if(n.k==="a"&&n.f?.k==="l")return true;if(n.k==="a")return hasRedex(n.f)||hasRedex(n.x);if(n.k==="l")return hasRedex(n.b);return false}
+function render(){updateOutputBadge();
+ let z={c:0};measure(ast,z);let lines=[],texts=[],X=56,Y=44,G=35,env=[],id=0,maxd=0;
+ function add(x1,y1,x2,y2){lines.push({id:id++,x1,y1,x2,y2})}
+ function walk(n,d,root=false){maxd=Math.max(maxd,d);
+  if(n.k=="v"){let x=G+n.col*X,y=G+d*Y,b=[...env].reverse().find(q=>q.n==n.n);if(b)add(x,b.y,x,y+25);else{add(x,y,x,y+25);add(x-16,y,x+16,y);texts.push([x,y-7,n.n])}return{x,y:y+25}}
+  if(n.k=="l"){let y=G+d*Y;add(G+n.lo*X-22,y,G+n.hi*X+22,y);env.push({n:n.n,y});let r=walk(n.b,d+1);env.pop();return r}
+  let a=walk(n.f,d),b=walk(n.x,d),y=Math.max(a.y,b.y)+20;add(a.x,a.y,a.x,y);add(b.x,b.y,b.x,y);add(a.x,y,b.x,y);return{x:a.x,y}
+ }
+ let r=walk(ast,0,true);add(r.x,r.y,r.x,r.y+18);
+ // Always use a 1000×600 logical canvas. If the natural diagram is larger,
+ // uniformly shrink and center it so every part remains visible.
+ let naturalW=Math.max(240,G*2+Math.max(1,z.c-1)*X),naturalH=Math.max(300,r.y+65,(maxd+2)*Y);
+ const W=1000,H=600,PAD=28;
+ let scale=Math.min(1,(W-PAD*2)/naturalW,(H-PAD*2)/naturalH);
+ let ox=(W-naturalW*scale)/2, oy=(H-naturalH*scale)/2;
+ const ctx=V.getContext("2d");
+ ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle="#000";ctx.fillRect(0,0,1000,600);
+ ctx.save();ctx.translate(ox,oy);ctx.scale(scale,scale);
+ ctx.strokeStyle="#fff";ctx.lineWidth=7;ctx.lineCap="square";
+ for(let q of lines){ctx.beginPath();ctx.moveTo(q.x1,q.y1);ctx.lineTo(q.x2,q.y2);ctx.stroke()}
+ ctx.fillStyle="#aaa";ctx.font="14px monospace";ctx.textAlign="center";
+ for(let [x,y,t] of texts)ctx.fillText(t,x,y);
+ ctx.restore();
+ document.querySelector("#diagramImg").src=V.toDataURL("image/png");
+}
+
+// Common lambda-calculus names. Church encodings are used.
+// Expansion is token-aware, so e.g. "add" is replaced but "address" is not.
+const NAMED = {
+  id:   "/x.x",
+  true: "/t./f.t",
+  false:"/t./f.f",
+  if:   "/p./a./b.p a b",
+  zero: "/f./x.x",
+  succ: "/n./f./x.f (n f x)",
+  add:  "/m./n./f./x.m f (n f x)",
+  plus: "/m./n./f./x.m f (n f x)",
+  mul:  "/m./n./f.m (n f)",
+  mult: "/m./n./f.m (n f)",
+  pow:  "/b./e.e b",
+  pred: "/n./f./x.n (/g./h.h (g f)) (/u.x) (/u.u)",
+  sub:  "/m./n.n pred m",
+  iszero:"/n.n (/x.false) true",
+  and:  "/p./q.p q p",
+  or:   "/p./q.p p q",
+  not:  "/p.p false true",
+  pair: "/a./b./p.p a b",
+  fst:  "/p.p true",
+  snd:  "/p.p false",
+  // Normal-order fixed-point combinator, suitable for recursive definitions.
+  Y:    "/f.(/x.f (x x)) (/x.f (x x))",
+  // factorial = Y (λr.λn. if (iszero n) one (mul n (r (pred n))))
+  fact: "Y (/r./n.if (iszero n) one (mul n (r (pred n))))"
+};
+function churchNumeral(n){
+  n=Number(n);
+  let body="x";
+  for(let i=0;i<n;i++) body="f ("+body+")";
+  return "/f./x."+body;
+}
+function expandNames(text){
+  let out=text, found=new Set(), rounds=0;
+  // First detect decimal integers such as 0, 1, 2, 3, 12...
+  // Only standalone number tokens are transformed.
+  out=out.replace(/(^|[^A-Za-z0-9_'])(\d+)(?=$|[^A-Za-z0-9_'])/g,(m,pre,num)=>{
+    let n=Number(num);
+    if(!Number.isSafeInteger(n) || n<0 || n>10000) return m;
+    found.add(num); return pre+"("+churchNumeral(n)+")";
+  });
+  // Then recursively expand named combinators.
+  while(rounds++ < 20){
+    let changed=false;
+    out=out.replace(/[A-Za-z_][A-Za-z0-9_']*/g, name=>{
+      const key=name.toLowerCase();
+      if(Object.prototype.hasOwnProperty.call(PROJECT_FUNCTIONS,key)){
+        found.add(name); changed=true; return "(" + PROJECT_FUNCTIONS[key] + ")";
+      }
+      if(USE_GLOBAL_BUILTINS && Object.prototype.hasOwnProperty.call(NAMED,key)){
+        found.add(name); changed=true; return "(" + NAMED[key] + ")";
+      }
+      return name;
+    });
+    if(!changed) break;
+  }
+  return {text:out,found:[...found]};
+}
+function transformNames(){
+  stop();
+  const r=expandNames(S.value);
+  if(!r.found.length){M.textContent="No known names found. Known: "+Object.keys(NAMED).join(", ");return}
+  S.value=r.text;
+  try{ast=displayRename(parse(S.value));S.value=str(ast);manual={};render();M.textContent="Transformed: "+r.found.join(", ")}
+  catch(e){M.textContent="Transformed, but parser says: "+e.message}
+}
+
+function reset(){stop();resetReductionCount();try{ast=displayRename(parse(S.value));S.value=str(ast);manual={};render();M.textContent="Ready."}catch(e){M.textContent=e.message}}
+
+function churchValue(n){
+ // Accept normal-form Church numerals λf.λx.f^k x
+ if(!n || n.k!="l" || !n.b || n.b.k!="l") return null;
+ const f=n.n, x=n.b.n;
+ let q=n.b.b, k=0;
+ while(q && q.k=="a" && q.f.k=="v" && q.f.n==f){k++;q=q.x}
+ return q && q.k=="v" && q.n==x ? k : null;
+}
+
+function paintStep(message){
+ast=displayRename(ast);S.value=str(ast);manual={};render();updateReductionCount();
+let cv=churchValue(ast);
+M.textContent=message||(cv===null?"Reduced one outermost-leftmost step. Total reductions: "+reductionSteps+".":"Church numeral result: "+cv+" after "+reductionSteps+" reductions.");
+}
+function step(){if(!ast)reset();let[n,c]=reduce1(ast);if(!c){M.textContent="Normal form — no beta-redex remains.";stop();return false}
+ast=n;reductionSteps++;paintStep();
+return true}
+function stepComputeOnly(){
+ if(!ast)reset();
+ let r=reduce1(ast);
+ if(!r[1])return false;
+ ast=r[0];reductionSteps++;
+ return true;
+}
+function fastLoop(){
+ if(!fastRunning)return;
+ const started=performance.now();
+ let changed=false,steps=0;
+ while(steps<200&&performance.now()-started<24){
+   let r=reduce1(ast);
+   if(!r[1]){
+     fastRunning=false;timer=null;paintStep("Normal form — no beta-redex remains after "+reductionSteps+" reductions.");stop();return;
+   }
+   ast=r[0];reductionSteps++;changed=true;steps++;
+ }
+ updateReductionCount();
+ const now=performance.now();
+ if(changed&&now-lastFastPaint>500){
+   lastFastPaint=now;
+   M.textContent="Simulating… "+reductionSteps+" reductions.";
+ }
+ timer=setTimeout(fastLoop,0);
+}
+function start(){if(!ast)reset();if(timer)return;document.querySelector("#start").disabled=true;document.querySelector("#stop").disabled=false;M.textContent="Simulating…";
+let delay=Number(document.querySelector("#delay").value);
+if(!Number.isFinite(delay))delay=650;
+delay=Math.max(0,Math.min(10000,Math.round(delay)));
+document.querySelector("#delay").value=delay;
+if(delay===0){fastRunning=true;lastFastPaint=0;timer=setTimeout(fastLoop,0);return}
+let ticks=0,paintEvery=delay<50?25:delay<200?8:1;
+timer=setInterval(()=>{
+ if(!stepComputeOnly()){paintStep("Normal form — no beta-redex remains after "+reductionSteps+" reductions.");stop();return}
+ updateReductionCount();ticks++;
+ if(ticks%paintEvery===0)paintStep();
+ else M.textContent="Simulating… "+reductionSteps+" reductions.";
+},delay)}
+function stop(){let wasFast=fastRunning;fastRunning=false;if(timer){clearInterval(timer);clearTimeout(timer);cancelAnimationFrame(timer)}timer=null;if(wasFast&&ast)paintStep();document.querySelector("#start").disabled=false;document.querySelector("#stop").disabled=true}
+
+
+
+const API_V41="/misc/lambda";
+async function sessionToken(){
+  if(!clerk && window.Clerk)clerk=window.Clerk;
+  if(clerk && !clerk.loaded)try{await clerk.load()}catch{}
+  const session=clerk?.session;
+  if(!session)return null;
+  return await session.getToken();
+}
+async function authApi(path,opt={}){
+ const t=await sessionToken();if(!t)throw Error("Sign in first");
+ opt.headers={...(opt.headers||{}),Authorization:"Bearer "+t,"Content-Type":"application/json"};
+ const r=await fetch(API_V41+path,opt);let d={};try{d=await r.json()}catch{}if(!r.ok)throw Error(d.error||("API "+r.status));return d;
+}
+async function publishNow(){
+  if(!currentProject)return;
+  if(!clerk && window.Clerk)clerk=window.Clerk;
+  if(!clerk?.session){
+    try{
+      if(clerk){
+        await clerk.redirectToSignIn({
+          signInFallbackRedirectUrl:location.href,
+          signUpFallbackRedirectUrl:location.href
+        });
+        return;
+      }
+    }catch(e){console.warn(e)}
+    location.href="https://accounts.muye.dev/sign-in?redirect_url="+encodeURIComponent(location.href);
+    return;
+  }
+
+  const oldUser=(localStorage.getItem("lambdaPublicUser")||"").trim();
+  const userSlug=(prompt("Public user ID:",oldUser)||"").trim().toLowerCase();
+  if(!/^[a-z0-9][a-z0-9-]{0,39}$/.test(userSlug)){
+    alert("User ID must be 1–40 lowercase letters, numbers, or -.");
+    return;
+  }
+
+  let suggestion=currentProject.toLowerCase().replace(/[^a-z0-9-]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40);
+  if(!suggestion)suggestion="project";
+  const projectSlug=(prompt("Public project ID:",suggestion)||"").trim().toLowerCase();
+  if(!/^[a-z0-9][a-z0-9-]{0,39}$/.test(projectSlug)){
+    alert("Project ID must be 1–40 lowercase letters, numbers, or -.");
+    return;
+  }
+
+  try{
+    const d=await authApi("/api/publish",{
+      method:"POST",
+      body:JSON.stringify({
+        userSlug,
+        projectSlug,
+        name:currentProject,
+        expression:S.value,
+        functions:PROJECT_FUNCTIONS
+      })
+    });
+    localStorage.setItem("lambdaPublicUser",userSlug);
+    const link="https://www.muye.dev/misc/lambda/?published="+encodeURIComponent(d.userSlug+"/"+d.projectSlug);
+    try{await navigator.clipboard.writeText(link)}catch{}
+    alert("Published:\n"+link);
+    loadAllPublished();
+  }catch(e){alert(e.message)}
+}
+async function showPublished(userSlug,projectSlug){
+  try{
+    const r=await fetch(API_V41+"/api/published/"+encodeURIComponent(userSlug)+"/"+encodeURIComponent(projectSlug));
+    const d=await r.json();
+    if(!r.ok)throw Error(d.error||"Could not load published project");
+
+    home.style.display=simulator.style.display=funcPage.style.display=adminPage.style.display=auth.style.display="none";
+    publishedPage.style.display="block";
+    publishedTitle.textContent=d.name+" — @"+d.user_slug+"/"+d.project_slug;
+    publishedExpression.textContent=d.expression;
+    publishedFunctions.innerHTML="";
+    for(const [n,e] of Object.entries(d.functions||{})){
+      const x=document.createElement("div");
+      x.className="card";
+      x.textContent=n+" = "+e;
+      publishedFunctions.append(x);
+    }
+    copyPublished.onclick=async()=>{
+      await put({name:d.name,expression:d.expression,functions:d.functions||{},useGlobalBuiltins:false,updatedAt:Date.now()});
+      alert("Copied to this device.");
+    };
+    publishedBack.onclick=loadHome;
+  }catch(e){
+    alert(e.message);
+    loadHome();
+  }
+}
+
+async function loadAllPublished(){
+  if(!document.querySelector("#allPublished"))return;
+  try{
+    const r=await fetch(API_V41+"/api/published");
+    const d=await r.json();
+    if(!r.ok)throw Error(d.error||"Could not load published projects");
+    const q=(publishedSearch.value||"").toLowerCase();
+    allPublished.innerHTML="";
+    const items=(d.projects||[]).filter(p=>
+      String(p.name).toLowerCase().includes(q)||
+      String(p.user_slug).toLowerCase().includes(q)||
+      String(p.project_slug).toLowerCase().includes(q)
+    );
+    for(const p of items){
+      const row=document.createElement("div");row.className="card project";
+      const info=document.createElement("div");info.style.flex="1";
+      const title=document.createElement("b");title.textContent=p.name;
+      const small=document.createElement("div");small.textContent="@"+p.user_slug+"/"+p.project_slug;
+      const open=document.createElement("button");open.textContent="Open";
+      open.onclick=async()=>{
+  try{
+    history.pushState(
+      null,
+      "",
+      "/misc/lambda/?published="+encodeURIComponent(p.user_slug+"/"+p.project_slug)
+    );
+  }catch{}
+  await showPublished(p.user_slug,p.project_slug);
+};
+      info.append(title,small);row.append(info,open);allPublished.append(row);
+    }
+    if(!items.length)allPublished.innerHTML="<div>No matching published projects.</div>";
+  }catch(e){
+    allPublished.textContent="Could not load published projects: "+e.message;
+  }
+}
+publishedSearch?.addEventListener("input",loadAllPublished);
+refreshPublished?.addEventListener("click",loadAllPublished);
+
+let deferredInstallPrompt=null;
+
+function updateNetworkState(){
+  networkState.textContent=navigator.onLine?"Online":"Offline — using cached data";
+}
+
+window.addEventListener("online",async()=>{
+  updateNetworkState();
+  await loadGlobalBuiltins();
+});
+
+window.addEventListener("offline",updateNetworkState);
+updateNetworkState();
+
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();
+  deferredInstallPrompt=e;
+  installApp.textContent="Install app";
+});
+
+installApp.onclick=async()=>{
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt=null;
+    return;
+  }
+  alert("On iPad/iPhone: tap Share, then Add to Home Screen. After the app has loaded once, it can work offline.");
+};
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("/sw.js").catch(e=>console.warn("Service worker registration failed",e));
+}
+function updateAccountUI(){
+  const signed=!!clerk?.session;
+  accountBtn.textContent=signed?"Account":"Sign in / Sign up";
+
+}
+accountBtn.onclick=async()=>{
+  if(clerk?.session){
+    try{clerk.openUserProfile();return}catch{}
+  }
+  if(clerk){
+    try{
+      await clerk.redirectToSignIn({
+        signInFallbackRedirectUrl:"https://www.muye.dev/misc/lambda/",
+        signUpFallbackRedirectUrl:"https://www.muye.dev/misc/lambda/"
+      });
+      return;
+    }catch(e){console.warn(e)}
+  }
+  location.href="https://accounts.muye.dev/sign-in?redirect_url="+encodeURIComponent("https://www.muye.dev/misc/lambda/");
+};
+publishProject.onclick=publishNow;
+adminOpen.onclick=openAdminPage;
+adminBack.onclick=loadHome;
+adminCopyLink.onclick=async()=>{
+  const link="https://www.muye.dev/misc/lambda/?admin=1";
+  try{await navigator.clipboard.writeText(link);alert("Link copied:\n"+link)}catch{alert(link)}
+};
+adminLoginBtn.onclick=adminLoginNow;
+adminPassword.addEventListener("keydown",e=>{if(e.key==="Enter")adminLoginNow()});
+adminSearch.addEventListener("input",()=>renderAdminBuiltins());
+adminCreate.onclick=()=>showAdminForm();
+adminCancel.onclick=()=>{adminForm.style.display="none"};
+adminLogout.onclick=()=>{ADMIN_TOKEN="";sessionStorage.removeItem("lambdaAdminToken");adminEditor.style.display="none";adminLogin.style.display="block";adminMsg.textContent="Signed out."};
+adminSave.onclick=async()=>{
+  const name=adminName.value.trim().toLowerCase(),expression=adminExpr.value.trim();
+  if(!name||[...name].length>48||/[\s()/.?#\u0000-\u001F\u007F]/u.test(name))return alert("Invalid built-in name.");
+  if(!expression)return alert("Enter a lambda expression.");
+  try{parse(expandNumericLiterals(expression))}catch(e){return alert("Invalid lambda: "+e.message)}
+  await adminRequest("/api/admin/builtins/"+encodeURIComponent(name),{method:"PUT",body:JSON.stringify({expression})});
+  adminForm.style.display="none";await loadGlobalBuiltins();await renderAdminBuiltins();
+};
+
+
+saveOutputJs.onclick=async()=>{
+  const code=outputJs.value.trim();
+  if(code){
+    try{await runOutputJs(code,churchValue(ast)===null?(ast?str(ast):""):String(churchValue(ast)));}
+    catch(e){outputJsMsg.textContent="Not saved: "+e.message;return}
+  }
+  OUTPUT_JS=code;await saveLocal();outputJsMsg.textContent=code?"Saved.":"Default output restored.";updateOutputBadge();
+};
+testOutputJs.onclick=async()=>{
+  try{const value=await runOutputJs(outputJs.value,churchValue(ast)===null?(ast?str(ast):""):String(churchValue(ast)));outputJsMsg.textContent='Test output: '+JSON.stringify(value)}
+  catch(e){outputJsMsg.textContent='Test failed: '+e.message}
+};
+clearOutputJs.onclick=async()=>{outputJs.value="";OUTPUT_JS="";await saveLocal();outputJsMsg.textContent="Using default = number output.";updateOutputBadge()};
+
+bulkImport.onclick=importFunctionBlock;
+copyFunctionBlock.onclick=copyProjectFunctionBlock;
+clearAllProjectFunctions.onclick=async()=>{
+  if(!confirm("Clear all project functions?"))return;
+  PROJECT_FUNCTIONS={};
+  await saveLocal();
+  renderFunctionPage();
+  bulkMsg.textContent="Project functions cleared.";
+};
+useBuiltins.addEventListener("change",()=>{
+  USE_GLOBAL_BUILTINS=useBuiltins.checked;
+  queueSave();
+  renderFunctionPage();
+});
+funcBack.onclick=closeFunctionPage;
+funcCopyLink.onclick=async()=>{
+  const link="https://www.muye.dev/misc/lambda/?project="+encodeURIComponent(currentProject)+"&view=func";
+  try{await navigator.clipboard.writeText(link);alert("Link copied:\n"+link)}catch{alert(link)}
+};
+funcSearch.addEventListener("input",renderFunctionPage);
+funcCreate.onclick=()=>showFunctionEditor();
+funcEditorCancel.onclick=()=>{funcEditor.style.display="none"};
+funcEditorSave.onclick=async()=>{
+  const name=funcEditName.value.trim().toLowerCase(),expression=funcEditExpr.value.trim();
+  if(!name||[...name].length>48||/[\s()/.?#\u0000-\u001F\u007F]/u.test(name))return alert("Invalid function name.");
+  if(!expression)return alert("Enter a lambda expression.");
+  try{parse(expression)}catch(e){return alert("Invalid lambda: "+e.message)}
+  PROJECT_FUNCTIONS[name]=expression;
+  await saveLocal();
+  funcEditor.style.display="none";
+  renderFunctionPage();
+};
+document.querySelector("#draw").addEventListener("click",reset);
+document.querySelector("#clear").addEventListener("click",()=>{
+  stop();resetReductionCount();S.value="";ast=null;manual={};let c=V.getContext("2d");c.fillStyle="#000";c.fillRect(0,0,1000,600);document.querySelector("#numBadge").style.display="none";document.querySelector("#diagramImg").src=V.toDataURL("image/png");M.textContent="Input cleared.";S.focus();
+});document.querySelector("#expand").addEventListener("click",transformNames);document.querySelector("#step").addEventListener("click",step);
+document.querySelector("#start").addEventListener("click",start);document.querySelector("#stop").addEventListener("click",stop);
+document.querySelector("#resetReductions").addEventListener("click",resetReductionCount);
+document.querySelector("#png").addEventListener("click",()=>{let a=document.createElement("a");a.download="lambda2d.png";a.href=V.toDataURL("image/png");a.click()});
+// v16 bitmap canvas mode: no draggable line DOM elements.\nreset();
+
+initClerk().catch(e=>{
+  console.error(e);
+  const h=document.querySelector("#home");
+  const p=document.querySelector("#projects");
+  if(h)h.style.display="block";
+  if(p)p.innerHTML='<div class="card"><b>Startup error:</b> '+String(e.message||e)+'</div>';
+});
+</script>
+</main>

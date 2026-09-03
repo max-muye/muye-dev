@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Touch-friendly games by Muye.">
+    <title>Play · Muye Games</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/games/games.css?v=2">
+  </head>
+  <body class="arcade-page">
+    <main class="arcade-shell">
+      <header class="arcade-topbar">
+        <a class="arcade-brand" href="/games/">Games</a>
+        <a class="arcade-home" href="/">Home</a>
+      </header>
+
+      <section class="play-head">
+        <div>
+          <p class="arcade-eyebrow" id="game-type">Game</p>
+          <h1 id="game-title">Play</h1>
+          <p id="game-description">Choose a game from the catalog.</p>
+        </div>
+        <div class="play-actions">
+          <a class="arcade-button secondary" href="/games/">All games</a>
+          <button class="arcade-button" id="reset-game" type="button">New game</button>
+        </div>
+      </section>
+
+      <section class="play-panel" id="play-panel" aria-live="polite"></section>
+    </main>
+    <script src="/games/games.js?v=2"></script>
+  </body>
+</html>

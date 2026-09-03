@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Create a muye.dev email address.">
+    <title>Create email · Muye</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=10">
+    <link rel="stylesheet" href="/auth.css?v=11">
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <div class="auth-topbar">
+        <a class="auth-brand" href="/">Muye</a>
+        <a class="home-link" href="/">Home</a>
+      </div>
+      <section class="auth-panel" aria-labelledby="auth-title">
+        <p class="eyebrow">Muye mail</p>
+        <h1 id="auth-title">Create email</h1>
+        <form class="auth-form" data-auth-form="create-email" novalidate>
+          <p class="field-hint" data-request-only>Send Muye a short request. No outside email verification is needed.</p>
+          <p class="field-hint" data-owner-only hidden>Signed in as owner. This will create the mailbox immediately.</p>
+          <label>
+            <span>Email</span>
+            <span class="email-builder">
+              <input name="emailName" type="text" autocomplete="username" inputmode="email" pattern="[a-zA-Z0-9._-]+" required placeholder="yourname">
+              <span>@muye.dev</span>
+            </span>
+          </label>
+          <label data-request-only>
+            <span>Request</span>
+            <textarea name="requestText" rows="5" maxlength="1200" placeholder="A little text about who this is for and what name you want."></textarea>
+          </label>
+          <label data-owner-only hidden>
+            <span>Password</span>
+            <span class="password-field">
+              <input name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters">
+              <button class="password-toggle" type="button" data-password-toggle aria-label="Show password">Show</button>
+            </span>
+          </label>
+          <label data-owner-only hidden>
+            <span>Confirm password</span>
+            <span class="password-field">
+              <input name="passwordConfirm" type="password" autocomplete="new-password" minlength="8" required placeholder="Enter password again">
+              <button class="password-toggle" type="button" data-password-toggle aria-label="Show password">Show</button>
+            </span>
+          </label>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEG-XIoYvPuejEbf" data-callback="muyeCaptchaCallback"></div>
+          <button class="button primary" type="submit" data-create-email-submit>Send request</button>
+          <p class="auth-message" role="status" aria-live="polite"></p>
+        </form>
+        <p class="auth-switch">Already have one? <a href="/sign-in">Sign in</a></p>
+      </section>
+    </main>
+    <script>window.muyeCaptchaToken = ""; window.muyeCaptchaCallback = function (token) { window.muyeCaptchaToken = token; };</script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
+    <script defer src="/auth.js?v=12"></script>
+  </body>
+</html>

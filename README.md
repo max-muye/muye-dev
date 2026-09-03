@@ -1,6 +1,6 @@
-# www.muye.dev
+# muye-dev
 
-A small static personal site prepared for Cloudflare Pages.
+Personal web project for Muye, with LocalTalk chat, mailbox tools, games, Lambda tools, Clerk sign-in, and Cloudflare Pages/Workers support.
 
 ## Local preview
 

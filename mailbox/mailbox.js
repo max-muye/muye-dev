@@ -546,18 +546,15 @@ document.querySelector("#show-reset-button").addEventListener("click", () => { l
 document.querySelector("#back-to-login").addEventListener("click", () => { resetPanel.hidden = true; login.hidden = false; });
 
 let resetChallenge = "";
-let resetMethod = "";
 async function sendResetCode() {
   const data = new FormData(resetForm);
   const email = String(data.get("contactEmail") || "").trim();
-  const phone = String(data.get("phone") || "").trim();
-  resetMethod = email ? "email" : "phone";
-  if (!email && !phone) { setMessage(resetMessage, "Enter either an email or phone number. Only one is needed.", true); return false; }
-  const response = await fetch(resetMethod === "email" ? "/api/send-email-code" : "/api/send-code", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(resetMethod === "email" ? { email } : { phone }) });
+  if (!email) { setMessage(resetMessage, "Enter your verification email.", true); return false; }
+  const response = await fetch("/api/send-email-code", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email }) });
   const result = await response.json();
   if (!response.ok) { setMessage(resetMessage, result.error || "Could not send code.", true); return false; }
-  resetChallenge = resetMethod === "email" ? result.challenge : "sms-sent";
-  setMessage(resetMessage, resetMethod === "email" ? "Verification code sent by email." : "Verification code sent by SMS.");
+  resetChallenge = result.challenge;
+  setMessage(resetMessage, "Verification code sent by email.");
   return true;
 }
 
@@ -567,7 +564,6 @@ resetForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const data = new FormData(resetForm);
   const email = String(data.get("contactEmail") || "").trim();
-  const phone = String(data.get("phone") || "").trim();
   const code = String(data.get("code") || "").trim();
   const password = String(data.get("password") || "");
   const confirmation = String(data.get("passwordConfirm") || "");
@@ -579,7 +575,7 @@ resetForm.addEventListener("submit", async (event) => {
   }
   if (!code) { setMessage(resetMessage, "Enter the verification code you received.", true); return; }
   if (password.length < 8 || password !== confirmation) { setMessage(resetMessage, password !== confirmation ? "Passwords do not match." : "Password must be at least 8 characters.", true); return; }
-  const verifyResponse = await fetch(resetMethod === "email" ? "/api/verify-email-code" : "/api/verify-code", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(resetMethod === "email" ? { email, code, challenge: resetChallenge } : { phone, code }) });
+  const verifyResponse = await fetch("/api/verify-email-code", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email, code, challenge: resetChallenge }) });
   const verifyResult = await verifyResponse.json();
   if (!verifyResponse.ok) { setMessage(resetMessage, verifyResult.error || "That code is not valid.", true); return; }
   const response = await fetch("/api/reset-password", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ password, proof: verifyResult.proof }) });

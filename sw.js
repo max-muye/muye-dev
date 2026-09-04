@@ -9,7 +9,7 @@ const APP_SHELL = [
   "/assets/hero-workspace-us.png",
   "/mailbox/",
   "/mailbox/mailbox.css?v=8",
-  "/mailbox/mailbox.js?v=19",
+  "/mailbox/mailbox.js?v=20",
   "/misc/lambda/",
   "/misc/lambda/manifest.webmanifest",
   "/misc/lambda/icon-192.png"

@@ -142,27 +142,23 @@ forms.forEach((form) => {
   const sendCodeButton = form.querySelector("[data-send-code]");
   let verificationChallenge = "";
   const emailInput = form.querySelector('[name="verificationEmail"]');
-  const phoneInput = form.querySelector('[name="phone"]');
   const codeInput = form.querySelector('[name="code"]');
   let verificationProof = "";
 
   function selectedVerificationMethod() {
-    return emailInput?.value.trim() ? "email" : "phone";
+    return "email";
   }
 
   function updateVerificationMethod() {
-    const method = selectedVerificationMethod();
-    const isEmail = method === "email";
     if (codeInput) {
-      codeInput.inputMode = isEmail ? "text" : "numeric";
-      codeInput.pattern = isEmail ? "[A-Za-z0-9]{6}" : "[0-9]{6}";
-      codeInput.placeholder = isEmail ? "6-character code" : "6-digit code";
+      codeInput.inputMode = "text";
+      codeInput.pattern = "[A-Za-z0-9]{6}";
+      codeInput.placeholder = "6-character code";
     }
     if (sendCodeButton) sendCodeButton.textContent = "Send code";
   }
 
   emailInput?.addEventListener("input", updateVerificationMethod);
-  phoneInput?.addEventListener("input", updateVerificationMethod);
   updateVerificationMethod();
 
   if (form.dataset.authForm === "create-email") configureCreateEmailMode(form);
@@ -170,21 +166,18 @@ forms.forEach((form) => {
   sendCodeButton?.addEventListener("click", async () => {
     const message = form.querySelector(".auth-message");
     const formData = new FormData(form);
-    const phone = String(formData.get("phone") || "").trim();
     const verificationEmail = String(formData.get("verificationEmail") || "").trim();
-    const method = selectedVerificationMethod();
 
     message.classList.remove("error");
     const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(verificationEmail);
-    const validPhone = /^[+()\d\s.-]{7,}$/.test(phone);
-    if (!verificationEmail && !phone) {
-      message.textContent = "Enter either an email or phone number. Only one is needed.";
+    if (!verificationEmail) {
+      message.textContent = "Enter your verification email.";
       message.classList.add("error");
       return;
     }
 
-    if ((method === "email" && !validEmail) || (method === "phone" && !validPhone)) {
-      message.textContent = method === "email" ? "Enter a valid email address before sending a code." : "Enter a valid phone number before sending a code.";
+    if (!validEmail) {
+      message.textContent = "Enter a valid email address before sending a code.";
       message.classList.add("error");
       return;
     }
@@ -193,18 +186,18 @@ forms.forEach((form) => {
     sendCodeButton.textContent = "Sending...";
 
     try {
-      const response = await fetch(method === "email" ? "/api/send-email-code" : "/api/send-code", {
+      const response = await fetch("/api/send-email-code", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(method === "email" ? { email: verificationEmail } : { phone }),
+        body: JSON.stringify({ email: verificationEmail }),
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || "Could not send the code.");
 
-      verificationChallenge = method === "email" ? result.challenge : "sms-sent";
+      verificationChallenge = result.challenge;
       verificationProof = "";
       sendCodeButton.textContent = "Code sent";
-      message.textContent = method === "email" ? "Verification code sent by email." : "Verification code sent by SMS.";
+      message.textContent = "Verification code sent by email.";
     } catch (error) {
       sendCodeButton.disabled = false;
       sendCodeButton.textContent = "Send code";
@@ -221,14 +214,12 @@ forms.forEach((form) => {
     const formData = new FormData(form);
     const email = String(formData.get("email") || "").trim();
     const emailName = String(formData.get("emailName") || "").trim();
-    const phone = String(formData.get("phone") || "").trim();
     const verificationEmail = String(formData.get("verificationEmail") || "").trim();
     const code = String(formData.get("code") || "").trim();
     const requestText = String(formData.get("requestText") || "").trim();
     const password = String(formData.get("password") || "");
     const passwordConfirm = String(formData.get("passwordConfirm") || "");
     const captcha = window.muyeCaptchaToken || muyeCaptchaToken || String(formData.get("cf-turnstile-response") || document.querySelector('input[name="cf-turnstile-response"]')?.value || window.turnstile?.getResponse?.() || "");
-    const verificationMethod = verificationEmail ? "email" : "phone";
     const mode = form.dataset.authForm;
 
     message.classList.remove("error");

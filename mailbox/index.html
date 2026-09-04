@@ -43,10 +43,9 @@
       <section class="mailbox-login" id="reset-panel" hidden aria-labelledby="reset-title">
         <p class="eyebrow">Account recovery</p>
         <h1 id="reset-title">Replace password</h1>
-        <p class="mailbox-copy">Enter the email or phone used when you created your mailbox. Only one is needed.</p>
+        <p class="mailbox-copy">Enter the email used when you created your mailbox.</p>
         <form class="mailbox-form" id="reset-form">
-          <label>Verification email<input name="contactEmail" type="email" placeholder="you@example.com"></label>
-          <label>Phone number <span class="optional-label">or email above</span><input name="phone" type="tel" placeholder="+1 555 123 4567"></label>
+          <label>Verification email<input name="contactEmail" type="email" placeholder="you@example.com" required></label>
           <div class="reset-code-row"><label>Verification code<input name="code" type="text" maxlength="6" autocomplete="one-time-code" placeholder="6-character code"></label><button class="mailbox-button quiet" id="send-reset-code" type="button">Send verification code</button></div>
           <label>New password<span class="mailbox-password-field"><input name="password" type="password" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-reset-toggle>Show</button></span></label>
           <label>Confirm new password<span class="mailbox-password-field"><input name="passwordConfirm" type="password" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-reset-toggle>Show</button></span></label>
@@ -136,7 +135,7 @@
       </section>
     </main>
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script src="/mailbox/mailbox.js?v=19"></script>
+    <script src="/mailbox/mailbox.js?v=20"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});</script>
   </body>

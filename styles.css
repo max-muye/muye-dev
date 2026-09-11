@@ -337,6 +337,65 @@ h1 {
   line-height: 1.42;
 }
 
+.daily-checkin {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: min(560px, 100%);
+  margin: -10px 0 28px;
+  padding: 14px;
+  border: 1px solid rgba(248, 244, 234, 0.2);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(14px);
+}
+
+.daily-checkin span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 820;
+  text-transform: uppercase;
+}
+
+.daily-checkin strong {
+  display: block;
+  color: var(--paper);
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.daily-checkin-button {
+  flex: 0 0 auto;
+  min-height: 42px;
+  border: 1px solid rgba(248, 244, 234, 0.24);
+  border-radius: 8px;
+  padding: 0 14px;
+  color: var(--ink);
+  background: var(--paper);
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.daily-checkin-button:hover,
+.daily-checkin-button:focus-visible {
+  background: var(--accent);
+  outline: none;
+}
+
+.daily-checkin.is-done {
+  border-color: rgba(110, 231, 183, 0.34);
+}
+
+.daily-checkin-button:disabled {
+  color: var(--paper);
+  background: rgba(110, 231, 183, 0.18);
+  cursor: default;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;

@@ -1,44 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-games-home>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Small playable web games by Muye.">
     <title>Games · Muye</title>
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/games/games.css?v=3">
+    <link rel="stylesheet" href="/games/games.css?v=5">
   </head>
   <body class="arcade-page">
     <main class="arcade-shell">
       <header class="arcade-topbar">
         <a class="arcade-brand" href="/">Muye</a>
-        <a class="arcade-home" href="/">Home</a>
+        <a class="arcade-home" href="/" data-i18n="home">Home</a>
       </header>
       <section class="arcade-hero" aria-labelledby="games-title">
         <div>
-          <p class="arcade-eyebrow">Games</p>
-          <h1 id="games-title">Play</h1>
-          <p>Touch-friendly classics, puzzles, memory games, and board games. Each play page explains the rules and saves progress for the current user on this browser.</p>
+          <p class="arcade-eyebrow" data-i18n="games">Games</p>
+          <h1 id="games-title" data-i18n="play">Play</h1>
+          <p data-i18n="intro">Touch-friendly classics, puzzles, memory games, and board games. Each play page explains the rules and saves progress for the current user on this browser.</p>
         </div>
         <a class="feature-game" href="/games/snake/">
-          <span>Featured</span>
-          <strong>Snake Lab</strong>
-          <small>Full configurable snake mode</small>
+          <span data-i18n="featured">Featured</span>
+          <strong data-i18n="snakeTitle">Snake Lab</strong>
+          <small data-i18n="snakeDetail">Full configurable snake mode</small>
         </a>
       </section>
 
       <section class="game-groups" aria-label="Games by type">
         <article>
-          <h2>Action</h2>
+          <h2 data-i18n="action">Action</h2>
           <div class="game-links">
-            <a href="/games/snake/"><span>Snake Lab</span><small>Classic snake with extra controls</small></a>
+            <a href="/games/snake/"><span data-i18n="snakeTitle">Snake Lab</span><small data-i18n="snakeDescription">Classic snake with extra controls</small></a>
             <a href="/games/play/?game=minesweeper"><span>Minesweeper</span><small>Tap reveal, right-click or hold to flag</small></a>
             <a href="/games/play/?game=2048"><span>2048</span><small>Swipe or use the arrows</small></a>
+            <a href="/games/play/?game=aim-trainer"><span>Aim Trainer</span><small>Tap targets before time runs out</small></a>
+            <a href="/games/play/?game=whack"><span>Whack</span><small>Hit the lit square quickly</small></a>
           </div>
         </article>
 
         <article>
-          <h2>Strategy</h2>
+          <h2 data-i18n="strategy">Strategy</h2>
           <div class="game-links">
             <a href="/games/play/?game=connect-four"><span>Connect Four</span><small>Drop discs against the board</small></a>
             <a href="/games/play/?game=tic-tac-toe"><span>Tic-Tac-Toe</span><small>Fast two-player grid</small></a>
@@ -51,23 +53,25 @@
         </article>
 
         <article>
-          <h2>Puzzle</h2>
+          <h2 data-i18n="puzzle">Puzzle</h2>
           <div class="game-links">
             <a href="/games/play/?game=memory-match"><span>Memory Match</span><small>Match the hidden pairs</small></a>
             <a href="/games/play/?game=fifteen-puzzle"><span>Fifteen Puzzle</span><small>Slide tiles into order</small></a>
             <a href="/games/play/?game=number-guess"><span>Number Guess</span><small>Find the hidden number</small></a>
+            <a href="/games/play/?game=maze-runner"><span>Maze Runner</span><small>Reach the exit with taps or arrows</small></a>
+            <a href="/games/play/?game=color-match"><span>Color Match</span><small>Choose the matching color name</small></a>
           </div>
         </article>
 
         <article>
-          <h2>Word</h2>
+          <h2 data-i18n="word">Word</h2>
           <div class="game-links">
             <a href="/games/play/?game=hangman"><span>Hangman</span><small>Guess the word</small></a>
           </div>
         </article>
 
         <article>
-          <h2>Classic</h2>
+          <h2 data-i18n="classic">Classic</h2>
           <div class="game-links">
             <a href="/games/play/?game=rock-paper-scissors"><span>Rock Paper Scissors</span><small>Quick taps</small></a>
             <a href="/games/play/?game=coin-dice"><span>Coin & Dice</span><small>Quick chance picker</small></a>
@@ -75,22 +79,25 @@
         </article>
 
         <article>
-          <h2>Memory</h2>
+          <h2 data-i18n="memory">Memory</h2>
           <div class="game-links">
             <a href="/games/play/?game=simon"><span>Simon</span><small>Repeat the growing pattern</small></a>
           </div>
         </article>
 
         <article>
-          <h2>Challenge</h2>
+          <h2 data-i18n="challenge">Challenge</h2>
           <div class="game-links">
             <a href="/games/play/?game=sudoku"><span>Sudoku</span><small>Tap cells and numbers</small></a>
             <a href="/games/play/?game=blackjack"><span>Blackjack</span><small>Reach 21 without going over</small></a>
             <a href="/games/play/?game=wordle"><span>Wordle</span><small>Guess the five-letter word</small></a>
             <a href="/games/play/?game=lights-out"><span>Lights Out</span><small>Turn off every light</small></a>
+            <a href="/games/play/?game=reaction-tap"><span>Reaction Tap</span><small>Wait for green, then tap fast</small></a>
+            <a href="/games/play/?game=math-rush"><span>Math Rush</span><small>Solve quick arithmetic rounds</small></a>
           </div>
         </article>
       </section>
     </main>
+    <script src="/games/games.js?v=5"></script>
   </body>
 </html>

@@ -12,47 +12,47 @@
   <body class="game-page">
     <main class="snake-shell">
       <header class="game-topbar">
-        <a class="game-brand" href="/games/">Games</a>
-        <a class="game-home" href="/">Home</a>
+        <a class="game-brand" href="/games/" data-snake-i18n="games">Games</a>
+        <a class="game-home" href="/" data-snake-i18n="home">Home</a>
       </header>
 
       <section class="snake-app" aria-labelledby="snake-title">
         <div class="snake-heading">
           <div>
-            <p class="eyebrow">Muye games</p>
+            <p class="eyebrow" data-snake-i18n="muyeGames">Muye games</p>
             <h1 id="snake-title">Snake</h1>
           </div>
           <div class="snake-score" aria-live="polite">
-            <span>Score</span>
+            <span data-snake-i18n="score">Score</span>
             <strong id="score">0</strong>
           </div>
         </div>
 
         <form class="snake-controls" id="settings">
-          <label>Width<input name="width" type="number" min="1" step="1" value="30" inputmode="numeric"></label>
-          <label>Height<input name="height" type="number" min="1" step="1" value="30" inputmode="numeric"></label>
-          <label>Max apples<input name="apples" type="number" min="0" step="1" value="10" inputmode="numeric"></label>
-          <label>Max bombs<input name="bombs" type="number" min="0" step="1" value="10" inputmode="numeric"></label>
-          <label>AI snakes<input name="ais" type="number" min="0" step="1" value="5" inputmode="numeric"></label>
-          <label>Ticks<input name="ticks" type="number" min="1" step="1" value="95" inputmode="numeric"></label>
-          <label class="snake-check"><input name="playerAi" type="checkbox"> AI mode</label>
-          <button class="snake-button" type="submit">Start</button>
+          <label><span data-snake-i18n="width">Width</span><input name="width" type="number" min="1" step="1" value="30" inputmode="numeric"></label>
+          <label><span data-snake-i18n="height">Height</span><input name="height" type="number" min="1" step="1" value="30" inputmode="numeric"></label>
+          <label><span data-snake-i18n="apples">Max apples</span><input name="apples" type="number" min="0" step="1" value="10" inputmode="numeric"></label>
+          <label><span data-snake-i18n="bombs">Max bombs</span><input name="bombs" type="number" min="0" step="1" value="10" inputmode="numeric"></label>
+          <label><span data-snake-i18n="aiSnakes">AI snakes</span><input name="ais" type="number" min="0" step="1" value="5" inputmode="numeric"></label>
+          <label><span data-snake-i18n="ticks">Ticks</span><input name="ticks" type="number" min="1" step="1" value="95" inputmode="numeric"></label>
+          <label class="snake-check"><input name="playerAi" type="checkbox"> <span data-snake-i18n="aiMode">AI mode</span></label>
+          <button class="snake-button" type="submit" data-snake-i18n="start">Start</button>
         </form>
 
         <div class="snake-board-wrap">
           <canvas id="board" width="900" height="900" aria-label="Snake game board"></canvas>
           <div class="snake-overlay" id="overlay">
-            <strong>Ready</strong>
-            <span>Use arrow keys, WASD, swipe, or AI mode.</span>
+            <strong data-snake-i18n="ready">Ready</strong>
+            <span data-snake-i18n="help">Use arrow keys, WASD, swipe, or AI mode.</span>
           </div>
         </div>
 
         <div class="snake-status">
-          <p id="status">Press Start to play.</p>
-          <button class="snake-button secondary" id="pause" type="button">Pause</button>
+          <p id="status" data-snake-i18n="pressStart">Press Start to play.</p>
+          <button class="snake-button secondary" id="pause" type="button" data-snake-i18n="pause">Pause</button>
         </div>
       </section>
     </main>
-    <script src="/games/snake/snake.js?v=4"></script>
+    <script src="/games/snake/snake.js?v=5"></script>
   </body>
 </html>

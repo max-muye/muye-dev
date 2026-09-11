@@ -19,19 +19,109 @@ const games = {
   simon: { title: "Simon", type: "Memory", description: "Repeat the growing color pattern.", how: ["Tap Start Pattern.", "Watch the flashed colors, then repeat them.", "Each correct round adds one more color."], render: renderSimon },
   "number-guess": { title: "Number Guess", type: "Puzzle", description: "Find the hidden number from hints.", how: ["Enter a number from 1 to 100.", "The game tells you higher or lower.", "Try to pin it down calmly."], render: renderNumberGuess },
   "coin-dice": { title: "Coin & Dice", type: "Classic", description: "A tiny picker for quick chance decisions.", how: ["Tap Flip Coin or Roll Dice.", "Use it for quick choices.", "Your latest result is kept in your save slot."], render: renderCoinDice },
+  "reaction-tap": { title: "Reaction Tap", type: "Challenge", description: "Wait for green, then tap as fast as you can.", how: ["Press Start.", "Do not tap while it says wait.", "Tap as soon as the panel turns green."], render: renderReactionTap },
+  "aim-trainer": { title: "Aim Trainer", type: "Action", description: "Tap small targets before the timer ends.", how: ["Tap Start.", "Hit every target that appears.", "Misses do not hurt, but the clock keeps moving."], render: renderAimTrainer },
+  whack: { title: "Whack", type: "Action", description: "Hit the lit square before it jumps away.", how: ["Tap Start.", "Tap the glowing square.", "Try to build the highest score before time ends."], render: renderWhack },
+  "maze-runner": { title: "Maze Runner", type: "Puzzle", description: "Move through a compact maze to the exit.", how: ["Use arrows, WASD, or tap the move buttons.", "Walls block movement.", "Reach E to win."], render: renderMazeRunner },
+  "color-match": { title: "Color Match", type: "Puzzle", description: "Pick the word that matches the shown color.", how: ["Look at the large color card.", "Tap the matching color name.", "Try to keep your streak alive."], render: renderColorMatch },
+  "math-rush": { title: "Math Rush", type: "Challenge", description: "Solve quick arithmetic before the rounds run out.", how: ["Choose the answer to each problem.", "Correct answers build your score.", "Ten rounds make one game."], render: renderMathRush },
 };
 
+const gameText = {
+  en: {
+    games: "Games", home: "Home", game: "Game", play: "Play", intro: "Touch-friendly classics, puzzles, memory games, and board games. Each play page explains the rules and saves progress for the current user on this browser.", featured: "Featured", snakeTitle: "Snake Lab", snakeDescription: "Classic snake with extra controls", snakeDetail: "Full configurable snake mode", action: "Action", strategy: "Strategy", puzzle: "Puzzle", word: "Word", classic: "Classic", memory: "Memory", challenge: "Challenge", allGames: "All games", newGame: "New game", howToPlay: "How to play", savedAccount: "Saved to your account on this browser", savedDevice: "Saved on this device",
+    playing: "Playing", matched: "Matched", cleared: "Cleared", solved: "Solved", missed: "Missed", guessing: "Guessing", chooseOne: "Choose one", instantRound: "Instant round", rock: "Rock", paper: "Paper", scissors: "Scissors", rpsResult: "{result}. You chose {you}; the game chose {them}.", youWin: "You win", youLose: "You lose", draw: "Draw", yourTurn: "Your turn", dealerWins: "Dealer wins", closest21: "Closest to 21", dealer: "Dealer", you: "You", hit: "Hit", stand: "Stand", filling: "Filling", tapCell: "Tap a cell", twoPlayers: "Two players", findPairs: "Find pairs", turnLightsOff: "Turn all lights off", fiveLetters: "Five letters", try: "Try", findFleet: "Find the fleet", compactBoard: "Compact board", simplifiedBoard: "Simplified {game} board from the secret games collection, sized for phones and tablets.", blackTurn: "Black's turn", whiteTurn: "White's turn", sliding: "Sliding", order15: "Put 1 to 15 in order", ready: "Ready", correct: "Correct", keepGoing: "Keep going", round: "Round {count}", startPattern: "Start a pattern", pattern: "Pattern: {count}", higher: "Higher", lower: "Lower", foundIt: "Found it", guesses: "{count} guesses", guessesList: "Guesses: {list}", noGuesses: "No guesses yet.", chance: "Chance", quickPicker: "Quick picker", flipCoin: "Flip Coin", rollDice: "Roll Dice", heads: "Heads", tails: "Tails", noBest: "No best yet", bestMs: "Best {best}ms", tap: "TAP", wait: "Wait...", start: "Start", waitGreen: "Wait for green", tapNow: "Tap now", tooEarly: "Too early", running: "Running", scoreBest: "Score {score} · Best {best}", whacking: "Whacking", findExit: "Find the exit", escaped: "Escaped", moves: "{count} moves", choose: "Choose", streakBest: "Streak {streak} · Best {best}", itWas: "It was {answer}", score10: "Score {score}/10", answerIs: "Answer: {answer}", gameOver: "Game over", finished: "Finished", boom: "Boom", noMoves: "No moves left", reached2048: "You reached 2048", swipeArrows: "Swipe or tap arrows", revealFlag: "Tap reveal, right-click or hold flag", redTurn: "Red's turn", yellowTurn: "Yellow's turn", redWins: "Red wins", yellowWins: "Yellow wins", xTurn: "X's turn", oTurn: "O's turn", wins: "{mark} wins", missesLeft: "{count} misses left",
+  },
+  zh: {
+    games: "游戏", home: "主页", game: "游戏", play: "开玩", intro: "适合触屏的经典、益智、记忆和棋盘小游戏。每个游戏页都会说明规则，并为当前用户在这个浏览器保存进度。", featured: "推荐", snakeTitle: "贪吃蛇实验室", snakeDescription: "带更多控制的经典贪吃蛇", snakeDetail: "可配置的完整贪吃蛇模式", action: "动作", strategy: "策略", puzzle: "益智", word: "文字", classic: "经典", memory: "记忆", challenge: "挑战", allGames: "所有游戏", newGame: "新游戏", howToPlay: "怎么玩", savedAccount: "已为你的账户保存在这个浏览器", savedDevice: "已保存在这个设备", playing: "进行中", matched: "已配对", cleared: "已清空", solved: "已解出", missed: "失败了", guessing: "猜测中", chooseOne: "选一个", instantRound: "即时一局", rock: "石头", paper: "布", scissors: "剪刀", rpsResult: "{result}。你选了 {you}；游戏选了 {them}。", youWin: "你赢了", youLose: "你输了", draw: "平局", yourTurn: "你的回合", dealerWins: "庄家赢了", closest21: "尽量接近 21", dealer: "庄家", you: "你", hit: "要牌", stand: "停牌", filling: "填写中", tapCell: "点格子", twoPlayers: "双人游戏", findPairs: "找对子", turnLightsOff: "关掉所有灯", fiveLetters: "五个字母", try: "试试", findFleet: "找到舰队", compactBoard: "小棋盘", simplifiedBoard: "来自秘密游戏合集的简化 {game} 棋盘，适合手机和平板。", blackTurn: "黑方回合", whiteTurn: "白方回合", sliding: "滑动中", order15: "把 1 到 15 排回顺序", ready: "准备好了", correct: "正确", keepGoing: "继续", round: "第 {count} 轮", startPattern: "开始一个序列", pattern: "序列：{count}", higher: "更大", lower: "更小", foundIt: "找到了", guesses: "已猜 {count} 次", guessesList: "猜过：{list}", noGuesses: "还没有猜。", chance: "机会", quickPicker: "快速随机", flipCoin: "抛硬币", rollDice: "掷骰子", heads: "正面", tails: "反面", noBest: "还没有最佳", bestMs: "最佳 {best}ms", tap: "点！", wait: "等待...", start: "开始", waitGreen: "等绿色", tapNow: "现在点", tooEarly: "太早了", running: "运行中", scoreBest: "分数 {score} · 最佳 {best}", whacking: "敲打中", findExit: "找到出口", escaped: "逃出去了", moves: "{count} 步", choose: "选择", streakBest: "连对 {streak} · 最佳 {best}", itWas: "答案是 {answer}", score10: "分数 {score}/10", answerIs: "答案：{answer}", gameOver: "游戏结束", finished: "完成", boom: "爆了", noMoves: "没有可走步数", reached2048: "到达 2048", swipeArrows: "滑动或点箭头", revealFlag: "点开，右键或长按插旗", redTurn: "红方回合", yellowTurn: "黄方回合", redWins: "红方赢了", yellowWins: "黄方赢了", xTurn: "X 回合", oTurn: "O 回合", wins: "{mark} 赢了", missesLeft: "还可错 {count} 次",
+  },
+};
+["ja", "ko", "es", "fr", "de", "pt", "ru", "ar"].forEach((code) => { gameText[code] = gameText.en; });
+
+const gameTranslations = {
+  zh: {
+    "2048": { type: "动作", description: "滑动相同数字，合成 2048。", how: ["滑动或按箭头移动所有方块。", "相同数字会合成更大的数字。", "每一步都会为当前用户保存棋盘。"] },
+    minesweeper: { title: "扫雷", type: "动作", description: "避开地雷，清空棋盘。", how: ["点击格子打开。", "右键、长按或按住可以插旗。", "数字表示旁边有多少颗雷。"] },
+    "connect-four": { title: "四子棋", type: "策略", description: "先连成四颗棋子。", how: ["点击一列落子。", "红黄双方轮流下。", "横、竖或斜连四个就赢。"] },
+    "tic-tac-toe": { title: "井字棋", type: "策略", description: "快速点击的三连棋。", how: ["点击空格。", "X 和 O 轮流下。", "三个相同标记连成一线就赢。"] },
+    chess: { title: "国际象棋", type: "策略", description: "给两人玩的紧凑棋盘。", how: ["点击格子查看或标记。", "适合手机上的实体对局摆盘。", "选中的格子会为你的用户保存。"] },
+    go: { title: "围棋", type: "策略", description: "带吃子规则的紧凑围棋盘。", how: ["黑白双方轮流落子。", "点击空点落子。", "这个小棋盘适合平板快速玩。"] },
+    checkers: { title: "跳棋", type: "策略", description: "斜走、跳吃、升王。", how: ["点击棋子和目标格来计划走法。", "用斜向跳跃吃子。", "棋盘会为你的用户保存。"] },
+    reversi: { title: "黑白棋", type: "策略", description: "落子翻转对方一整线棋子。", how: ["点击空格标记一步。", "夹住对方棋子后翻转。", "简单棋盘适合触屏。"] },
+    battleship: { title: "战舰", type: "策略", description: "找到隐藏舰队。", how: ["点击海面格子搜索。", "标记的格子会保存。", "当作快速隐藏舰队棋盘。"] },
+    "memory-match": { title: "记忆配对", type: "益智", description: "翻牌并找出每一对。", how: ["点击两张牌翻开。", "配对成功的牌会保持打开。", "找完所有对子就通关。"] },
+    hangman: { title: "猜词", type: "文字", description: "在错误次数用完前猜出单词。", how: ["点击字母猜单词。", "错一个字母会用掉一次机会。", "六次错误前解出。"] },
+    "rock-paper-scissors": { title: "石头剪刀布", type: "经典", description: "快速决定的小手势游戏。", how: ["点击石头、剪刀或布。", "石头胜剪刀，剪刀胜布，布胜石头。", "最新一局会保存。"] },
+    sudoku: { title: "数独", type: "挑战", description: "用 1 到 9 填满棋盘。", how: ["点击空格，再点数字。", "原始题目数字不能改。", "每行、每列、每宫填入 1 到 9。"] },
+    blackjack: { title: "二十一点", type: "挑战", description: "尽量接近 21 但不要爆。", how: ["点要牌抽一张。", "觉得够接近时点停牌。", "A 会自动按 11 或 1 计算。"] },
+    wordle: { title: "Wordle", type: "挑战", description: "猜五个字母的单词。", how: ["输入五字母单词后点试试。", "绿色是位置正确，金色是字母存在但位置不同。", "一共有六次机会。"] },
+    "lights-out": { title: "关灯", type: "挑战", description: "关掉所有灯。", how: ["点一盏灯会翻转它和邻居。", "把所有灯关掉就过关。", "每次点击都会保存图案。"] },
+    "fifteen-puzzle": { title: "十五拼图", type: "益智", description: "把数字滑回顺序。", how: ["点击空格旁边的方块。", "滑到数字按 1 到 15 排列。", "每一步都会保存。"] },
+    simon: { title: "西蒙记忆", type: "记忆", description: "重复越来越长的颜色序列。", how: ["点开始序列。", "看闪烁颜色，然后重复。", "每轮正确都会多一个颜色。"] },
+    "number-guess": { title: "猜数字", type: "益智", description: "根据提示找到隐藏数字。", how: ["输入 1 到 100 的数字。", "游戏会提示更大或更小。", "慢慢缩小范围。"] },
+    "coin-dice": { title: "硬币和骰子", type: "经典", description: "快速随机做决定。", how: ["点抛硬币或掷骰子。", "用来做快速选择。", "最新结果会保存在你的存档里。"] },
+    "reaction-tap": { title: "反应点击", type: "挑战", description: "等绿色出现，然后尽快点击。", how: ["按开始。", "显示等待时不要点。", "面板变绿时立刻点。"] },
+    "aim-trainer": { title: "瞄准训练", type: "动作", description: "在计时结束前点击小目标。", how: ["点开始。", "点击每个出现的目标。", "点空不会扣分，但时间会继续走。"] },
+    whack: { title: "快打", type: "动作", description: "在亮格跳走前点中它。", how: ["点开始。", "点击发光格子。", "时间结束前尽量打得更多。"] },
+    "maze-runner": { title: "迷宫", type: "益智", description: "穿过小迷宫到出口。", how: ["用箭头、WASD 或移动按钮。", "墙会挡住移动。", "到达 E 就赢。"] },
+    "color-match": { title: "颜色匹配", type: "益智", description: "选择和色块匹配的颜色名。", how: ["看大的颜色卡片。", "点击匹配的颜色名。", "尽量保持连胜。"] },
+    "math-rush": { title: "数学冲刺", type: "挑战", description: "在回合结束前做快速算术。", how: ["选择每题答案。", "答对会增加分数。", "十题是一局。"] },
+  },
+};
+
+function currentLang() {
+  const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";
+  return gameText[saved] ? saved : "en";
+}
+
+function gt(key, data = {}) {
+  const text = gameText[currentLang()]?.[key] || gameText.en[key] || key;
+  return Object.entries(data).reduce((value, [name, replacement]) => value.replace(`{${name}}`, replacement), text);
+}
+
+function localGame(slugValue) {
+  return { ...games[slugValue], ...(gameTranslations[currentLang()]?.[slugValue] || {}) };
+}
+
+function translateGamesHome() {
+  document.documentElement.lang = currentLang();
+  document.documentElement.dir = currentLang() === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-i18n]").forEach((node) => { node.textContent = gt(node.dataset.i18n); });
+  document.querySelectorAll(".game-links a[href*='/games/play/?game=']").forEach((link) => {
+    const gameSlug = new URL(link.href, location.href).searchParams.get("game");
+    const data = localGame(gameSlug);
+    if (!data) return;
+    link.querySelector("span").textContent = data.title;
+    link.querySelector("small").textContent = data.description;
+  });
+}
+
+let gameId = "";
+let game = null;
+let playerKey = "";
+
+if (document.documentElement.dataset.gamesHome !== undefined) {
+  translateGamesHome();
+} else {
 const panel = document.querySelector("#play-panel");
 const resetButton = document.querySelector("#reset-game");
 const params = new URLSearchParams(location.search);
 const slug = params.get("game") || "2048";
-const game = games[slug] || games["2048"];
-let playerKey = getDevicePlayerKey();
+gameId = games[slug] ? slug : "2048";
+game = localGame(gameId);
+playerKey = getDevicePlayerKey();
+document.documentElement.lang = currentLang();
+document.documentElement.dir = currentLang() === "ar" ? "rtl" : "ltr";
+document.querySelector(".arcade-brand").textContent = gt("games");
+document.querySelector(".arcade-home").textContent = gt("home");
 document.querySelector("#game-title").textContent = game.title;
 document.querySelector("#game-type").textContent = game.type;
 document.querySelector("#game-description").textContent = game.description;
+document.querySelector(".play-actions a").textContent = gt("allGames");
+resetButton.textContent = gt("newGame");
 resetButton.addEventListener("click", () => { clearGameSave(); game.render(true); });
 bootGame();
+}
 
 async function bootGame() {
   await loadPlayerKey();
@@ -63,7 +153,7 @@ async function loadPlayerKey() {
 }
 
 function saveKey() {
-  return `muye-game:${playerKey}:${slug}`;
+  return `muye-game:${playerKey}:${gameId}`;
 }
 
 function loadGameSave() {
@@ -79,11 +169,12 @@ function clearGameSave() {
 }
 
 function status(text, detail = "") {
-  return `<div class="game-status"><span>${text}</span>${detail ? `<strong>${detail}</strong>` : ""}<small>${playerKey.startsWith("user:") ? "Saved to your account on this browser" : "Saved on this device"}</small></div>`;
+  return `<div class="game-status"><span>${text}</span>${detail ? `<strong>${detail}</strong>` : ""}<small>${playerKey.startsWith("user:") ? gt("savedAccount") : gt("savedDevice")}</small></div>`;
 }
 
 function howToPlay() {
-  return `<aside class="how-card"><h2>How to play</h2><ul>${game.how.map((item) => `<li>${item}</li>`).join("")}</ul></aside>`;
+  game = localGame(gameId);
+  return `<aside class="how-card"><h2>${gt("howToPlay")}</h2><ul>${game.how.map((item) => `<li>${item}</li>`).join("")}</ul></aside>`;
 }
 
 function render2048(fresh = false) {
@@ -132,7 +223,7 @@ function render2048(fresh = false) {
       return !changed;
     });
     saveGame({ board });
-    setPanel(`${howToPlay()}${status(won ? "You reached 2048" : stuck ? "No moves left" : "Playing", "Swipe or tap arrows")}
+    setPanel(`${howToPlay()}${status(won ? gt("reached2048") : stuck ? gt("noMoves") : gt("playing"), gt("swipeArrows"))}
       <div class="grid" style="grid-template-columns:repeat(4,minmax(0,1fr))">${board.map((value) => `<div class="tile tile-${value}">${value || ""}</div>`).join("")}</div>
       <div class="pad"><button class="cell" data-dir="up">↑</button><button class="cell" data-dir="left">←</button><button class="cell" data-dir="down">↓</button><button class="cell" data-dir="right">→</button></div>`);
     panel.querySelectorAll("[data-dir]").forEach((button) => button.addEventListener("click", () => move(button.dataset.dir)));
@@ -161,7 +252,7 @@ function renderMinesweeper(fresh = false) {
   const size = 10;
   const saved = fresh ? null : loadGameSave();
   let cells = saved?.cells;
-  let text = saved?.text || "Playing";
+  let text = saved?.text || "playing";
   if (!cells) {
     const mines = new Set();
     while (mines.size < 14) mines.add(Math.floor(Math.random() * size * size));
@@ -173,17 +264,17 @@ function renderMinesweeper(fresh = false) {
   }
   const open = (index) => {
     const cell = cells[index];
-    if (cell.open || cell.flag || text !== "Playing") return;
+    if (cell.open || cell.flag || text !== "playing") return;
     cell.open = true;
-    if (cell.mine) { text = "Boom"; cells.forEach((item) => { if (item.mine) item.open = true; }); }
+    if (cell.mine) { text = "boom"; cells.forEach((item) => { if (item.mine) item.open = true; }); }
     else if (cell.count === 0) neighbors(index, size).forEach(open);
-    if (cells.every((item) => item.mine || item.open)) text = "Cleared";
+    if (cells.every((item) => item.mine || item.open)) text = "cleared";
     draw();
   };
-  const flag = (index) => { if (!cells[index].open && text === "Playing") cells[index].flag = !cells[index].flag; draw(); };
+  const flag = (index) => { if (!cells[index].open && text === "playing") cells[index].flag = !cells[index].flag; draw(); };
   const draw = () => {
     saveGame({ cells, text });
-    setPanel(`${howToPlay()}${status(text, "Tap reveal, right-click or hold flag")}<div class="grid mine-grid">${cells.map((cell, index) => `<button class="cell mine-cell ${cell.open ? "open" : ""} ${cell.open && cell.mine ? "mine" : ""} ${cell.flag ? "flag" : ""}" data-i="${index}">${cell.open ? cell.mine ? "x" : cell.count || "" : cell.flag ? "!" : ""}</button>`).join("")}</div>`);
+    setPanel(`${howToPlay()}${status(gt(text), gt("revealFlag"))}<div class="grid mine-grid">${cells.map((cell, index) => `<button class="cell mine-cell ${cell.open ? "open" : ""} ${cell.open && cell.mine ? "mine" : ""} ${cell.flag ? "flag" : ""}" data-i="${index}">${cell.open ? cell.mine ? "x" : cell.count || "" : cell.flag ? "!" : ""}</button>`).join("")}</div>`);
     panel.querySelectorAll(".mine-cell").forEach((button) => {
       let hold;
       let held = false;
@@ -216,7 +307,7 @@ function renderConnectFour(fresh = false) {
   const rows = 6, cols = 7;
   const saved = fresh ? null : loadGameSave();
   let board = saved?.board || Array(rows * cols).fill("");
-  let turn = saved?.turn || "red", text = saved?.text || "Red's turn";
+  let turn = saved?.turn || "red", text = saved?.text || "redTurn";
   const win = (i) => [[1, 0], [0, 1], [1, 1], [1, -1]].some(([dr, dc]) => {
     const r = Math.floor(i / cols), c = i % cols, color = board[i];
     let count = 1;
@@ -227,12 +318,12 @@ function renderConnectFour(fresh = false) {
     return count >= 4;
   });
   const drop = (col) => {
-    if (text.includes("wins") || text === "Draw") return;
+    if (text.endsWith("Wins") || text === "draw") return;
     for (let r = rows - 1; r >= 0; r -= 1) {
       const i = r * cols + col;
       if (!board[i]) {
         board[i] = turn;
-        text = win(i) ? `${turn === "red" ? "Red" : "Yellow"} wins` : board.every(Boolean) ? "Draw" : `${turn === "red" ? "Yellow" : "Red"}'s turn`;
+        text = win(i) ? `${turn}Wins` : board.every(Boolean) ? "draw" : `${turn === "red" ? "yellow" : "red"}Turn`;
         turn = turn === "red" ? "yellow" : "red";
         draw();
         return;
@@ -241,7 +332,7 @@ function renderConnectFour(fresh = false) {
   };
   const draw = () => {
     saveGame({ board, turn, text });
-    setPanel(`${howToPlay()}${status(text, "Two players")}<div class="grid connect-grid">${board.map((value, index) => `<button class="connect-cell" data-c="${index % cols}"><span class="disc ${value}"></span></button>`).join("")}</div>`);
+    setPanel(`${howToPlay()}${status(gt(text), gt("twoPlayers"))}<div class="grid connect-grid">${board.map((value, index) => `<button class="connect-cell" data-c="${index % cols}"><span class="disc ${value}"></span></button>`).join("")}</div>`);
     panel.querySelectorAll(".connect-cell").forEach((button) => button.addEventListener("click", () => drop(Number(button.dataset.c))));
   };
   draw();
@@ -250,16 +341,16 @@ function renderConnectFour(fresh = false) {
 function renderTicTacToe(fresh = false) {
   const saved = fresh ? null : loadGameSave();
   let board = saved?.board || Array(9).fill("");
-  let turn = saved?.turn || "X", text = saved?.text || "X's turn";
+  let turn = saved?.turn || "X", text = saved?.text || "xTurn";
   const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
   const draw = () => {
     saveGame({ board, turn, text });
-    setPanel(`${howToPlay()}${status(text, "Two players")}<div class="grid tac-grid">${board.map((value, index) => `<button class="cell tac-cell" data-i="${index}">${value}</button>`).join("")}</div>`);
+    setPanel(`${howToPlay()}${status(text.endsWith("Wins") ? gt("wins", { mark: text[0] }) : gt(text), gt("twoPlayers"))}<div class="grid tac-grid">${board.map((value, index) => `<button class="cell tac-cell" data-i="${index}">${value}</button>`).join("")}</div>`);
     panel.querySelectorAll(".tac-cell").forEach((button) => button.addEventListener("click", () => {
       const i = Number(button.dataset.i);
-      if (board[i] || text.includes("wins") || text === "Draw") return;
+      if (board[i] || text.endsWith("Wins") || text === "draw") return;
       board[i] = turn;
-      text = lines.some((line) => line.every((n) => board[n] === turn)) ? `${turn} wins` : board.every(Boolean) ? "Draw" : `${turn === "X" ? "O" : "X"}'s turn`;
+      text = lines.some((line) => line.every((n) => board[n] === turn)) ? `${turn}Wins` : board.every(Boolean) ? "draw" : `${turn === "X" ? "o" : "x"}Turn`;
       turn = turn === "X" ? "O" : "X";
       draw();
     }));
@@ -283,7 +374,7 @@ function renderMemory(fresh = false) {
   };
   const draw = () => {
     saveGame({ icons, open: [...open], done: [...done], pick });
-    setPanel(`${howToPlay()}${status(done.size === icons.length ? "Matched" : "Playing", "Find pairs")}<div class="grid memory-grid">${icons.map((value, index) => `<button class="cell memory-cell" data-i="${index}">${open.has(index) || done.has(index) ? value : ""}</button>`).join("")}</div>`);
+    setPanel(`${howToPlay()}${status(done.size === icons.length ? gt("matched") : gt("playing"), gt("findPairs"))}<div class="grid memory-grid">${icons.map((value, index) => `<button class="cell memory-cell" data-i="${index}">${open.has(index) || done.has(index) ? value : ""}</button>`).join("")}</div>`);
     panel.querySelectorAll(".memory-cell").forEach((button) => button.addEventListener("click", () => choose(Number(button.dataset.i))));
   };
   draw();
@@ -298,7 +389,7 @@ function renderLightsOut(fresh = false) {
   };
   const draw = () => {
     saveGame({ lights });
-    setPanel(`${howToPlay()}${status(lights.some(Boolean) ? "Playing" : "Cleared", "Turn all lights off")}<div class="grid lights-grid">${lights.map((on, i) => `<button class="cell ${on ? "light-on" : ""}" data-i="${i}"></button>`).join("")}</div>`);
+    setPanel(`${howToPlay()}${status(lights.some(Boolean) ? gt("playing") : gt("cleared"), gt("turnLightsOff"))}<div class="grid lights-grid">${lights.map((on, i) => `<button class="cell ${on ? "light-on" : ""}" data-i="${i}"></button>`).join("")}</div>`);
     panel.querySelectorAll(".cell").forEach((button) => button.addEventListener("click", () => flip(Number(button.dataset.i))));
   };
   draw();
@@ -306,12 +397,13 @@ function renderLightsOut(fresh = false) {
 
 function renderRps(fresh = false) {
   const items = ["Rock", "Paper", "Scissors"];
+  const choiceLabels = { Rock: gt("rock"), Paper: gt("paper"), Scissors: gt("scissors") };
   const saved = fresh ? null : loadGameSave();
-  setPanel(`${howToPlay()}${status("Choose one", "Instant round")}<div class="choices">${items.map((item) => `<button class="choice-button" data-choice="${item}">${item}</button>`).join("")}</div><p class="board-note" id="rps-result">${saved?.result || ""}</p>`);
+  setPanel(`${howToPlay()}${status(gt("chooseOne"), gt("instantRound"))}<div class="choices">${items.map((item) => `<button class="choice-button" data-choice="${item}">${choiceLabels[item]}</button>`).join("")}</div><p class="board-note" id="rps-result">${saved?.result || ""}</p>`);
   panel.querySelectorAll("[data-choice]").forEach((button) => button.addEventListener("click", () => {
     const you = button.dataset.choice, them = items[Math.floor(Math.random() * items.length)];
-    const result = you === them ? "Draw" : (you === "Rock" && them === "Scissors") || (you === "Paper" && them === "Rock") || (you === "Scissors" && them === "Paper") ? "You win" : "You lose";
-    const text = `${result}. You chose ${you}; the game chose ${them}.`;
+    const result = you === them ? gt("draw") : (you === "Rock" && them === "Scissors") || (you === "Paper" && them === "Rock") || (you === "Scissors" && them === "Paper") ? gt("youWin") : gt("youLose");
+    const text = gt("rpsResult", { result, you: choiceLabels[you], them: choiceLabels[them] });
     panel.querySelector("#rps-result").textContent = text;
     saveGame({ result: text });
   }));
@@ -326,7 +418,7 @@ function renderHangman(fresh = false) {
     const shown = word.split("").map((letter) => guessed.has(letter) ? letter : "_").join(" ");
     const complete = !shown.includes("_");
     saveGame({ word, guessed: [...guessed], misses });
-    setPanel(`${howToPlay()}${status(complete ? "Solved" : misses >= 6 ? "Missed" : "Guessing", `${6 - misses} misses left`)}<div class="hangman-word">${shown.split(" ").map((letter) => `<span class="card">${letter}</span>`).join("")}</div><div class="keyboard">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => `<button class="key-button" data-letter="${letter}" ${guessed.has(letter) ? "disabled" : ""}>${letter}</button>`).join("")}</div>`);
+    setPanel(`${howToPlay()}${status(complete ? gt("solved") : misses >= 6 ? gt("missed") : gt("guessing"), gt("missesLeft", { count: 6 - misses }))}<div class="hangman-word">${shown.split(" ").map((letter) => `<span class="card">${letter}</span>`).join("")}</div><div class="keyboard">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => `<button class="key-button" data-letter="${letter}" ${guessed.has(letter) ? "disabled" : ""}>${letter}</button>`).join("")}</div>`);
     panel.querySelectorAll("[data-letter]").forEach((button) => button.addEventListener("click", () => { const letter = button.dataset.letter; guessed.add(letter); if (!word.includes(letter)) misses += 1; draw(); }));
   };
   draw();
@@ -344,13 +436,13 @@ function renderWordle(fresh = false) {
   };
   const draw = () => {
     saveGame({ answer, guesses });
-    setPanel(`${howToPlay()}${status(guesses.includes(answer) ? "Solved" : guesses.length >= 6 ? answer : "Guessing", "Five letters")}
+    setPanel(`${howToPlay()}${status(guesses.includes(answer) ? gt("solved") : guesses.length >= 6 ? answer : gt("guessing"), gt("fiveLetters"))}
       ${Array.from({ length: 6 }, (_, row) => `<div class="word-row">${Array.from({ length: 5 }, (_, col) => {
         const letter = guesses[row]?.[col] || "";
         const cls = !letter ? "" : answer[col] === letter ? "hit" : answer.includes(letter) ? "near" : "miss";
         return `<span class="letter-box ${cls}">${letter}</span>`;
       }).join("")}</div>`).join("")}
-      <div class="word-input"><input id="word-guess" maxlength="5" autocomplete="off"><button class="arcade-button" id="word-submit">Try</button></div>`);
+      <div class="word-input"><input id="word-guess" maxlength="5" autocomplete="off"><button class="arcade-button" id="word-submit">${gt("try")}</button></div>`);
     panel.querySelector("#word-submit").addEventListener("click", submit);
     panel.querySelector("#word-guess").addEventListener("keydown", (event) => { if (event.key === "Enter") submit(); });
   };
@@ -362,17 +454,17 @@ function renderBlackjack(fresh = false) {
   const card = () => deck[Math.floor(Math.random() * deck.length)];
   const total = (hand) => { let sum = hand.reduce((a, b) => a + b, 0), aces = hand.filter((n) => n === 11).length; while (sum > 21 && aces) { sum -= 10; aces -= 1; } return sum; };
   const saved = fresh ? null : loadGameSave();
-  let you = saved?.you || [card(), card()], dealer = saved?.dealer || [card(), card()], text = saved?.text || "Your turn";
+  let you = saved?.you || [card(), card()], dealer = saved?.dealer || [card(), card()], text = saved?.text || "yourTurn";
   const finish = () => {
     while (total(dealer) < 17) dealer.push(card());
     const y = total(you), d = total(dealer);
-    text = y > 21 ? "Dealer wins" : d > 21 || y > d ? "You win" : d > y ? "Dealer wins" : "Draw";
+    text = y > 21 ? "dealerWins" : d > 21 || y > d ? "youWin" : d > y ? "dealerWins" : "draw";
     draw();
   };
   const draw = () => {
     saveGame({ you, dealer, text });
-    setPanel(`${howToPlay()}${status(text, "Closest to 21")}<small>Dealer: ${total(dealer)}</small><div class="blackjack-hand">${dealer.map((n) => `<span class="card">${n === 11 ? "A" : n}</span>`).join("")}</div><small>You: ${total(you)}</small><div class="blackjack-hand">${you.map((n) => `<span class="card">${n === 11 ? "A" : n}</span>`).join("")}</div><div class="choices"><button class="choice-button" id="hit">Hit</button><button class="choice-button" id="stand">Stand</button></div>`);
-    panel.querySelector("#hit").addEventListener("click", () => { if (text !== "Your turn") return; you.push(card()); if (total(you) > 21) text = "Dealer wins"; draw(); });
+    setPanel(`${howToPlay()}${status(gt(text), gt("closest21"))}<small>${gt("dealer")}: ${total(dealer)}</small><div class="blackjack-hand">${dealer.map((n) => `<span class="card">${n === 11 ? "A" : n}</span>`).join("")}</div><small>${gt("you")}: ${total(you)}</small><div class="blackjack-hand">${you.map((n) => `<span class="card">${n === 11 ? "A" : n}</span>`).join("")}</div><div class="choices"><button class="choice-button" id="hit">${gt("hit")}</button><button class="choice-button" id="stand">${gt("stand")}</button></div>`);
+    panel.querySelector("#hit").addEventListener("click", () => { if (text !== "yourTurn") return; you.push(card()); if (total(you) > 21) text = "dealerWins"; draw(); });
     panel.querySelector("#stand").addEventListener("click", finish);
   };
   draw();
@@ -385,7 +477,7 @@ function renderSudoku(fresh = false) {
   let selected = saved?.selected ?? -1;
   const draw = () => {
     saveGame({ values, selected });
-    setPanel(`${howToPlay()}${status("Filling", "Tap a cell")}<div class="board sudoku-board">${values.map((value, i) => `<button class="board-cell ${selected === i ? "selected" : ""}" data-i="${i}">${value === "0" ? "" : value}</button>`).join("")}</div><div class="numbers">${[1,2,3,4,5,6,7,8,9].map((n) => `<button class="number-button" data-n="${n}">${n}</button>`).join("")}</div>`);
+    setPanel(`${howToPlay()}${status(gt("filling"), gt("tapCell"))}<div class="board sudoku-board">${values.map((value, i) => `<button class="board-cell ${selected === i ? "selected" : ""}" data-i="${i}">${value === "0" ? "" : value}</button>`).join("")}</div><div class="numbers">${[1,2,3,4,5,6,7,8,9].map((n) => `<button class="number-button" data-n="${n}">${n}</button>`).join("")}</div>`);
     panel.querySelectorAll("[data-i]").forEach((button) => button.addEventListener("click", () => { selected = Number(button.dataset.i); draw(); }));
     panel.querySelectorAll("[data-n]").forEach((button) => button.addEventListener("click", () => { if (selected >= 0 && puzzle[selected] === "0") values[selected] = button.dataset.n; draw(); }));
   };
@@ -399,7 +491,7 @@ function renderBoardGame(kind, fresh = false) {
   let selected = (fresh ? null : loadGameSave())?.selected ?? -1;
   const draw = () => {
     saveGame({ selected });
-    setPanel(`${howToPlay()}${status("Playing", kind === "battleship" ? "Find the fleet" : "Two players")}<div class="board ${kind === "battleship" ? "sea-board" : ""}" style="grid-template-columns:repeat(${size},minmax(0,1fr))">${Array.from({ length: size * size }, (_, i) => `<button class="board-cell ${((Math.floor(i / size) + i) % 2) ? "dark" : "light"} ${selected === i ? "selected" : ""}" data-i="${i}">${pieceFor(kind, i, selected)}</button>`).join("")}</div><p class="board-note">Simplified ${games[kind].title} board from the secret games collection, sized for phones and tablets.</p>`);
+    setPanel(`${howToPlay()}${status(gt("playing"), kind === "battleship" ? gt("findFleet") : gt("twoPlayers"))}<div class="board ${kind === "battleship" ? "sea-board" : ""}" style="grid-template-columns:repeat(${size},minmax(0,1fr))">${Array.from({ length: size * size }, (_, i) => `<button class="board-cell ${((Math.floor(i / size) + i) % 2) ? "dark" : "light"} ${selected === i ? "selected" : ""}" data-i="${i}">${pieceFor(kind, i, selected)}</button>`).join("")}</div><p class="board-note">${gt("simplifiedBoard", { game: localGame(kind).title })}</p>`);
     panel.querySelectorAll("[data-i]").forEach((button) => button.addEventListener("click", () => { selected = Number(button.dataset.i); draw(); }));
   };
   draw();
@@ -420,7 +512,7 @@ function renderGo(fresh = false) {
   const stones = saved?.stones || Array(size * size).fill("");
   const draw = () => {
     saveGame({ turn, stones });
-    setPanel(`${howToPlay()}${status(`${turn[0].toUpperCase()}${turn.slice(1)}'s turn`, "Compact board")}<div class="board go-board">${stones.map((stone, i) => `<button class="board-cell" data-i="${i}">${stone ? `<span class="stone ${stone}"></span>` : ""}</button>`).join("")}</div>`);
+    setPanel(`${howToPlay()}${status(gt(`${turn}Turn`), gt("compactBoard"))}<div class="board go-board">${stones.map((stone, i) => `<button class="board-cell" data-i="${i}">${stone ? `<span class="stone ${stone}"></span>` : ""}</button>`).join("")}</div>`);
     panel.querySelectorAll("[data-i]").forEach((button) => button.addEventListener("click", () => { const i = Number(button.dataset.i); if (!stones[i]) { stones[i] = turn; turn = turn === "black" ? "white" : "black"; draw(); } }));
   };
   draw();
@@ -440,7 +532,7 @@ function renderFifteen(fresh = false) {
   const draw = () => {
     const solved = tiles.every((value, index) => index === 15 ? value === 0 : value === index + 1);
     saveGame({ tiles });
-    setPanel(`${howToPlay()}${status(solved ? "Solved" : "Sliding", "Put 1 to 15 in order")}<div class="grid puzzle-grid">${tiles.map((value, index) => `<button class="cell puzzle-cell ${value ? "" : "blank"}" data-i="${index}">${value || ""}</button>`).join("")}</div>`);
+    setPanel(`${howToPlay()}${status(solved ? gt("solved") : gt("sliding"), gt("order15"))}<div class="grid puzzle-grid">${tiles.map((value, index) => `<button class="cell puzzle-cell ${value ? "" : "blank"}" data-i="${index}">${value || ""}</button>`).join("")}</div>`);
     panel.querySelectorAll("[data-i]").forEach((button) => button.addEventListener("click", () => move(Number(button.dataset.i))));
   };
   draw();
@@ -451,25 +543,25 @@ function renderSimon(fresh = false) {
   const colors = ["teal", "coral", "gold", "blue"];
   let pattern = saved?.pattern || [];
   let input = saved?.input || [];
-  let text = saved?.text || "Ready";
+  let text = saved?.text || "ready";
   const addStep = () => {
     pattern = [...pattern, colors[Math.floor(Math.random() * colors.length)]];
     input = [];
-    text = `Round ${pattern.length}`;
+    text = gt("round", { count: pattern.length });
     draw();
   };
   const press = (color) => {
     if (!pattern.length) return;
     input.push(color);
     const ok = pattern[input.length - 1] === color;
-    text = ok ? input.length === pattern.length ? "Correct" : "Keep going" : "Missed";
+    text = ok ? input.length === pattern.length ? "correct" : "keepGoing" : "missed";
     if (!ok) pattern = [];
     if (ok && input.length === pattern.length) setTimeout(addStep, 500);
     draw();
   };
   const draw = () => {
     saveGame({ pattern, input, text });
-    setPanel(`${howToPlay()}${status(text, pattern.length ? `Pattern: ${pattern.length}` : "Start a pattern")}<div class="simon-grid">${colors.map((color) => `<button class="simon-button ${color}" data-color="${color}">${color}</button>`).join("")}</div><div class="choices"><button class="choice-button" id="simon-start">Start Pattern</button></div>`);
+    setPanel(`${howToPlay()}${status(gt(text), pattern.length ? gt("pattern", { count: pattern.length }) : gt("startPattern"))}<div class="simon-grid">${colors.map((color) => `<button class="simon-button ${color}" data-color="${color}">${color}</button>`).join("")}</div><div class="choices"><button class="choice-button" id="simon-start">${gt("startPattern")}</button></div>`);
     panel.querySelector("#simon-start").addEventListener("click", addStep);
     panel.querySelectorAll("[data-color]").forEach((button) => button.addEventListener("click", () => press(button.dataset.color)));
   };
@@ -480,17 +572,17 @@ function renderNumberGuess(fresh = false) {
   const saved = fresh ? null : loadGameSave();
   let answer = saved?.answer || Math.floor(Math.random() * 100) + 1;
   let guesses = saved?.guesses || [];
-  let text = saved?.text || "Guessing";
+  let text = saved?.text || "guessing";
   const submit = () => {
     const value = Number(panel.querySelector("#number-guess-input").value);
     if (!Number.isInteger(value) || value < 1 || value > 100) return;
     guesses = [...guesses, value];
-    text = value === answer ? "Found it" : value < answer ? "Higher" : "Lower";
+    text = value === answer ? "foundIt" : value < answer ? "higher" : "lower";
     draw();
   };
   const draw = () => {
     saveGame({ answer, guesses, text });
-    setPanel(`${howToPlay()}${status(text, `${guesses.length} guesses`)}<div class="word-input"><input id="number-guess-input" type="number" min="1" max="100" inputmode="numeric" placeholder="1-100"><button class="arcade-button" id="number-guess-submit">Try</button></div><p class="board-note">${guesses.length ? `Guesses: ${guesses.join(", ")}` : "No guesses yet."}</p>`);
+    setPanel(`${howToPlay()}${status(gt(text), gt("guesses", { count: guesses.length }))}<div class="word-input"><input id="number-guess-input" type="number" min="1" max="100" inputmode="numeric" placeholder="1-100"><button class="arcade-button" id="number-guess-submit">${gt("try")}</button></div><p class="board-note">${guesses.length ? gt("guessesList", { list: guesses.join(", ") }) : gt("noGuesses")}</p>`);
     panel.querySelector("#number-guess-submit").addEventListener("click", submit);
     panel.querySelector("#number-guess-input").addEventListener("keydown", (event) => { if (event.key === "Enter") submit(); });
   };
@@ -499,12 +591,266 @@ function renderNumberGuess(fresh = false) {
 
 function renderCoinDice(fresh = false) {
   const saved = fresh ? null : loadGameSave();
-  let result = saved?.result || "Ready";
+  let result = saved?.result || "ready";
   const draw = () => {
     saveGame({ result });
-    setPanel(`${howToPlay()}${status("Chance", "Quick picker")}<div class="chance-result">${result}</div><div class="choices"><button class="choice-button" id="coin">Flip Coin</button><button class="choice-button" id="dice">Roll Dice</button></div>`);
-    panel.querySelector("#coin").addEventListener("click", () => { result = Math.random() < 0.5 ? "Heads" : "Tails"; draw(); });
+    setPanel(`${howToPlay()}${status(gt("chance"), gt("quickPicker"))}<div class="chance-result">${gt(result)}</div><div class="choices"><button class="choice-button" id="coin">${gt("flipCoin")}</button><button class="choice-button" id="dice">${gt("rollDice")}</button></div>`);
+    panel.querySelector("#coin").addEventListener("click", () => { result = Math.random() < 0.5 ? "heads" : "tails"; draw(); });
     panel.querySelector("#dice").addEventListener("click", () => { result = String(Math.floor(Math.random() * 6) + 1); draw(); });
   };
   draw();
+}
+
+function renderReactionTap(fresh = false) {
+  let timer = 0;
+  let startedAt = 0;
+  let waiting = false;
+  const saved = fresh ? null : loadGameSave();
+  let best = saved?.best || 0;
+  let text = saved?.text || "ready";
+  const draw = (state = "idle") => {
+    saveGame({ best, text });
+    setPanel(`${howToPlay()}${status(gt(text), best ? gt("bestMs", { best }) : gt("noBest"))}
+      <button class="reaction-pad ${state}" id="reaction-pad" type="button">${state === "go" ? gt("tap") : state === "wait" ? gt("wait") : gt("start")}</button>`);
+    panel.querySelector("#reaction-pad").addEventListener("click", () => {
+      if (state === "idle") {
+        text = "waitGreen";
+        waiting = true;
+        draw("wait");
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          if (!waiting) return;
+          startedAt = performance.now();
+          text = "tapNow";
+          draw("go");
+        }, 900 + Math.random() * 2400);
+        return;
+      }
+      if (state === "wait") {
+        waiting = false;
+        clearTimeout(timer);
+        text = "tooEarly";
+        draw("idle");
+        return;
+      }
+      const ms = Math.round(performance.now() - startedAt);
+      best = best ? Math.min(best, ms) : ms;
+      waiting = false;
+      text = `${ms}ms`;
+      draw("idle");
+    });
+  };
+  draw();
+}
+
+function renderAimTrainer(fresh = false) {
+  let timer = 0;
+  const saved = fresh ? null : loadGameSave();
+  let score = fresh ? 0 : saved?.score || 0;
+  let best = saved?.best || 0;
+  let running = false;
+  let endsAt = 0;
+  let target = { x: 50, y: 50 };
+  const moveTarget = () => { target = { x: 8 + Math.random() * 84, y: 10 + Math.random() * 78 }; };
+  const finish = () => {
+    running = false;
+    best = Math.max(best, score);
+    saveGame({ score, best });
+    draw();
+  };
+  const tick = () => {
+    if (!running) return;
+    if (Date.now() >= endsAt) { finish(); return; }
+    panel.querySelector("#aim-time").textContent = `${Math.ceil((endsAt - Date.now()) / 1000)}s`;
+    timer = setTimeout(tick, 160);
+  };
+  const draw = () => {
+    clearTimeout(timer);
+    saveGame({ score, best });
+    setPanel(`${howToPlay()}${status(running ? gt("running") : gt("ready"), gt("scoreBest", { score, best }))}
+      <div class="target-arena"><button class="target-dot" id="target-dot" type="button" style="left:${target.x}%;top:${target.y}%"></button><span id="aim-time">${running ? `${Math.ceil((endsAt - Date.now()) / 1000)}s` : "15s"}</span></div>
+      <div class="choices"><button class="choice-button" id="aim-start" type="button">${running ? gt("running") : gt("start")}</button></div>`);
+    panel.querySelector("#aim-start").addEventListener("click", () => {
+      score = 0;
+      running = true;
+      endsAt = Date.now() + 15000;
+      moveTarget();
+      draw();
+      tick();
+    });
+    panel.querySelector("#target-dot").addEventListener("click", () => {
+      if (!running) return;
+      score += 1;
+      moveTarget();
+      draw();
+      tick();
+    });
+    if (running) tick();
+  };
+  draw();
+}
+
+function renderWhack(fresh = false) {
+  let timer = 0;
+  const saved = fresh ? null : loadGameSave();
+  let score = fresh ? 0 : saved?.score || 0;
+  let best = saved?.best || 0;
+  let active = saved?.active ?? 12;
+  let running = false;
+  let endsAt = 0;
+  const jump = () => { active = Math.floor(Math.random() * 16); };
+  const finish = () => {
+    running = false;
+    best = Math.max(best, score);
+    saveGame({ score, best, active });
+    draw();
+  };
+  const tick = () => {
+    if (!running) return;
+    if (Date.now() >= endsAt) { finish(); return; }
+    jump();
+    draw();
+    timer = setTimeout(tick, 700);
+  };
+  const draw = () => {
+    clearTimeout(timer);
+    saveGame({ score, best, active });
+    setPanel(`${howToPlay()}${status(running ? gt("whacking") : gt("ready"), gt("scoreBest", { score, best }))}
+      <div class="grid whack-grid">${Array.from({ length: 16 }, (_, i) => `<button class="cell whack-cell ${running && i === active ? "active" : ""}" data-i="${i}" type="button">${running && i === active ? "!" : ""}</button>`).join("")}</div>
+      <div class="choices"><button class="choice-button" id="whack-start" type="button">${gt("start")}</button></div>`);
+    panel.querySelector("#whack-start").addEventListener("click", () => {
+      score = 0;
+      running = true;
+      endsAt = Date.now() + 15000;
+      jump();
+      draw();
+      timer = setTimeout(tick, 700);
+    });
+    panel.querySelectorAll(".whack-cell").forEach((button) => button.addEventListener("click", () => {
+      if (!running || Number(button.dataset.i) !== active) return;
+      score += 1;
+      jump();
+      draw();
+      timer = setTimeout(tick, 700);
+    }));
+    if (running) timer = setTimeout(tick, 700);
+  };
+  draw();
+}
+
+function renderMazeRunner(fresh = false) {
+  const rows = [
+    "#########",
+    "#S  #   #",
+    "# # # # #",
+    "# #   # #",
+    "# ### # #",
+    "#     #E#",
+    "#########",
+  ];
+  const saved = fresh ? null : loadGameSave();
+  let player = saved?.player || { r: 1, c: 1 };
+  let moves = saved?.moves || 0;
+  let text = saved?.text || "findExit";
+  const move = (dr, dc) => {
+    const next = { r: player.r + dr, c: player.c + dc };
+    const cell = rows[next.r]?.[next.c];
+    if (!cell || cell === "#") return;
+    player = next;
+    moves += 1;
+    if (cell === "E") text = "escaped";
+    draw();
+  };
+  const draw = () => {
+    saveGame({ player, moves, text });
+    setPanel(`${howToPlay()}${status(gt(text), gt("moves", { count: moves }))}
+      <div class="maze-board" style="grid-template-columns:repeat(${rows[0].length},minmax(0,1fr))">${rows.flatMap((row, r) => row.split("").map((cell, c) => `<span class="maze-cell ${cell === "#" ? "wall" : ""} ${cell === "E" ? "exit" : ""}">${player.r === r && player.c === c ? "P" : cell === "S" ? "" : cell}</span>`)).join("")}</div>
+      <div class="pad"><button class="cell" data-move="-1,0">↑</button><button class="cell" data-move="0,-1">←</button><button class="cell" data-move="1,0">↓</button><button class="cell" data-move="0,1">→</button></div>`);
+    panel.querySelectorAll("[data-move]").forEach((button) => button.addEventListener("click", () => {
+      const [dr, dc] = button.dataset.move.split(",").map(Number);
+      move(dr, dc);
+    }));
+  };
+  window.onkeydown = (event) => {
+    const keys = { ArrowUp: [-1, 0], w: [-1, 0], ArrowDown: [1, 0], s: [1, 0], ArrowLeft: [0, -1], a: [0, -1], ArrowRight: [0, 1], d: [0, 1] };
+    if (!keys[event.key]) return;
+    event.preventDefault();
+    move(...keys[event.key]);
+  };
+  draw();
+}
+
+function renderColorMatch(fresh = false) {
+  const colors = [
+    ["Teal", "#009c9a"],
+    ["Coral", "#ff6b62"],
+    ["Gold", "#e4b34c"],
+    ["Green", "#60c47c"],
+    ["Blue", "#6c9cff"],
+  ];
+  const saved = fresh ? null : loadGameSave();
+  let streak = saved?.streak || 0;
+  let best = saved?.best || 0;
+  let answer = saved?.answer || colors[Math.floor(Math.random() * colors.length)][0];
+  let text = saved?.text || "choose";
+  const next = () => { answer = colors[Math.floor(Math.random() * colors.length)][0]; };
+  const choose = (value) => {
+    if (value === answer) {
+      streak += 1;
+      best = Math.max(best, streak);
+      text = "correct";
+    } else {
+      streak = 0;
+      text = gt("itWas", { answer });
+    }
+    next();
+    draw();
+  };
+  const draw = () => {
+    saveGame({ streak, best, answer, text });
+    const swatch = colors.find(([name]) => name === answer)?.[1] || "#fff";
+    setPanel(`${howToPlay()}${status(gt(text), gt("streakBest", { streak, best }))}
+      <div class="color-card" style="background:${swatch}"></div>
+      <div class="choices">${colors.map(([name]) => `<button class="choice-button" data-color="${name}" type="button">${name}</button>`).join("")}</div>`);
+    panel.querySelectorAll("[data-color]").forEach((button) => button.addEventListener("click", () => choose(button.dataset.color)));
+  };
+  draw();
+}
+
+function renderMathRush(fresh = false) {
+  const saved = fresh ? null : loadGameSave();
+  let score = fresh ? 0 : saved?.score || 0;
+  let round = fresh ? 1 : saved?.round || 1;
+  let problem = saved?.problem || makeMathProblem();
+  let text = saved?.text || "choose";
+  const answer = (value) => {
+    if (round > 10) return;
+    if (Number(value) === problem.answer) {
+      score += 1;
+      text = "correct";
+    } else {
+      text = gt("answerIs", { answer: problem.answer });
+    }
+    round += 1;
+    problem = makeMathProblem();
+    draw();
+  };
+  const draw = () => {
+    saveGame({ score, round, problem, text });
+    setPanel(`${howToPlay()}${status(round > 10 ? gt("finished") : gt(text), gt("score10", { score }))}
+      <div class="math-problem">${round > 10 ? gt("gameOver") : problem.text}</div>
+      <div class="choices">${problem.choices.map((choice) => `<button class="choice-button" data-answer="${choice}" type="button" ${round > 10 ? "disabled" : ""}>${choice}</button>`).join("")}</div>`);
+    panel.querySelectorAll("[data-answer]").forEach((button) => button.addEventListener("click", () => answer(button.dataset.answer)));
+  };
+  draw();
+}
+
+function makeMathProblem() {
+  const a = Math.floor(Math.random() * 12) + 1;
+  const b = Math.floor(Math.random() * 12) + 1;
+  const op = Math.random() < 0.5 ? "+" : "x";
+  const answer = op === "+" ? a + b : a * b;
+  const choices = new Set([answer]);
+  while (choices.size < 4) choices.add(Math.max(1, answer + Math.floor(Math.random() * 15) - 7));
+  return { text: `${a} ${op} ${b}`, answer, choices: [...choices].sort(() => Math.random() - 0.5) };
 }

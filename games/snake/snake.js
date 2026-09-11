@@ -6,6 +6,27 @@ const statusEl = document.querySelector("#status");
 const overlay = document.querySelector("#overlay");
 const pauseButton = document.querySelector("#pause");
 
+const snakeText = {
+  en: { games: "Games", home: "Home", muyeGames: "Muye games", score: "Score", width: "Width", height: "Height", apples: "Max apples", bombs: "Max bombs", aiSnakes: "AI snakes", ticks: "Ticks", aiMode: "AI mode", start: "Start", ready: "Ready", help: "Use arrow keys, WASD, swipe, or AI mode.", pressStart: "Press Start to play.", pause: "Pause", resume: "Resume", paused: "Paused", pausedHelp: "Press Resume to continue.", playing: "Playing.", aiPlaying: "AI mode playing.", gameOver: "Game over", gameOverHelp: "AI snakes keep playing. Press Start to try again.", gameOverStatus: "Game over. AI snakes still playing." },
+  zh: { games: "游戏", home: "主页", muyeGames: "Muye 游戏", score: "分数", width: "宽度", height: "高度", apples: "最多苹果", bombs: "最多炸弹", aiSnakes: "AI 蛇", ticks: "速度", aiMode: "AI 模式", start: "开始", ready: "准备好了", help: "使用方向键、WASD、滑动，或开启 AI 模式。", pressStart: "按开始来玩。", pause: "暂停", resume: "继续", paused: "已暂停", pausedHelp: "按继续来恢复。", playing: "进行中。", aiPlaying: "AI 模式进行中。", gameOver: "游戏结束", gameOverHelp: "AI 蛇会继续玩。按开始再试一次。", gameOverStatus: "游戏结束。AI 蛇仍在玩。" },
+};
+["ja", "ko", "es", "fr", "de", "pt", "ru", "ar"].forEach((code) => { snakeText[code] = snakeText.en; });
+
+function snakeLang() {
+  const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";
+  return snakeText[saved] ? saved : "en";
+}
+
+function st(key) {
+  return snakeText[snakeLang()]?.[key] || snakeText.en[key] || key;
+}
+
+function applySnakeLanguage() {
+  document.documentElement.lang = snakeLang();
+  document.documentElement.dir = snakeLang() === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-snake-i18n]").forEach((node) => { node.textContent = st(node.dataset.snakeI18n); });
+}
+
 const dirs = {
   ArrowUp: { x: 0, y: -1 },
   KeyW: { x: 0, y: -1 },
@@ -122,7 +143,7 @@ function startGame() {
   fillItems(state.apples, appleMax, occupied());
   scoreEl.textContent = "0";
   overlay.hidden = true;
-  statusEl.textContent = playerAi ? "AI mode playing." : "Playing.";
+  statusEl.textContent = playerAi ? st("aiPlaying") : st("playing");
   draw();
   clearInterval(timer);
   timer = setInterval(tick, ticks);
@@ -248,9 +269,9 @@ function tick() {
   if (!state.player.alive && !state.announcedPlayerLoss) {
     state.announcedPlayerLoss = true;
     overlay.hidden = false;
-    overlay.querySelector("strong").textContent = "Game over";
-    overlay.querySelector("span").textContent = "AI snakes keep playing. Press Start to try again.";
-    statusEl.textContent = "Game over. AI snakes still playing.";
+    overlay.querySelector("strong").textContent = st("gameOver");
+    overlay.querySelector("span").textContent = st("gameOverHelp");
+    statusEl.textContent = st("gameOverStatus");
   }
   draw();
 }
@@ -311,11 +332,11 @@ form.addEventListener("submit", (event) => {
 pauseButton.addEventListener("click", () => {
   if (!state || state.over) return;
   state.paused = !state.paused;
-  pauseButton.textContent = state.paused ? "Resume" : "Pause";
+  pauseButton.textContent = state.paused ? st("resume") : st("pause");
   overlay.hidden = !state.paused;
-  overlay.querySelector("strong").textContent = "Paused";
-  overlay.querySelector("span").textContent = "Press Resume to continue.";
-  statusEl.textContent = state.paused ? "Paused." : "Playing.";
+  overlay.querySelector("strong").textContent = st("paused");
+  overlay.querySelector("span").textContent = st("pausedHelp");
+  statusEl.textContent = state.paused ? `${st("paused")}.` : st("playing");
 });
 
 window.addEventListener("keydown", (event) => {
@@ -354,4 +375,5 @@ canvas.addEventListener("pointercancel", () => {
   swipeStart = null;
 });
 
+applySnakeLanguage();
 draw();

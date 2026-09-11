@@ -45,8 +45,106 @@ const gameText = {
   zh: {
     games: "游戏", home: "主页", game: "游戏", play: "开玩", intro: "适合触屏的经典、益智、记忆和棋盘小游戏。每个游戏页都会说明规则，并为当前用户在这个浏览器保存进度。", featured: "推荐", snakeTitle: "贪吃蛇实验室", snakeDescription: "带更多控制的经典贪吃蛇", snakeDetail: "可配置的完整贪吃蛇模式", action: "动作", strategy: "策略", puzzle: "益智", word: "文字", classic: "经典", memory: "记忆", challenge: "挑战", allGames: "所有游戏", newGame: "新游戏", howToPlay: "怎么玩", savedAccount: "已为你的账户保存在这个浏览器", savedDevice: "已保存在这个设备", playing: "进行中", matched: "已配对", cleared: "已清空", solved: "已解出", missed: "失败了", guessing: "猜测中", chooseOne: "选一个", instantRound: "即时一局", personalRecord: "新的个人记录", globalRecord: "新的全站记录", rock: "石头", paper: "布", scissors: "剪刀", rpsResult: "{result}。你选了 {you}；游戏选了 {them}。", youWin: "你赢了", youLose: "你输了", draw: "平局", yourTurn: "你的回合", dealerWins: "庄家赢了", closest21: "尽量接近 21", dealer: "庄家", you: "你", hit: "要牌", stand: "停牌", filling: "填写中", tapCell: "点格子", twoPlayers: "双人游戏", findPairs: "找对子", turnLightsOff: "关掉所有灯", fiveLetters: "五个字母", try: "试试", findFleet: "找到舰队", compactBoard: "小棋盘", simplifiedBoard: "来自秘密游戏合集的简化 {game} 棋盘，适合手机和平板。", blackTurn: "黑方回合", whiteTurn: "白方回合", sliding: "滑动中", order15: "把 1 到 15 排回顺序", ready: "准备好了", correct: "正确", keepGoing: "继续", round: "第 {count} 轮", startPattern: "开始一个序列", pattern: "序列：{count}", higher: "更大", lower: "更小", foundIt: "找到了", guesses: "已猜 {count} 次", guessesList: "猜过：{list}", noGuesses: "还没有猜。", chance: "机会", quickPicker: "快速随机", flipCoin: "抛硬币", rollDice: "掷骰子", heads: "正面", tails: "反面", noBest: "还没有最佳", bestMs: "最佳 {best}ms", tap: "点！", wait: "等待...", start: "开始", waitGreen: "等绿色", tapNow: "现在点", tooEarly: "太早了", running: "运行中", scoreBest: "分数 {score} · 最佳 {best}", whacking: "敲打中", findExit: "找到出口", escaped: "逃出去了", moves: "{count} 步", choose: "选择", streakBest: "连对 {streak} · 最佳 {best}", itWas: "答案是 {answer}", score10: "分数 {score}/10", answerIs: "答案：{answer}", gameOver: "游戏结束", finished: "完成", boom: "爆了", noMoves: "没有可走步数", reached2048: "到达 2048", swipeArrows: "滑动或点箭头", revealFlag: "点开，右键或长按插旗", redTurn: "红方回合", yellowTurn: "黄方回合", redWins: "红方赢了", yellowWins: "黄方赢了", xTurn: "X 回合", oTurn: "O 回合", wins: "{mark} 赢了", missesLeft: "还可错 {count} 次",
   },
+  ja: {
+    "pattern-grid": { title: "パターングリッド", type: "記憶", description: "光ったマスを覚えます。", how: ["スタートで小さなパターンを表示します。", "隠れたら同じマスをタップします。", "クリアするたびにマスが1つ増えます。"] },
+    "word-scramble": { title: "文字ならべ", type: "単語", description: "短い単語を元に戻します。", how: ["シャッフルされた文字を見ます。", "元の単語を入力します。", "新しいゲームで別の単語にできます。"] },
+    "tile-stack": { title: "タイル整列", type: "パズル", description: "同じ記号を落ち着いてそろえます。", how: ["2つのタイルをタップして交換します。", "同じ記号を列にまとめます。", "交換するたびに保存されます。"] },
+    "safe-cracker": { title: "金庫コード", type: "パズル", description: "ヒントから3桁のコードを探します。", how: ["3つの数字を入力します。", "緑は数字も場所も正解です。", "金は数字は正しく場所が違います。"] },
+    "odd-one-out": { title: "ひとつだけ違う", type: "パズル", description: "1つだけ違う記号を見つけます。", how: ["グリッドを見ます。", "1回だけ出る記号をタップします。", "選ぶたびに新しい盤面になります。"] },
+    "path-builder": { title: "道づくり", type: "パズル", description: "スタートから出口まで道をつなぎます。", how: ["隣のマスをタップして道を伸ばします。", "飛び越えず出口へ進みます。", "新しいゲームで道を消せます。"] },
+    "emoji-sequence": { title: "絵文字シーケンス", type: "記憶", description: "長くなる絵文字の順番を繰り返します。", how: ["シーケンスを開始します。", "表示された絵文字を覚えます。", "同じ順番でタップします。"] },
+    "balance-scale": { title: "バランスはかり", type: "パズル", description: "小さなおもりで左右を同じ重さにします。", how: ["おもりをタップして左右へ動かします。", "両側を同じ重さにします。", "今の状態は保存されます。"] },
+    "mini-piano": { title: "ミニピアノ", type: "記憶", description: "短いメロディを弾き返します。", how: ["メロディを開始します。", "光る音を見ます。", "同じ順番でタップします。"] },
+    "shape-sort": { title: "形分け", type: "パズル", description: "形を合う箱に分けます。", how: ["形をタップして選びます。", "合う箱をタップします。", "自分のペースで全部片付けます。"] },
+  },
+  ko: {
+    "pattern-grid": { title: "패턴 그리드", type: "기억", description: "빛난 칸을 기억하세요.", how: ["시작을 눌러 작은 패턴을 봅니다.", "사라진 뒤 같은 칸을 누릅니다.", "성공할 때마다 칸이 하나 늘어납니다."] },
+    "word-scramble": { title: "단어 섞기", type: "단어", description: "짧은 단어를 다시 맞춥니다.", how: ["섞인 글자를 봅니다.", "원래 단어를 입력합니다.", "새 게임으로 다른 단어를 받습니다."] },
+    "tile-stack": { title: "타일 쌓기", type: "퍼즐", description: "같은 기호를 차분히 모읍니다.", how: ["타일 두 개를 눌러 바꿉니다.", "같은 기호를 줄로 모읍니다.", "바꿀 때마다 저장됩니다."] },
+    "safe-cracker": { title: "금고 암호", type: "퍼즐", description: "힌트로 세 자리 암호를 찾습니다.", how: ["숫자 세 개를 입력합니다.", "초록 점은 숫자와 위치가 맞습니다.", "금색 점은 숫자는 맞고 위치가 다릅니다."] },
+    "odd-one-out": { title: "다른 하나 찾기", type: "퍼즐", description: "하나만 다른 기호를 찾습니다.", how: ["격자를 살펴봅니다.", "한 번만 나온 기호를 누릅니다.", "선택하면 새 판이 나옵니다."] },
+    "path-builder": { title: "길 만들기", type: "퍼즐", description: "시작에서 출구까지 길을 그립니다.", how: ["이웃한 칸을 눌러 길을 늘립니다.", "건너뛰지 말고 출구에 닿으세요.", "새 게임으로 길을 지웁니다."] },
+    "emoji-sequence": { title: "이모지 순서", type: "기억", description: "길어지는 이모지 순서를 반복합니다.", how: ["순서 시작을 누릅니다.", "보이는 이모지를 기억합니다.", "같은 순서로 다시 누릅니다."] },
+    "balance-scale": { title: "저울 맞추기", type: "퍼즐", description: "작은 추로 양쪽을 맞춥니다.", how: ["추를 눌러 왼쪽이나 오른쪽으로 옮깁니다.", "양쪽 무게를 같게 만듭니다.", "현재 저울은 저장됩니다."] },
+    "mini-piano": { title: "미니 피아노", type: "기억", description: "짧은 멜로디를 다시 연주합니다.", how: ["멜로디 시작을 누릅니다.", "빛나는 음을 봅니다.", "같은 순서로 누릅니다."] },
+    "shape-sort": { title: "도형 분류", type: "퍼즐", description: "도형을 맞는 상자에 넣습니다.", how: ["도형을 눌러 선택합니다.", "맞는 상자를 누릅니다.", "천천히 모두 정리합니다."] },
+  },
+  es: {
+    "pattern-grid": { title: "Cuadrícula de patrones", type: "Memoria", description: "Recuerda las casillas iluminadas.", how: ["Pulsa Inicio para ver un patrón.", "Cuando se oculte, toca las mismas casillas.", "Cada ronda añade una casilla."] },
+    "word-scramble": { title: "Palabra mezclada", type: "Palabras", description: "Ordena una palabra pequeña.", how: ["Mira las letras mezcladas.", "Escribe la palabra original.", "Usa Nuevo juego para otra palabra."] },
+    "tile-stack": { title: "Pila de fichas", type: "Puzzle", description: "Agrupa fichas iguales en columnas tranquilas.", how: ["Toca dos fichas para cambiarlas.", "Agrupa símbolos iguales en columnas.", "El tablero se guarda tras cada cambio."] },
+    "safe-cracker": { title: "Caja fuerte", type: "Puzzle", description: "Encuentra el código de tres dígitos con pistas.", how: ["Escribe tres dígitos.", "Los puntos verdes son aciertos exactos.", "Los dorados son dígitos correctos en otro lugar."] },
+    "odd-one-out": { title: "El diferente", type: "Puzzle", description: "Encuentra el símbolo que es distinto.", how: ["Revisa la cuadrícula.", "Toca el símbolo que aparece una vez.", "Sale un tablero nuevo tras elegir."] },
+    "path-builder": { title: "Constructor de caminos", type: "Puzzle", description: "Dibuja un camino desde inicio hasta salida.", how: ["Toca casillas vecinas para extender el camino.", "Llega a la salida sin saltar.", "Nuevo juego limpia la ruta."] },
+    "emoji-sequence": { title: "Secuencia emoji", type: "Memoria", description: "Repite un orden de emojis cada vez mayor.", how: ["Pulsa Iniciar secuencia.", "Lee los emojis mostrados.", "Tócalos en el mismo orden."] },
+    "balance-scale": { title: "Balanza", type: "Puzzle", description: "Equilibra dos lados con pesas pequeñas.", how: ["Toca pesas para moverlas a izquierda o derecha.", "Haz que ambos lados pesen igual.", "La balanza actual se guarda."] },
+    "mini-piano": { title: "Mini piano", type: "Memoria", description: "Repite una melodía corta.", how: ["Pulsa Iniciar melodía.", "Mira las notas iluminadas.", "Toca las mismas notas."] },
+    "shape-sort": { title: "Ordenar formas", type: "Puzzle", description: "Pon cada forma en su caja.", how: ["Toca una forma para tomarla.", "Toca la caja correcta.", "Limpia todas a tu ritmo."] },
+  },
+  fr: {
+    "pattern-grid": { title: "Grille de motifs", type: "Mémoire", description: "Mémorise les cases allumées.", how: ["Appuie sur Démarrer pour voir un motif.", "Quand il disparaît, touche les mêmes cases.", "Chaque réussite ajoute une case."] },
+    "word-scramble": { title: "Mot mélangé", type: "Mots", description: "Remets un petit mot dans l'ordre.", how: ["Regarde les lettres mélangées.", "Tape le mot d'origine.", "Nouveau jeu donne un autre mot."] },
+    "tile-stack": { title: "Pile de tuiles", type: "Puzzle", description: "Range les tuiles identiques en colonnes.", how: ["Touche deux tuiles pour les échanger.", "Regroupe les mêmes symboles.", "Le plateau est sauvegardé après chaque échange."] },
+    "safe-cracker": { title: "Coffre-fort", type: "Puzzle", description: "Trouve le code à trois chiffres avec des indices.", how: ["Entre trois chiffres.", "Les points verts sont au bon endroit.", "Les points dorés sont les bons chiffres ailleurs."] },
+    "odd-one-out": { title: "L'intrus", type: "Puzzle", description: "Repère le symbole différent.", how: ["Observe la grille.", "Touche le symbole qui apparaît une seule fois.", "Un nouveau plateau apparaît après chaque choix."] },
+    "path-builder": { title: "Traceur de chemin", type: "Puzzle", description: "Trace un chemin du départ à la sortie.", how: ["Touche des cases voisines pour avancer.", "Atteins la sortie sans sauter.", "Nouveau jeu efface le trajet."] },
+    "emoji-sequence": { title: "Suite d'emojis", type: "Mémoire", description: "Répète une suite d'emojis qui grandit.", how: ["Lance la séquence.", "Lis les emojis affichés.", "Retouche-les dans le même ordre."] },
+    "balance-scale": { title: "Balance", type: "Puzzle", description: "Équilibre deux côtés avec de petits poids.", how: ["Touche les poids pour les déplacer.", "Fais peser les deux côtés pareil.", "La balance actuelle est sauvegardée."] },
+    "mini-piano": { title: "Mini piano", type: "Mémoire", description: "Rejoue une courte mélodie.", how: ["Lance la mélodie.", "Regarde les notes allumées.", "Touche les mêmes notes."] },
+    "shape-sort": { title: "Tri de formes", type: "Puzzle", description: "Range les formes dans les bons bacs.", how: ["Touche une forme pour la choisir.", "Touche le bac correspondant.", "Vide tout à ton rythme."] },
+  },
+  de: {
+    "pattern-grid": { title: "Mustergitter", type: "Gedächtnis", description: "Merke dir die leuchtenden Felder.", how: ["Tippe Start, um ein Muster zu sehen.", "Wenn es verschwindet, tippe dieselben Felder.", "Jede Runde kommt ein Feld dazu."] },
+    "word-scramble": { title: "Wortsalat", type: "Wörter", description: "Setze ein kurzes Wort zusammen.", how: ["Sieh dir die gemischten Buchstaben an.", "Gib das ursprüngliche Wort ein.", "Neues Spiel bringt ein anderes Wort."] },
+    "tile-stack": { title: "Kacheln stapeln", type: "Puzzle", description: "Ordne gleiche Kacheln in ruhige Spalten.", how: ["Tippe zwei Kacheln zum Tauschen.", "Gruppiere gleiche Symbole in Spalten.", "Nach jedem Tausch wird gespeichert."] },
+    "safe-cracker": { title: "Tresorknacker", type: "Puzzle", description: "Finde den dreistelligen Code mit Hinweisen.", how: ["Gib drei Ziffern ein.", "Grüne Punkte sind exakt richtig.", "Goldene Punkte sind richtige Ziffern am falschen Platz."] },
+    "odd-one-out": { title: "Der Ausreißer", type: "Puzzle", description: "Finde das eine andere Symbol.", how: ["Scanne das Gitter.", "Tippe das Symbol, das nur einmal erscheint.", "Nach jeder Wahl kommt ein neues Feld."] },
+    "path-builder": { title: "Pfadbauer", type: "Puzzle", description: "Zeichne einen Weg vom Start zum Ausgang.", how: ["Tippe Nachbarfelder, um den Weg zu verlängern.", "Erreiche den Ausgang ohne Sprünge.", "Neues Spiel löscht die Route."] },
+    "emoji-sequence": { title: "Emoji-Folge", type: "Gedächtnis", description: "Wiederhole eine wachsende Emoji-Reihenfolge.", how: ["Starte die Folge.", "Merke dir die gezeigten Emojis.", "Tippe sie in derselben Reihenfolge."] },
+    "balance-scale": { title: "Waage", type: "Puzzle", description: "Bringe beide Seiten mit kleinen Gewichten ins Gleichgewicht.", how: ["Tippe Gewichte, um sie links oder rechts zu bewegen.", "Mache beide Seiten gleich schwer.", "Die aktuelle Waage wird gespeichert."] },
+    "mini-piano": { title: "Mini-Klavier", type: "Gedächtnis", description: "Spiele eine kurze Melodie nach.", how: ["Starte die Melodie.", "Achte auf die leuchtenden Noten.", "Tippe dieselben Noten zurück."] },
+    "shape-sort": { title: "Formen sortieren", type: "Puzzle", description: "Sortiere Formen in passende Behälter.", how: ["Tippe eine Form, um sie zu nehmen.", "Tippe den passenden Behälter.", "Räume alles in deinem Tempo auf."] },
+  },
+  pt: {
+    "pattern-grid": { title: "Grade de padrões", type: "Memória", description: "Memorize os quadrados acesos.", how: ["Toque em Iniciar para ver um padrão.", "Quando sumir, toque nos mesmos quadrados.", "Cada rodada adiciona mais um quadrado."] },
+    "word-scramble": { title: "Palavra embaralhada", type: "Palavras", description: "Desembaralhe uma palavra pequena.", how: ["Veja as letras misturadas.", "Digite a palavra original.", "Use Novo jogo para outra palavra."] },
+    "tile-stack": { title: "Pilha de peças", type: "Puzzle", description: "Junte peças iguais em colunas.", how: ["Toque em duas peças para trocar.", "Agrupe símbolos iguais em colunas.", "O tabuleiro salva após cada troca."] },
+    "safe-cracker": { title: "Cofre", type: "Puzzle", description: "Ache o código de três dígitos com pistas.", how: ["Digite três dígitos.", "Pontos verdes são acertos exatos.", "Pontos dourados são dígitos certos no lugar errado."] },
+    "odd-one-out": { title: "O diferente", type: "Puzzle", description: "Encontre o único símbolo diferente.", how: ["Observe a grade.", "Toque no símbolo que aparece uma vez.", "Um novo tabuleiro surge após escolher."] },
+    "path-builder": { title: "Construtor de caminho", type: "Puzzle", description: "Desenhe um caminho do início à saída.", how: ["Toque em células vizinhas para estender o caminho.", "Chegue à saída sem pular.", "Novo jogo limpa a rota."] },
+    "emoji-sequence": { title: "Sequência de emojis", type: "Memória", description: "Repita uma ordem de emojis que cresce.", how: ["Inicie a sequência.", "Leia os emojis mostrados.", "Toque neles na mesma ordem."] },
+    "balance-scale": { title: "Balança", type: "Puzzle", description: "Equilibre os dois lados com pesos pequenos.", how: ["Toque nos pesos para mover à esquerda ou direita.", "Deixe os dois lados iguais.", "A balança atual é salva."] },
+    "mini-piano": { title: "Mini piano", type: "Memória", description: "Repita uma melodia curta.", how: ["Inicie a melodia.", "Veja as notas acesas.", "Toque as mesmas notas."] },
+    "shape-sort": { title: "Separar formas", type: "Puzzle", description: "Coloque formas nas caixas certas.", how: ["Toque numa forma para pegar.", "Toque na caixa correspondente.", "Limpe tudo no seu ritmo."] },
+  },
+  ru: {
+    "pattern-grid": { title: "Сетка узора", type: "Память", description: "Запомни подсвеченные клетки.", how: ["Нажми Старт, чтобы увидеть узор.", "Когда он исчезнет, нажми те же клетки.", "Каждый раунд добавляет одну клетку."] },
+    "word-scramble": { title: "Слово вперемешку", type: "Слова", description: "Собери короткое слово.", how: ["Посмотри на перемешанные буквы.", "Введи исходное слово.", "Новая игра даст другое слово."] },
+    "tile-stack": { title: "Стопка плиток", type: "Головоломка", description: "Собери одинаковые плитки в спокойные столбцы.", how: ["Нажми две плитки, чтобы поменять их.", "Собери одинаковые символы в столбцы.", "Доска сохраняется после каждого обмена."] },
+    "safe-cracker": { title: "Взлом сейфа", type: "Головоломка", description: "Найди трехзначный код по подсказкам.", how: ["Введи три цифры.", "Зеленые точки — точное совпадение.", "Золотые точки — цифра верная, место нет."] },
+    "odd-one-out": { title: "Лишний символ", type: "Головоломка", description: "Найди единственный другой символ.", how: ["Осмотри сетку.", "Нажми символ, который встречается один раз.", "После выбора появится новая доска."] },
+    "path-builder": { title: "Строитель пути", type: "Головоломка", description: "Проведи путь от старта к выходу.", how: ["Нажимай соседние клетки, чтобы продолжить путь.", "Дойди до выхода без прыжков.", "Новая игра очистит маршрут."] },
+    "emoji-sequence": { title: "Цепочка эмодзи", type: "Память", description: "Повтори растущую последовательность эмодзи.", how: ["Запусти последовательность.", "Запомни показанные эмодзи.", "Нажми их в том же порядке."] },
+    "balance-scale": { title: "Весы", type: "Головоломка", description: "Уравновесь две стороны маленькими грузами.", how: ["Нажимай грузы, чтобы двигать их влево или вправо.", "Сделай стороны равными.", "Текущие весы сохраняются."] },
+    "mini-piano": { title: "Мини-пианино", type: "Память", description: "Повтори короткую мелодию.", how: ["Запусти мелодию.", "Следи за светящимися нотами.", "Нажми те же ноты."] },
+    "shape-sort": { title: "Сортировка фигур", type: "Головоломка", description: "Разложи фигуры по подходящим ящикам.", how: ["Нажми фигуру, чтобы взять ее.", "Нажми подходящий ящик.", "Очисти все в своем темпе."] },
+  },
+  ar: {
+    "pattern-grid": { title: "شبكة النمط", type: "ذاكرة", description: "تذكر المربعات المضيئة.", how: ["اضغط بدء لعرض نمط صغير.", "بعد اختفائه، اضغط المربعات نفسها.", "كل جولة ناجحة تضيف مربعا."] },
+    "word-scramble": { title: "كلمة مبعثرة", type: "كلمات", description: "رتب كلمة صغيرة من جديد.", how: ["انظر إلى الحروف المبعثرة.", "اكتب الكلمة الأصلية.", "استخدم لعبة جديدة لكلمة أخرى."] },
+    "tile-stack": { title: "رص البلاطات", type: "لغز", description: "اجمع الرموز المتشابهة في أعمدة هادئة.", how: ["اضغط بلاطتين لتبديلهما.", "اجمع الرموز المتشابهة في أعمدة.", "يتم حفظ اللوحة بعد كل تبديل."] },
+    "safe-cracker": { title: "فاتح الخزنة", type: "لغز", description: "اعثر على رمز من ثلاثة أرقام بالتلميحات.", how: ["أدخل ثلاثة أرقام.", "النقاط الخضراء تعني رقما ومكانا صحيحين.", "النقاط الذهبية تعني رقما صحيحا في مكان خاطئ."] },
+    "odd-one-out": { title: "المختلف", type: "لغز", description: "اعثر على الرمز المختلف الوحيد.", how: ["افحص الشبكة.", "اضغط الرمز الذي يظهر مرة واحدة فقط.", "تظهر لوحة جديدة بعد كل اختيار."] },
+    "path-builder": { title: "باني الطريق", type: "لغز", description: "ارسم طريقا من البداية إلى المخرج.", how: ["اضغط الخلايا المجاورة لتمديد الطريق.", "صل إلى المخرج بلا قفز.", "لعبة جديدة تمسح الطريق."] },
+    "emoji-sequence": { title: "تسلسل الرموز", type: "ذاكرة", description: "كرر ترتيب رموز يزداد طولا.", how: ["ابدأ التسلسل.", "تذكر الرموز المعروضة.", "اضغطها بالترتيب نفسه."] },
+    "balance-scale": { title: "ميزان", type: "لغز", description: "وازن الجانبين بأوزان صغيرة.", how: ["اضغط الأوزان لنقلها يمينا أو يسارا.", "اجعل الجانبين متساويين.", "يتم حفظ الميزان الحالي."] },
+    "mini-piano": { title: "بيانو صغير", type: "ذاكرة", description: "أعد عزف لحن قصير.", how: ["ابدأ اللحن.", "راقب النغمات المضيئة.", "اضغط النغمات نفسها."] },
+    "shape-sort": { title: "فرز الأشكال", type: "لغز", description: "ضع الأشكال في الصناديق المناسبة.", how: ["اضغط شكلا لاختياره.", "اضغط الصندوق المطابق.", "أنهِ كل الأشكال على مهلك."] },
+  },
 };
-["ja", "ko", "es", "fr", "de", "pt", "ru", "ar"].forEach((code) => { gameText[code] = gameText.en; });
+["ja", "ko", "es", "fr", "de", "pt", "ru", "ar"].forEach((code) => {
+  gameText[code] = { ...gameText.en, ...(gameText[code] || {}) };
+});
 
 const gameTranslations = {
   zh: {
@@ -100,7 +198,7 @@ function gt(key, data = {}) {
 }
 
 function localGame(slugValue) {
-  return { ...games[slugValue], ...(gameTranslations[currentLang()]?.[slugValue] || {}) };
+  return { ...games[slugValue], ...(gameText[currentLang()]?.[slugValue] || {}), ...(gameTranslations[currentLang()]?.[slugValue] || {}) };
 }
 
 function translateGamesHome() {

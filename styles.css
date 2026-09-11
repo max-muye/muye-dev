@@ -64,6 +64,63 @@ footer a:hover {
   color: var(--accent-strong);
 }
 
+.language-switcher {
+  position: relative;
+}
+
+.language-button {
+  width: 40px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0;
+  background: rgba(248, 244, 234, 0.08);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.language-button:hover,
+.language-button:focus-visible {
+  border-color: rgba(242, 189, 121, 0.52);
+  outline: none;
+}
+
+.language-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 190px;
+  max-height: min(420px, calc(100vh - 96px));
+  overflow: auto;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(16, 21, 20, 0.96);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(18px);
+}
+
+.language-option {
+  width: 100%;
+  min-height: 34px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 10px;
+  color: var(--muted);
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.language-option:hover,
+.language-option[aria-selected="true"] {
+  color: var(--ink);
+  background: rgba(248, 244, 234, 0.1);
+}
+
 .nav-greeting {
   color: var(--ink);
   font-size: 14px;

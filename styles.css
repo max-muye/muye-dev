@@ -21,9 +21,19 @@ html {
 }
 
 body {
+  min-height: 100svh;
   margin: 0;
   background: var(--bg);
   color: var(--ink);
+}
+
+body:not(.mailbox-page) {
+  display: flex;
+  flex-direction: column;
+}
+
+body:not(.mailbox-page) > main {
+  flex: 1 0 auto;
 }
 
 a {
@@ -479,6 +489,7 @@ h3 {
 }
 
 footer {
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   gap: 16px;
@@ -489,10 +500,6 @@ footer {
 
 footer p {
   margin: 0;
-}
-
-.note-page {
-  min-height: 100svh;
 }
 
 .note-shell {

@@ -32,6 +32,7 @@
         </ul>
 
         <h2>Deploy Notes</h2>
+        <p><strong>September 11, 2026:</strong> Updated the shared page layout so footers stay at the bottom on short pages.</p>
         <p><strong>September 11, 2026:</strong> Changed the master language switch to a reliable HTML mark with a big <code>A</code> and small <code>中</code>.</p>
         <p><strong>September 11, 2026:</strong> Added the master <code>中A</code> language switch with 10 language choices, and made LocalTalk follow it instead of using its own 中/EN buttons.</p>
         <p><strong>September 11, 2026:</strong> Notes were simplified into this single page, with old note pages removed. The mailbox recovery flow was also made email-only, with the phone/SMS path removed.</p>
@@ -41,5 +42,10 @@
         <p>The site should feel like a small operating system for Muye: useful first, quiet by default, and easy to install on a phone or iPad.</p>
       </article>
     </main>
+    <footer>
+      <p>© <span id="year"></span> Muye. Built for Cloudflare Pages.</p>
+      <a href="mailto:muye@muye.dev">muye@muye.dev</a>
+    </footer>
+    <script>document.querySelector("#year").textContent = new Date().getFullYear();</script>
   </body>
 </html>

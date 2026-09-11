@@ -3,7 +3,51 @@ window.muyeCaptchaCallback = (token) => { muyeCaptchaToken = token; window.muyeC
 const forms = document.querySelectorAll("[data-auth-form]");
 let createEmailOwnerMode = false;
 
+const authText = {
+  en: { home: "Home", createAccount: "Create account", welcomeBack: "Welcome back", signUpTitle: "Sign up", signInTitle: "Sign in to muye.dev", needEmail: "Need a Muye email?", createEmail: "Create email", alreadyHave: "Already have one?", signIn: "Sign in", muyeMail: "Muye mail", requestHint: "Send Muye a short request. No outside email verification is needed.", ownerHint: "Signed in as owner. This will create the mailbox immediately.", email: "Email", request: "Request", requestPlaceholder: "A little text about who this is for and what name you want.", password: "Password", confirmPassword: "Confirm password", show: "Show", hide: "Hide", passwordPlaceholder: "At least 8 characters", confirmPlaceholder: "Enter password again", sendRequest: "Send request", sendCode: "Send code", codeSent: "Code sent", creating: "Creating...", sending: "Sending...", requestSent: "Request sent", emailCreated: "Email created", createCopy: "Create email", enterName: "Enter the Muye email name you want.", enterRecoveryEmail: "Enter your verification email.", enterValidRecoveryEmail: "Enter a valid email address before sending a code.", validName: "Use only letters, numbers, dots, underscores, or hyphens for the email name.", shortRequest: "Write a short request with what you want this email for.", captcha: "Please complete the CAPTCHA.", serviceDown: "The mailbox service could not be reached. Please check your connection and try again.", createFailed: "We could not create that Muye email address.", codeSendFailed: "Could not send the code.", codeSentEmail: "Verification code sent by email.", passwordShort: "Password must be at least 8 characters.", passwordMismatch: "Passwords do not match.", authFailed: "Authentication could not load. Please refresh and try again.", confirmLabel: "Confirm password", missingFieldsSignUp: "Please enter your email and both password fields.", missingFieldsSignIn: "Please enter your email and password.", signInDetails: "Sign-in details received. Connect Clerk to authenticate." },
+  zh: { home: "主页", createAccount: "创建账户", welcomeBack: "欢迎回来", signUpTitle: "注册", signInTitle: "登录 muye.dev", needEmail: "需要 Muye 邮箱？", createEmail: "创建邮箱", alreadyHave: "已经有了？", signIn: "登录", muyeMail: "Muye 邮箱", requestHint: "给 Muye 发送一个短请求。不需要外部邮箱验证。", ownerHint: "已作为站长登录，将立即创建邮箱。", email: "邮箱", request: "请求", requestPlaceholder: "写一点这是谁用、想要什么名字。", password: "密码", confirmPassword: "确认密码", show: "显示", hide: "隐藏", passwordPlaceholder: "至少 8 个字符", confirmPlaceholder: "再次输入密码", sendRequest: "发送请求", sendCode: "发送验证码", codeSent: "验证码已发送", creating: "创建中...", sending: "发送中...", requestSent: "请求已发送", emailCreated: "邮箱已创建", createCopy: "创建邮箱", enterName: "请输入想要的 Muye 邮箱名。", enterRecoveryEmail: "请输入验证邮箱。", enterValidRecoveryEmail: "发送验证码前请输入有效邮箱。", validName: "邮箱名只能使用字母、数字、点、下划线或连字符。", shortRequest: "写一个短请求，说明你想用这个邮箱做什么。", captcha: "请完成人机验证。", serviceDown: "邮箱服务暂时无法连接，请检查网络后重试。", createFailed: "无法创建这个 Muye 邮箱。", codeSendFailed: "无法发送验证码。", codeSentEmail: "验证码已通过邮件发送。", passwordShort: "密码至少需要 8 个字符。", passwordMismatch: "两次密码不一致。", authFailed: "登录组件无法加载，请刷新后重试。", confirmLabel: "确认密码", missingFieldsSignUp: "请输入邮箱和两次密码。", missingFieldsSignIn: "请输入邮箱和密码。", signInDetails: "登录信息已收到，请连接 Clerk 完成登录。" },
+};
+["ja", "ko", "es", "fr", "de", "pt", "ru", "ar"].forEach((code) => { authText[code] = authText.en; });
+
+function authLang() {
+  const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";
+  return authText[saved] ? saved : "en";
+}
+
+function tt(key) {
+  return authText[authLang()]?.[key] || authText.en[key] || key;
+}
+
+function applyAuthLanguage() {
+  document.documentElement.lang = authLang();
+  document.documentElement.dir = authLang() === "ar" ? "rtl" : "ltr";
+  document.querySelector(".home-link") && (document.querySelector(".home-link").textContent = tt("home"));
+  const mode = document.querySelector("[data-clerk-auth]")?.dataset.clerkAuth || document.querySelector("[data-auth-form]")?.dataset.authForm || "";
+  if (mode === "sign-in") {
+    document.querySelector(".eyebrow").textContent = tt("welcomeBack");
+    document.querySelector("#auth-title").textContent = tt("signInTitle");
+  } else if (mode === "sign-up") {
+    document.querySelector(".eyebrow").textContent = tt("createAccount");
+    document.querySelector("#auth-title").textContent = tt("signUpTitle");
+  } else if (mode === "create-email") {
+    document.querySelector(".eyebrow").textContent = tt("muyeMail");
+    document.querySelector("#auth-title").textContent = tt("createEmail");
+    document.querySelector("[data-request-only].field-hint").textContent = tt("requestHint");
+    document.querySelector("[data-owner-only].field-hint").textContent = tt("ownerHint");
+    document.querySelector('[name="emailName"]').closest("label").querySelector("span").textContent = tt("email");
+    document.querySelector('[name="requestText"]').closest("label").querySelector("span").textContent = tt("request");
+    document.querySelector('[name="requestText"]').placeholder = tt("requestPlaceholder");
+    document.querySelector('[name="password"]').placeholder = tt("passwordPlaceholder");
+    document.querySelector('[name="password"]').closest("label").querySelector("span").textContent = tt("password");
+    document.querySelector('[name="passwordConfirm"]').placeholder = tt("confirmPlaceholder");
+    document.querySelector('[name="passwordConfirm"]').closest("label").querySelector("span").textContent = tt("confirmPassword");
+    document.querySelectorAll("[data-password-toggle]").forEach((button) => { button.textContent = tt("show"); button.setAttribute("aria-label", `${tt("show")} ${tt("password")}`); });
+  }
+  document.querySelector(".auth-switch") && (document.querySelector(".auth-switch").innerHTML = mode === "create-email" ? `${tt("alreadyHave")} <a href="/sign-in">${tt("signIn")}</a>` : `${tt("needEmail")} <a href="/create-email">${tt("createEmail")}</a>`);
+}
+
 const clerkAuth = document.querySelector("[data-clerk-auth]");
+window.addEventListener("load", applyAuthLanguage);
 async function currentClerkToken() {
   if (!window.Clerk) return "";
   try {
@@ -47,17 +91,23 @@ if (clerkAuth) {
 
   window.addEventListener("load", async () => {
     try {
+      applyAuthLanguage();
       const clerk = await waitForClerk();
       const isSignIn = clerkAuth.dataset.clerkAuth === "sign-in";
       await clerk.load({
         ui: { ClerkUI: window.__internal_ClerkUICtor },
-        localization: isSignIn ? {
+        localization: {
           signIn: {
             start: {
-              title: "Sign in to muye.dev",
+              title: tt("signInTitle"),
             },
           },
-        } : undefined,
+          signUp: {
+            start: {
+              title: tt("signUpTitle"),
+            },
+          },
+        },
       });
       const commonProps = {
         routing: "path",
@@ -81,7 +131,7 @@ if (clerkAuth) {
         return;
       }
       const detail = error instanceof Error && error.message ? ` (${error.message})` : "";
-      clerkAuth.textContent = `Authentication could not load. Please refresh and try again.${detail}`;
+      clerkAuth.textContent = `${tt("authFailed")}${detail}`;
       console.error(error);
     }
   });
@@ -94,7 +144,7 @@ function installSignUpPasswordConfirm(root) {
     if (!password || !form || form.querySelector("[data-muye-password-confirm]")) return;
     const wrapper = document.createElement("label");
     wrapper.className = "muye-clerk-confirm";
-    wrapper.innerHTML = '<span>Confirm password</span><input data-muye-password-confirm type="password" autocomplete="new-password" required><small></small>';
+    wrapper.innerHTML = `<span>${tt("confirmLabel")}</span><input data-muye-password-confirm type="password" autocomplete="new-password" required><small></small>`;
     password.closest("label, div")?.after(wrapper);
     form.addEventListener("submit", (event) => {
       const confirm = form.querySelector("[data-muye-password-confirm]");
@@ -102,7 +152,7 @@ function installSignUpPasswordConfirm(root) {
       if (confirm && password.value !== confirm.value) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        note.textContent = "Passwords do not match.";
+        note.textContent = tt("passwordMismatch");
         confirm.focus();
       } else if (note) {
         note.textContent = "";
@@ -120,8 +170,8 @@ document.querySelectorAll("[data-password-toggle]").forEach((toggle) => {
 
     const isVisible = input.type === "text";
     input.type = isVisible ? "password" : "text";
-    toggle.textContent = isVisible ? "Show" : "Hide";
-    toggle.setAttribute("aria-label", `${isVisible ? "Show" : "Hide"} password`);
+    toggle.textContent = isVisible ? tt("show") : tt("hide");
+    toggle.setAttribute("aria-label", `${isVisible ? tt("show") : tt("hide")} ${tt("password")}`);
   });
 });
 
@@ -135,7 +185,7 @@ async function configureCreateEmailMode(form) {
   requestOnly.forEach((element) => { element.hidden = createEmailOwnerMode; });
   form.querySelectorAll("[data-owner-only] input").forEach((input) => { input.required = createEmailOwnerMode; });
   form.querySelectorAll("[data-request-only] textarea").forEach((input) => { input.required = !createEmailOwnerMode; });
-  if (submit) submit.textContent = createEmailOwnerMode ? "Create email" : "Send request";
+  if (submit) submit.textContent = createEmailOwnerMode ? tt("createEmail") : tt("sendRequest");
 }
 
 forms.forEach((form) => {
@@ -155,7 +205,7 @@ forms.forEach((form) => {
       codeInput.pattern = "[A-Za-z0-9]{6}";
       codeInput.placeholder = "6-character code";
     }
-    if (sendCodeButton) sendCodeButton.textContent = "Send code";
+    if (sendCodeButton) sendCodeButton.textContent = tt("sendCode");
   }
 
   emailInput?.addEventListener("input", updateVerificationMethod);
@@ -171,19 +221,19 @@ forms.forEach((form) => {
     message.classList.remove("error");
     const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(verificationEmail);
     if (!verificationEmail) {
-      message.textContent = "Enter your verification email.";
+      message.textContent = tt("enterRecoveryEmail");
       message.classList.add("error");
       return;
     }
 
     if (!validEmail) {
-      message.textContent = "Enter a valid email address before sending a code.";
+      message.textContent = tt("enterValidRecoveryEmail");
       message.classList.add("error");
       return;
     }
 
     sendCodeButton.disabled = true;
-    sendCodeButton.textContent = "Sending...";
+    sendCodeButton.textContent = tt("sending");
 
     try {
       const response = await fetch("/api/send-email-code", {
@@ -192,15 +242,15 @@ forms.forEach((form) => {
         body: JSON.stringify({ email: verificationEmail }),
       });
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Could not send the code.");
+      if (!response.ok) throw new Error(result.error || tt("codeSendFailed"));
 
       verificationChallenge = result.challenge;
       verificationProof = "";
-      sendCodeButton.textContent = "Code sent";
-      message.textContent = "Verification code sent by email.";
+      sendCodeButton.textContent = tt("codeSent");
+      message.textContent = tt("codeSentEmail");
     } catch (error) {
       sendCodeButton.disabled = false;
-      sendCodeButton.textContent = "Send code";
+      sendCodeButton.textContent = tt("sendCode");
       message.textContent = error.message;
       message.classList.add("error");
     }
@@ -226,43 +276,43 @@ forms.forEach((form) => {
 
     if (mode === "create-email") {
       if (!emailName) {
-        message.textContent = "Enter the Muye email name you want.";
+        message.textContent = tt("enterName");
         message.classList.add("error");
         return;
       }
 
       if (!/^[a-zA-Z0-9._-]+$/.test(emailName)) {
-        message.textContent = "Use only letters, numbers, dots, underscores, or hyphens for the email name.";
+        message.textContent = tt("validName");
         message.classList.add("error");
         return;
       }
 
       if (createEmailOwnerMode) {
         if (password.length < 8) {
-          message.textContent = "Password must be at least 8 characters.";
+          message.textContent = tt("passwordShort");
           message.classList.add("error");
           return;
         }
 
         if (password !== passwordConfirm) {
-          message.textContent = "Passwords do not match.";
+          message.textContent = tt("passwordMismatch");
           message.classList.add("error");
           return;
         }
       } else if (requestText.length < 12) {
-        message.textContent = "Write a short request with what you want this email for.";
+        message.textContent = tt("shortRequest");
         message.classList.add("error");
         return;
       }
 
       if (!captcha) {
-        message.textContent = "Please complete the CAPTCHA.";
+        message.textContent = tt("captcha");
         message.classList.add("error");
         return;
       }
 
       submitButton && (submitButton.disabled = true);
-      if (submitButton) submitButton.textContent = createEmailOwnerMode ? "Creating..." : "Sending...";
+      if (submitButton) submitButton.textContent = createEmailOwnerMode ? tt("creating") : tt("sending");
       let createResponse;
       let createResult;
       try {
@@ -279,47 +329,47 @@ forms.forEach((form) => {
           createResult = { error: `Server returned ${createResponse.status}.` };
         }
       } catch {
-        message.textContent = "The mailbox service could not be reached. Please check your connection and try again.";
+        message.textContent = tt("serviceDown");
         message.classList.add("error");
         submitButton && (submitButton.disabled = false);
-        if (submitButton) submitButton.textContent = createEmailOwnerMode ? "Create email" : "Send request";
+        if (submitButton) submitButton.textContent = createEmailOwnerMode ? tt("createEmail") : tt("sendRequest");
         return;
       }
       if (!createResponse.ok) {
-        message.textContent = createResult.error || "We could not create that Muye email address.";
+        message.textContent = createResult.error || tt("createFailed");
         message.classList.add("error");
         submitButton && (submitButton.disabled = false);
-        if (submitButton) submitButton.textContent = createEmailOwnerMode ? "Create email" : "Send request";
+        if (submitButton) submitButton.textContent = createEmailOwnerMode ? tt("createEmail") : tt("sendRequest");
         return;
       }
 
       message.textContent = createResult.requested
         ? `Request sent for ${createResult.mailbox}.`
         : `${createResult.mailbox} is ready.`;
-      if (submitButton) submitButton.textContent = createResult.requested ? "Request sent" : "Email created";
+      if (submitButton) submitButton.textContent = createResult.requested ? tt("requestSent") : tt("emailCreated");
       return;
     }
 
     if (!email || !password || (mode === "sign-up" && !passwordConfirm)) {
-      message.textContent = mode === "sign-up" ? "Please enter your email and both password fields." : "Please enter your email and password.";
+      message.textContent = mode === "sign-up" ? tt("missingFieldsSignUp") : tt("missingFieldsSignIn");
       message.classList.add("error");
       return;
     }
 
     if (password.length < 8) {
-      message.textContent = "Password must be at least 8 characters.";
+      message.textContent = tt("passwordShort");
       message.classList.add("error");
       return;
     }
 
     if (mode === "sign-up" && password !== passwordConfirm) {
-      message.textContent = "Passwords do not match.";
+      message.textContent = tt("passwordMismatch");
       message.classList.add("error");
       return;
     }
 
     message.textContent = mode === "sign-up"
       ? "Account details received. Connect Clerk to create users."
-      : "Sign-in details received. Connect Clerk to authenticate.";
+      : tt("signInDetails");
   });
 });

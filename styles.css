@@ -491,6 +491,7 @@ h3 {
 footer {
   flex-shrink: 0;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   padding: 34px 0 44px;
@@ -500,6 +501,10 @@ footer {
 
 footer p {
   margin: 0;
+}
+
+.footer-language-switcher {
+  margin-left: auto;
 }
 
 .note-shell {
@@ -640,6 +645,11 @@ footer p {
   footer a {
     display: inline-block;
     margin-top: 10px;
+  }
+
+  .footer-language-switcher {
+    display: inline-block;
+    margin: 12px 12px 0 0;
   }
 }
 

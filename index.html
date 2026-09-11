@@ -32,8 +32,8 @@
         <a class="nav-auth sign-in" href="/create-email">Create email</a>
         <a href="/mailbox">Mailbox</a>
         <a href="/talk/">Talk</a>
-        <div class="language-switcher" id="language-switcher">
-          <button class="language-button" id="language-button" type="button" aria-label="Change language" aria-haspopup="listbox" aria-expanded="false"><span class="language-mark" aria-hidden="true"><span class="language-mark-a">A</span><span class="language-mark-zh">中</span></span></button>
+        <div class="language-switcher" data-language-switcher>
+          <button class="language-button" type="button" aria-label="Change language" aria-haspopup="listbox" aria-expanded="false" data-language-button><span class="language-mark" aria-hidden="true"><span class="language-mark-a">A</span><span class="language-mark-zh">中</span></span></button>
           <div class="language-menu" id="language-menu" role="listbox" hidden></div>
         </div>
         <a class="nav-auth sign-in" href="/sign-in">Sign in</a>
@@ -152,12 +152,16 @@
 
     <footer>
       <p>© <span id="year"></span> Muye. Built for Cloudflare Pages.</p>
+      <div class="language-switcher footer-language-switcher" data-language-switcher>
+        <button class="language-button" type="button" aria-label="Change language" aria-haspopup="listbox" aria-expanded="false" data-language-button><span class="language-mark" aria-hidden="true"><span class="language-mark-a">A</span><span class="language-mark-zh">中</span></span></button>
+        <div class="language-menu" role="listbox" hidden></div>
+      </div>
       <a href="mailto:muye@muye.dev">muye@muye.dev</a>
     </footer>
 
     <script defer crossorigin="anonymous" src="https://clerk.www.muye.dev/npm/@clerk/ui@1/dist/ui.browser.js"></script>
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script defer src="/script.js?v=25"></script>
+    <script defer src="/script.js?v=26"></script>
     <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});</script>
   </body>
 </html>

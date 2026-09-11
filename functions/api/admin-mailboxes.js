@@ -55,6 +55,20 @@ function cleanMailbox(value) {
   return String(value || "").trim().toLowerCase();
 }
 
+async function digest(value) {
+  const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return [...new Uint8Array(bytes)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function passwordHash(password) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" }, key, 256);
+  const encodedSalt = btoa(String.fromCharCode(...salt));
+  const encodedHash = btoa(String.fromCharCode(...new Uint8Array(bits)));
+  return `pbkdf2-sha256$100000$${encodedSalt}$${encodedHash}`;
+}
+
 export async function onRequestGet({ request, env }) {
   if (!env.muye_mailboxes) return json({ error: "Mailbox storage is not configured." }, 503);
   try { await requireSiteAdmin(request, env); } catch { return json({ error: "Admin access required." }, 403); }
@@ -95,13 +109,42 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPatch({ request, env }) {
-  if (!env.muye_mailboxes) return json({ error: "Mailbox storage is not configured." }, 503);
+  if (!env.muye_mailboxes || !env.EMAIL_VERIFICATION_SECRET) return json({ error: "Mailbox storage is not configured." }, 503);
   try { await requireSiteAdmin(request, env); } catch { return json({ error: "Admin access required." }, 403); }
 
   let body;
   try { body = await request.json(); } catch { return json({ error: "Invalid request." }, 400); }
   const action = String(body.action || "");
   const mailbox = cleanMailbox(body.mailbox);
+
+  if (action === "approve-request") {
+    const requestId = Number(body.requestId);
+    const password = String(body.password || "");
+    if (!Number.isInteger(requestId) || requestId <= 0) return json({ error: "Choose a request to approve." }, 400);
+    if (password.length < 8) return json({ error: "Temporary password must be at least 8 characters." }, 400);
+    const requestRow = await env.muye_mailboxes.prepare(
+      "SELECT id, email_name, requester_clerk_user_id, requester_email, status FROM email_requests WHERE id = ? LIMIT 1",
+    ).bind(requestId).first();
+    if (!requestRow) return json({ error: "Request not found." }, 404);
+    if (requestRow.status && requestRow.status !== "open") return json({ error: "This request is already closed." }, 409);
+    const requestMailbox = `${cleanMailbox(requestRow.email_name)}@muye.dev`;
+    if (!/^[a-z0-9._-]+@muye\.dev$/.test(requestMailbox)) return json({ error: "Invalid requested mailbox." }, 400);
+    const existing = await env.muye_mailboxes.prepare("SELECT 1 FROM mailboxes WHERE mailbox = ? LIMIT 1").bind(requestMailbox).first();
+    if (existing) return json({ error: "That Muye email address is already taken." }, 409);
+    const identity = requestRow.requester_email || requestRow.requester_clerk_user_id || `request:${requestId}`;
+    const identityHash = await digest(`approved-request:${identity}:${env.EMAIL_VERIFICATION_SECRET}`);
+    const hashedPassword = await passwordHash(password);
+    await env.muye_mailboxes.batch([
+      env.muye_mailboxes.prepare(
+        "INSERT INTO mailboxes (mailbox, identity_hash, identity_type, password_hash, device_id, clerk_user_id) VALUES (?, ?, ?, ?, ?, ?)",
+      ).bind(requestMailbox, identityHash, "approved_request", hashedPassword, `approved-request:${requestId}`, requestRow.requester_clerk_user_id || null),
+      env.muye_mailboxes.prepare(
+        "UPDATE email_requests SET status = 'approved' WHERE id = ?",
+      ).bind(requestId),
+    ]);
+    return json({ ok: true, mailbox: requestMailbox });
+  }
+
   if (!/^[a-z0-9._-]+@muye\.dev$/.test(mailbox)) return json({ error: "Invalid mailbox." }, 400);
 
   if (action === "ban") {

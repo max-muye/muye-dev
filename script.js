@@ -6,8 +6,6 @@ if (year) {
 
 const homeClerkProfile = document.querySelector("#home-clerk-profile");
 const heroTitle = document.querySelector("#hero-title");
-const languageButton = document.querySelector("#language-button");
-const languageMenu = document.querySelector("#language-menu");
 let currentHeroName = "";
 
 const languages = [
@@ -161,10 +159,10 @@ function applyHomeLanguage() {
   const language = languages.find((item) => item.code === currentLanguage()) || languages[0];
   document.documentElement.lang = language.code;
   document.documentElement.dir = language.dir;
-  if (languageButton) {
-    languageButton.innerHTML = languageButtonMark;
-    languageButton.setAttribute("aria-label", `Change language. Current: ${language.label}`);
-  }
+  document.querySelectorAll("[data-language-button]").forEach((button) => {
+    button.innerHTML = languageButtonMark;
+    button.setAttribute("aria-label", `Change language. Current: ${language.label}`);
+  });
   const navLinks = document.querySelectorAll(".site-header nav > a");
   const navKeys = ["work", "games", "misc", "notes", "contact", "createEmail", "mailbox", "talk", "signIn", "signUp"];
   navKeys.forEach((key, index) => { if (navLinks[index]) navLinks[index].textContent = textFor(key); });
@@ -211,7 +209,7 @@ function applyHomeLanguage() {
   });
   const footerText = document.querySelector("footer p");
   if (footerText && year) footerText.innerHTML = `&copy; <span id="year">${new Date().getFullYear()}</span> Muye. ${textFor("footerBuilt")}`;
-  languageMenu?.querySelectorAll(".language-option").forEach((option) => {
+  document.querySelectorAll(".language-menu .language-option").forEach((option) => {
     option.setAttribute("aria-selected", option.dataset.lang === language.code ? "true" : "false");
   });
 }
@@ -224,24 +222,32 @@ function setLanguage(code) {
 }
 
 function setupLanguageSwitcher() {
-  if (!languageButton || !languageMenu) return;
-  languageMenu.innerHTML = languages.map((language) => `<button class="language-option" type="button" role="option" data-lang="${language.code}">${language.label}</button>`).join("");
-  languageButton.addEventListener("click", () => {
-    const isOpen = !languageMenu.hidden;
-    languageMenu.hidden = isOpen;
-    languageButton.setAttribute("aria-expanded", isOpen ? "false" : "true");
-  });
-  languageMenu.addEventListener("click", (event) => {
-    const option = event.target.closest("[data-lang]");
-    if (!option) return;
-    setLanguage(option.dataset.lang);
-    languageMenu.hidden = true;
-    languageButton.setAttribute("aria-expanded", "false");
+  document.querySelectorAll("[data-language-switcher]").forEach((switcher) => {
+    const button = switcher.querySelector("[data-language-button]");
+    const menu = switcher.querySelector(".language-menu");
+    if (!button || !menu) return;
+    menu.innerHTML = languages.map((language) => `<button class="language-option" type="button" role="option" data-lang="${language.code}">${language.label}</button>`).join("");
+    button.addEventListener("click", () => {
+      const isOpen = !menu.hidden;
+      document.querySelectorAll(".language-menu").forEach((item) => { item.hidden = true; });
+      document.querySelectorAll("[data-language-button]").forEach((item) => { item.setAttribute("aria-expanded", "false"); });
+      menu.hidden = isOpen;
+      button.setAttribute("aria-expanded", isOpen ? "false" : "true");
+    });
+    menu.addEventListener("click", (event) => {
+      const option = event.target.closest("[data-lang]");
+      if (!option) return;
+      setLanguage(option.dataset.lang);
+      menu.hidden = true;
+      button.setAttribute("aria-expanded", "false");
+    });
   });
   document.addEventListener("click", (event) => {
-    if (!event.target.closest("#language-switcher")) {
-      languageMenu.hidden = true;
-      languageButton.setAttribute("aria-expanded", "false");
+    if (!event.target.closest("[data-language-switcher]")) {
+      document.querySelectorAll(".language-menu").forEach((menu) => { menu.hidden = true; });
+      document.querySelectorAll("[data-language-button]").forEach((button) => {
+        button.setAttribute("aria-expanded", "false");
+      });
     }
   });
   applyHomeLanguage();

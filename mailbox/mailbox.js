@@ -35,16 +35,102 @@ let notificationTimer = null;
 let messagesLoading = false;
 let composeSending = false;
 
+const mailboxText = {
+  en: {
+    home: "Home", eyebrow: "Muye mail", loginTitle: "Your mailbox", loginCopy: "Sign in with the Muye email and password you created.", email: "Email", password: "Password", show: "Show", hide: "Hide", openToday: "Open mail for today", openMailbox: "Open mailbox", replacePassword: "Replace password", needEmail: "Need a Muye email?", createOne: "Create one", recovery: "Account recovery", resetCopy: "Enter the email used when you created your mailbox.", verificationEmail: "Verification email", verificationCode: "Verification code", codePlaceholder: "6-character code", sendCode: "Send verification code", newPassword: "New password", confirmPassword: "Confirm new password", backLogin: "Back to mailbox sign in", signOut: "Sign out", inbox: "Inbox", outbox: "Outbox", trash: "Trash", messages: "Messages", refresh: "Refresh", preview: "Preview", close: "Close", clickPreview: "Click a message to preview it.", newMessage: "New message", to: "To", from: "From", subject: "Subject", message: "Message", file: "File", removeFile: "Remove file", sendMessage: "Send message", admin: "Admin", allMailboxes: "All mailboxes", mailboxes: "Mailboxes", requests: "Requests", chooseMailbox: "Choose a mailbox or message.", emptyInbox: "Your inbox is empty.", emptyOutbox: "Your outbox is empty.", emptyTrash: "Trash is empty.", markRead: "Mark read", markUnread: "Mark unread", restore: "Restore", moveTrash: "Move to trash", download: "Download", active: "Active", banned: "Banned", request: "Email request", noRequester: "No signed-in requester", mailboxControls: "Mailbox controls", bannedMailbox: "Banned mailbox", banMailbox: "Ban mailbox", unbanMailbox: "Unban mailbox", deleteMailbox: "Delete mailbox", deleteMessage: "Delete message", noMailboxes: "No mailboxes yet.", noRequests: "No requests yet.", chooseMailboxInspect: "Choose a mailbox to inspect messages.", noMailboxMessages: "No messages in this mailbox.", messageDeleted: "Message deleted.", mailboxDeleted: "Mailbox deleted.", loading: "Loading...", opening: "Opening mailbox...", signInPrompt: "Sign in to your mailbox.", refreshFailed: "Could not refresh mailbox.", refreshFailedLong: "Could not refresh mailbox. Check the connection and try again.", adminFailed: "Admin request failed.", adminRequired: "Admin access required.", loadMailboxFailed: "Could not load mailbox.", updateMailboxFailed: "Could not update mailbox.", deleteMessageFailed: "Could not delete message.", deleteMailboxFailed: "Could not delete mailbox.", deleteMessageAsk: "Delete this message permanently?", deleteMailboxAsk: "Delete this mailbox and all of its messages permanently?", waitCaptcha: "Please wait for the CAPTCHA, then try again.", openFailed: "Could not open mailbox.", enterEmail: "Enter your verification email.", codeSendFailed: "Could not send code.", codeSent: "Verification code sent by email.", codeSentNext: "Code sent. Enter it above, then press Replace password.", enterCode: "Enter the verification code you received.", passwordMismatch: "Passwords do not match.", passwordShort: "Password must be at least 8 characters.", codeInvalid: "That code is not valid.", replaceFailed: "Could not replace password.", replaced: "Password replaced. You can sign in now.", fileTooLarge: "Choose a file under 4 MB.", fileLoadFailed: "Could not load file.", sending: "Sending...", sendFailed: "Could not send message.", sent: "Message sent.", newMailFrom: "New mail from",
+  },
+  zh: {
+    home: "主页", eyebrow: "Muye 邮箱", loginTitle: "你的邮箱", loginCopy: "使用你创建的 Muye 邮箱和密码登录。", email: "邮箱", password: "密码", show: "显示", hide: "隐藏", openToday: "今天保持打开", openMailbox: "打开邮箱", replacePassword: "更换密码", needEmail: "需要 Muye 邮箱？", createOne: "创建一个", recovery: "账户恢复", resetCopy: "输入你创建邮箱时使用的邮箱。", verificationEmail: "验证邮箱", verificationCode: "验证码", codePlaceholder: "6 位验证码", sendCode: "发送验证码", newPassword: "新密码", confirmPassword: "确认新密码", backLogin: "返回邮箱登录", signOut: "退出", inbox: "收件箱", outbox: "发件箱", trash: "垃圾箱", messages: "邮件", refresh: "刷新", preview: "预览", close: "关闭", clickPreview: "点一封邮件来预览。", newMessage: "新邮件", to: "收件人", from: "发件人", subject: "主题", message: "内容", file: "文件", removeFile: "移除文件", sendMessage: "发送邮件", admin: "管理", allMailboxes: "所有邮箱", mailboxes: "邮箱", requests: "请求", chooseMailbox: "选择邮箱或邮件。", emptyInbox: "收件箱是空的。", emptyOutbox: "发件箱是空的。", emptyTrash: "垃圾箱是空的。", markRead: "标为已读", markUnread: "标为未读", restore: "恢复", moveTrash: "移到垃圾箱", download: "下载", active: "正常", banned: "已封禁", request: "邮箱请求", noRequester: "没有登录的请求者", mailboxControls: "邮箱控制", bannedMailbox: "已封禁邮箱", banMailbox: "封禁邮箱", unbanMailbox: "解封邮箱", deleteMailbox: "删除邮箱", deleteMessage: "删除邮件", noMailboxes: "还没有邮箱。", noRequests: "还没有请求。", chooseMailboxInspect: "选择一个邮箱查看邮件。", noMailboxMessages: "这个邮箱没有邮件。", messageDeleted: "邮件已删除。", mailboxDeleted: "邮箱已删除。", loading: "加载中...", opening: "正在打开邮箱...", signInPrompt: "请登录你的邮箱。", refreshFailed: "无法刷新邮箱。", refreshFailedLong: "无法刷新邮箱，请检查连接后重试。", adminFailed: "管理请求失败。", adminRequired: "需要管理员权限。", loadMailboxFailed: "无法加载邮箱。", updateMailboxFailed: "无法更新邮箱。", deleteMessageFailed: "无法删除邮件。", deleteMailboxFailed: "无法删除邮箱。", deleteMessageAsk: "永久删除这封邮件？", deleteMailboxAsk: "删除这个邮箱和它所有的邮件？", waitCaptcha: "请等待验证码完成后再试。", openFailed: "无法打开邮箱。", enterEmail: "请输入验证邮箱。", codeSendFailed: "无法发送验证码。", codeSent: "验证码已通过邮件发送。", codeSentNext: "验证码已发送。填入上方后按更换密码。", enterCode: "请输入收到的验证码。", passwordMismatch: "两次密码不一致。", passwordShort: "密码至少需要 8 个字符。", codeInvalid: "验证码无效。", replaceFailed: "无法更换密码。", replaced: "密码已更换，现在可以登录。", fileTooLarge: "请选择小于 4 MB 的文件。", fileLoadFailed: "无法读取文件。", sending: "发送中...", sendFailed: "无法发送邮件。", sent: "邮件已发送。", newMailFrom: "新邮件来自",
+  },
+};
+
+mailboxText.ja = { ...mailboxText.en, home: "ホーム", loginTitle: "メールボックス", loginCopy: "作成した Muye メールとパスワードでログイン。", email: "メール", password: "パスワード", show: "表示", hide: "隠す", openMailbox: "開く", replacePassword: "パスワード変更", signOut: "ログアウト", inbox: "受信箱", outbox: "送信箱", trash: "ゴミ箱", messages: "メッセージ", refresh: "更新", preview: "プレビュー", close: "閉じる", newMessage: "新規メッセージ", to: "宛先", from: "差出人", subject: "件名", message: "本文", file: "ファイル", sendMessage: "送信", sent: "送信しました。", sending: "送信中...", emptyInbox: "受信箱は空です。", emptyOutbox: "送信箱は空です。", emptyTrash: "ゴミ箱は空です。" };
+mailboxText.ko = { ...mailboxText.en, home: "홈", loginTitle: "메일함", loginCopy: "만든 Muye 메일과 비밀번호로 로그인하세요.", email: "이메일", password: "비밀번호", show: "보기", hide: "숨기기", openMailbox: "메일함 열기", replacePassword: "비밀번호 변경", signOut: "로그아웃", inbox: "받은메일", outbox: "보낸메일", trash: "휴지통", messages: "메시지", refresh: "새로고침", preview: "미리보기", close: "닫기", newMessage: "새 메시지", to: "받는 사람", from: "보낸 사람", subject: "제목", message: "내용", file: "파일", sendMessage: "보내기", sent: "메시지를 보냈습니다.", sending: "보내는 중...", emptyInbox: "받은메일이 비어 있습니다.", emptyOutbox: "보낸메일이 비어 있습니다.", emptyTrash: "휴지통이 비어 있습니다." };
+mailboxText.es = { ...mailboxText.en, home: "Inicio", loginTitle: "Tu buzón", loginCopy: "Entra con el email Muye y la contraseña que creaste.", email: "Email", password: "Contraseña", show: "Mostrar", hide: "Ocultar", openMailbox: "Abrir buzón", replacePassword: "Cambiar contraseña", signOut: "Salir", inbox: "Entrada", outbox: "Enviados", trash: "Papelera", messages: "Mensajes", refresh: "Actualizar", preview: "Vista previa", close: "Cerrar", newMessage: "Nuevo mensaje", to: "Para", from: "De", subject: "Asunto", message: "Mensaje", file: "Archivo", sendMessage: "Enviar", sent: "Mensaje enviado.", sending: "Enviando...", emptyInbox: "Tu entrada está vacía.", emptyOutbox: "Tus enviados están vacíos.", emptyTrash: "La papelera está vacía." };
+mailboxText.fr = { ...mailboxText.en, home: "Accueil", loginTitle: "Votre boîte mail", loginCopy: "Connectez-vous avec votre email Muye et votre mot de passe.", email: "Email", password: "Mot de passe", show: "Afficher", hide: "Masquer", openMailbox: "Ouvrir", replacePassword: "Changer le mot de passe", signOut: "Déconnexion", inbox: "Reçus", outbox: "Envoyés", trash: "Corbeille", messages: "Messages", refresh: "Actualiser", preview: "Aperçu", close: "Fermer", newMessage: "Nouveau message", to: "À", from: "De", subject: "Sujet", message: "Message", file: "Fichier", sendMessage: "Envoyer", sent: "Message envoyé.", sending: "Envoi...", emptyInbox: "Votre boîte de réception est vide.", emptyOutbox: "Vos envoyés sont vides.", emptyTrash: "La corbeille est vide." };
+mailboxText.de = { ...mailboxText.en, home: "Start", loginTitle: "Dein Postfach", loginCopy: "Mit deiner Muye-E-Mail und deinem Passwort anmelden.", email: "E-Mail", password: "Passwort", show: "Zeigen", hide: "Verbergen", openMailbox: "Postfach öffnen", replacePassword: "Passwort ändern", signOut: "Abmelden", inbox: "Eingang", outbox: "Gesendet", trash: "Papierkorb", messages: "Nachrichten", refresh: "Aktualisieren", preview: "Vorschau", close: "Schließen", newMessage: "Neue Nachricht", to: "An", from: "Von", subject: "Betreff", message: "Nachricht", file: "Datei", sendMessage: "Senden", sent: "Nachricht gesendet.", sending: "Senden...", emptyInbox: "Der Eingang ist leer.", emptyOutbox: "Gesendet ist leer.", emptyTrash: "Der Papierkorb ist leer." };
+mailboxText.pt = { ...mailboxText.en, home: "Início", loginTitle: "Sua caixa de email", loginCopy: "Entre com o email Muye e a senha que você criou.", email: "Email", password: "Senha", show: "Mostrar", hide: "Ocultar", openMailbox: "Abrir email", replacePassword: "Trocar senha", signOut: "Sair", inbox: "Entrada", outbox: "Enviados", trash: "Lixeira", messages: "Mensagens", refresh: "Atualizar", preview: "Prévia", close: "Fechar", newMessage: "Nova mensagem", to: "Para", from: "De", subject: "Assunto", message: "Mensagem", file: "Arquivo", sendMessage: "Enviar", sent: "Mensagem enviada.", sending: "Enviando...", emptyInbox: "A entrada está vazia.", emptyOutbox: "Os enviados estão vazios.", emptyTrash: "A lixeira está vazia." };
+mailboxText.ru = { ...mailboxText.en, home: "Домой", loginTitle: "Ваш почтовый ящик", loginCopy: "Войдите с Muye-почтой и паролем.", email: "Почта", password: "Пароль", show: "Показать", hide: "Скрыть", openMailbox: "Открыть почту", replacePassword: "Сменить пароль", signOut: "Выйти", inbox: "Входящие", outbox: "Отправленные", trash: "Корзина", messages: "Сообщения", refresh: "Обновить", preview: "Просмотр", close: "Закрыть", newMessage: "Новое письмо", to: "Кому", from: "От", subject: "Тема", message: "Сообщение", file: "Файл", sendMessage: "Отправить", sent: "Сообщение отправлено.", sending: "Отправка...", emptyInbox: "Входящих нет.", emptyOutbox: "Отправленных нет.", emptyTrash: "Корзина пуста." };
+mailboxText.ar = { ...mailboxText.en, home: "الرئيسية", loginTitle: "صندوق بريدك", loginCopy: "سجّل الدخول ببريد Muye وكلمة المرور.", email: "البريد", password: "كلمة المرور", show: "إظهار", hide: "إخفاء", openMailbox: "فتح البريد", replacePassword: "تغيير كلمة المرور", signOut: "خروج", inbox: "الوارد", outbox: "المرسل", trash: "المهملات", messages: "الرسائل", refresh: "تحديث", preview: "معاينة", close: "إغلاق", newMessage: "رسالة جديدة", to: "إلى", from: "من", subject: "الموضوع", message: "الرسالة", file: "ملف", sendMessage: "إرسال", sent: "تم إرسال الرسالة.", sending: "جار الإرسال...", emptyInbox: "الوارد فارغ.", emptyOutbox: "المرسل فارغ.", emptyTrash: "المهملات فارغة." };
+
+function currentLanguage() {
+  const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";
+  return mailboxText[saved] ? saved : "en";
+}
+
+function t(key) {
+  return mailboxText[currentLanguage()]?.[key] || mailboxText.en[key] || key;
+}
+
+function setLabelText(label, text) {
+  if (!label) return;
+  const node = [...label.childNodes].find((child) => child.nodeType === Node.TEXT_NODE);
+  if (node) node.textContent = text;
+}
+
+function applyMailboxLanguage() {
+  const lang = currentLanguage();
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.querySelector(".home-link").textContent = t("home");
+  document.querySelector("#mailbox-login .eyebrow").textContent = t("eyebrow");
+  document.querySelector("#login-title").textContent = t("loginTitle");
+  document.querySelector("#mailbox-login .mailbox-copy").textContent = t("loginCopy");
+  setLabelText(document.querySelector('#login-form label:nth-of-type(1)'), t("email"));
+  setLabelText(document.querySelector('#login-form label:nth-of-type(2)'), t("password"));
+  document.querySelectorAll(".password-toggle").forEach((button) => { button.textContent = t("show"); button.setAttribute("aria-label", t("show")); });
+  document.querySelector(".mailbox-keep-open span").textContent = t("openToday");
+  document.querySelector('#login-form button[type="submit"]').textContent = t("openMailbox");
+  document.querySelector("#show-reset-button").textContent = t("replacePassword");
+  document.querySelector(".mailbox-switch").innerHTML = `${t("needEmail")} <a href="/create-email">${t("createOne")}</a>`;
+  document.querySelector("#reset-panel .eyebrow").textContent = t("recovery");
+  document.querySelector("#reset-title").textContent = t("replacePassword");
+  document.querySelector("#reset-panel .mailbox-copy").textContent = t("resetCopy");
+  setLabelText(document.querySelector('#reset-form label:nth-of-type(1)'), t("verificationEmail"));
+  setLabelText(document.querySelector('#reset-form label:nth-of-type(2)'), t("verificationCode"));
+  document.querySelector('[name="code"]').placeholder = t("codePlaceholder");
+  document.querySelector("#send-reset-code").textContent = t("sendCode");
+  setLabelText(document.querySelector('#reset-form label:nth-of-type(3)'), t("newPassword"));
+  setLabelText(document.querySelector('#reset-form label:nth-of-type(4)'), t("confirmPassword"));
+  document.querySelector('#reset-form button[type="submit"]').textContent = t("replacePassword");
+  document.querySelector("#back-to-login").textContent = t("backLogin");
+  document.querySelector("#mailbox-app .eyebrow").textContent = t("eyebrow");
+  document.querySelector("#logout-button").textContent = t("signOut");
+  document.querySelector("#inbox-view-button").textContent = t("inbox");
+  document.querySelector("#outbox-view-button").textContent = t("outbox");
+  document.querySelector("#trash-view-button").textContent = t("trash");
+  document.querySelector("#messages-title").textContent = t("messages");
+  document.querySelector("#refresh-button").textContent = t("refresh");
+  document.querySelector("#preview-title").textContent = t("preview");
+  document.querySelector("#close-preview-button").textContent = t("close");
+  document.querySelector("#compose-title").textContent = t("newMessage");
+  setLabelText(document.querySelector('#compose-form label:nth-of-type(1)'), t("to"));
+  setLabelText(document.querySelector('#compose-form label:nth-of-type(2)'), t("subject"));
+  setLabelText(document.querySelector('#compose-form label:nth-of-type(3)'), t("message"));
+  setLabelText(document.querySelector('#compose-form label:nth-of-type(4)'), t("file"));
+  document.querySelector("#remove-image-button").textContent = t("removeFile");
+  document.querySelector('#compose-form button[type="submit"]').textContent = t("sendMessage");
+  document.querySelector("#mailbox-admin .eyebrow").textContent = t("admin");
+  document.querySelector("#admin-title").textContent = t("allMailboxes");
+  document.querySelector("#admin-refresh-button").textContent = t("refresh");
+  document.querySelector("#admin-mailboxes-title").textContent = t("mailboxes");
+  document.querySelector("#admin-requests-title").textContent = t("requests");
+  document.querySelector("#admin-messages-title").textContent = t("messages");
+  document.querySelector("#admin-preview-title").textContent = t("preview");
+  document.querySelector("#admin-message-detail .empty-state").textContent = t("chooseMailbox");
+  updateViewTabs();
+}
+
 const viewLabels = {
-  inbox: "Inbox",
-  outbox: "Outbox",
-  trash: "Trash",
+  inbox: () => t("inbox"),
+  outbox: () => t("outbox"),
+  trash: () => t("trash"),
 };
 
 const emptyText = {
-  inbox: "Your inbox is empty.",
-  outbox: "Your outbox is empty.",
-  trash: "Trash is empty.",
+  inbox: () => t("emptyInbox"),
+  outbox: () => t("emptyOutbox"),
+  trash: () => t("emptyTrash"),
 };
 
 function setMessage(element, text, error = false) {
@@ -74,13 +160,13 @@ function decodeStoredBody(value) {
 
 function renderMessages(messages) {
   if (!messages.length) {
-    messageList.innerHTML = `<div class="empty-state">${emptyText[currentView] || emptyText.inbox}</div>`;
-    messageDetail.innerHTML = '<p class="empty-state">Click a message to preview it.</p>';
+    messageList.innerHTML = `<div class="empty-state">${emptyText[currentView]?.() || emptyText.inbox()}</div>`;
+    messageDetail.innerHTML = `<p class="empty-state">${t("clickPreview")}</p>`;
     return;
   }
   messageList.innerHTML = messages.map((message) => `
     <button class="message-item ${message.is_read ? "" : "unread"}" data-message-id="${message.id}" type="button">
-      <span class="message-meta"><span>${message.direction === "sent" ? "To: " : "From: "}${message.direction === "sent" ? message.recipient : message.sender}</span><time>${formatDate(message.created_at)}</time></span>
+      <span class="message-meta"><span>${message.direction === "sent" ? t("to") + ": " : t("from") + ": "}${message.direction === "sent" ? message.recipient : message.sender}</span><time>${formatDate(message.created_at)}</time></span>
       <span class="message-subject">${escapeHtml(message.subject)}</span>
       <span class="message-preview">${escapeHtml(decodeStoredBody(message.body))}</span>
     </button>`).join("");
@@ -95,14 +181,14 @@ function renderMessages(messages) {
 }
 
 function renderMessageDetail(message) {
-  const counterpart = message.direction === "sent" ? `To: ${message.recipient}` : `From: ${message.sender}`;
+  const counterpart = message.direction === "sent" ? `${t("to")}: ${message.recipient}` : `${t("from")}: ${message.sender}`;
   const attachment = renderAttachment(message);
   const htmlBody = message.body_html ? `<div class="message-html">${sanitizeHtml(message.body_html)}</div>` : "";
   const textBody = `<pre ${htmlBody ? 'class="message-text-fallback"' : ""}>${escapeHtml(decodeStoredBody(message.body))}</pre>`;
   const readAction = message.is_read ? "unread" : "read";
-  const readLabel = message.is_read ? "Mark unread" : "Mark read";
+  const readLabel = message.is_read ? t("markUnread") : t("markRead");
   const folderAction = currentView === "trash" ? "restore" : "trash";
-  const folderLabel = currentView === "trash" ? "Restore" : "Move to trash";
+  const folderLabel = currentView === "trash" ? t("restore") : t("moveTrash");
   const readButton = currentView === "outbox" ? "" : `<button class="mailbox-button quiet" type="button" data-message-action="${readAction}" data-message-id="${message.id}">${readLabel}</button>`;
   const folderButton = currentView === "outbox" ? "" : `<button class="mailbox-button quiet" type="button" data-message-action="${folderAction}" data-message-id="${message.id}">${folderLabel}</button>`;
   const actions = readButton || folderButton ? `<div class="message-actions">${readButton}${folderButton}</div>` : "";
@@ -133,7 +219,7 @@ function renderAdminMessageDetail(message) {
     ${htmlBody || textBody}
     ${attachment}
     <div class="message-actions">
-      <button class="mailbox-button admin-danger" type="button" data-admin-delete-message="${message.id}">Delete message</button>
+      <button class="mailbox-button admin-danger" type="button" data-admin-delete-message="${message.id}">${t("deleteMessage")}</button>
     </div>`;
   adminMessageDetail.querySelector("[data-admin-delete-message]")?.addEventListener("click", () => deleteAdminMessage(message.id));
 }
@@ -148,7 +234,7 @@ function renderAttachment(message) {
   return `
     <div class="message-attachment">
       ${preview}
-      <a class="mailbox-button quiet attachment-link" href="${src}" download="${escapeAttribute(name)}">Download ${escapeHtml(name)}</a>
+      <a class="mailbox-button quiet attachment-link" href="${src}" download="${escapeAttribute(name)}">${t("download")} ${escapeHtml(name)}</a>
     </div>`;
 }
 
@@ -211,11 +297,11 @@ async function loadMessages() {
         localStorage.removeItem("muye_open_mail_today");
         if (notificationTimer) clearInterval(notificationTimer);
         notificationTimer = null;
-        setMessage(loginMessage, result.error || "Sign in to your mailbox.", true);
+        setMessage(loginMessage, result.error || t("signInPrompt"), true);
         showLogin();
         return;
       }
-      setMessage(inboxMessage, result.error || "Could not refresh mailbox.", true);
+      setMessage(inboxMessage, result.error || t("refreshFailed"), true);
       return;
     }
     setMessage(inboxMessage, "");
@@ -226,7 +312,7 @@ async function loadMessages() {
     if (currentView === "inbox") watchMailboxNotifications(messages);
     renderMessages(messages);
   } catch (error) {
-    setMessage(inboxMessage, "Could not refresh mailbox. Check the connection and try again.", true);
+    setMessage(inboxMessage, t("refreshFailedLong"), true);
     console.error(error);
   } finally {
     messagesLoading = false;
@@ -252,24 +338,24 @@ async function adminFetch(url, options = {}) {
     headers: { ...(options.headers || {}), ...(await adminHeaders()) },
   });
   const result = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(result.error || "Admin request failed.");
+  if (!response.ok) throw new Error(result.error || t("adminFailed"));
   return result;
 }
 
 function renderAdminMailboxes(mailboxes) {
-  adminSummary.textContent = `${mailboxes.length} mailboxes`;
+  adminSummary.textContent = `${mailboxes.length} ${t("mailboxes").toLowerCase()}`;
   if (!mailboxes.length) {
-    adminMailboxList.innerHTML = '<div class="empty-state">No mailboxes yet.</div>';
+    adminMailboxList.innerHTML = `<div class="empty-state">${t("noMailboxes")}</div>`;
     return;
   }
   adminMailboxList.innerHTML = mailboxes.map((mailbox) => `
     <button class="message-item ${mailbox.banned_at ? "unread" : ""}" data-admin-mailbox="${escapeAttribute(mailbox.mailbox)}" type="button">
       <span class="message-meta"><span>${escapeHtml(mailbox.mailbox)}</span><time>${formatDate(mailbox.created_at)}</time></span>
-      <span class="message-subject">${mailbox.banned_at ? '<span class="admin-banned">Banned</span>' : "Active"}</span>
+      <span class="message-subject">${mailbox.banned_at ? `<span class="admin-banned">${t("banned")}</span>` : t("active")}</span>
       <span class="admin-mailbox-counts">
-        <span>${Number(mailbox.message_count || 0)} messages</span>
-        <span>${Number(mailbox.inbox_count || 0)} inbox</span>
-        <span>${Number(mailbox.sent_count || 0)} sent</span>
+        <span>${Number(mailbox.message_count || 0)} ${t("messages").toLowerCase()}</span>
+        <span>${Number(mailbox.inbox_count || 0)} ${t("inbox").toLowerCase()}</span>
+        <span>${Number(mailbox.sent_count || 0)} ${t("outbox").toLowerCase()}</span>
       </span>
     </button>`).join("");
   adminMailboxList.querySelectorAll("[data-admin-mailbox]").forEach((button) => {
@@ -280,13 +366,13 @@ function renderAdminMailboxes(mailboxes) {
 function renderAdminRequests(requests) {
   if (!adminRequestList) return;
   if (!requests.length) {
-    adminRequestList.innerHTML = '<div class="empty-state">No requests yet.</div>';
+    adminRequestList.innerHTML = `<div class="empty-state">${t("noRequests")}</div>`;
     return;
   }
   adminRequestList.innerHTML = requests.map((request) => `
     <button class="message-item ${request.status === "open" ? "unread" : ""}" data-admin-request-id="${request.id}" type="button">
       <span class="message-meta"><span>${escapeHtml(request.email_name)}@muye.dev</span><time>${formatDate(request.created_at)}</time></span>
-      <span class="message-subject">${escapeHtml(request.requester_email || request.requester_name || "Visitor request")}</span>
+      <span class="message-subject">${escapeHtml(request.requester_email || request.requester_name || t("request"))}</span>
       <span class="message-preview">${escapeHtml(request.request_text)}</span>
     </button>`).join("");
   adminRequestList.querySelectorAll("[data-admin-request-id]").forEach((button) => {
@@ -294,43 +380,43 @@ function renderAdminRequests(requests) {
       const request = requests.find((entry) => String(entry.id) === button.dataset.adminRequestId);
       if (!request) return;
       selectedAdminMailbox = "";
-      adminMessageList.innerHTML = '<div class="empty-state">Choose a mailbox to inspect messages.</div>';
+      adminMessageList.innerHTML = `<div class="empty-state">${t("chooseMailboxInspect")}</div>`;
       adminMessageDetail.innerHTML = `
         <div class="message-detail-meta">
           <span>${escapeHtml(request.email_name)}@muye.dev</span>
           <time>${formatDate(request.created_at)}</time>
         </div>
-        <h3>Email request</h3>
+        <h3>${t("request")}</h3>
         <pre>${escapeHtml(request.request_text)}</pre>
-        <p class="empty-state">${escapeHtml(request.requester_email || request.requester_name || "No signed-in requester")}</p>`;
+        <p class="empty-state">${escapeHtml(request.requester_email || request.requester_name || t("noRequester"))}</p>`;
     });
   });
 }
 
 function renderAdminMessages(mailbox, messages) {
   selectedAdminMailbox = mailbox.mailbox;
-  const banLabel = mailbox.banned_at ? "Unban mailbox" : "Ban mailbox";
+  const banLabel = mailbox.banned_at ? t("unbanMailbox") : t("banMailbox");
   const banAction = mailbox.banned_at ? "unban" : "ban";
   adminMessageDetail.innerHTML = `
     <div class="message-detail-meta">
       <span>${escapeHtml(mailbox.mailbox)}</span>
       <time>${formatDate(mailbox.created_at)}</time>
     </div>
-    <h3>${mailbox.banned_at ? '<span class="admin-banned">Banned mailbox</span>' : "Mailbox controls"}</h3>
+    <h3>${mailbox.banned_at ? `<span class="admin-banned">${t("bannedMailbox")}</span>` : t("mailboxControls")}</h3>
     <div class="message-actions">
       <button class="mailbox-button quiet" type="button" data-admin-mailbox-action="${banAction}">${banLabel}</button>
-      <button class="mailbox-button admin-danger" type="button" data-admin-delete-mailbox>Delete mailbox</button>
+      <button class="mailbox-button admin-danger" type="button" data-admin-delete-mailbox>${t("deleteMailbox")}</button>
     </div>`;
   adminMessageDetail.querySelector("[data-admin-mailbox-action]")?.addEventListener("click", () => updateAdminMailbox(banAction));
   adminMessageDetail.querySelector("[data-admin-delete-mailbox]")?.addEventListener("click", deleteAdminMailbox);
 
   if (!messages.length) {
-    adminMessageList.innerHTML = '<div class="empty-state">No messages in this mailbox.</div>';
+    adminMessageList.innerHTML = `<div class="empty-state">${t("noMailboxMessages")}</div>`;
     return;
   }
   adminMessageList.innerHTML = messages.map((message) => `
     <button class="message-item ${message.is_read ? "" : "unread"}" data-admin-message-id="${message.id}" type="button">
-      <span class="message-meta"><span>${message.direction === "sent" ? "Sent" : "Inbox"}</span><time>${formatDate(message.created_at)}</time></span>
+      <span class="message-meta"><span>${message.direction === "sent" ? t("outbox") : t("inbox")}</span><time>${formatDate(message.created_at)}</time></span>
       <span class="message-subject">${escapeHtml(message.subject)}</span>
       <span class="message-preview">${escapeHtml(message.sender)} -> ${escapeHtml(message.recipient)}</span>
     </button>`).join("");
@@ -356,12 +442,12 @@ async function loadAdminMailboxes() {
 
 async function loadAdminMailbox(mailbox) {
   try {
-    setMessage(adminMessage, "Loading...");
+    setMessage(adminMessage, t("loading"));
     const result = await adminFetch(`/api/admin-mailboxes?mailbox=${encodeURIComponent(mailbox)}`);
     renderAdminMessages(result.mailbox, result.messages || []);
     setMessage(adminMessage, "");
   } catch (error) {
-    setMessage(adminMessage, error.message || "Could not load mailbox.", true);
+    setMessage(adminMessage, error.message || t("loadMailboxFailed"), true);
   }
 }
 
@@ -376,32 +462,32 @@ async function updateAdminMailbox(action) {
     await loadAdminMailboxes();
     await loadAdminMailbox(selectedAdminMailbox);
   } catch (error) {
-    setMessage(adminMessage, error.message || "Could not update mailbox.", true);
+    setMessage(adminMessage, error.message || t("updateMailboxFailed"), true);
   }
 }
 
 async function deleteAdminMessage(id) {
-  if (!confirm("Delete this message permanently?")) return;
+  if (!confirm(t("deleteMessageAsk"))) return;
   try {
     await adminFetch(`/api/admin-mailboxes?messageId=${encodeURIComponent(id)}`, { method: "DELETE" });
-    adminMessageDetail.innerHTML = '<p class="empty-state">Message deleted.</p>';
+    adminMessageDetail.innerHTML = `<p class="empty-state">${t("messageDeleted")}</p>`;
     await loadAdminMailbox(selectedAdminMailbox);
     await loadAdminMailboxes();
   } catch (error) {
-    setMessage(adminMessage, error.message || "Could not delete message.", true);
+    setMessage(adminMessage, error.message || t("deleteMessageFailed"), true);
   }
 }
 
 async function deleteAdminMailbox() {
-  if (!selectedAdminMailbox || !confirm(`Delete ${selectedAdminMailbox} and all of its messages permanently?`)) return;
+  if (!selectedAdminMailbox || !confirm(`${t("deleteMailboxAsk")} ${selectedAdminMailbox}`)) return;
   try {
     await adminFetch(`/api/admin-mailboxes?mailbox=${encodeURIComponent(selectedAdminMailbox)}`, { method: "DELETE" });
     selectedAdminMailbox = "";
-    adminMessageList.innerHTML = '<div class="empty-state">Mailbox deleted.</div>';
-    adminMessageDetail.innerHTML = '<p class="empty-state">Choose a mailbox or message.</p>';
+    adminMessageList.innerHTML = `<div class="empty-state">${t("mailboxDeleted")}</div>`;
+    adminMessageDetail.innerHTML = `<p class="empty-state">${t("chooseMailbox")}</p>`;
     await loadAdminMailboxes();
   } catch (error) {
-    setMessage(adminMessage, error.message || "Could not delete mailbox.", true);
+    setMessage(adminMessage, error.message || t("deleteMailboxFailed"), true);
   }
 }
 
@@ -428,7 +514,7 @@ async function showAdminIfAllowed() {
 
 function notifyIncoming(message) {
   if (!("Notification" in window) || Notification.permission !== "granted") return;
-  new Notification(`New mail from ${message.sender}`, {
+  new Notification(`${t("newMailFrom")} ${message.sender}`, {
     body: `${message.subject}\n${decodeStoredBody(message.body).slice(0, 120)}`,
     tag: `muye-mail-${message.id}`,
   });
@@ -472,13 +558,13 @@ async function updateMessage(id, action, refreshDetail = true) {
     return false;
   }
   setMessage(inboxMessage, "");
-  if (refreshDetail) messageDetail.innerHTML = '<p class="empty-state">Click a message to preview it.</p>';
+  if (refreshDetail) messageDetail.innerHTML = `<p class="empty-state">${t("clickPreview")}</p>`;
   await loadMessages();
   return true;
 }
 
 function updateViewTabs() {
-  mailboxTitle.textContent = viewLabels[currentView] || viewLabels.inbox;
+  mailboxTitle.textContent = viewLabels[currentView]?.() || viewLabels.inbox();
   viewButtons.forEach((button) => {
     const selected = button.dataset.view === currentView;
     button.classList.toggle("active", selected);
@@ -508,14 +594,14 @@ function showLogin() {
 
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  setMessage(loginMessage, "Opening mailbox...");
+  setMessage(loginMessage, t("opening"));
   const formData = new FormData(loginForm);
   const openForToday = formData.get("openForToday") === "on";
   const tomorrow = new Date();
   tomorrow.setHours(24, 0, 0, 0);
   const captcha = window.muyeCaptchaToken || muyeCaptchaToken || String(formData.get("cf-turnstile-response") || document.querySelector('input[name="cf-turnstile-response"]')?.value || window.turnstile?.getResponse?.() || "");
   if (!captcha) {
-    setMessage(loginMessage, "Please wait for the CAPTCHA, then try again.", true);
+    setMessage(loginMessage, t("waitCaptcha"), true);
     return;
   }
   const response = await fetch("/api/mailbox-login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mailbox: formData.get("mailbox"), password: formData.get("password"), captcha, openForToday, expiresAt: tomorrow.getTime() }) });
@@ -523,7 +609,7 @@ loginForm.addEventListener("submit", async (event) => {
   if (!response.ok) {
     window.turnstile?.reset?.();
     window.muyeCaptchaExpired();
-    setMessage(loginMessage, result.error || "Could not open mailbox.", true);
+    setMessage(loginMessage, result.error || t("openFailed"), true);
     return;
   }
   loginForm.reset();
@@ -536,7 +622,7 @@ loginForm.addEventListener("submit", async (event) => {
 function togglePassword(input, button) {
   const visible = input.type === "text";
   input.type = visible ? "password" : "text";
-  button.textContent = visible ? "Show" : "Hide";
+  button.textContent = visible ? t("show") : t("hide");
 }
 
 document.querySelector("#login-password-toggle").addEventListener("click", (event) => togglePassword(document.querySelector("#login-password"), event.currentTarget));
@@ -549,12 +635,12 @@ let resetChallenge = "";
 async function sendResetCode() {
   const data = new FormData(resetForm);
   const email = String(data.get("contactEmail") || "").trim();
-  if (!email) { setMessage(resetMessage, "Enter your verification email.", true); return false; }
+  if (!email) { setMessage(resetMessage, t("enterEmail"), true); return false; }
   const response = await fetch("/api/send-email-code", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email }) });
   const result = await response.json();
-  if (!response.ok) { setMessage(resetMessage, result.error || "Could not send code.", true); return false; }
+  if (!response.ok) { setMessage(resetMessage, result.error || t("codeSendFailed"), true); return false; }
   resetChallenge = result.challenge;
-  setMessage(resetMessage, "Verification code sent by email.");
+  setMessage(resetMessage, t("codeSent"));
   return true;
 }
 
@@ -570,20 +656,20 @@ resetForm.addEventListener("submit", async (event) => {
   if (!resetChallenge) {
     const sent = await sendResetCode();
     if (!sent) return;
-    setMessage(resetMessage, "Code sent. Enter it above, then press Replace password.");
+    setMessage(resetMessage, t("codeSentNext"));
     return;
   }
-  if (!code) { setMessage(resetMessage, "Enter the verification code you received.", true); return; }
-  if (password.length < 8 || password !== confirmation) { setMessage(resetMessage, password !== confirmation ? "Passwords do not match." : "Password must be at least 8 characters.", true); return; }
+  if (!code) { setMessage(resetMessage, t("enterCode"), true); return; }
+  if (password.length < 8 || password !== confirmation) { setMessage(resetMessage, password !== confirmation ? t("passwordMismatch") : t("passwordShort"), true); return; }
   const verifyResponse = await fetch("/api/verify-email-code", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email, code, challenge: resetChallenge }) });
   const verifyResult = await verifyResponse.json();
-  if (!verifyResponse.ok) { setMessage(resetMessage, verifyResult.error || "That code is not valid.", true); return; }
+  if (!verifyResponse.ok) { setMessage(resetMessage, verifyResult.error || t("codeInvalid"), true); return; }
   const response = await fetch("/api/reset-password", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ password, proof: verifyResult.proof }) });
   const result = await response.json();
-  if (!response.ok) { setMessage(resetMessage, result.error || "Could not replace password.", true); return; }
+  if (!response.ok) { setMessage(resetMessage, result.error || t("replaceFailed"), true); return; }
   resetForm.reset();
   resetChallenge = "";
-  setMessage(resetMessage, "Password replaced. You can sign in now.");
+  setMessage(resetMessage, t("replaced"));
 });
 
 composeForm.attachment.addEventListener("change", async () => {
@@ -592,7 +678,7 @@ composeForm.attachment.addEventListener("change", async () => {
   composeImagePreview.hidden = true;
   if (!file) return;
   if (file.size > 4 * 1024 * 1024) {
-    setMessage(composeMessage, "Choose a file under 4 MB.", true);
+    setMessage(composeMessage, t("fileTooLarge"), true);
     composeForm.attachment.value = "";
     return;
   }
@@ -605,7 +691,7 @@ composeForm.attachment.addEventListener("change", async () => {
     composeImagePreview.hidden = false;
     setMessage(composeMessage, "");
   } catch (error) {
-    setMessage(composeMessage, error.message || "Could not load file.", true);
+    setMessage(composeMessage, error.message || t("fileLoadFailed"), true);
   }
 });
 
@@ -621,17 +707,17 @@ composeForm.addEventListener("submit", async (event) => {
   composeSending = true;
   const submitButton = composeForm.querySelector('button[type="submit"]');
   if (submitButton) submitButton.disabled = true;
-  setMessage(composeMessage, "Sending...");
+  setMessage(composeMessage, t("sending"));
   const formData = new FormData(composeForm);
   const idempotencyKey = composeIdempotencyKey();
   try {
     const response = await fetch("/api/mailbox-messages", { method: "POST", headers: { "content-type": "application/json", "idempotency-key": idempotencyKey }, body: JSON.stringify({ recipient: formData.get("recipient"), subject: formData.get("subject"), body: formData.get("body"), attachment: selectedAttachment, idempotencyKey }) });
     const result = await response.json();
-    if (!response.ok) { setMessage(composeMessage, result.error || "Could not send message.", true); return; }
+    if (!response.ok) { setMessage(composeMessage, result.error || t("sendFailed"), true); return; }
     composeForm.reset();
     selectedAttachment = null;
     composeImagePreview.hidden = true;
-    setMessage(composeMessage, "Message sent.");
+    setMessage(composeMessage, t("sent"));
     loadMessages();
   } finally {
     composeSending = false;
@@ -644,13 +730,13 @@ document.querySelector("#admin-refresh-button").addEventListener("click", loadAd
 viewButtons.forEach((button) => {
   button.addEventListener("click", () => {
     currentView = button.dataset.view === "outbox" || button.dataset.view === "trash" ? button.dataset.view : "inbox";
-    messageDetail.innerHTML = '<p class="empty-state">Click a message to preview it.</p>';
+    messageDetail.innerHTML = `<p class="empty-state">${t("clickPreview")}</p>`;
     updateViewTabs();
     loadMessages();
   });
 });
 document.querySelector("#close-preview-button").addEventListener("click", () => {
-  messageDetail.innerHTML = '<p class="empty-state">Click a message to preview it.</p>';
+  messageDetail.innerHTML = `<p class="empty-state">${t("clickPreview")}</p>`;
 });
 document.querySelector("#logout-button").addEventListener("click", async () => {
   await fetch("/api/mailbox-login", { method: "DELETE" });
@@ -659,6 +745,8 @@ document.querySelector("#logout-button").addEventListener("click", async () => {
   notificationTimer = null;
   showLogin();
 });
+
+applyMailboxLanguage();
 
 if (localStorage.getItem("muye_open_mail_today") === todayKey) {
   autoOpenApp();

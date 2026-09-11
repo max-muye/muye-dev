@@ -50,6 +50,12 @@ const homeText = {
   ar: { prompt: "يرجى التسجيل أو تسجيل الدخول", work: "الأعمال", games: "الألعاب", misc: "أخرى", notes: "ملاحظات", contact: "تواصل", createEmail: "إنشاء بريد", mailbox: "البريد", talk: "الدردشة", signIn: "دخول", signUp: "تسجيل", notesTitle: "أفكر الآن", noteName: "أفكر الآن" },
 };
 
+const languageButtonSvg = `
+  <svg class="language-mark" viewBox="0 0 42 36" role="img" aria-hidden="true" focusable="false">
+    <text class="language-mark-a" x="16" y="28">A</text>
+    <text class="language-mark-zh" x="25" y="14">中</text>
+  </svg>`;
+
 async function waitForClerk() {
   for (let attempt = 0; attempt < 80; attempt += 1) {
     if (window.Clerk) return window.Clerk;
@@ -87,7 +93,10 @@ function applyHomeLanguage() {
   const language = languages.find((item) => item.code === currentLanguage()) || languages[0];
   document.documentElement.lang = language.code;
   document.documentElement.dir = language.dir;
-  if (languageButton) languageButton.textContent = language.code === "zh" ? "中A" : `${language.short}A`;
+  if (languageButton) {
+    languageButton.innerHTML = languageButtonSvg;
+    languageButton.setAttribute("aria-label", `Change language. Current: ${language.label}`);
+  }
   const navLinks = document.querySelectorAll(".site-header nav > a");
   const navKeys = ["work", "games", "misc", "notes", "contact", "createEmail", "mailbox", "talk", "signIn", "signUp"];
   navKeys.forEach((key, index) => { if (navLinks[index]) navLinks[index].textContent = textFor(key); });

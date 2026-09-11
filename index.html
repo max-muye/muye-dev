@@ -33,7 +33,12 @@
         <a href="/mailbox">Mailbox</a>
         <a href="/talk/">Talk</a>
         <div class="language-switcher" id="language-switcher">
-          <button class="language-button" id="language-button" type="button" aria-haspopup="listbox" aria-expanded="false">中A</button>
+          <button class="language-button" id="language-button" type="button" aria-label="Change language" aria-haspopup="listbox" aria-expanded="false">
+            <svg class="language-mark" viewBox="0 0 42 36" role="img" aria-hidden="true" focusable="false">
+              <text class="language-mark-a" x="16" y="28">A</text>
+              <text class="language-mark-zh" x="25" y="14">中</text>
+            </svg>
+          </button>
           <div class="language-menu" id="language-menu" role="listbox" hidden></div>
         </div>
         <a class="nav-auth sign-in" href="/sign-in">Sign in</a>
@@ -145,7 +150,7 @@
 
     <script defer crossorigin="anonymous" src="https://clerk.www.muye.dev/npm/@clerk/ui@1/dist/ui.browser.js"></script>
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script defer src="/script.js?v=22"></script>
+    <script defer src="/script.js?v=23"></script>
     <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});</script>
   </body>
 </html>

@@ -1,0 +1,46 @@
+.muye-site-footer {
+  box-sizing: border-box;
+  width: min(1164px, calc(100% - 32px));
+  margin: 48px auto 0;
+  padding: 24px 0 28px;
+  border-top: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  color: color-mix(in srgb, currentColor 68%, transparent);
+  font: 700 13px/1.4 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.muye-site-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.muye-site-footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.muye-site-footer-language {
+  min-height: 34px;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: 8px;
+  padding: 0 10px;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .muye-site-footer {
+    width: calc(100% - 24px);
+    margin-top: 28px;
+  }
+
+  .muye-site-footer-inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

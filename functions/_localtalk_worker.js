@@ -5,7 +5,7 @@ const maxTextBytes = 1024;
 const clerkIssuer = "https://clerk.www.muye.dev";
 const combiningMarkPattern = /[\u0300-\u036f\u1ab0-\u1aff\u1dc0-\u1dff\u20d0-\u20ff\ufe20-\ufe2f]/g;
 const hiddenControlPattern = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f\u00ad\u034f\u061c\u115f\u1160\u17b4\u17b5\u180e\u200b-\u200f\u2028-\u202e\u2060-\u206f\u3164\ufe00-\ufe0f\ufeff\uffa0]/g;
-const roomLimitHtml = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Room limit</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#eef4f1;color:#132019}.box{width:min(520px,calc(100% - 32px));padding:22px;border:1px solid #d7e4dc;border-radius:8px;background:#fbfdfb;box-shadow:0 18px 60px rgba(18,43,28,.14)}h1{margin:0 0 8px;font-size:22px}p{margin:0 0 14px;color:#65736a;line-height:1.45}a{color:#16734d;font-weight:750}</style></head><body><main class="box"><h1>Room limit reached / 房间数量已达上限</h1><p>This IP can create up to 3 rooms. / 每个 IP 最多可以创建 3 个房间。</p><a href="/talk/">Back to Local Talk / 返回本地聊天</a></main></body></html>`;
+const roomLimitHtml = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Room limit</title><link rel="stylesheet" href="/assets/site-footer.css?v=1"><style>body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#eef4f1;color:#132019}.box{width:min(520px,calc(100% - 32px));padding:22px;border:1px solid #d7e4dc;border-radius:8px;background:#fbfdfb;box-shadow:0 18px 60px rgba(18,43,28,.14)}h1{margin:0 0 8px;font-size:22px}p{margin:0 0 14px;color:#65736a;line-height:1.45}a{color:#16734d;font-weight:750}</style></head><body><main class="box"><h1>Room limit reached / 房间数量已达上限</h1><p>This IP can create up to 3 rooms. / 每个 IP 最多可以创建 3 个房间。</p><a href="/talk/">Back to Local Talk / 返回本地聊天</a></main><script src="/assets/site-footer.js?v=1"></script></body></html>`;
 let setupPromise;
 
 const appHtml = `<!doctype html>
@@ -19,6 +19,7 @@ const appHtml = `<!doctype html>
   <meta name="apple-mobile-web-app-title" content="LocalTalk">
   <link rel="manifest" href="/talk/manifest.webmanifest">
   <link rel="apple-touch-icon" href="/assets/icon-localtalk.svg">
+  <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   <title>Local Talk</title>
   <style>
     :root{color-scheme:light;--bg:#eef4f1;--panel:#fbfdfb;--text:#132019;--muted:#65736a;--line:#d7e4dc;--accent:#16734d;--accent2:#2f7dd1;--bubble:#e4f4eb;--admin:#e8efff;--shadow:0 18px 60px rgba(18,43,28,.14)}
@@ -107,6 +108,7 @@ const appHtml = `<!doctype html>
     syncText();loadMySenderKey().then(loadHistory).catch(()=>{status.textContent=t("dbError")});
     setInterval(()=>loadHistory().catch(()=>{}),3000);
   </script>
+  <script src="/assets/site-footer.js?v=1"></script>
 </body>
 </html>`;
 
@@ -116,6 +118,7 @@ const adminHtml = `<!doctype html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Local Talk Admin</title>
+  <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   <style>
     :root{--panel:#f8fbf9;--text:#101a14;--muted:#637169;--line:#d8e4dc;--accent:#16734d;--danger:#bd2f3a;--blue:#2f65d1}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(135deg,#101513,#20332a);color:var(--text);padding:18px}main{width:min(980px,100%);margin:0 auto;background:var(--panel);border-radius:8px;overflow:hidden;border:1px solid var(--line);box-shadow:0 22px 70px rgba(0,0,0,.28)}header{padding:18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}h1{margin:0;font-size:22px}.muted{color:var(--muted);font-size:13px;margin-top:4px}section{padding:18px}.login,.composer{display:grid;gap:10px;max-width:620px}.composer{display:none;margin-bottom:14px}input,select{height:46px;border:1px solid var(--line);border-radius:8px;padding:0 14px;font:inherit}button,a,label{height:42px;border-radius:8px;border:0;padding:0 14px;font:inherit;font-weight:750;background:var(--accent);color:#fff;cursor:pointer;text-decoration:none;display:inline-grid;place-items:center;transition:transform .18s ease,filter .18s ease}button:hover,a:hover,label:hover{transform:translateY(-1px);filter:brightness(.95)}.secondary{color:var(--text);background:#edf4f0;border:1px solid var(--line)}.danger{background:var(--danger)}.blue{background:var(--blue)}.toolbar{display:none;gap:8px;flex-wrap:wrap;margin-bottom:14px}.bulk{display:none;grid-template-columns:minmax(160px,1fr) auto minmax(160px,1fr) auto;gap:8px;margin-bottom:14px}.ip-tools{display:none;grid-template-columns:minmax(180px,1fr) auto;gap:8px;margin-bottom:14px;max-width:420px}#admin-file{display:none}#room-list,#list,#signed-list,#private-list,#bans{display:grid;gap:10px}.room-head{display:none;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff}.row{border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start;background:#fff;animation:rowIn .24s ease both}.room-row{cursor:pointer}.room-row strong{overflow-wrap:anywhere}.text{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35}.text a{color:var(--blue);font-weight:800}.time{color:var(--muted);font-size:12px;margin-top:5px}.actions{display:flex;gap:8px;flex-wrap:wrap}#notice{color:var(--muted);font-size:13px;min-height:18px}.tabs{display:none;gap:8px;margin-bottom:14px}@keyframes rowIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}@media(max-width:620px){body{padding:0}main{min-height:100vh;border-radius:0}.row{grid-template-columns:1fr}.room-head{align-items:stretch}.actions,.bulk,.ip-tools{display:grid;grid-template-columns:1fr}} 
   </style>
@@ -186,6 +189,7 @@ const adminHtml = `<!doctype html>
     adminMasterFile.onchange=()=>uploadAdminFile(adminMasterFile,true);
     syncText();
   </script>
+  <script src="/assets/site-footer.js?v=1"></script>
 </body>
 </html>`;
 
@@ -202,6 +206,7 @@ function signedHtml(publishableKey) {
   <meta name="apple-mobile-web-app-title" content="LocalTalk">
   <link rel="manifest" href="/talk/manifest.webmanifest">
   <link rel="apple-touch-icon" href="/assets/icon-localtalk.svg">
+  <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   <title>Signed Room</title>
   <style>
     :root{color-scheme:light;--bg:#edf2f8;--panel:#fbfcff;--text:#111827;--muted:#667085;--line:#d9e2ef;--accent:#315ec8;--bubble:#e9f0ff;--shadow:0 18px 58px rgba(20,38,70,.15)}
@@ -293,6 +298,7 @@ function signedHtml(publishableKey) {
     file.addEventListener("change",async()=>{filePickUntil=Date.now()+4000;if(uploadBusy)return;const f=file.files[0];if(!f)return;uploadBusy=true;input.value="";status.textContent=t("uploading");const reader=new FileReader();reader.onload=async()=>{try{const r=await fetch(api("/upload"),{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+await token()},body:JSON.stringify({name:f.name,mime:f.type||"application/octet-stream",dataUrl:reader.result,displayName:displayName(),email:authEmail(),quoteText:quote?.quoteText||"",quoteName:quote?.quoteName||""})});file.value="";if(r.status===403){status.textContent=await forbiddenText(r);return}if(!r.ok){status.textContent=t("uploadFailed");return}clearQuote();await loadHistory()}finally{uploadBusy=false;filePickUntil=Date.now()+1200}};reader.onerror=()=>{uploadBusy=false;filePickUntil=Date.now()+1200;file.value="";status.textContent=t("uploadFailed")};reader.readAsDataURL(f)});
     syncSignedText();setInterval(()=>{if(window.Clerk&&Clerk.isSignedIn)loadPrivate().catch(()=>{})},4000);setInterval(()=>{if(window.Clerk&&Clerk.isSignedIn)loadHistory().catch(()=>{})},3000);boot().catch(error=>{console.error(error);status.textContent=String(error&&error.message||t("clerkLoadFailed")).slice(0,120)});
   </script>
+  <script src="/assets/site-footer.js?v=1"></script>
 </body>
 </html>`;
 }

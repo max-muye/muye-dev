@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="How LocalTalk works on Muye.dev.">
+    <title>How LocalTalk works · Muye</title>
+    <link rel="icon" href="../../assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../../styles.css">
+  </head>
+  <body class="note-page">
+    <header class="site-header">
+      <a class="brand" href="/">Muye</a>
+      <nav><a href="/">Home</a></nav>
+    </header>
+    <main class="note-shell">
+      <a class="note-back" href="/#notes">Back to notes</a>
+      <p class="eyebrow">LocalTalk</p>
+      <h1>How LocalTalk works.</h1>
+      <p class="note-meta">September 11, 2026</p>
+      <article class="note-content">
+        <p>LocalTalk is the chat space at <code>/talk</code>. It is meant to feel quick, local, and low-friction: open a room, say something, share a file, and move on.</p>
+
+        <h2>Rooms</h2>
+        <p>The main room lives at <code>/talk</code>. Other rooms can live under their own paths, so a small group can use a separate place without needing a whole new app.</p>
+
+        <h2>Signed Chat</h2>
+        <p>The signed room uses Clerk sign-in. It can show a user button, remember a display name, and support private messages between signed-in people.</p>
+
+        <h2>Files And Messages</h2>
+        <p>Text messages can include links and code blocks. Files can be uploaded and downloaded from the room, with simple duplicate protection so one action does not accidentally send twice.</p>
+
+        <h2>Moderation</h2>
+        <p>The admin page can remove messages, name devices, ban devices or IPs, manage text bans, and control fast-spam protection. The public lock button was removed so the chat stays simpler.</p>
+
+        <h2>Language</h2>
+        <p>LocalTalk follows the master language switch on the main site. When the master language is Chinese, LocalTalk uses Chinese; otherwise it stays in English.</p>
+      </article>
+    </main>
+    <footer>
+      <p>© <span id="year"></span> Muye. Built for Cloudflare Pages.</p>
+      <a href="mailto:muye@muye.dev">muye@muye.dev</a>
+    </footer>
+    <script>document.querySelector("#year").textContent = new Date().getFullYear();</script>
+  </body>
+</html>

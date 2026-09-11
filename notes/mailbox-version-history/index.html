@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Muye mailbox version history.">
+    <title>Mailbox version history · Muye</title>
+    <link rel="icon" href="../../assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../../styles.css">
+  </head>
+  <body class="note-page">
+    <header class="site-header">
+      <a class="brand" href="/">Muye</a>
+      <nav><a href="/">Home</a></nav>
+    </header>
+    <main class="note-shell">
+      <a class="note-back" href="/#notes">Back to notes</a>
+      <p class="eyebrow">Mailbox</p>
+      <h1>Mailbox version history.</h1>
+      <p class="note-meta">September 11, 2026</p>
+      <article class="note-content">
+        <p>Muye mail is the mailbox system at <code>/mailbox</code>. It receives mail for <code>@muye.dev</code>, stores messages, and lets Muye send mail from the site.</p>
+
+        <h2>v1.0</h2>
+        <ul>
+          <li>Mailbox sign-in with a Muye email and password.</li>
+          <li>Inbox, outbox, trash, message preview, and file attachments.</li>
+          <li>Incoming mail stored through Cloudflare Email Routing and D1.</li>
+          <li>Outgoing mail sent through Resend when configured.</li>
+          <li>Email-only password reset using verification codes.</li>
+          <li>Duplicate-send protection so one press should not create two outgoing messages.</li>
+          <li>Admin view for all mailboxes and mailbox creation requests.</li>
+        </ul>
+
+        <h2>Creation Rules</h2>
+        <p>Only <code>muye@muye.dev</code> can directly create a mailbox. Other users can send a request with the mailbox name they want and a short message.</p>
+
+        <h2>Older Paths Removed</h2>
+        <p>The phone-number/SMS verification path was removed. Recovery now uses email verification only.</p>
+      </article>
+    </main>
+    <footer>
+      <p>© <span id="year"></span> Muye. Built for Cloudflare Pages.</p>
+      <a href="mailto:muye@muye.dev">muye@muye.dev</a>
+    </footer>
+    <script>document.querySelector("#year").textContent = new Date().getFullYear();</script>
+  </body>
+</html>

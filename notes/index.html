@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes from Muye.dev.">
+    <title>Notes · Muye</title>
+    <link rel="icon" href="../assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body class="note-page">
+    <header class="site-header">
+      <a class="brand" href="/">Muye</a>
+      <nav><a href="/">Home</a></nav>
+    </header>
+    <main class="note-shell">
+      <a class="note-back" href="/">Back home</a>
+      <p class="eyebrow">Notes</p>
+      <h1>Recently thinking about.</h1>
+      <p class="note-meta">Version notes, project notes, and things currently being built.</p>
+      <article class="note-content">
+        <div class="note-list">
+          <a href="/notes/now-thinking-about/">
+            <span>Now thinking about</span>
+            <strong>Version notes, recent deploys, and what this site is becoming.</strong>
+          </a>
+          <a href="/notes/how-localtalk-works/">
+            <span>How LocalTalk works</span>
+            <strong>A small guide to rooms, signed chat, files, and moderation.</strong>
+          </a>
+          <a href="/notes/mailbox-version-history/">
+            <span>Mailbox version history</span>
+            <strong>How Muye mail changed from email creation to safer sending.</strong>
+          </a>
+          <a href="/notes/now-building-games/">
+            <span>Now building</span>
+            <strong>Games: small, touch-friendly play without scores or pressure.</strong>
+          </a>
+        </div>
+      </article>
+    </main>
+    <footer>
+      <p>© <span id="year"></span> Muye. Built for Cloudflare Pages.</p>
+      <a href="mailto:muye@muye.dev">muye@muye.dev</a>
+    </footer>
+    <script>document.querySelector("#year").textContent = new Date().getFullYear();</script>
+  </body>
+</html>

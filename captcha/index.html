@@ -15,20 +15,21 @@
     <main class="auth-shell">
       <div class="auth-topbar">
         <a class="auth-brand" href="/">Muye</a>
-        <a class="home-link" href="/">Home</a>
+        <a class="home-link" href="/" data-i18n="home">Home</a>
       </div>
       <section class="auth-panel" aria-labelledby="captcha-title">
-        <p class="eyebrow">Muye Security</p>
-        <h1 id="captcha-title">CAPTCHA test</h1>
-        <p class="field-hint">Complete the challenge, then test the server verification.</p>
+        <p class="eyebrow" data-i18n="captchaEyebrow">Muye Security</p>
+        <h1 id="captcha-title" data-i18n="captchaTitle">CAPTCHA test</h1>
+        <p class="field-hint" data-i18n="captchaHint">Complete the challenge, then test the server verification.</p>
         <form class="auth-form" id="captcha-form">
           <div class="cf-turnstile" data-sitekey="0x4AAAAAAEG-XIoYvPuejEbf"></div>
-          <button class="button primary" type="submit">Test CAPTCHA</button>
+          <button class="button primary" type="submit" data-i18n="captchaButton">Test CAPTCHA</button>
           <p class="auth-message" id="captcha-result" role="status" aria-live="polite">false</p>
         </form>
       </section>
     </main>
-    <script defer src="/captcha/captcha.js?v=1"></script>
+    <script src="/assets/page-i18n.js?v=1"></script>
+    <script defer src="/captcha/captcha.js?v=2"></script>
     <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

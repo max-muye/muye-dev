@@ -3,7 +3,7 @@ const result = document.querySelector("#captcha-result");
 
 form?.addEventListener("submit", async (event) => {
   event.preventDefault();
-  result.textContent = "checking...";
+  result.textContent = window.MuyePageI18n?.t("checking") || "checking...";
   result.classList.remove("error");
   const token = window.turnstile?.getResponse?.() || "";
   try {

@@ -11,20 +11,20 @@
   <body class="note-page">
     <header class="site-header">
       <a class="brand" href="/">Muye</a>
-      <nav><a href="/">Home</a></nav>
+      <nav><a href="/" data-i18n="home">Home</a></nav>
     </header>
     <main class="note-shell">
-      <a class="note-back" href="/#notes">Back to notes</a>
-      <p class="eyebrow">Now building</p>
-      <h1>Games.</h1>
+      <a class="note-back" href="/#notes" data-i18n="backNotes">Back to notes</a>
+      <p class="eyebrow" data-i18n="buildingTitle">Now building</p>
+      <h1 data-i18n="gamesH1">Games.</h1>
       <p class="note-meta">September 11, 2026</p>
       <article class="note-content">
         <p>The games page is becoming a little pocket arcade: black background, touch-friendly controls, and quick games that do not need scores to be fun.</p>
 
-        <h2>Current Set</h2>
+        <h2 data-i18n="currentSet">Current Set</h2>
         <p>The current games include Snake Lab, Minesweeper, 2048, Connect Four, Tic-Tac-Toe, Chess, Go, Checkers, Reversi, Battleship, Sudoku, Wordle, Lights Out, Memory Match, Hangman, Blackjack, and Rock Paper Scissors.</p>
 
-        <h2>Design Rules</h2>
+        <h2 data-i18n="designRules">Design Rules</h2>
         <ul>
           <li>Phone and iPad friendly first.</li>
           <li>No scoring pressure.</li>
@@ -32,14 +32,15 @@
           <li>Mostly black-background UI so the games feel like one place.</li>
         </ul>
 
-        <h2>Next Ideas</h2>
+        <h2 data-i18n="nextIdeas">Next Ideas</h2>
         <p>More tiny games can join the same hub as long as they stay fast to open, easy to understand, and comfortable on a small screen.</p>
       </article>
     </main>
     <footer>
-      <p>© <span id="year"></span> Muye. Built for Cloudflare Pages.</p>
+      <p>© <span id="year"></span> Muye. <span data-footer-built>Built for Cloudflare Pages.</span></p>
       <a href="mailto:muye@muye.dev">muye@muye.dev</a>
     </footer>
     <script>document.querySelector("#year").textContent = new Date().getFullYear();</script>
+    <script src="/assets/page-i18n.js?v=1"></script>
   </body>
 </html>

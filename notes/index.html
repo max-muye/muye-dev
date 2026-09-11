@@ -11,38 +11,39 @@
   <body class="note-page">
     <header class="site-header">
       <a class="brand" href="/">Muye</a>
-      <nav><a href="/">Home</a></nav>
+      <nav><a href="/" data-i18n="home">Home</a></nav>
     </header>
     <main class="note-shell">
-      <a class="note-back" href="/">Back home</a>
-      <p class="eyebrow">Notes</p>
-      <h1>Recently thinking about.</h1>
-      <p class="note-meta">Version notes, project notes, and things currently being built.</p>
+      <a class="note-back" href="/" data-i18n="backHome">Back home</a>
+      <p class="eyebrow" data-i18n="notes">Notes</p>
+      <h1 data-i18n="notesTitle">Recently thinking about.</h1>
+      <p class="note-meta" data-i18n="notesMeta">Version notes, project notes, and things currently being built.</p>
       <article class="note-content">
         <div class="note-list">
           <a href="/notes/now-thinking-about/">
-            <span>Now thinking about</span>
-            <strong>Version notes, recent deploys, and what this site is becoming.</strong>
+            <span data-i18n="nowThinking">Now thinking about</span>
+            <strong data-i18n="nowThinkingText">Version notes, recent deploys, and what this site is becoming.</strong>
           </a>
           <a href="/notes/how-localtalk-works/">
-            <span>How LocalTalk works</span>
-            <strong>A small guide to rooms, signed chat, files, and moderation.</strong>
+            <span data-i18n="localtalkTitle">How LocalTalk works</span>
+            <strong data-i18n="localtalkText">A small guide to rooms, signed chat, files, and moderation.</strong>
           </a>
           <a href="/notes/mailbox-version-history/">
-            <span>Mailbox version history</span>
-            <strong>How Muye mail changed from email creation to safer sending.</strong>
+            <span data-i18n="mailboxTitle">Mailbox version history</span>
+            <strong data-i18n="mailboxText">How Muye mail changed from email creation to safer sending.</strong>
           </a>
           <a href="/notes/now-building-games/">
-            <span>Now building</span>
-            <strong>Games: small, touch-friendly play without scores or pressure.</strong>
+            <span data-i18n="buildingTitle">Now building</span>
+            <strong data-i18n="buildingText">Games: small, touch-friendly play without scores or pressure.</strong>
           </a>
         </div>
       </article>
     </main>
     <footer>
-      <p>© <span id="year"></span> Muye. Built for Cloudflare Pages.</p>
+      <p>© <span id="year"></span> Muye. <span data-footer-built>Built for Cloudflare Pages.</span></p>
       <a href="mailto:muye@muye.dev">muye@muye.dev</a>
     </footer>
     <script>document.querySelector("#year").textContent = new Date().getFullYear();</script>
+    <script src="/assets/page-i18n.js?v=1"></script>
   </body>
 </html>

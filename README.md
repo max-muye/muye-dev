@@ -36,3 +36,7 @@ npx wrangler pages dev .
 Then open the local URL Wrangler prints.
 
 Local copies may not have the same private keys or database access as the live site, so sign-in, mail, and admin-only features may be limited.
+
+## Page Language Rule
+
+When adding a new `/xxx` page, include the master language behavior from the start. Use the existing 10 languages (`en`, `zh`, `ja`, `ko`, `es`, `fr`, `de`, `pt`, `ru`, `ar`) and connect visible page text to the shared language setting instead of leaving a new page English-only.

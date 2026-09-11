@@ -11,19 +11,23 @@
   <body class="note-page">
     <header class="site-header">
       <a class="brand" href="/">Muye</a>
-      <nav><a href="/">Home</a></nav>
+      <nav><a href="/" data-i18n="home">Home</a></nav>
     </header>
     <main class="note-shell">
-      <a class="note-back" href="/#notes">Back to notes</a>
-      <p class="eyebrow">Now thinking about</p>
-      <h1>Muye.dev is now v1.2.6.</h1>
+      <a class="note-back" href="/#notes" data-i18n="backNotes">Back to notes</a>
+      <p class="eyebrow" data-i18n="nowThinking">Now thinking about</p>
+      <h1 data-i18n="thinkingH1">Muye.dev is now v1.2.7.</h1>
       <p class="note-meta">September 12, 2026</p>
       <article class="note-content">
         <p>This note is the living place for what changed, what shipped, and what the site is slowly turning into.</p>
 
-        <h2>Version List</h2>
-        <p><strong>v1.2.6</strong> is the current version of muye.dev.</p>
+        <h2 data-i18n="versionList">Version List</h2>
+        <p><strong>v1.2.7</strong> is the current version of muye.dev.</p>
         <p>Versions use <code>big.feature.fix</code>: the last number is for small deploys, the middle number is for bigger updates, and the first number is for major site changes.</p>
+        <h3>v1.2.7</h3>
+        <ul>
+          <li>Added shared 10-language support for notes and the CAPTCHA test page, plus a README rule for new pages.</li>
+        </ul>
         <h3>v1.2.6</h3>
         <ul>
           <li>Added rotating homepage greeting messages and a browser-saved daily check-in.</li>
@@ -75,7 +79,8 @@
           <li>Clerk sign-in on the main site and signed LocalTalk.</li>
         </ul>
 
-        <h2>Deploy Notes</h2>
+        <h2 data-i18n="deployNotes">Deploy Notes</h2>
+        <p><strong>September 12, 2026:</strong> Added shared 10-language support for notes and CAPTCHA, added a simple footer language button for static notes, and documented that new <code>/xxx</code> pages should not ship English-only, then bumped the site to <code>v1.2.7</code>.</p>
         <p><strong>September 12, 2026:</strong> Added daily rotating homepage greetings and a local daily check-in, then bumped the site to <code>v1.2.6</code>.</p>
         <p><strong>September 12, 2026:</strong> Added language support for the signed-in homepage greeting and bumped the homepage script cache, then bumped the site to <code>v1.2.5</code>.</p>
         <p><strong>September 11, 2026:</strong> Fixed the game play script scope issue and bumped the Games script cache to restore games like Blackjack, then bumped the site to <code>v1.2.4</code>.</p>
@@ -95,14 +100,15 @@
         <p><strong>September 11, 2026:</strong> Notes were simplified into this single page, with old note pages removed. The mailbox recovery flow was also made email-only, with the phone/SMS path removed.</p>
         <p><strong>September 3, 2026:</strong> Games were added, LocalTalk was merged into muye-dev, mailbox sending was hardened against duplicate sends, and the LocalTalk public lock control was removed.</p>
 
-        <h2>Now Thinking About</h2>
+        <h2 data-i18n="nowThinkingHead">Now Thinking About</h2>
         <p>The site should feel like a small operating system for Muye: useful first, quiet by default, and easy to install on a phone or iPad.</p>
       </article>
     </main>
     <footer>
-      <p>© <span id="year"></span> Muye. Built for Cloudflare Pages.</p>
+      <p>© <span id="year"></span> Muye. <span data-footer-built>Built for Cloudflare Pages.</span></p>
       <a href="mailto:muye@muye.dev">muye@muye.dev</a>
     </footer>
     <script>document.querySelector("#year").textContent = new Date().getFullYear();</script>
+    <script src="/assets/page-i18n.js?v=1"></script>
   </body>
 </html>

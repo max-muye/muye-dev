@@ -100,12 +100,14 @@ let gameId = "";
 let game = null;
 let playerKey = "";
 let recordNotice = "";
+let panel = null;
+let resetButton = null;
 
 if (document.documentElement.dataset.gamesHome !== undefined) {
   translateGamesHome();
 } else {
-const panel = document.querySelector("#play-panel");
-const resetButton = document.querySelector("#reset-game");
+panel = document.querySelector("#play-panel");
+resetButton = document.querySelector("#reset-game");
 const params = new URLSearchParams(location.search);
 const slug = params.get("game") || "2048";
 gameId = games[slug] ? slug : "2048";

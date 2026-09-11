@@ -25,6 +25,16 @@ const games = {
   "maze-runner": { title: "Maze Runner", type: "Puzzle", description: "Move through a compact maze to the exit.", how: ["Use arrows, WASD, or tap the move buttons.", "Walls block movement.", "Reach E to win."], render: renderMazeRunner },
   "color-match": { title: "Color Match", type: "Puzzle", description: "Pick the word that matches the shown color.", how: ["Look at the large color card.", "Tap the matching color name.", "Try to keep your streak alive."], render: renderColorMatch },
   "math-rush": { title: "Math Rush", type: "Challenge", description: "Solve quick arithmetic before the rounds run out.", how: ["Choose the answer to each problem.", "Correct answers build your score.", "Ten rounds make one game."], render: renderMathRush },
+  "pattern-grid": { title: "Pattern Grid", type: "Memory", description: "Remember the highlighted squares.", how: ["Tap Start to flash a small pattern.", "After it hides, tap the same squares.", "Each clear round adds one more square."], render: renderPatternGrid },
+  "word-scramble": { title: "Word Scramble", type: "Word", description: "Unscramble a tiny word puzzle.", how: ["Look at the shuffled letters.", "Type the original word.", "Use New game for another word."], render: renderWordScramble },
+  "tile-stack": { title: "Tile Stack", type: "Puzzle", description: "Stack matching tiles into calm columns.", how: ["Tap two tiles to swap them.", "Group matching symbols into columns.", "The board is saved after every swap."], render: renderTileStack },
+  "safe-cracker": { title: "Safe Cracker", type: "Puzzle", description: "Find the three-digit code from hints.", how: ["Enter three digits.", "Green dots mean exact matches.", "Gold dots mean right digit, wrong place."], render: renderSafeCracker },
+  "odd-one-out": { title: "Odd One Out", type: "Puzzle", description: "Spot the one symbol that is different.", how: ["Scan the grid.", "Tap the symbol that appears only once.", "A fresh board appears after each choice."], render: renderOddOne },
+  "path-builder": { title: "Path Builder", type: "Puzzle", description: "Draw a path from start to exit.", how: ["Tap neighboring cells to extend the path.", "Reach the exit without jumping.", "Tap New game to clear the route."], render: renderPathBuilder },
+  "emoji-sequence": { title: "Emoji Sequence", type: "Memory", description: "Repeat a growing emoji order.", how: ["Tap Start sequence.", "Read the shown emojis.", "Tap them back in the same order."], render: renderEmojiSequence },
+  "balance-scale": { title: "Balance Scale", type: "Puzzle", description: "Balance two sides with tiny weights.", how: ["Tap weights to move them left or right.", "Try to make both sides equal.", "Your current scale is saved."], render: renderBalanceScale },
+  "mini-piano": { title: "Mini Piano", type: "Memory", description: "Play back a short melody.", how: ["Tap Start melody.", "Watch the notes light up.", "Tap the same notes back."], render: renderMiniPiano },
+  "shape-sort": { title: "Shape Sort", type: "Puzzle", description: "Sort shapes into the matching bins.", how: ["Tap a shape to pick it up.", "Tap the matching bin.", "Clear every shape at your own pace."], render: renderShapeSort },
 };
 
 const gameText = {
@@ -66,6 +76,16 @@ const gameTranslations = {
     "maze-runner": { title: "迷宫", type: "益智", description: "穿过小迷宫到出口。", how: ["用箭头、WASD 或移动按钮。", "墙会挡住移动。", "到达 E 就赢。"] },
     "color-match": { title: "颜色匹配", type: "益智", description: "选择和色块匹配的颜色名。", how: ["看大的颜色卡片。", "点击匹配的颜色名。", "尽量保持连胜。"] },
     "math-rush": { title: "数学冲刺", type: "挑战", description: "在回合结束前做快速算术。", how: ["选择每题答案。", "答对会增加分数。", "十题是一局。"] },
+    "pattern-grid": { title: "图案记忆", type: "记忆", description: "记住亮起的格子。", how: ["点开始闪出图案。", "图案隐藏后点回相同格子。", "每过一轮会多一个格子。"] },
+    "word-scramble": { title: "单词重排", type: "文字", description: "把打乱的小单词拼回去。", how: ["看打乱的字母。", "输入原本的单词。", "点新游戏换一个词。"] },
+    "tile-stack": { title: "方块堆叠", type: "益智", description: "把相同符号整理成列。", how: ["点两个方块交换。", "把相同符号排成列。", "每次交换都会保存。"] },
+    "safe-cracker": { title: "保险箱密码", type: "益智", description: "根据提示猜三位密码。", how: ["输入三位数字。", "绿点表示数字和位置都对。", "金点表示数字对但位置不对。"] },
+    "odd-one-out": { title: "找不同", type: "益智", description: "找出唯一不同的符号。", how: ["扫一眼格子。", "点击只出现一次的符号。", "每次选择后会刷新。"] },
+    "path-builder": { title: "路径搭建", type: "益智", description: "从起点连到出口。", how: ["点击相邻格子延长路径。", "不能跳格。", "点新游戏清空路线。"] },
+    "emoji-sequence": { title: "表情序列", type: "记忆", description: "重复越来越长的表情顺序。", how: ["点开始序列。", "记住显示的表情。", "按同样顺序点回去。"] },
+    "balance-scale": { title: "平衡秤", type: "益智", description: "用小砝码让两边一样重。", how: ["点击砝码移动到左右两边。", "让两边重量相等。", "当前状态会保存。"] },
+    "mini-piano": { title: "小钢琴", type: "记忆", description: "弹回一段短旋律。", how: ["点开始旋律。", "看亮起的音符。", "按同样顺序弹回。"] },
+    "shape-sort": { title: "形状分类", type: "益智", description: "把形状放进对应盒子。", how: ["点击一个形状拿起。", "点击对应的盒子。", "慢慢清空所有形状。"] },
   },
 };
 
@@ -931,4 +951,276 @@ function makeMathProblem() {
   const choices = new Set([answer]);
   while (choices.size < 4) choices.add(Math.max(1, answer + Math.floor(Math.random() * 15) - 7));
   return { text: `${a} ${op} ${b}`, answer, choices: [...choices].sort(() => Math.random() - 0.5) };
+}
+
+function renderPatternGrid(fresh = false) {
+  const saved = fresh ? null : loadGameSave();
+  let round = saved?.round || 3;
+  let pattern = saved?.pattern || makePattern(round);
+  let picked = saved?.picked || [];
+  let showing = false;
+  let text = saved?.text || "ready";
+  const start = () => {
+    pattern = makePattern(round);
+    picked = [];
+    showing = true;
+    text = "pattern";
+    draw();
+    setTimeout(() => { showing = false; text = "choose"; draw(); }, 900);
+  };
+  const choose = (index) => {
+    if (showing || picked.includes(index)) return;
+    picked.push(index);
+    const ok = pattern[picked.length - 1] === index;
+    if (!ok) { text = "missed"; round = 3; picked = []; }
+    else if (picked.length === pattern.length) { text = "correct"; round = Math.min(9, round + 1); noteRecord("round", round, true, gt("round", { count: round }), draw); }
+    draw();
+  };
+  const draw = () => {
+    saveGame({ round, pattern, picked, text });
+    setPanel(`${howToPlay()}${status(gt(text), gt("round", { count: round }))}
+      <div class="grid pattern-grid">${Array.from({ length: 16 }, (_, i) => `<button class="cell pattern-cell ${showing && pattern.includes(i) ? "active" : ""} ${picked.includes(i) ? "picked" : ""}" data-i="${i}" type="button"></button>`).join("")}</div>
+      <div class="choices"><button class="choice-button" id="pattern-start" type="button">${gt("start")}</button></div>`);
+    panel.querySelector("#pattern-start").addEventListener("click", start);
+    panel.querySelectorAll("[data-i]").forEach((button) => button.addEventListener("click", () => choose(Number(button.dataset.i))));
+  };
+  draw();
+}
+
+function makePattern(length) {
+  const pool = Array.from({ length: 16 }, (_, i) => i).sort(() => Math.random() - 0.5);
+  return pool.slice(0, length);
+}
+
+function renderWordScramble(fresh = false) {
+  const words = ["CLOUD", "PIXEL", "LOCAL", "QUIET", "PLANT", "LIGHT", "BRAVE", "STACK"];
+  const saved = fresh ? null : loadGameSave();
+  let word = saved?.word || words[Math.floor(Math.random() * words.length)];
+  let text = saved?.text || "guessing";
+  const shuffled = word.split("").sort(() => Math.random() - 0.5).join("");
+  const submit = () => {
+    const value = panel.querySelector("#scramble-input").value.toUpperCase().replace(/[^A-Z]/g, "");
+    text = value === word ? "solved" : "missed";
+    if (text === "solved") noteRecord("word", 1, true, word, draw);
+    draw();
+  };
+  const draw = () => {
+    saveGame({ word, text });
+    setPanel(`${howToPlay()}${status(gt(text), gt("fiveLetters"))}<div class="scramble-word">${shuffled.split("").map((letter) => `<span class="letter-box">${letter}</span>`).join("")}</div><div class="word-input"><input id="scramble-input" maxlength="8" autocomplete="off"><button class="arcade-button" id="scramble-submit">${gt("try")}</button></div><p class="board-note">${text === "solved" ? word : ""}</p>`);
+    panel.querySelector("#scramble-submit").addEventListener("click", submit);
+    panel.querySelector("#scramble-input").addEventListener("keydown", (event) => { if (event.key === "Enter") submit(); });
+  };
+  draw();
+}
+
+function renderTileStack(fresh = false) {
+  const saved = fresh ? null : loadGameSave();
+  let tiles = saved?.tiles || "AAAABBBBCCCCDDDD".split("").sort(() => Math.random() - 0.5);
+  let selected = saved?.selected ?? -1;
+  const solved = () => [0, 4, 8, 12].every((start) => tiles.slice(start, start + 4).every((value) => value === tiles[start]));
+  const pick = (index) => {
+    if (selected < 0) selected = index;
+    else {
+      [tiles[selected], tiles[index]] = [tiles[index], tiles[selected]];
+      selected = -1;
+    }
+    draw();
+  };
+  const draw = () => {
+    saveGame({ tiles, selected });
+    if (solved()) noteRecord("sorted", 1, true, "Sorted", draw);
+    setPanel(`${howToPlay()}${status(solved() ? gt("solved") : gt("playing"), gt("compactBoard"))}<div class="grid tile-stack-grid">${tiles.map((value, index) => `<button class="cell stack-tile ${selected === index ? "selected" : ""}" data-i="${index}">${value}</button>`).join("")}</div>`);
+    panel.querySelectorAll("[data-i]").forEach((button) => button.addEventListener("click", () => pick(Number(button.dataset.i))));
+  };
+  draw();
+}
+
+function renderSafeCracker(fresh = false) {
+  const saved = fresh ? null : loadGameSave();
+  let code = saved?.code || String(Math.floor(Math.random() * 900) + 100);
+  let guesses = saved?.guesses || [];
+  const submit = () => {
+    const value = panel.querySelector("#safe-input").value.replace(/\D/g, "").slice(0, 3);
+    if (value.length !== 3) return;
+    guesses = [{ value, hints: safeHints(code, value) }, ...guesses].slice(0, 6);
+    if (value === code) noteRecord("guesses", guesses.length, false, gt("guesses", { count: guesses.length }), draw);
+    draw();
+  };
+  const draw = () => {
+    saveGame({ code, guesses });
+    const solved = guesses[0]?.value === code;
+    setPanel(`${howToPlay()}${status(solved ? gt("solved") : gt("guessing"), gt("guesses", { count: guesses.length }))}
+      <div class="word-input"><input id="safe-input" maxlength="3" inputmode="numeric" autocomplete="off" placeholder="000"><button class="arcade-button" id="safe-submit">${gt("try")}</button></div>
+      <div class="guess-list">${guesses.map((guess) => `<div><strong>${guess.value}</strong><span>${guess.hints}</span></div>`).join("")}</div>`);
+    panel.querySelector("#safe-submit").addEventListener("click", submit);
+    panel.querySelector("#safe-input").addEventListener("keydown", (event) => { if (event.key === "Enter") submit(); });
+  };
+  draw();
+}
+
+function safeHints(code, value) {
+  const exact = value.split("").filter((digit, i) => digit === code[i]).length;
+  const loose = value.split("").filter((digit, i) => digit !== code[i] && code.includes(digit)).length;
+  return `${"●".repeat(exact)}${"○".repeat(loose) || " -"}`;
+}
+
+function renderOddOne(fresh = false) {
+  const symbols = ["◆", "●", "■", "▲", "★", "✦"];
+  const saved = fresh ? null : loadGameSave();
+  let base = saved?.base || symbols[Math.floor(Math.random() * symbols.length)];
+  let odd = saved?.odd || symbols.find((symbol) => symbol !== base);
+  let oddIndex = saved?.oddIndex ?? Math.floor(Math.random() * 25);
+  let streak = saved?.streak || 0;
+  const next = () => {
+    base = symbols[Math.floor(Math.random() * symbols.length)];
+    odd = symbols.filter((symbol) => symbol !== base).sort(() => Math.random() - 0.5)[0];
+    oddIndex = Math.floor(Math.random() * 25);
+  };
+  const choose = (index) => {
+    streak = index === oddIndex ? streak + 1 : 0;
+    if (streak) noteRecord("streak", streak, true, gt("streakBest", { streak, best: streak }), draw);
+    next();
+    draw();
+  };
+  const draw = () => {
+    saveGame({ base, odd, oddIndex, streak });
+    setPanel(`${howToPlay()}${status(gt("choose"), gt("streakBest", { streak, best: streak }))}<div class="grid odd-grid">${Array.from({ length: 25 }, (_, i) => `<button class="cell odd-cell" data-i="${i}">${i === oddIndex ? odd : base}</button>`).join("")}</div>`);
+    panel.querySelectorAll("[data-i]").forEach((button) => button.addEventListener("click", () => choose(Number(button.dataset.i))));
+  };
+  draw();
+}
+
+function renderPathBuilder(fresh = false) {
+  const saved = fresh ? null : loadGameSave();
+  let path = saved?.path || [0];
+  const end = 24;
+  const choose = (index) => {
+    const last = path[path.length - 1];
+    const near = Math.abs(index - last) === 5 || (Math.floor(index / 5) === Math.floor(last / 5) && Math.abs(index - last) === 1);
+    if (!near || path.includes(index)) return;
+    path.push(index);
+    if (index === end) noteRecord("steps", path.length, false, gt("moves", { count: path.length }), draw);
+    draw();
+  };
+  const draw = () => {
+    saveGame({ path });
+    setPanel(`${howToPlay()}${status(path.includes(end) ? gt("escaped") : gt("playing"), gt("moves", { count: path.length }))}
+      <div class="grid path-grid">${Array.from({ length: 25 }, (_, i) => `<button class="cell path-cell ${path.includes(i) ? "active" : ""} ${i === 0 ? "start" : ""} ${i === end ? "exit" : ""}" data-i="${i}">${i === 0 ? "S" : i === end ? "E" : ""}</button>`).join("")}</div>`);
+    panel.querySelectorAll("[data-i]").forEach((button) => button.addEventListener("click", () => choose(Number(button.dataset.i))));
+  };
+  draw();
+}
+
+function renderEmojiSequence(fresh = false) {
+  const emojis = ["☀", "☁", "★", "♥", "♦"];
+  const saved = fresh ? null : loadGameSave();
+  let sequence = saved?.sequence || [];
+  let input = saved?.input || [];
+  let showing = false;
+  let text = saved?.text || "ready";
+  const start = () => {
+    sequence = [...sequence, emojis[Math.floor(Math.random() * emojis.length)]];
+    input = [];
+    showing = true;
+    text = "pattern";
+    draw();
+    setTimeout(() => { showing = false; text = "choose"; draw(); }, 900);
+  };
+  const press = (emoji) => {
+    if (showing || !sequence.length) return;
+    input.push(emoji);
+    const ok = sequence[input.length - 1] === emoji;
+    if (!ok) { text = "missed"; sequence = []; input = []; }
+    else if (input.length === sequence.length) { text = "correct"; noteRecord("sequence", sequence.length, true, gt("pattern", { count: sequence.length }), draw); }
+    draw();
+  };
+  const draw = () => {
+    saveGame({ sequence, input, text });
+    setPanel(`${howToPlay()}${status(gt(text), gt("pattern", { count: sequence.length }))}
+      <div class="emoji-display">${showing ? sequence.join(" ") : input.join(" ") || "..."}</div>
+      <div class="choices">${emojis.map((emoji) => `<button class="choice-button emoji-button" data-emoji="${emoji}">${emoji}</button>`).join("")}</div>
+      <div class="choices"><button class="choice-button" id="emoji-start">${gt("startPattern")}</button></div>`);
+    panel.querySelector("#emoji-start").addEventListener("click", start);
+    panel.querySelectorAll("[data-emoji]").forEach((button) => button.addEventListener("click", () => press(button.dataset.emoji)));
+  };
+  draw();
+}
+
+function renderBalanceScale(fresh = false) {
+  const saved = fresh ? null : loadGameSave();
+  let weights = saved?.weights || [{ n: 1, side: "" }, { n: 2, side: "" }, { n: 3, side: "" }, { n: 4, side: "" }, { n: 5, side: "" }];
+  const totals = () => weights.reduce((sum, item) => ({ ...sum, [item.side || "off"]: (sum[item.side || "off"] || 0) + item.n }), {});
+  const move = (index) => {
+    weights[index].side = weights[index].side === "" ? "left" : weights[index].side === "left" ? "right" : "";
+    draw();
+  };
+  const draw = () => {
+    const total = totals();
+    const balanced = total.left && total.left === total.right;
+    saveGame({ weights });
+    if (balanced) noteRecord("balanced", total.left, true, String(total.left), draw);
+    setPanel(`${howToPlay()}${status(balanced ? gt("solved") : gt("playing"), `${total.left || 0} = ${total.right || 0}`)}
+      <div class="scale"><div><strong>${total.left || 0}</strong><span>Left</span></div><div><strong>${total.right || 0}</strong><span>Right</span></div></div>
+      <div class="choices">${weights.map((item, index) => `<button class="choice-button" data-i="${index}">${item.n} ${item.side || "-"}</button>`).join("")}</div>`);
+    panel.querySelectorAll("[data-i]").forEach((button) => button.addEventListener("click", () => move(Number(button.dataset.i))));
+  };
+  draw();
+}
+
+function renderMiniPiano(fresh = false) {
+  const notes = ["C", "D", "E", "G", "A"];
+  const saved = fresh ? null : loadGameSave();
+  let melody = saved?.melody || [];
+  let input = saved?.input || [];
+  let text = saved?.text || "ready";
+  const start = () => {
+    melody = [...melody, notes[Math.floor(Math.random() * notes.length)]];
+    input = [];
+    text = "pattern";
+    draw();
+  };
+  const press = (note) => {
+    if (!melody.length) return;
+    input.push(note);
+    const ok = melody[input.length - 1] === note;
+    if (!ok) { text = "missed"; melody = []; input = []; }
+    else if (input.length === melody.length) { text = "correct"; noteRecord("melody", melody.length, true, gt("pattern", { count: melody.length }), draw); }
+    else text = "keepGoing";
+    draw();
+  };
+  const draw = () => {
+    saveGame({ melody, input, text });
+    setPanel(`${howToPlay()}${status(gt(text), gt("pattern", { count: melody.length }))}
+      <div class="piano-display">${melody.join(" ") || "..."}</div>
+      <div class="piano-keys">${notes.map((note) => `<button class="piano-key" data-note="${note}">${note}</button>`).join("")}</div>
+      <div class="choices"><button class="choice-button" id="piano-start">${gt("startPattern")}</button></div>`);
+    panel.querySelector("#piano-start").addEventListener("click", start);
+    panel.querySelectorAll("[data-note]").forEach((button) => button.addEventListener("click", () => press(button.dataset.note)));
+  };
+  draw();
+}
+
+function renderShapeSort(fresh = false) {
+  const saved = fresh ? null : loadGameSave();
+  let shapes = saved?.shapes || ["○", "□", "△", "○", "□", "△"].sort(() => Math.random() - 0.5).map((shape, id) => ({ id, shape, done: false }));
+  let selected = saved?.selected ?? -1;
+  const chooseShape = (id) => { selected = selected === id ? -1 : id; draw(); };
+  const chooseBin = (shape) => {
+    const item = shapes.find((entry) => entry.id === selected);
+    if (!item) return;
+    if (item.shape === shape) item.done = true;
+    selected = -1;
+    draw();
+  };
+  const draw = () => {
+    const cleared = shapes.every((shape) => shape.done);
+    saveGame({ shapes, selected });
+    if (cleared) noteRecord("sorted", 1, true, "Sorted", draw);
+    setPanel(`${howToPlay()}${status(cleared ? gt("cleared") : gt("playing"), gt("choose"))}
+      <div class="shape-row">${shapes.filter((item) => !item.done).map((item) => `<button class="shape-piece ${selected === item.id ? "selected" : ""}" data-id="${item.id}">${item.shape}</button>`).join("") || `<span>${gt("cleared")}</span>`}</div>
+      <div class="shape-bins">${["○", "□", "△"].map((shape) => `<button class="shape-bin" data-shape="${shape}">${shape}</button>`).join("")}</div>`);
+    panel.querySelectorAll("[data-id]").forEach((button) => button.addEventListener("click", () => chooseShape(Number(button.dataset.id))));
+    panel.querySelectorAll("[data-shape]").forEach((button) => button.addEventListener("click", () => chooseBin(button.dataset.shape)));
+  };
+  draw();
 }

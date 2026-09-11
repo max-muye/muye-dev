@@ -443,6 +443,143 @@ h2 {
   font-weight: 950;
 }
 
+.pattern-grid,
+.tile-stack-grid,
+.odd-grid,
+.path-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 460px;
+}
+
+.odd-grid,
+.path-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.pattern-cell,
+.stack-tile,
+.odd-cell,
+.path-cell {
+  aspect-ratio: 1;
+  font-size: clamp(24px, 9vw, 48px);
+}
+
+.pattern-cell.active,
+.pattern-cell.picked,
+.path-cell.active {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.stack-tile.selected,
+.shape-piece.selected {
+  outline: 3px solid var(--coral);
+  outline-offset: -3px;
+}
+
+.path-cell.start {
+  background: var(--blue);
+}
+
+.path-cell.exit {
+  background: var(--green);
+  color: #06100a;
+}
+
+.scramble-word,
+.guess-list,
+.shape-row,
+.shape-bins,
+.piano-keys {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px auto 0;
+}
+
+.guess-list {
+  display: grid;
+  width: min(100%, 420px);
+}
+
+.guess-list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #080a0d;
+}
+
+.emoji-display,
+.piano-display,
+.scale {
+  display: grid;
+  width: min(100%, 520px);
+  min-height: 120px;
+  margin: 0 auto;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: #07090c;
+  font-size: clamp(34px, 10vw, 70px);
+  font-weight: 950;
+}
+
+.scale {
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.scale div {
+  display: grid;
+  height: 100%;
+  place-items: center;
+  background: #07090c;
+}
+
+.scale span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.emoji-button {
+  min-width: 58px;
+  font-size: 28px;
+}
+
+.piano-key,
+.shape-piece,
+.shape-bin {
+  min-height: 84px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  padding: 0 18px;
+  color: var(--ink);
+  background: var(--paper);
+  cursor: pointer;
+  font: inherit;
+  font-size: clamp(28px, 8vw, 48px);
+  font-weight: 950;
+}
+
+.piano-key {
+  min-width: 70px;
+  background: #f7f4ec;
+  color: #050505;
+}
+
+.shape-piece,
+.shape-bin {
+  min-width: 84px;
+  background: #080a0d;
+  color: var(--ink);
+}
+
 .word-row {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));

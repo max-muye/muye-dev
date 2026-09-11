@@ -351,6 +351,10 @@ h1 {
   backdrop-filter: blur(14px);
 }
 
+.daily-checkin[hidden] {
+  display: none;
+}
+
 .daily-checkin span {
   display: block;
   margin-bottom: 4px;

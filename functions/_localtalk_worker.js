@@ -210,7 +210,7 @@ function signedHtml(publishableKey) {
     main{width:min(920px,calc(100% - 24px));height:calc(100vh - 24px);margin:12px auto;display:grid;grid-template-rows:auto 1fr auto auto;background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);overflow:hidden}
     header{padding:18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}h1{margin:0;font-size:21px}.sub{margin-top:2px;color:var(--muted);font-size:13px}.side{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.status{color:var(--muted);font-size:13px}
     #auth{padding:22px;display:grid;place-items:center;overflow:auto}#room{display:none;min-height:0;grid-template-rows:1fr auto}#messages{padding:18px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}.message{align-self:flex-start;max-width:min(700px,88%);padding:11px 13px;border-radius:8px;background:var(--bubble);border:1px solid color-mix(in srgb,var(--accent) 15%,transparent);overflow-wrap:anywhere;line-height:1.38}.message.new{animation:messageIn .38s cubic-bezier(.16,1,.3,1)}.message pre{max-width:100%;margin:8px 0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#050505;color:#f8f4ea;overflow:auto;white-space:pre;font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.message code{font:inherit}.html-frame{display:block;width:min(520px,100%);height:260px;margin:8px 0;border:1px solid var(--line);border-radius:8px;background:#fff}.sender{display:block;margin-bottom:4px;color:var(--accent);font-size:12px;font-weight:800}.time{display:block;margin-top:6px;color:var(--muted);font-size:12px}.file-link{color:var(--accent);font-weight:800;text-decoration:none}.file-link:hover{text-decoration:underline}.quote{margin:0 0 8px;padding:7px 9px;border-left:3px solid var(--accent);border-radius:6px;background:color-mix(in srgb,var(--panel) 70%,transparent);color:var(--muted);font-size:12px}.mini-actions{display:flex;gap:6px;margin-top:8px}.mini-button{height:28px;padding:0 9px;border-radius:7px;font-size:12px;color:var(--text);background:color-mix(in srgb,var(--panel) 76%,transparent);border:1px solid var(--line)}
-    form{border-top:1px solid var(--line);padding:12px;display:grid;grid-template-columns:auto 1fr auto;gap:10px}.quote-bar{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:color-mix(in srgb,var(--bubble) 76%,transparent);color:var(--muted);font-size:13px}.quote-bar[hidden]{display:none}.quote-clear{height:26px;width:26px;padding:0;border-radius:7px;color:var(--text);background:transparent;border:1px solid var(--line)}input,select{min-width:0;height:46px;border:1px solid var(--line);border-radius:8px;padding:0 14px;font:inherit;background:var(--panel);color:var(--text)}button,.button-link,.file-button{height:46px;border:0;border-radius:8px;padding:0 16px;font:inherit;font-weight:750;color:#fff;background:var(--accent);cursor:pointer;text-decoration:none;display:inline-grid;place-items:center}.mini-button{height:28px;padding:0 9px;color:var(--text);background:color-mix(in srgb,var(--panel) 76%,transparent);border:1px solid var(--line);border-radius:7px;font-size:12px}.secondary{height:36px;color:var(--text);background:transparent;border:1px solid var(--line)}.file-button{width:46px;padding:0;color:var(--text);background:transparent;border:1px solid var(--line);font-size:24px}#file{display:none}.setup{max-width:620px;padding:18px;border:1px solid var(--line);border-radius:8px;background:var(--panel);line-height:1.45}.profile-panel{border-top:1px solid var(--line);padding:10px 12px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;background:color-mix(in srgb,var(--panel) 94%,var(--accent))}.profile-panel strong{font-size:13px;color:var(--muted)}.private-panel{border-top:1px solid var(--line);padding:10px 12px;background:color-mix(in srgb,var(--panel) 88%,var(--accent));display:grid;gap:8px}.private-head{display:grid;grid-template-columns:auto minmax(160px,1fr) auto;align-items:center;gap:8px;color:var(--muted);font-size:13px}.private-list{max-height:120px;overflow:auto;display:grid;gap:6px}.private-msg{display:flex;gap:8px;align-items:flex-start;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:color-mix(in srgb,var(--panel) 82%,transparent);font-size:13px}.private-msg.mine{margin-left:24px}.private-msg span{overflow-wrap:anywhere}.private-form{border:0;padding:0;grid-template-columns:1fr auto;background:transparent}
+    form{border-top:1px solid var(--line);padding:12px;display:grid;grid-template-columns:auto 1fr auto;gap:10px}.quote-bar{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:color-mix(in srgb,var(--bubble) 76%,transparent);color:var(--muted);font-size:13px}.quote-bar[hidden]{display:none}.quote-clear{height:26px;width:26px;padding:0;border-radius:7px;color:var(--text);background:transparent;border:1px solid var(--line)}input,select{min-width:0;height:46px;border:1px solid var(--line);border-radius:8px;padding:0 14px;font:inherit;background:var(--panel);color:var(--text)}button,.button-link,.file-button{height:46px;border:0;border-radius:8px;padding:0 16px;font:inherit;font-weight:750;color:#fff;background:var(--accent);cursor:pointer;text-decoration:none;display:inline-grid;place-items:center}.mini-button{height:28px;padding:0 9px;color:var(--text);background:color-mix(in srgb,var(--panel) 76%,transparent);border:1px solid var(--line);border-radius:7px;font-size:12px}.secondary{height:36px;color:var(--text);background:transparent;border:1px solid var(--line)}.attach-wrap{position:relative}.file-button{width:46px;padding:0;color:var(--text);background:transparent;border:1px solid var(--line);font-size:24px}.attach-menu{position:absolute;left:0;bottom:54px;z-index:10;display:grid;gap:6px;width:220px;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:0 18px 40px rgba(0,0,0,.22)}.attach-menu[hidden]{display:none}.attach-menu button,.attach-menu label{width:100%;height:38px;justify-content:start;color:var(--text);background:transparent;border:1px solid var(--line);font-size:13px}#file{display:none}.setup{max-width:620px;padding:18px;border:1px solid var(--line);border-radius:8px;background:var(--panel);line-height:1.45}.profile-panel{border-top:1px solid var(--line);padding:10px 12px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;background:color-mix(in srgb,var(--panel) 94%,var(--accent))}.profile-panel strong{font-size:13px;color:var(--muted)}.private-panel{border-top:1px solid var(--line);padding:10px 12px;background:color-mix(in srgb,var(--panel) 88%,var(--accent));display:grid;gap:8px}.private-head{display:grid;grid-template-columns:auto minmax(160px,1fr) auto;align-items:center;gap:8px;color:var(--muted);font-size:13px}.private-list{max-height:120px;overflow:auto;display:grid;gap:6px}.private-msg{display:flex;gap:8px;align-items:flex-start;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:color-mix(in srgb,var(--panel) 82%,transparent);font-size:13px}.private-msg.mine{margin-left:24px}.private-msg span{overflow-wrap:anywhere}.private-form{border:0;padding:0;grid-template-columns:1fr auto;background:transparent}
     @keyframes messageIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}@media(max-width:620px){main{width:100%;height:100vh;margin:0;border:0;border-radius:0}form{grid-template-columns:1fr}.file-button,form button{width:100%}}
   </style>
 </head>
@@ -221,20 +221,20 @@ function signedHtml(publishableKey) {
       <div class="side"><a class="button-link secondary" href="/" id="home-link">Home</a><a class="button-link secondary" href="/talk/" id="normal-link">Back</a><button class="secondary" id="notify" type="button">Notify</button><button class="secondary" id="theme" type="button">Dark</button><div id="user"></div><div class="status" id="status">loading...</div></div>
     </header>
     <section id="auth"></section>
-    <section id="room"><div id="messages"></div><section class="profile-panel"><strong id="profile-label">My name</strong><input id="profile-name" autocomplete="off" placeholder="Name shown by default" maxlength="80"><button class="secondary" id="profile-save" type="button">Save</button></section><section class="private-panel" id="private-panel"><div class="private-head"><strong id="private-label">Private</strong><select id="private-user"><option value="">choose a user</option></select><button class="mini-button" id="private-clear" type="button">Clear All</button></div><div class="private-list" id="private-list"></div><form class="private-form" id="private-form"><input id="private-text" autocomplete="off" placeholder="Private message" maxlength="1024"><button type="submit" id="private-send">Send</button></form></section><form id="form"><div class="quote-bar" id="quote-bar" hidden><span id="quote-text"></span><button class="quote-clear" id="quote-clear" type="button">x</button></div><label class="file-button">+<input id="file" type="file"></label><input id="text" autocomplete="off" placeholder="Message" maxlength="1024"><button type="submit" id="signed-send">Send</button></form></section>
+    <section id="room"><div id="messages"></div><section class="profile-panel"><strong id="profile-label">My name</strong><input id="profile-name" autocomplete="off" placeholder="Name shown by default" maxlength="80"><button class="secondary" id="profile-save" type="button">Save</button></section><section class="private-panel" id="private-panel"><div class="private-head"><strong id="private-label">Private</strong><select id="private-user"><option value="">choose a user</option></select><button class="mini-button" id="private-clear" type="button">Clear All</button></div><div class="private-list" id="private-list"></div><form class="private-form" id="private-form"><input id="private-text" autocomplete="off" placeholder="Private message" maxlength="1024"><button type="submit" id="private-send">Send</button></form></section><form id="form"><div class="quote-bar" id="quote-bar" hidden><span id="quote-text"></span><button class="quote-clear" id="quote-clear" type="button">x</button></div><div class="attach-wrap"><button class="file-button" id="attach-open" type="button" aria-haspopup="menu" aria-expanded="false">+</button><div class="attach-menu" id="attach-menu" hidden><label id="file-pick-label">File<input id="file" type="file"></label><button id="record-pick" type="button">Game record</button></div></div><input id="text" autocomplete="off" placeholder="Message" maxlength="1024"><button type="submit" id="signed-send">Send</button></form></section>
   </main>
   <script>
     if("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(()=>{});
     const publishableKey=${safeKey};
-    const signedDict={en:{title:"Signed Room",sub:"sign up / log in required",home:"Home",normal:"Back",notify:"Notify",notificationsOn:"Notifications On",dark:"Dark",light:"Light",loading:"loading...",online:"online",profile:"My name",namePlaceholder:"Name shown by default",save:"Save",private:"Private",chooseUser:"choose a user",noUsers:"no users yet",clear:"Clear All",privateMsg:"Private message",newMessage:"New message",send:"Send",message:"Message",signedUser:"Signed user",you:"You",file:"File",quote:"Quote",name:"Name",downloadFailed:"download failed",notificationsUnavailable:"notifications unavailable",notificationsOnStatus:"notifications on",notificationsBlocked:"notifications blocked",users:"users",local:"local",noUsersStatus:"no users",usersLoadFailed:"users load failed",nameSaveFailed:"name save failed",nameSaved:"name saved",namePrompt:"Name this user for your page only.",notAllowed:"this message is not allowed",banned:"banned",loginNeeded:"login needed",setupNeeded:"setup needed",setupTitle:"Clerk is not set up yet.",setupBody:"Set CLERK_PUBLISHABLE_KEY and CLERK_JWKS_URL in the Worker first.",signedOut:"signed out",sendFailed:"send failed",clearAsk:"Clear all private messages?",clearFailed:"clear failed",privateCleared:"private cleared",uploading:"uploading...",uploadFailed:"upload failed",clerkLoadFailed:"Clerk load failed"},zh:{title:"登录房间",sub:"需要注册或登录",home:"主页",normal:"返回",notify:"通知",notificationsOn:"通知已开启",dark:"深色",light:"浅色",loading:"加载中...",online:"在线",profile:"我的名字",namePlaceholder:"默认显示的名字",save:"保存",private:"私聊",chooseUser:"选择用户",noUsers:"暂无用户",clear:"清空全部",privateMsg:"私聊消息",newMessage:"新消息",send:"发送",message:"消息",signedUser:"登录用户",you:"你",file:"文件",quote:"引用",name:"命名",downloadFailed:"下载失败",notificationsUnavailable:"通知不可用",notificationsOnStatus:"通知已开启",notificationsBlocked:"通知已阻止",users:"用户",local:"本地",noUsersStatus:"暂无用户",usersLoadFailed:"用户加载失败",nameSaveFailed:"名字保存失败",nameSaved:"名字已保存",namePrompt:"只在你的页面给这个用户命名。",notAllowed:"这条消息不允许发送",banned:"已封禁",loginNeeded:"需要登录",setupNeeded:"需要设置",setupTitle:"Clerk 还没有设置。",setupBody:"请先在 Worker 里设置 CLERK_PUBLISHABLE_KEY 和 CLERK_JWKS_URL。",signedOut:"已登出",sendFailed:"发送失败",clearAsk:"清空所有私聊消息？",clearFailed:"清空失败",privateCleared:"私聊已清空",uploading:"上传中...",uploadFailed:"上传失败",clerkLoadFailed:"Clerk 加载失败"}};
+    const signedDict={en:{title:"Signed Room",sub:"sign up / log in required",home:"Home",normal:"Back",notify:"Notify",notificationsOn:"Notifications On",dark:"Dark",light:"Light",loading:"loading...",online:"online",profile:"My name",namePlaceholder:"Name shown by default",save:"Save",private:"Private",chooseUser:"choose a user",noUsers:"no users yet",clear:"Clear All",privateMsg:"Private message",newMessage:"New message",send:"Send",message:"Message",signedUser:"Signed user",you:"You",file:"File",gameRecord:"Game record",noGameRecords:"No game records yet",shareRecord:"Game record: {game} - {label}",quote:"Quote",name:"Name",downloadFailed:"download failed",notificationsUnavailable:"notifications unavailable",notificationsOnStatus:"notifications on",notificationsBlocked:"notifications blocked",users:"users",local:"local",noUsersStatus:"no users",usersLoadFailed:"users load failed",nameSaveFailed:"name save failed",nameSaved:"name saved",namePrompt:"Name this user for your page only.",notAllowed:"this message is not allowed",banned:"banned",loginNeeded:"login needed",setupNeeded:"setup needed",setupTitle:"Clerk is not set up yet.",setupBody:"Set CLERK_PUBLISHABLE_KEY and CLERK_JWKS_URL in the Worker first.",signedOut:"signed out",sendFailed:"send failed",clearAsk:"Clear all private messages?",clearFailed:"clear failed",privateCleared:"private cleared",uploading:"uploading...",uploadFailed:"upload failed",clerkLoadFailed:"Clerk load failed"},zh:{title:"登录房间",sub:"需要注册或登录",home:"主页",normal:"返回",notify:"通知",notificationsOn:"通知已开启",dark:"深色",light:"浅色",loading:"加载中...",online:"在线",profile:"我的名字",namePlaceholder:"默认显示的名字",save:"保存",private:"私聊",chooseUser:"选择用户",noUsers:"暂无用户",clear:"清空全部",privateMsg:"私聊消息",newMessage:"新消息",send:"发送",message:"消息",signedUser:"登录用户",you:"你",file:"文件",gameRecord:"游戏记录",noGameRecords:"还没有游戏记录",shareRecord:"游戏记录：{game} - {label}",quote:"引用",name:"命名",downloadFailed:"下载失败",notificationsUnavailable:"通知不可用",notificationsOnStatus:"通知已开启",notificationsBlocked:"通知已阻止",users:"用户",local:"本地",noUsersStatus:"暂无用户",usersLoadFailed:"用户加载失败",nameSaveFailed:"名字保存失败",nameSaved:"名字已保存",namePrompt:"只在你的页面给这个用户命名。",notAllowed:"这条消息不允许发送",banned:"已封禁",loginNeeded:"需要登录",setupNeeded:"需要设置",setupTitle:"Clerk 还没有设置。",setupBody:"请先在 Worker 里设置 CLERK_PUBLISHABLE_KEY 和 CLERK_JWKS_URL。",signedOut:"已登出",sendFailed:"发送失败",clearAsk:"清空所有私聊消息？",clearFailed:"清空失败",privateCleared:"私聊已清空",uploading:"上传中...",uploadFailed:"上传失败",clerkLoadFailed:"Clerk 加载失败"}};
     const root=document.documentElement;root.dataset.theme=localStorage.getItem("signed-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
     ["ja","ko","es","fr","de","pt","ru","ar"].forEach(code=>{signedDict[code]=signedDict.en});
     const lang=signedDict[localStorage.getItem("muye-lang")]?localStorage.getItem("muye-lang"):(localStorage.getItem("localtalk-lang")==="zh"?"zh":"en");
-    const status=document.querySelector("#status"),auth=document.querySelector("#auth"),room=document.querySelector("#room"),messages=document.querySelector("#messages"),form=document.querySelector("#form"),input=document.querySelector("#text"),file=document.querySelector("#file"),theme=document.querySelector("#theme"),notify=document.querySelector("#notify"),user=document.querySelector("#user"),quoteBar=document.querySelector("#quote-bar"),quoteText=document.querySelector("#quote-text"),quoteClear=document.querySelector("#quote-clear"),profileName=document.querySelector("#profile-name"),profileSave=document.querySelector("#profile-save"),privateUser=document.querySelector("#private-user"),privateList=document.querySelector("#private-list"),privateForm=document.querySelector("#private-form"),privateText=document.querySelector("#private-text"),privateClear=document.querySelector("#private-clear");
+    const status=document.querySelector("#status"),auth=document.querySelector("#auth"),room=document.querySelector("#room"),messages=document.querySelector("#messages"),form=document.querySelector("#form"),input=document.querySelector("#text"),file=document.querySelector("#file"),theme=document.querySelector("#theme"),notify=document.querySelector("#notify"),user=document.querySelector("#user"),quoteBar=document.querySelector("#quote-bar"),quoteText=document.querySelector("#quote-text"),quoteClear=document.querySelector("#quote-clear"),profileName=document.querySelector("#profile-name"),profileSave=document.querySelector("#profile-save"),privateUser=document.querySelector("#private-user"),privateList=document.querySelector("#private-list"),privateForm=document.querySelector("#private-form"),privateText=document.querySelector("#private-text"),privateClear=document.querySelector("#private-clear"),attachOpen=document.querySelector("#attach-open"),attachMenu=document.querySelector("#attach-menu"),filePickLabel=document.querySelector("#file-pick-label"),recordPick=document.querySelector("#record-pick");
     let currentMessages=[];let quote=null;let privateTarget=null;let privateSeen=new Set();let privateReady=false;let myProfile={name:"",email:""};let uploadBusy=false;let sendBusy=false;let filePickUntil=0;
     function t(k){return signedDict[lang][k]||signedDict.en[k]||k}
     function api(path){return "/api/talk"+path}
-    function syncSignedText(){document.querySelector("#signed-title").textContent=t("title");document.querySelector("#signed-sub").textContent=t("sub");document.querySelector("#home-link").textContent=t("home");document.querySelector("#normal-link").textContent=t("normal");document.querySelector("#profile-label").textContent=t("profile");document.querySelector("#private-label").textContent=t("private");profileName.placeholder=t("namePlaceholder");profileSave.textContent=t("save");privateClear.textContent=t("clear");privateText.placeholder=t("privateMsg");document.querySelector("#private-send").textContent=t("send");input.placeholder=t("message");document.querySelector("#signed-send").textContent=t("send");theme.textContent=root.dataset.theme==="dark"?t("light"):t("dark");syncNotify()}
+    function syncSignedText(){document.querySelector("#signed-title").textContent=t("title");document.querySelector("#signed-sub").textContent=t("sub");document.querySelector("#home-link").textContent=t("home");document.querySelector("#normal-link").textContent=t("normal");document.querySelector("#profile-label").textContent=t("profile");document.querySelector("#private-label").textContent=t("private");profileName.placeholder=t("namePlaceholder");profileSave.textContent=t("save");privateClear.textContent=t("clear");privateText.placeholder=t("privateMsg");document.querySelector("#private-send").textContent=t("send");input.placeholder=t("message");document.querySelector("#signed-send").textContent=t("send");filePickLabel.childNodes[0].nodeValue=t("file");recordPick.textContent=t("gameRecord");theme.textContent=root.dataset.theme==="dark"?t("light"):t("dark");syncNotify()}
     theme.textContent=root.dataset.theme==="dark"?t("light"):t("dark");theme.onclick=()=>{root.dataset.theme=root.dataset.theme==="dark"?"light":"dark";localStorage.setItem("signed-theme",root.dataset.theme);theme.textContent=root.dataset.theme==="dark"?t("light"):t("dark")};
     function clerkDomain(){try{return atob(publishableKey.split("_")[2]).slice(0,-1)}catch{return ""}}
     function displayText(value){return String(value||"").replace(/(?:\\\\b|\u0008)[\s\S]*/g,"").replace(/\\\\n/g,"\\n").replace(/\\\\\\\\/g,"\\\\")}
@@ -255,6 +255,11 @@ function signedHtml(publishableKey) {
     function showMessageNotification(message){if(!("Notification" in window)||Notification.permission!=="granted")return;if(window.Clerk&&Clerk.user&&message.userId===Clerk.user.id)return;const body=message.kind==="file"?t("file")+": "+(message.name||"file"):displayText(message.text).slice(0,120);const note=new Notification(t("newMessage")+" - "+senderLabel(message),{body,tag:"localtalk-signed-message-"+message.id});note.onclick=()=>{window.focus();note.close()}}
     function setQuote(message){quote={quoteName:senderLabel(message),quoteText:message.kind==="file"?t("file")+": "+(message.name||"file"):displayText(message.text).slice(0,180)};quoteText.textContent=quote.quoteName+": "+quote.quoteText;quoteBar.hidden=false;input.focus()}
     function clearQuote(){quote=null;quoteText.textContent="";quoteBar.hidden=true}
+    function formatText(template,data){return Object.entries(data).reduce((text,[key,value])=>text.replace("{"+key+"}",value),template)}
+    function localGameRecordKeys(){return Object.keys(localStorage).filter(key=>key.startsWith("muye-game-records:"))}
+    function localGameRecords(){return localGameRecordKeys().flatMap(key=>{try{return JSON.parse(localStorage.getItem(key)||"[]")}catch{return[]}}).sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0))}
+    function closeAttachMenu(){attachMenu.hidden=true;attachOpen.setAttribute("aria-expanded","false")}
+    function chooseGameRecord(){const records=localGameRecords();if(!records.length){status.textContent=t("noGameRecords");closeAttachMenu();return}const choices=records.slice(0,10).map((record,index)=>String(index+1)+". "+(record.gameTitle||record.gameId)+": "+(record.label||record.value)).join("\\n");const picked=Number(prompt(t("gameRecord")+"\\n"+choices,"1"))-1;const record=records[picked];if(!record)return;input.value=formatText(t("shareRecord"),{game:record.gameTitle||record.gameId,label:record.label||record.value});closeAttachMenu();input.focus()}
     function setPrivateTarget(id,name,focus=false){privateTarget=id?{id,name:name||t("signedUser")}:null;if(focus)privateText.focus()}
     function renderPrivateUsers(users){const selected=privateTarget?.id||privateUser.value;privateUser.textContent="";const empty=document.createElement("option");empty.value="";empty.textContent=users.length?t("chooseUser"):t("noUsers");privateUser.appendChild(empty);for(const item of users){const option=document.createElement("option");option.value=item.userId;option.textContent=item.label;privateUser.appendChild(option)}privateUser.value=[...privateUser.options].some(option=>option.value===selected)?selected:"";if(privateUser.value){const option=privateUser.selectedOptions[0];setPrivateTarget(option.value,option.textContent)}else privateTarget=null}
     function renderPrivate(list){privateList.textContent="";for(const msg of list){const row=document.createElement("div");row.className="private-msg"+(msg.mine?" mine":"");const text=document.createElement("span");text.style.whiteSpace="pre-wrap";text.textContent=(msg.mine?t("you"):msg.fromName)+" -> "+(msg.mine?msg.toName:t("you"))+": "+displayText(msg.text)+" · "+(msg.time||"");row.append(text);privateList.appendChild(row)}privateList.scrollTop=privateList.scrollHeight}
@@ -277,7 +282,10 @@ function signedHtml(publishableKey) {
     window.addEventListener("keydown",askNotificationsOnce,{once:true});
     profileSave.addEventListener("click",saveProfile);
     privateUser.addEventListener("change",()=>{const option=privateUser.selectedOptions[0];setPrivateTarget(privateUser.value,option?option.textContent:"",true)});
-    file.closest(".file-button")?.addEventListener("pointerdown",()=>{filePickUntil=Date.now()+4000});
+    attachOpen.addEventListener("click",()=>{const open=attachMenu.hidden;attachMenu.hidden=!open;attachOpen.setAttribute("aria-expanded",open?"true":"false")});
+    recordPick.addEventListener("click",chooseGameRecord);
+    document.addEventListener("click",event=>{if(!event.target.closest(".attach-wrap"))closeAttachMenu()});
+    filePickLabel.addEventListener("pointerdown",()=>{filePickUntil=Date.now()+4000});
     file.addEventListener("click",event=>{event.stopPropagation();filePickUntil=Date.now()+4000});
     form.addEventListener("submit",async e=>{e.preventDefault();if(sendBusy||uploadBusy||Date.now()<filePickUntil)return;const text=input.value.trim();if(!text)return;sendBusy=true;input.value="";try{const r=await fetch(api("/send"),{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+await token()},body:JSON.stringify({text,displayName:displayName(),email:authEmail(),quoteText:quote?.quoteText||"",quoteName:quote?.quoteName||""})});if(r.status===403){status.textContent=await forbiddenText(r);return}if(!r.ok){const data=await r.clone().json().catch(()=>({}));status.textContent=t("sendFailed")+": "+(data.error||r.status);input.value=text;return}clearQuote();await loadHistory();input.focus()}finally{sendBusy=false}});
     privateForm.addEventListener("submit",async e=>{e.preventDefault();const text=privateText.value.trim();if(!text||!privateTarget)return;privateText.value="";const r=await fetch(api("/private/send"),{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+await token()},body:JSON.stringify({toId:privateTarget.id,toName:privateTarget.name,text,displayName:displayName(),email:authEmail()})});if(r.status===403){status.textContent=await forbiddenText(r);return}if(!r.ok){status.textContent=t("sendFailed");return}await loadPrivate();privateText.focus()});
@@ -434,6 +442,19 @@ async function ensureTables(sql) {
       alias_name text not null,
       updated_at timestamptz not null default now(),
       primary key (owner_user_id, target_user_id)
+    )
+  `;
+  await sql`
+    create table if not exists muye_game_records (
+      game_id text not null,
+      user_id text not null,
+      display_name text,
+      metric text not null,
+      value integer not null,
+      higher_is_better boolean not null default true,
+      label text,
+      updated_at timestamptz not null default now(),
+      primary key (game_id, user_id, metric)
     )
   `;
   await sql`
@@ -682,7 +703,7 @@ function signedRoomPath(pathname) {
   const parts = String(pathname || "").replace(/^\/+|\/+$/g, "").split("/");
   if (parts[0] !== "signed") return null;
   if (parts.length === 1) return { room: "", action: "/" };
-  const actions = new Set(["history", "users", "send", "upload", "profile", "alias"]);
+  const actions = new Set(["history", "users", "send", "upload", "profile", "alias", "game-records"]);
   if (parts[1] === "api") {
     if (parts.length === 2) return { room: "", action: "/" };
     if (actions.has(parts[2])) return parts.length === 3 ? { room: "", action: "/" + parts[2] } : null;
@@ -1233,6 +1254,70 @@ async function addSignedFile(sql, userId, displayName, email, body, ip = "", tim
   return { ok: true };
 }
 
+function cleanGameId(value) {
+  return String(value || "").trim().toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 60);
+}
+
+async function gameRecords(sql, userId = "") {
+  const mine = userId ? await sql`
+    select game_id, metric, value, higher_is_better, label, updated_at
+    from muye_game_records
+    where user_id = ${userId}
+    order by updated_at desc
+    limit 100
+  ` : [];
+  const global = await sql`
+    select distinct on (game_id, metric)
+      game_id, metric, value, higher_is_better, label, display_name, updated_at
+    from muye_game_records
+    order by game_id, metric,
+      case when higher_is_better then -value else value end,
+      updated_at asc
+  `;
+  return { mine: mine.map(gameRecordRow), global: global.map(gameRecordRow) };
+}
+
+function gameRecordRow(row) {
+  return {
+    gameId: row.game_id,
+    metric: row.metric,
+    value: Number(row.value),
+    higherIsBetter: Boolean(row.higher_is_better),
+    label: row.label || "",
+    displayName: row.display_name || "",
+    updatedAt: row.updated_at,
+  };
+}
+
+async function saveGameRecord(sql, userId, body) {
+  const gameId = cleanGameId(body.gameId);
+  const metric = cleanGameId(body.metric || "best");
+  const value = Number(body.value);
+  const higher = body.higherIsBetter !== false;
+  const displayName = cleanText(body.displayName || "Signed user").slice(0, 80) || "Signed user";
+  const label = cleanText(body.label || "").slice(0, 160);
+  if (!gameId || !metric || !Number.isFinite(value)) return { ok: false, status: 400, error: "bad_record" };
+  const oldMine = await sql`select value from muye_game_records where game_id = ${gameId} and user_id = ${userId} and metric = ${metric} limit 1`;
+  const oldGlobal = await sql`
+    select value from muye_game_records
+    where game_id = ${gameId} and metric = ${metric}
+    order by case when higher_is_better then -value else value end, updated_at asc
+    limit 1
+  `;
+  const beats = (oldValue) => oldValue == null || (higher ? value > oldValue : value < oldValue);
+  const brokePersonal = beats(oldMine[0]?.value == null ? null : Number(oldMine[0].value));
+  const brokeGlobal = beats(oldGlobal[0]?.value == null ? null : Number(oldGlobal[0].value));
+  if (brokePersonal) {
+    await sql`
+      insert into muye_game_records (game_id, user_id, display_name, metric, value, higher_is_better, label, updated_at)
+      values (${gameId}, ${userId}, ${displayName}, ${metric}, ${Math.round(value)}, ${higher}, ${label || null}, now())
+      on conflict (game_id, user_id, metric) do update
+      set display_name = excluded.display_name, value = excluded.value, higher_is_better = excluded.higher_is_better, label = excluded.label, updated_at = now()
+    `;
+  }
+  return { ok: true, brokePersonal, brokeGlobal, record: { gameId, metric, value: Math.round(value), higherIsBetter: higher, label } };
+}
+
 export default {
   async fetch(request, env) {
     if (!env.DATABASE_URL) return json({ ok: false, error: "DATABASE_URL is missing" }, { status: 500 });
@@ -1323,6 +1408,22 @@ export default {
           debug: clerkResult.debug || "",
           users: clerkResult.users || localUsers,
         });
+      }
+      if (request.method === "GET" && (url.pathname === "/signed/game-records" || signedRoute?.action === "/game-records")) {
+        const user = await verifyClerkToken(request, env);
+        if (!user) return new Response("Unauthorized", { status: 401 });
+        if (await isSignedBanned(sql, user.sub)) return new Response("Forbidden", { status: 403 });
+        return json(await gameRecords(sql, user.sub));
+      }
+      if (request.method === "POST" && (url.pathname === "/signed/game-records" || signedRoute?.action === "/game-records")) {
+        const user = await verifyClerkToken(request, env);
+        if (!user) return new Response("Unauthorized", { status: 401 });
+        const ip = clientIp(request);
+        if ((await isIpBanned(sql, ip)) || (await isSignedBanned(sql, user.sub))) return new Response("Forbidden", { status: 403 });
+        const body = await readBody(request);
+        const result = await saveGameRecord(sql, user.sub, body);
+        if (!result.ok) return json(result, { status: result.status || 400 });
+        return json(result);
       }
       if (request.method === "GET" && (url.pathname === "/signed/private/history" || signedRoute?.action === "/private/history")) {
         const user = await verifyClerkToken(request, env);

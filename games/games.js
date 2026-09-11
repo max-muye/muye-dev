@@ -30,10 +30,10 @@ const games = {
 const gameText = {
   en: {
     games: "Games", home: "Home", game: "Game", play: "Play", intro: "Touch-friendly classics, puzzles, memory games, and board games. Each play page explains the rules and saves progress for the current user on this browser.", featured: "Featured", snakeTitle: "Snake Lab", snakeDescription: "Classic snake with extra controls", snakeDetail: "Full configurable snake mode", action: "Action", strategy: "Strategy", puzzle: "Puzzle", word: "Word", classic: "Classic", memory: "Memory", challenge: "Challenge", allGames: "All games", newGame: "New game", howToPlay: "How to play", savedAccount: "Saved to your account on this browser", savedDevice: "Saved on this device",
-    playing: "Playing", matched: "Matched", cleared: "Cleared", solved: "Solved", missed: "Missed", guessing: "Guessing", chooseOne: "Choose one", instantRound: "Instant round", rock: "Rock", paper: "Paper", scissors: "Scissors", rpsResult: "{result}. You chose {you}; the game chose {them}.", youWin: "You win", youLose: "You lose", draw: "Draw", yourTurn: "Your turn", dealerWins: "Dealer wins", closest21: "Closest to 21", dealer: "Dealer", you: "You", hit: "Hit", stand: "Stand", filling: "Filling", tapCell: "Tap a cell", twoPlayers: "Two players", findPairs: "Find pairs", turnLightsOff: "Turn all lights off", fiveLetters: "Five letters", try: "Try", findFleet: "Find the fleet", compactBoard: "Compact board", simplifiedBoard: "Simplified {game} board from the secret games collection, sized for phones and tablets.", blackTurn: "Black's turn", whiteTurn: "White's turn", sliding: "Sliding", order15: "Put 1 to 15 in order", ready: "Ready", correct: "Correct", keepGoing: "Keep going", round: "Round {count}", startPattern: "Start a pattern", pattern: "Pattern: {count}", higher: "Higher", lower: "Lower", foundIt: "Found it", guesses: "{count} guesses", guessesList: "Guesses: {list}", noGuesses: "No guesses yet.", chance: "Chance", quickPicker: "Quick picker", flipCoin: "Flip Coin", rollDice: "Roll Dice", heads: "Heads", tails: "Tails", noBest: "No best yet", bestMs: "Best {best}ms", tap: "TAP", wait: "Wait...", start: "Start", waitGreen: "Wait for green", tapNow: "Tap now", tooEarly: "Too early", running: "Running", scoreBest: "Score {score} · Best {best}", whacking: "Whacking", findExit: "Find the exit", escaped: "Escaped", moves: "{count} moves", choose: "Choose", streakBest: "Streak {streak} · Best {best}", itWas: "It was {answer}", score10: "Score {score}/10", answerIs: "Answer: {answer}", gameOver: "Game over", finished: "Finished", boom: "Boom", noMoves: "No moves left", reached2048: "You reached 2048", swipeArrows: "Swipe or tap arrows", revealFlag: "Tap reveal, right-click or hold flag", redTurn: "Red's turn", yellowTurn: "Yellow's turn", redWins: "Red wins", yellowWins: "Yellow wins", xTurn: "X's turn", oTurn: "O's turn", wins: "{mark} wins", missesLeft: "{count} misses left",
+    playing: "Playing", matched: "Matched", cleared: "Cleared", solved: "Solved", missed: "Missed", guessing: "Guessing", chooseOne: "Choose one", instantRound: "Instant round", personalRecord: "New personal record", globalRecord: "New all-user record", rock: "Rock", paper: "Paper", scissors: "Scissors", rpsResult: "{result}. You chose {you}; the game chose {them}.", youWin: "You win", youLose: "You lose", draw: "Draw", yourTurn: "Your turn", dealerWins: "Dealer wins", closest21: "Closest to 21", dealer: "Dealer", you: "You", hit: "Hit", stand: "Stand", filling: "Filling", tapCell: "Tap a cell", twoPlayers: "Two players", findPairs: "Find pairs", turnLightsOff: "Turn all lights off", fiveLetters: "Five letters", try: "Try", findFleet: "Find the fleet", compactBoard: "Compact board", simplifiedBoard: "Simplified {game} board from the secret games collection, sized for phones and tablets.", blackTurn: "Black's turn", whiteTurn: "White's turn", sliding: "Sliding", order15: "Put 1 to 15 in order", ready: "Ready", correct: "Correct", keepGoing: "Keep going", round: "Round {count}", startPattern: "Start a pattern", pattern: "Pattern: {count}", higher: "Higher", lower: "Lower", foundIt: "Found it", guesses: "{count} guesses", guessesList: "Guesses: {list}", noGuesses: "No guesses yet.", chance: "Chance", quickPicker: "Quick picker", flipCoin: "Flip Coin", rollDice: "Roll Dice", heads: "Heads", tails: "Tails", noBest: "No best yet", bestMs: "Best {best}ms", tap: "TAP", wait: "Wait...", start: "Start", waitGreen: "Wait for green", tapNow: "Tap now", tooEarly: "Too early", running: "Running", scoreBest: "Score {score} · Best {best}", whacking: "Whacking", findExit: "Find the exit", escaped: "Escaped", moves: "{count} moves", choose: "Choose", streakBest: "Streak {streak} · Best {best}", itWas: "It was {answer}", score10: "Score {score}/10", answerIs: "Answer: {answer}", gameOver: "Game over", finished: "Finished", boom: "Boom", noMoves: "No moves left", reached2048: "You reached 2048", swipeArrows: "Swipe or tap arrows", revealFlag: "Tap reveal, right-click or hold flag", redTurn: "Red's turn", yellowTurn: "Yellow's turn", redWins: "Red wins", yellowWins: "Yellow wins", xTurn: "X's turn", oTurn: "O's turn", wins: "{mark} wins", missesLeft: "{count} misses left",
   },
   zh: {
-    games: "游戏", home: "主页", game: "游戏", play: "开玩", intro: "适合触屏的经典、益智、记忆和棋盘小游戏。每个游戏页都会说明规则，并为当前用户在这个浏览器保存进度。", featured: "推荐", snakeTitle: "贪吃蛇实验室", snakeDescription: "带更多控制的经典贪吃蛇", snakeDetail: "可配置的完整贪吃蛇模式", action: "动作", strategy: "策略", puzzle: "益智", word: "文字", classic: "经典", memory: "记忆", challenge: "挑战", allGames: "所有游戏", newGame: "新游戏", howToPlay: "怎么玩", savedAccount: "已为你的账户保存在这个浏览器", savedDevice: "已保存在这个设备", playing: "进行中", matched: "已配对", cleared: "已清空", solved: "已解出", missed: "失败了", guessing: "猜测中", chooseOne: "选一个", instantRound: "即时一局", rock: "石头", paper: "布", scissors: "剪刀", rpsResult: "{result}。你选了 {you}；游戏选了 {them}。", youWin: "你赢了", youLose: "你输了", draw: "平局", yourTurn: "你的回合", dealerWins: "庄家赢了", closest21: "尽量接近 21", dealer: "庄家", you: "你", hit: "要牌", stand: "停牌", filling: "填写中", tapCell: "点格子", twoPlayers: "双人游戏", findPairs: "找对子", turnLightsOff: "关掉所有灯", fiveLetters: "五个字母", try: "试试", findFleet: "找到舰队", compactBoard: "小棋盘", simplifiedBoard: "来自秘密游戏合集的简化 {game} 棋盘，适合手机和平板。", blackTurn: "黑方回合", whiteTurn: "白方回合", sliding: "滑动中", order15: "把 1 到 15 排回顺序", ready: "准备好了", correct: "正确", keepGoing: "继续", round: "第 {count} 轮", startPattern: "开始一个序列", pattern: "序列：{count}", higher: "更大", lower: "更小", foundIt: "找到了", guesses: "已猜 {count} 次", guessesList: "猜过：{list}", noGuesses: "还没有猜。", chance: "机会", quickPicker: "快速随机", flipCoin: "抛硬币", rollDice: "掷骰子", heads: "正面", tails: "反面", noBest: "还没有最佳", bestMs: "最佳 {best}ms", tap: "点！", wait: "等待...", start: "开始", waitGreen: "等绿色", tapNow: "现在点", tooEarly: "太早了", running: "运行中", scoreBest: "分数 {score} · 最佳 {best}", whacking: "敲打中", findExit: "找到出口", escaped: "逃出去了", moves: "{count} 步", choose: "选择", streakBest: "连对 {streak} · 最佳 {best}", itWas: "答案是 {answer}", score10: "分数 {score}/10", answerIs: "答案：{answer}", gameOver: "游戏结束", finished: "完成", boom: "爆了", noMoves: "没有可走步数", reached2048: "到达 2048", swipeArrows: "滑动或点箭头", revealFlag: "点开，右键或长按插旗", redTurn: "红方回合", yellowTurn: "黄方回合", redWins: "红方赢了", yellowWins: "黄方赢了", xTurn: "X 回合", oTurn: "O 回合", wins: "{mark} 赢了", missesLeft: "还可错 {count} 次",
+    games: "游戏", home: "主页", game: "游戏", play: "开玩", intro: "适合触屏的经典、益智、记忆和棋盘小游戏。每个游戏页都会说明规则，并为当前用户在这个浏览器保存进度。", featured: "推荐", snakeTitle: "贪吃蛇实验室", snakeDescription: "带更多控制的经典贪吃蛇", snakeDetail: "可配置的完整贪吃蛇模式", action: "动作", strategy: "策略", puzzle: "益智", word: "文字", classic: "经典", memory: "记忆", challenge: "挑战", allGames: "所有游戏", newGame: "新游戏", howToPlay: "怎么玩", savedAccount: "已为你的账户保存在这个浏览器", savedDevice: "已保存在这个设备", playing: "进行中", matched: "已配对", cleared: "已清空", solved: "已解出", missed: "失败了", guessing: "猜测中", chooseOne: "选一个", instantRound: "即时一局", personalRecord: "新的个人记录", globalRecord: "新的全站记录", rock: "石头", paper: "布", scissors: "剪刀", rpsResult: "{result}。你选了 {you}；游戏选了 {them}。", youWin: "你赢了", youLose: "你输了", draw: "平局", yourTurn: "你的回合", dealerWins: "庄家赢了", closest21: "尽量接近 21", dealer: "庄家", you: "你", hit: "要牌", stand: "停牌", filling: "填写中", tapCell: "点格子", twoPlayers: "双人游戏", findPairs: "找对子", turnLightsOff: "关掉所有灯", fiveLetters: "五个字母", try: "试试", findFleet: "找到舰队", compactBoard: "小棋盘", simplifiedBoard: "来自秘密游戏合集的简化 {game} 棋盘，适合手机和平板。", blackTurn: "黑方回合", whiteTurn: "白方回合", sliding: "滑动中", order15: "把 1 到 15 排回顺序", ready: "准备好了", correct: "正确", keepGoing: "继续", round: "第 {count} 轮", startPattern: "开始一个序列", pattern: "序列：{count}", higher: "更大", lower: "更小", foundIt: "找到了", guesses: "已猜 {count} 次", guessesList: "猜过：{list}", noGuesses: "还没有猜。", chance: "机会", quickPicker: "快速随机", flipCoin: "抛硬币", rollDice: "掷骰子", heads: "正面", tails: "反面", noBest: "还没有最佳", bestMs: "最佳 {best}ms", tap: "点！", wait: "等待...", start: "开始", waitGreen: "等绿色", tapNow: "现在点", tooEarly: "太早了", running: "运行中", scoreBest: "分数 {score} · 最佳 {best}", whacking: "敲打中", findExit: "找到出口", escaped: "逃出去了", moves: "{count} 步", choose: "选择", streakBest: "连对 {streak} · 最佳 {best}", itWas: "答案是 {answer}", score10: "分数 {score}/10", answerIs: "答案：{answer}", gameOver: "游戏结束", finished: "完成", boom: "爆了", noMoves: "没有可走步数", reached2048: "到达 2048", swipeArrows: "滑动或点箭头", revealFlag: "点开，右键或长按插旗", redTurn: "红方回合", yellowTurn: "黄方回合", redWins: "红方赢了", yellowWins: "黄方赢了", xTurn: "X 回合", oTurn: "O 回合", wins: "{mark} 赢了", missesLeft: "还可错 {count} 次",
   },
 };
 ["ja", "ko", "es", "fr", "de", "pt", "ru", "ar"].forEach((code) => { gameText[code] = gameText.en; });
@@ -99,6 +99,7 @@ function translateGamesHome() {
 let gameId = "";
 let game = null;
 let playerKey = "";
+let recordNotice = "";
 
 if (document.documentElement.dataset.gamesHome !== undefined) {
   translateGamesHome();
@@ -164,12 +165,66 @@ function saveGame(data) {
   localStorage.setItem(saveKey(), JSON.stringify({ ...data, savedAt: Date.now() }));
 }
 
+function recordStoreKey() {
+  return `muye-game-records:${playerKey || getDevicePlayerKey()}`;
+}
+
+function loadGameRecords() {
+  try { return JSON.parse(localStorage.getItem(recordStoreKey()) || "[]"); } catch { return []; }
+}
+
+function saveGameRecords(records) {
+  localStorage.setItem(recordStoreKey(), JSON.stringify(records.slice(0, 80)));
+}
+
+function beatsRecord(value, oldValue, higher = true) {
+  return oldValue == null || (higher ? value > oldValue : value < oldValue);
+}
+
+async function submitRecord(metric, value, higherIsBetter, label) {
+  const records = loadGameRecords();
+  const title = localGame(gameId).title;
+  const existing = records.find((record) => record.gameId === gameId && record.metric === metric);
+  const brokePersonal = beatsRecord(value, existing?.value, higherIsBetter);
+  if (brokePersonal) {
+    const next = { gameId, gameTitle: title, metric, value, higherIsBetter, label, updatedAt: Date.now() };
+    saveGameRecords([next, ...records.filter((record) => !(record.gameId === gameId && record.metric === metric))]);
+  }
+  let brokeGlobal = false;
+  try {
+    if (window.Clerk?.session) {
+      const token = await window.Clerk.session.getToken();
+      const response = await fetch("/api/talk/game-records", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ gameId, metric, value, higherIsBetter, label, displayName: window.Clerk.user?.fullName || window.Clerk.user?.username || "" }),
+      });
+      if (response.ok) {
+        const result = await response.json();
+        brokeGlobal = Boolean(result.brokeGlobal);
+      }
+    }
+  } catch {}
+  const notes = [];
+  if (brokePersonal) notes.push(gt("personalRecord"));
+  if (brokeGlobal) notes.push(gt("globalRecord"));
+  return notes.join(" / ");
+}
+
 function clearGameSave() {
   localStorage.removeItem(saveKey());
 }
 
 function status(text, detail = "") {
-  return `<div class="game-status"><span>${text}</span>${detail ? `<strong>${detail}</strong>` : ""}<small>${playerKey.startsWith("user:") ? gt("savedAccount") : gt("savedDevice")}</small></div>`;
+  return `<div class="game-status"><span>${text}</span>${detail ? `<strong>${detail}</strong>` : ""}${recordNotice ? `<strong>${recordNotice}</strong>` : ""}<small>${playerKey.startsWith("user:") ? gt("savedAccount") : gt("savedDevice")}</small></div>`;
+}
+
+function noteRecord(metric, value, higherIsBetter, label, redraw) {
+  submitRecord(metric, Math.round(value), higherIsBetter, label).then((notice) => {
+    if (!notice) return;
+    recordNotice = notice;
+    redraw();
+  }).catch(() => {});
 }
 
 function howToPlay() {
@@ -223,6 +278,7 @@ function render2048(fresh = false) {
       return !changed;
     });
     saveGame({ board });
+    if (won) noteRecord("max-tile", 2048, true, "2048", draw);
     setPanel(`${howToPlay()}${status(won ? gt("reached2048") : stuck ? gt("noMoves") : gt("playing"), gt("swipeArrows"))}
       <div class="grid" style="grid-template-columns:repeat(4,minmax(0,1fr))">${board.map((value) => `<div class="tile tile-${value}">${value || ""}</div>`).join("")}</div>
       <div class="pad"><button class="cell" data-dir="up">↑</button><button class="cell" data-dir="left">←</button><button class="cell" data-dir="down">↓</button><button class="cell" data-dir="right">→</button></div>`);
@@ -274,6 +330,7 @@ function renderMinesweeper(fresh = false) {
   const flag = (index) => { if (!cells[index].open && text === "playing") cells[index].flag = !cells[index].flag; draw(); };
   const draw = () => {
     saveGame({ cells, text });
+    if (text === "cleared") noteRecord("win", 1, true, "Cleared", draw);
     setPanel(`${howToPlay()}${status(gt(text), gt("revealFlag"))}<div class="grid mine-grid">${cells.map((cell, index) => `<button class="cell mine-cell ${cell.open ? "open" : ""} ${cell.open && cell.mine ? "mine" : ""} ${cell.flag ? "flag" : ""}" data-i="${index}">${cell.open ? cell.mine ? "x" : cell.count || "" : cell.flag ? "!" : ""}</button>`).join("")}</div>`);
     panel.querySelectorAll(".mine-cell").forEach((button) => {
       let hold;
@@ -332,6 +389,7 @@ function renderConnectFour(fresh = false) {
   };
   const draw = () => {
     saveGame({ board, turn, text });
+    if (text.endsWith("Wins")) noteRecord("wins", 1, true, gt(text), draw);
     setPanel(`${howToPlay()}${status(gt(text), gt("twoPlayers"))}<div class="grid connect-grid">${board.map((value, index) => `<button class="connect-cell" data-c="${index % cols}"><span class="disc ${value}"></span></button>`).join("")}</div>`);
     panel.querySelectorAll(".connect-cell").forEach((button) => button.addEventListener("click", () => drop(Number(button.dataset.c))));
   };
@@ -345,6 +403,7 @@ function renderTicTacToe(fresh = false) {
   const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
   const draw = () => {
     saveGame({ board, turn, text });
+    if (text.endsWith("Wins")) noteRecord("wins", 1, true, text[0], draw);
     setPanel(`${howToPlay()}${status(text.endsWith("Wins") ? gt("wins", { mark: text[0] }) : gt(text), gt("twoPlayers"))}<div class="grid tac-grid">${board.map((value, index) => `<button class="cell tac-cell" data-i="${index}">${value}</button>`).join("")}</div>`);
     panel.querySelectorAll(".tac-cell").forEach((button) => button.addEventListener("click", () => {
       const i = Number(button.dataset.i);
@@ -374,6 +433,7 @@ function renderMemory(fresh = false) {
   };
   const draw = () => {
     saveGame({ icons, open: [...open], done: [...done], pick });
+    if (done.size === icons.length) noteRecord("win", 1, true, "Matched", draw);
     setPanel(`${howToPlay()}${status(done.size === icons.length ? gt("matched") : gt("playing"), gt("findPairs"))}<div class="grid memory-grid">${icons.map((value, index) => `<button class="cell memory-cell" data-i="${index}">${open.has(index) || done.has(index) ? value : ""}</button>`).join("")}</div>`);
     panel.querySelectorAll(".memory-cell").forEach((button) => button.addEventListener("click", () => choose(Number(button.dataset.i))));
   };
@@ -389,6 +449,7 @@ function renderLightsOut(fresh = false) {
   };
   const draw = () => {
     saveGame({ lights });
+    if (!lights.some(Boolean)) noteRecord("win", 1, true, "Cleared", draw);
     setPanel(`${howToPlay()}${status(lights.some(Boolean) ? gt("playing") : gt("cleared"), gt("turnLightsOff"))}<div class="grid lights-grid">${lights.map((on, i) => `<button class="cell ${on ? "light-on" : ""}" data-i="${i}"></button>`).join("")}</div>`);
     panel.querySelectorAll(".cell").forEach((button) => button.addEventListener("click", () => flip(Number(button.dataset.i))));
   };
@@ -406,6 +467,7 @@ function renderRps(fresh = false) {
     const text = gt("rpsResult", { result, you: choiceLabels[you], them: choiceLabels[them] });
     panel.querySelector("#rps-result").textContent = text;
     saveGame({ result: text });
+    if (result === gt("youWin")) noteRecord("wins", 1, true, text, renderRps);
   }));
 }
 
@@ -418,6 +480,7 @@ function renderHangman(fresh = false) {
     const shown = word.split("").map((letter) => guessed.has(letter) ? letter : "_").join(" ");
     const complete = !shown.includes("_");
     saveGame({ word, guessed: [...guessed], misses });
+    if (complete) noteRecord("win", 1, true, "Solved", draw);
     setPanel(`${howToPlay()}${status(complete ? gt("solved") : misses >= 6 ? gt("missed") : gt("guessing"), gt("missesLeft", { count: 6 - misses }))}<div class="hangman-word">${shown.split(" ").map((letter) => `<span class="card">${letter}</span>`).join("")}</div><div class="keyboard">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => `<button class="key-button" data-letter="${letter}" ${guessed.has(letter) ? "disabled" : ""}>${letter}</button>`).join("")}</div>`);
     panel.querySelectorAll("[data-letter]").forEach((button) => button.addEventListener("click", () => { const letter = button.dataset.letter; guessed.add(letter); if (!word.includes(letter)) misses += 1; draw(); }));
   };
@@ -436,6 +499,7 @@ function renderWordle(fresh = false) {
   };
   const draw = () => {
     saveGame({ answer, guesses });
+    if (guesses.includes(answer)) noteRecord("guesses-to-solve", guesses.length, false, `${guesses.length}`, draw);
     setPanel(`${howToPlay()}${status(guesses.includes(answer) ? gt("solved") : guesses.length >= 6 ? answer : gt("guessing"), gt("fiveLetters"))}
       ${Array.from({ length: 6 }, (_, row) => `<div class="word-row">${Array.from({ length: 5 }, (_, col) => {
         const letter = guesses[row]?.[col] || "";
@@ -463,6 +527,7 @@ function renderBlackjack(fresh = false) {
   };
   const draw = () => {
     saveGame({ you, dealer, text });
+    if (text === "youWin") noteRecord("wins", 1, true, "Blackjack", draw);
     setPanel(`${howToPlay()}${status(gt(text), gt("closest21"))}<small>${gt("dealer")}: ${total(dealer)}</small><div class="blackjack-hand">${dealer.map((n) => `<span class="card">${n === 11 ? "A" : n}</span>`).join("")}</div><small>${gt("you")}: ${total(you)}</small><div class="blackjack-hand">${you.map((n) => `<span class="card">${n === 11 ? "A" : n}</span>`).join("")}</div><div class="choices"><button class="choice-button" id="hit">${gt("hit")}</button><button class="choice-button" id="stand">${gt("stand")}</button></div>`);
     panel.querySelector("#hit").addEventListener("click", () => { if (text !== "yourTurn") return; you.push(card()); if (total(you) > 21) text = "dealerWins"; draw(); });
     panel.querySelector("#stand").addEventListener("click", finish);
@@ -532,6 +597,7 @@ function renderFifteen(fresh = false) {
   const draw = () => {
     const solved = tiles.every((value, index) => index === 15 ? value === 0 : value === index + 1);
     saveGame({ tiles });
+    if (solved) noteRecord("win", 1, true, "Solved", draw);
     setPanel(`${howToPlay()}${status(solved ? gt("solved") : gt("sliding"), gt("order15"))}<div class="grid puzzle-grid">${tiles.map((value, index) => `<button class="cell puzzle-cell ${value ? "" : "blank"}" data-i="${index}">${value || ""}</button>`).join("")}</div>`);
     panel.querySelectorAll("[data-i]").forEach((button) => button.addEventListener("click", () => move(Number(button.dataset.i))));
   };
@@ -561,6 +627,7 @@ function renderSimon(fresh = false) {
   };
   const draw = () => {
     saveGame({ pattern, input, text });
+    if (pattern.length > 1) noteRecord("pattern", pattern.length, true, gt("pattern", { count: pattern.length }), draw);
     setPanel(`${howToPlay()}${status(gt(text), pattern.length ? gt("pattern", { count: pattern.length }) : gt("startPattern"))}<div class="simon-grid">${colors.map((color) => `<button class="simon-button ${color}" data-color="${color}">${color}</button>`).join("")}</div><div class="choices"><button class="choice-button" id="simon-start">${gt("startPattern")}</button></div>`);
     panel.querySelector("#simon-start").addEventListener("click", addStep);
     panel.querySelectorAll("[data-color]").forEach((button) => button.addEventListener("click", () => press(button.dataset.color)));
@@ -582,6 +649,7 @@ function renderNumberGuess(fresh = false) {
   };
   const draw = () => {
     saveGame({ answer, guesses, text });
+    if (text === "foundIt") noteRecord("guesses-to-find", guesses.length, false, gt("guesses", { count: guesses.length }), draw);
     setPanel(`${howToPlay()}${status(gt(text), gt("guesses", { count: guesses.length }))}<div class="word-input"><input id="number-guess-input" type="number" min="1" max="100" inputmode="numeric" placeholder="1-100"><button class="arcade-button" id="number-guess-submit">${gt("try")}</button></div><p class="board-note">${guesses.length ? gt("guessesList", { list: guesses.join(", ") }) : gt("noGuesses")}</p>`);
     panel.querySelector("#number-guess-submit").addEventListener("click", submit);
     panel.querySelector("#number-guess-input").addEventListener("keydown", (event) => { if (event.key === "Enter") submit(); });
@@ -637,6 +705,7 @@ function renderReactionTap(fresh = false) {
       best = best ? Math.min(best, ms) : ms;
       waiting = false;
       text = `${ms}ms`;
+      noteRecord("reaction-ms", ms, false, `${ms}ms`, () => draw("idle"));
       draw("idle");
     });
   };
@@ -656,6 +725,7 @@ function renderAimTrainer(fresh = false) {
     running = false;
     best = Math.max(best, score);
     saveGame({ score, best });
+    noteRecord("score", score, true, String(score), draw);
     draw();
   };
   const tick = () => {
@@ -703,6 +773,7 @@ function renderWhack(fresh = false) {
     running = false;
     best = Math.max(best, score);
     saveGame({ score, best, active });
+    noteRecord("score", score, true, String(score), draw);
     draw();
   };
   const tick = () => {
@@ -758,7 +829,10 @@ function renderMazeRunner(fresh = false) {
     if (!cell || cell === "#") return;
     player = next;
     moves += 1;
-    if (cell === "E") text = "escaped";
+    if (cell === "E") {
+      text = "escaped";
+      noteRecord("moves-to-escape", moves, false, gt("moves", { count: moves }), draw);
+    }
     draw();
   };
   const draw = () => {
@@ -808,6 +882,7 @@ function renderColorMatch(fresh = false) {
   };
   const draw = () => {
     saveGame({ streak, best, answer, text });
+    if (streak > 0) noteRecord("streak", streak, true, gt("streakBest", { streak, best }), draw);
     const swatch = colors.find(([name]) => name === answer)?.[1] || "#fff";
     setPanel(`${howToPlay()}${status(gt(text), gt("streakBest", { streak, best }))}
       <div class="color-card" style="background:${swatch}"></div>
@@ -837,6 +912,7 @@ function renderMathRush(fresh = false) {
   };
   const draw = () => {
     saveGame({ score, round, problem, text });
+    if (round > 10) noteRecord("score", score, true, gt("score10", { score }), draw);
     setPanel(`${howToPlay()}${status(round > 10 ? gt("finished") : gt(text), gt("score10", { score }))}
       <div class="math-problem">${round > 10 ? gt("gameOver") : problem.text}</div>
       <div class="choices">${problem.choices.map((choice) => `<button class="choice-button" data-answer="${choice}" type="button" ${round > 10 ? "disabled" : ""}>${choice}</button>`).join("")}</div>`);

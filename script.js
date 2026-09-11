@@ -24,7 +24,7 @@ const languages = [
 const homeText = {
   en: {
     work: "Work", games: "Games", misc: "Misc", notes: "Notes", contact: "Contact", createEmail: "Create email", mailbox: "Mailbox", talk: "Talk", signIn: "Sign in", signUp: "Sign up",
-    prompt: "Please sign up or sign in", lede: "I build thoughtful software, shape ideas into working systems, and keep a small record of what I learn along the way.",
+    prompt: "Please sign up or sign in", greeting: "Hi, {name}", lede: "I build thoughtful software, shape ideas into working systems, and keep a small record of what I learn along the way.",
     mailboxAction: "Mailbox", createEmailAction: "Create email", gamesAction: "Games", miscAction: "Misc", talkAction: "Talk", workAction: "View work",
     intro: "A personal space for projects, notes, experiments, and the occasional polished thing worth sharing.",
     build: "Build", buildText: "Reliable products, prototypes, and automation.", write: "Write", writeText: "Short notes on engineering, taste, and tools.", explore: "Explore", exploreText: "Interfaces, agents, creative systems, and web craft.",
@@ -40,7 +40,7 @@ const homeText = {
   },
   zh: {
     work: "作品", games: "游戏", misc: "杂项", notes: "笔记", contact: "联系", createEmail: "创建邮箱", mailbox: "邮箱", talk: "聊天", signIn: "登录", signUp: "注册",
-    prompt: "请注册或登录", lede: "我做有想法的软件，把点子变成可用的系统，也记录一路学到的东西。",
+    prompt: "请注册或登录", greeting: "你好，{name}", lede: "我做有想法的软件，把点子变成可用的系统，也记录一路学到的东西。",
     mailboxAction: "邮箱", createEmailAction: "创建邮箱", gamesAction: "游戏", miscAction: "杂项", talkAction: "聊天", workAction: "查看作品",
     intro: "一个放项目、笔记、实验和一些值得分享的小东西的个人空间。",
     build: "构建", buildText: "可靠的产品、原型和自动化。", write: "写作", writeText: "关于工程、品味和工具的短笔记。", explore: "探索", exploreText: "界面、智能体、创意系统和网页手艺。",
@@ -55,7 +55,7 @@ const homeText = {
     footerBuilt: "为 Cloudflare Pages 构建。",
   },
   ja: {
-    prompt: "登録またはログインしてください", work: "作品", games: "ゲーム", misc: "その他", notes: "ノート", contact: "連絡", createEmail: "メール作成", mailbox: "メール", talk: "トーク", signIn: "ログイン", signUp: "登録",
+    prompt: "登録またはログインしてください", greeting: "こんにちは、{name}", work: "作品", games: "ゲーム", misc: "その他", notes: "ノート", contact: "連絡", createEmail: "メール作成", mailbox: "メール", talk: "トーク", signIn: "ログイン", signUp: "登録",
     lede: "考え抜いたソフトウェアを作り、アイデアを動く仕組みにし、学びを少しずつ記録しています。", mailboxAction: "メール", createEmailAction: "メール作成", gamesAction: "ゲーム", miscAction: "その他", talkAction: "トーク", workAction: "作品を見る",
     intro: "プロジェクト、ノート、実験、共有したい小さな成果を置く個人スペース。", build: "作る", buildText: "信頼できるプロダクト、試作、自動化。", write: "書く", writeText: "エンジニアリング、感覚、ツールについての短いノート。", explore: "探る", exploreText: "インターフェイス、エージェント、創造的なシステム、Web表現。",
     selectedWork: "主な作品", motion: "進行中", notesTitle: "最近考えていること", noteName: "今考えていること", noteText: "バージョンノート、最近のデプロイ、このサイトの変化。",
@@ -63,7 +63,7 @@ const homeText = {
     friend: "友人", friendWebsite: "友人のサイト。", friendGame: "もう一人の友人のゲーム。", game: "ゲーム", gamesCardText: "タッチしやすい定番、パズル、ボードゲーム。", localtalkNote: "LocalTalkの仕組み", localtalkNoteText: "部屋、ログインチャット、ファイル、管理の小さなガイド。", mailboxNote: "メール履歴", mailboxNoteText: "Muyeメールが作成から安全な送信までどう変わったか。", buildingNote: "制作中", buildingNoteText: "ゲーム：小さく、タッチしやすく、スコアの圧がない遊び。", footerBuilt: "Cloudflare Pages 用に構築。",
   },
   ko: {
-    prompt: "가입하거나 로그인해 주세요", work: "작업", games: "게임", misc: "기타", notes: "노트", contact: "연락", createEmail: "메일 만들기", mailbox: "메일함", talk: "대화", signIn: "로그인", signUp: "가입",
+    prompt: "가입하거나 로그인해 주세요", greeting: "안녕하세요, {name}", work: "작업", games: "게임", misc: "기타", notes: "노트", contact: "연락", createEmail: "메일 만들기", mailbox: "메일함", talk: "대화", signIn: "로그인", signUp: "가입",
     lede: "생각이 담긴 소프트웨어를 만들고, 아이디어를 작동하는 시스템으로 만들며, 배운 것을 조금씩 기록합니다.", mailboxAction: "메일함", createEmailAction: "메일 만들기", gamesAction: "게임", miscAction: "기타", talkAction: "대화", workAction: "작업 보기",
     intro: "프로젝트, 노트, 실험, 공유할 만한 작은 결과물을 두는 개인 공간입니다.", build: "만들기", buildText: "믿을 수 있는 제품, 프로토타입, 자동화.", write: "쓰기", writeText: "엔지니어링, 감각, 도구에 대한 짧은 노트.", explore: "탐색", exploreText: "인터페이스, 에이전트, 창의적 시스템, 웹 제작.",
     selectedWork: "선택한 작업", motion: "진행 중", notesTitle: "요즘 생각하는 것", noteName: "지금 생각하는 것", noteText: "버전 노트, 최근 배포, 이 사이트가 되어가는 모습.",
@@ -71,7 +71,7 @@ const homeText = {
     friend: "친구", friendWebsite: "친구의 웹사이트.", friendGame: "또 다른 친구의 게임.", game: "게임", gamesCardText: "터치 친화적인 클래식, 퍼즐, 보드게임.", localtalkNote: "LocalTalk 작동 방식", localtalkNoteText: "방, 로그인 채팅, 파일, 관리에 대한 작은 안내.", mailboxNote: "메일함 버전 기록", mailboxNoteText: "Muye 메일이 생성에서 더 안전한 발송까지 바뀐 과정.", buildingNote: "지금 만드는 것", buildingNoteText: "게임: 작고 터치 친화적이며 점수 압박 없는 플레이.", footerBuilt: "Cloudflare Pages용으로 제작.",
   },
   es: {
-    prompt: "Regístrate o inicia sesión", work: "Trabajo", games: "Juegos", misc: "Más", notes: "Notas", contact: "Contacto", createEmail: "Crear email", mailbox: "Correo", talk: "Chat", signIn: "Entrar", signUp: "Registrarse",
+    prompt: "Regístrate o inicia sesión", greeting: "Hola, {name}", work: "Trabajo", games: "Juegos", misc: "Más", notes: "Notas", contact: "Contacto", createEmail: "Crear email", mailbox: "Correo", talk: "Chat", signIn: "Entrar", signUp: "Registrarse",
     lede: "Construyo software cuidadoso, convierto ideas en sistemas que funcionan y guardo un pequeño registro de lo que aprendo.", mailboxAction: "Correo", createEmailAction: "Crear email", gamesAction: "Juegos", miscAction: "Más", talkAction: "Chat", workAction: "Ver trabajo",
     intro: "Un espacio personal para proyectos, notas, experimentos y pequeñas cosas pulidas para compartir.", build: "Crear", buildText: "Productos fiables, prototipos y automatización.", write: "Escribir", writeText: "Notas cortas sobre ingeniería, gusto y herramientas.", explore: "Explorar", exploreText: "Interfaces, agentes, sistemas creativos y web.",
     selectedWork: "Trabajo seleccionado", motion: "En movimiento", notesTitle: "Pensando ahora", noteName: "Ahora pensando", noteText: "Notas de versión, despliegues recientes y en qué se está convirtiendo este sitio.",
@@ -79,7 +79,7 @@ const homeText = {
     friend: "Amigo", friendWebsite: "El sitio de mi amigo.", friendGame: "El juego de otro amigo.", game: "Juego", gamesCardText: "Clásicos, puzles y juegos de mesa para pantalla táctil.", localtalkNote: "Cómo funciona LocalTalk", localtalkNoteText: "Guía breve de salas, chat con sesión, archivos y moderación.", mailboxNote: "Historial del correo", mailboxNoteText: "Cómo Muye mail pasó de crear emails a enviar con más seguridad.", buildingNote: "Construyendo", buildingNoteText: "Juegos: pequeños, táctiles y sin presión de puntuación.", footerBuilt: "Hecho para Cloudflare Pages.",
   },
   fr: {
-    prompt: "Inscrivez-vous ou connectez-vous", work: "Travail", games: "Jeux", misc: "Divers", notes: "Notes", contact: "Contact", createEmail: "Créer un email", mailbox: "Boîte mail", talk: "Discussion", signIn: "Connexion", signUp: "Inscription",
+    prompt: "Inscrivez-vous ou connectez-vous", greeting: "Bonjour, {name}", work: "Travail", games: "Jeux", misc: "Divers", notes: "Notes", contact: "Contact", createEmail: "Créer un email", mailbox: "Boîte mail", talk: "Discussion", signIn: "Connexion", signUp: "Inscription",
     lede: "Je crée des logiciels attentifs, transforme des idées en systèmes utilisables, et garde une trace de ce que j'apprends.", mailboxAction: "Boîte mail", createEmailAction: "Créer un email", gamesAction: "Jeux", miscAction: "Divers", talkAction: "Discussion", workAction: "Voir le travail",
     intro: "Un espace personnel pour projets, notes, expériences et petites choses à partager.", build: "Construire", buildText: "Produits fiables, prototypes et automatisations.", write: "Écrire", writeText: "Notes courtes sur l'ingénierie, le goût et les outils.", explore: "Explorer", exploreText: "Interfaces, agents, systèmes créatifs et web.",
     selectedWork: "Travaux choisis", motion: "En cours", notesTitle: "Pensées récentes", noteName: "En ce moment", noteText: "Notes de version, déploiements récents et évolution du site.",
@@ -87,7 +87,7 @@ const homeText = {
     friend: "Ami", friendWebsite: "Le site de mon ami.", friendGame: "Le jeu d'un autre ami.", game: "Jeu", gamesCardText: "Classiques, puzzles et jeux de plateau tactiles.", localtalkNote: "Fonctionnement de LocalTalk", localtalkNoteText: "Petit guide des salons, du chat connecté, des fichiers et de la modération.", mailboxNote: "Historique de la boîte mail", mailboxNoteText: "Comment Muye mail a évolué vers un envoi plus sûr.", buildingNote: "En construction", buildingNoteText: "Jeux : petits, tactiles, sans pression de score.", footerBuilt: "Construit pour Cloudflare Pages.",
   },
   de: {
-    prompt: "Bitte registrieren oder anmelden", work: "Arbeit", games: "Spiele", misc: "Mehr", notes: "Notizen", contact: "Kontakt", createEmail: "E-Mail erstellen", mailbox: "Postfach", talk: "Chat", signIn: "Anmelden", signUp: "Registrieren",
+    prompt: "Bitte registrieren oder anmelden", greeting: "Hallo, {name}", work: "Arbeit", games: "Spiele", misc: "Mehr", notes: "Notizen", contact: "Kontakt", createEmail: "E-Mail erstellen", mailbox: "Postfach", talk: "Chat", signIn: "Anmelden", signUp: "Registrieren",
     lede: "Ich baue durchdachte Software, forme Ideen zu funktionierenden Systemen und halte fest, was ich lerne.", mailboxAction: "Postfach", createEmailAction: "E-Mail erstellen", gamesAction: "Spiele", miscAction: "Mehr", talkAction: "Chat", workAction: "Arbeit ansehen",
     intro: "Ein persönlicher Ort für Projekte, Notizen, Experimente und kleine Dinge zum Teilen.", build: "Bauen", buildText: "Zuverlässige Produkte, Prototypen und Automatisierung.", write: "Schreiben", writeText: "Kurze Notizen über Engineering, Geschmack und Tools.", explore: "Erkunden", exploreText: "Interfaces, Agenten, kreative Systeme und Webcraft.",
     selectedWork: "Ausgewählte Arbeit", motion: "In Bewegung", notesTitle: "Gerade im Kopf", noteName: "Gerade gedacht", noteText: "Versionsnotizen, letzte Deploys und wohin diese Site wächst.",
@@ -95,7 +95,7 @@ const homeText = {
     friend: "Freund", friendWebsite: "Die Website meines Freundes.", friendGame: "Das Spiel eines anderen Freundes.", game: "Spiel", gamesCardText: "Touchfreundliche Klassiker, Rätsel und Brettspiele.", localtalkNote: "Wie LocalTalk funktioniert", localtalkNoteText: "Kurzer Guide zu Räumen, Login-Chat, Dateien und Moderation.", mailboxNote: "Postfach-Versionen", mailboxNoteText: "Wie Muye Mail von Erstellung zu sichererem Senden wurde.", buildingNote: "Jetzt gebaut", buildingNoteText: "Spiele: klein, touchfreundlich, ohne Punktedruck.", footerBuilt: "Gebaut für Cloudflare Pages.",
   },
   pt: {
-    prompt: "Cadastre-se ou entre", work: "Trabalho", games: "Jogos", misc: "Extras", notes: "Notas", contact: "Contato", createEmail: "Criar email", mailbox: "Email", talk: "Conversa", signIn: "Entrar", signUp: "Cadastrar",
+    prompt: "Cadastre-se ou entre", greeting: "Olá, {name}", work: "Trabalho", games: "Jogos", misc: "Extras", notes: "Notas", contact: "Contato", createEmail: "Criar email", mailbox: "Email", talk: "Conversa", signIn: "Entrar", signUp: "Cadastrar",
     lede: "Crio software cuidadoso, transformo ideias em sistemas funcionando e registro o que aprendo pelo caminho.", mailboxAction: "Email", createEmailAction: "Criar email", gamesAction: "Jogos", miscAction: "Extras", talkAction: "Conversa", workAction: "Ver trabalho",
     intro: "Um espaço pessoal para projetos, notas, experimentos e pequenas coisas boas para compartilhar.", build: "Criar", buildText: "Produtos confiáveis, protótipos e automação.", write: "Escrever", writeText: "Notas curtas sobre engenharia, gosto e ferramentas.", explore: "Explorar", exploreText: "Interfaces, agentes, sistemas criativos e web.",
     selectedWork: "Trabalho escolhido", motion: "Em movimento", notesTitle: "Pensando agora", noteName: "Pensando agora", noteText: "Notas de versão, deploys recentes e no que este site está virando.",
@@ -103,7 +103,7 @@ const homeText = {
     friend: "Amigo", friendWebsite: "O site do meu amigo.", friendGame: "O jogo de outro amigo.", game: "Jogo", gamesCardText: "Clássicos, puzzles e jogos de tabuleiro para toque.", localtalkNote: "Como LocalTalk funciona", localtalkNoteText: "Guia curto de salas, chat logado, arquivos e moderação.", mailboxNote: "Histórico do email", mailboxNoteText: "Como o Muye mail mudou da criação ao envio mais seguro.", buildingNote: "Construindo", buildingNoteText: "Jogos: pequenos, bons para toque e sem pressão de pontuação.", footerBuilt: "Feito para Cloudflare Pages.",
   },
   ru: {
-    prompt: "Зарегистрируйтесь или войдите", work: "Работы", games: "Игры", misc: "Разное", notes: "Заметки", contact: "Контакт", createEmail: "Создать почту", mailbox: "Почта", talk: "Чат", signIn: "Войти", signUp: "Регистрация",
+    prompt: "Зарегистрируйтесь или войдите", greeting: "Привет, {name}", work: "Работы", games: "Игры", misc: "Разное", notes: "Заметки", contact: "Контакт", createEmail: "Создать почту", mailbox: "Почта", talk: "Чат", signIn: "Войти", signUp: "Регистрация",
     lede: "Я создаю продуманный софт, превращаю идеи в рабочие системы и веду небольшой журнал того, чему учусь.", mailboxAction: "Почта", createEmailAction: "Создать почту", gamesAction: "Игры", miscAction: "Разное", talkAction: "Чат", workAction: "Смотреть работы",
     intro: "Личное место для проектов, заметок, экспериментов и аккуратных вещей, которыми стоит поделиться.", build: "Строить", buildText: "Надёжные продукты, прототипы и автоматизация.", write: "Писать", writeText: "Короткие заметки об инженерии, вкусе и инструментах.", explore: "Исследовать", exploreText: "Интерфейсы, агенты, творческие системы и веб.",
     selectedWork: "Избранные работы", motion: "В движении", notesTitle: "Сейчас думаю", noteName: "Сейчас думаю", noteText: "Версии, последние деплои и то, чем становится сайт.",
@@ -111,7 +111,7 @@ const homeText = {
     friend: "Друг", friendWebsite: "Сайт моего друга.", friendGame: "Игра другого друга.", game: "Игра", gamesCardText: "Классика, головоломки и настольные игры для касаний.", localtalkNote: "Как работает LocalTalk", localtalkNoteText: "Короткий гид по комнатам, чату с входом, файлам и модерации.", mailboxNote: "История почты", mailboxNoteText: "Как Muye mail прошла путь к более безопасной отправке.", buildingNote: "Сейчас строю", buildingNoteText: "Игры: маленькие, удобные для касаний, без давления очков.", footerBuilt: "Сделано для Cloudflare Pages.",
   },
   ar: {
-    prompt: "يرجى التسجيل أو تسجيل الدخول", work: "الأعمال", games: "الألعاب", misc: "أخرى", notes: "ملاحظات", contact: "تواصل", createEmail: "إنشاء بريد", mailbox: "البريد", talk: "الدردشة", signIn: "دخول", signUp: "تسجيل",
+    prompt: "يرجى التسجيل أو تسجيل الدخول", greeting: "مرحبا، {name}", work: "الأعمال", games: "الألعاب", misc: "أخرى", notes: "ملاحظات", contact: "تواصل", createEmail: "إنشاء بريد", mailbox: "البريد", talk: "الدردشة", signIn: "دخول", signUp: "تسجيل",
     lede: "أبني برمجيات مدروسة، وأحوّل الأفكار إلى أنظمة تعمل، وأسجل ما أتعلمه بهدوء.", mailboxAction: "البريد", createEmailAction: "إنشاء بريد", gamesAction: "الألعاب", miscAction: "أخرى", talkAction: "الدردشة", workAction: "عرض الأعمال",
     intro: "مساحة شخصية للمشاريع والملاحظات والتجارب والأشياء الصغيرة التي تستحق المشاركة.", build: "بناء", buildText: "منتجات موثوقة ونماذج أولية وأتمتة.", write: "كتابة", writeText: "ملاحظات قصيرة عن الهندسة والذوق والأدوات.", explore: "استكشاف", exploreText: "واجهات ووكلاء وأنظمة إبداعية وصناعة الويب.",
     selectedWork: "أعمال مختارة", motion: "قيد الحركة", notesTitle: "أفكر الآن", noteName: "أفكر الآن", noteText: "ملاحظات الإصدارات وآخر النشرات وما يصبح عليه هذا الموقع.",
@@ -136,7 +136,8 @@ function displayNameFor(user) {
 
 function renderSignedInHero(name) {
   currentHeroName = name;
-  heroTitle.innerHTML = `Hi, <a class="hero-name-link" href="/profile/">${escapeHtml(name)}</a>`;
+  const nameLink = `<a class="hero-name-link" href="/profile/">${escapeHtml(name)}</a>`;
+  heroTitle.innerHTML = textFor("greeting").replace("{name}", nameLink);
   heroTitle.classList.remove("hero-prompt");
   heroTitle.classList.add("hero-greeting");
 }
@@ -167,6 +168,7 @@ function applyHomeLanguage() {
   const navKeys = ["work", "games", "misc", "notes", "contact", "createEmail", "mailbox", "talk", "signIn", "signUp"];
   navKeys.forEach((key, index) => { if (navLinks[index]) navLinks[index].textContent = textFor(key); });
   if (heroTitle?.classList.contains("hero-prompt")) heroTitle.textContent = textFor("prompt");
+  if (heroTitle?.classList.contains("hero-greeting") && currentHeroName) renderSignedInHero(currentHeroName);
   const lede = document.querySelector(".lede");
   if (lede) lede.textContent = textFor("lede");
   document.querySelectorAll(".hero-actions .button").forEach((button, index) => {

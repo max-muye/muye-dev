@@ -1,6 +1,8 @@
 const encoder = new TextEncoder();
 const algorithm = "pbkdf2_sha256";
 const defaultIterations = 210000;
+const minIterations = 10000;
+const maxIterations = 1200000;
 
 const languages = [
   "en",
@@ -120,7 +122,8 @@ document.querySelector("#language-button").addEventListener("click", () => {
 document.querySelector("#generate-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const password = document.querySelector("#generate-password").value;
-  const iterations = Math.max(10000, Number(document.querySelector("#iterations").value) || defaultIterations);
+  const requestedIterations = Number(document.querySelector("#iterations").value) || defaultIterations;
+  const iterations = Math.min(maxIterations, Math.max(minIterations, Math.floor(requestedIterations)));
   const salt = randomSalt();
   const hash = await derive(password, salt, iterations);
   const output = `${algorithm}$${iterations}$${bytesToBase64(salt)}$${bytesToBase64(hash)}`;

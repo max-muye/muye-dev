@@ -1,0 +1,96 @@
+.passwd-tool {
+  max-width: 1120px;
+}
+
+.passwd-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.passwd-note {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.passwd-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.passwd-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(16, 21, 20, 0.78);
+}
+
+.passwd-card h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.passwd-card label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.passwd-card input,
+.passwd-card textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 13px;
+  color: var(--ink);
+  background: rgba(7, 9, 8, 0.88);
+  font: inherit;
+  outline: none;
+}
+
+.passwd-card textarea {
+  min-height: 122px;
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.passwd-card input:focus,
+.passwd-card textarea:focus {
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 0 3px rgba(242, 189, 121, 0.18);
+}
+
+.primary-action {
+  width: fit-content;
+  color: #120f0a;
+  background: var(--accent-strong);
+}
+
+.codec-status.is-good {
+  color: var(--green);
+}
+
+.codec-status.is-bad {
+  color: #ff9b8d;
+}
+
+@media (max-width: 760px) {
+  .passwd-head,
+  .passwd-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .passwd-head {
+    display: grid;
+  }
+}

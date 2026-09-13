@@ -17,27 +17,27 @@ const languages = [
 
 const text = {
   en: {
-    eyebrow: "Misc / Password Hash", title: "Password Hash", miscHome: "Misc Home", coder: "Coder", lambda: "Lambda Projects",
+    eyebrow: "Misc / Password Hash", title: "Password Hash", miscHome: "Misc Home", coder: "Coder", lambda: "Lambda Projects", hashExplainer: "What is a hash?",
     note: "Hashes are one-way. This page runs locally in your browser and does not send the password anywhere.",
     generateTitle: "Generate hash", verifyTitle: "Test password", password: "Password", iterations: "Iterations", makeHash: "Make hash", hash: "Hash", copy: "Copy", copied: "Copied", storedHash: "Stored hash", testHash: "Test password", made: "Hash generated.", ok: "Password matches the hash.", bad: "Password does not match.", invalid: "That hash is not in the supported format.",
   },
   zh: {
-    eyebrow: "杂项 / 密码哈希", title: "密码哈希", miscHome: "杂项主页", coder: "编码器", lambda: "Lambda 项目",
+    eyebrow: "杂项 / 密码哈希", title: "密码哈希", miscHome: "杂项主页", coder: "编码器", lambda: "Lambda 项目", hashExplainer: "什么是哈希？",
     note: "哈希是单向的。这个页面只在你的浏览器里运行，不会把密码发送出去。",
     generateTitle: "生成哈希", verifyTitle: "测试密码", password: "密码", iterations: "迭代次数", makeHash: "生成哈希", hash: "哈希", copy: "复制", copied: "已复制", storedHash: "已保存的哈希", testHash: "测试密码", made: "哈希已生成。", ok: "密码匹配这个哈希。", bad: "密码不匹配。", invalid: "这个哈希格式不支持。",
   },
   ja: {
-    eyebrow: "その他 / パスワードハッシュ", title: "パスワードハッシュ", miscHome: "その他ホーム", coder: "コーダー", lambda: "Lambda プロジェクト",
+    eyebrow: "その他 / パスワードハッシュ", title: "パスワードハッシュ", miscHome: "その他ホーム", coder: "コーダー", lambda: "Lambda プロジェクト", hashExplainer: "ハッシュとは？",
     note: "ハッシュは一方向です。このページはブラウザ内だけで動き、パスワードを送信しません。",
     generateTitle: "ハッシュを生成", verifyTitle: "パスワードを確認", password: "パスワード", iterations: "反復回数", makeHash: "ハッシュ作成", hash: "ハッシュ", copy: "コピー", copied: "コピー済み", storedHash: "保存済みハッシュ", testHash: "確認", made: "ハッシュを生成しました。", ok: "パスワードは一致します。", bad: "パスワードは一致しません。", invalid: "このハッシュ形式は未対応です。",
   },
   ko: {
-    eyebrow: "기타 / 비밀번호 해시", title: "비밀번호 해시", miscHome: "기타 홈", coder: "코더", lambda: "Lambda 프로젝트",
+    eyebrow: "기타 / 비밀번호 해시", title: "비밀번호 해시", miscHome: "기타 홈", coder: "코더", lambda: "Lambda 프로젝트", hashExplainer: "해시란?",
     note: "해시는 단방향입니다. 이 페이지는 브라우저 안에서만 실행되고 비밀번호를 보내지 않습니다.",
     generateTitle: "해시 만들기", verifyTitle: "비밀번호 테스트", password: "비밀번호", iterations: "반복 횟수", makeHash: "해시 만들기", hash: "해시", copy: "복사", copied: "복사됨", storedHash: "저장된 해시", testHash: "테스트", made: "해시를 만들었습니다.", ok: "비밀번호가 해시와 일치합니다.", bad: "비밀번호가 일치하지 않습니다.", invalid: "지원하지 않는 해시 형식입니다.",
   },
   es: {
-    eyebrow: "Más / Hash de contraseña", title: "Hash de contraseña", miscHome: "Más", coder: "Codificador", lambda: "Proyectos Lambda",
+    eyebrow: "Más / Hash de contraseña", title: "Hash de contraseña", miscHome: "Más", coder: "Codificador", lambda: "Proyectos Lambda", hashExplainer: "¿Qué es un hash?",
     note: "Los hashes son de una sola vía. Esta página corre en tu navegador y no envía la contraseña.",
     generateTitle: "Generar hash", verifyTitle: "Probar contraseña", password: "Contraseña", iterations: "Iteraciones", makeHash: "Crear hash", hash: "Hash", copy: "Copiar", copied: "Copiado", storedHash: "Hash guardado", testHash: "Probar", made: "Hash generado.", ok: "La contraseña coincide.", bad: "La contraseña no coincide.", invalid: "Formato de hash no compatible.",
   },

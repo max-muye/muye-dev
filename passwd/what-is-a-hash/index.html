@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A friendly explanation of password hashes, salts, and verification.">
+    <title>What Is a Hash? · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/misc/coder/coder.css?v=1">
+    <link rel="stylesheet" href="/passwd/what-is-a-hash/what-is-a-hash.css?v=1">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  </head>
+  <body class="misc-page hash-page">
+    <main class="misc-shell hash-shell">
+      <header class="misc-topbar">
+        <a class="misc-brand" href="/">Muye</a>
+        <a class="misc-home" href="/misc/passwd/" data-i18n="toolLink">Password tool</a>
+      </header>
+
+      <section class="hash-hero" aria-labelledby="hash-title">
+        <div class="hash-hero-copy">
+          <p class="eyebrow" data-i18n="eyebrow">Passwords / Explainer</p>
+          <h1 id="hash-title" data-i18n="title">What is a hash?</h1>
+          <p data-i18n="intro">
+            A hash is a one-way fingerprint. The same password makes the same fingerprint when you use the same recipe, but the fingerprint is not the password.
+          </p>
+        </div>
+        <button class="copy-button hash-lang" id="language-button" type="button" aria-label="Change language">A中</button>
+      </section>
+
+      <section class="hash-layout" aria-label="Password hash explanation">
+        <article class="hash-panel hash-wide">
+          <h2 data-i18n="formatTitle">The saved text has four parts</h2>
+          <code>pbkdf2_sha256$210000$randomSalt$derivedHash</code>
+          <p data-i18n="formatText">
+            This page's generator stores the algorithm name, the number of repeats, the salt, and the final hash. Those parts are enough to test a password later, but not enough to read the original password.
+          </p>
+        </article>
+
+        <article class="hash-panel">
+          <span class="hash-number">1</span>
+          <h2 data-i18n="stepOneTitle">Turn text into bytes</h2>
+          <p data-i18n="stepOneText">
+            The password you type is changed into bytes, because hash functions work on bytes instead of letters on the screen.
+          </p>
+        </article>
+
+        <article class="hash-panel">
+          <span class="hash-number">2</span>
+          <h2 data-i18n="stepTwoTitle">Add a random salt</h2>
+          <p data-i18n="stepTwoText">
+            A salt is random extra data saved beside the hash. It makes two people with the same password get different stored hashes.
+          </p>
+        </article>
+
+        <article class="hash-panel">
+          <span class="hash-number">3</span>
+          <h2 data-i18n="stepThreeTitle">Repeat the work many times</h2>
+          <p data-i18n="stepThreeText">
+            PBKDF2 runs SHA-256 again and again. More iterations make guessing slower for attackers and still quick enough for real users.
+          </p>
+        </article>
+
+        <article class="hash-panel">
+          <span class="hash-number">4</span>
+          <h2 data-i18n="stepFourTitle">Save the recipe, not the password</h2>
+          <p data-i18n="stepFourText">
+            The site saves the recipe and result. To check a login, it repeats the same recipe with the typed password and compares the new result.
+          </p>
+        </article>
+
+        <article class="hash-panel hash-wide">
+          <h2 data-i18n="oneWayTitle">Why is it one-way?</h2>
+          <p data-i18n="oneWayText">
+            SHA-256 mixes the input so strongly that a tiny change makes a totally different output. There is no undo button or hidden password inside the hash. The practical attack is guessing passwords and checking each guess, so salts and iterations make guessing much harder.
+          </p>
+        </article>
+
+        <article class="hash-panel hash-wide">
+          <h2 data-i18n="verifyTitle">How verification works</h2>
+          <ol>
+            <li data-i18n="verifyOne">Read the algorithm, iterations, salt, and stored hash.</li>
+            <li data-i18n="verifyTwo">Run the typed password through the same recipe.</li>
+            <li data-i18n="verifyThree">Compare the new hash with the stored hash.</li>
+            <li data-i18n="verifyFour">If they match, the password was right.</li>
+          </ol>
+        </article>
+      </section>
+
+      <nav class="misc-tools hash-actions" aria-label="Password links">
+        <a href="/misc/passwd/" data-i18n="tryTool">Try the password hash tool</a>
+        <a href="/misc/" data-i18n="miscHome">Back to Misc</a>
+      </nav>
+    </main>
+    <script src="/passwd/what-is-a-hash/what-is-a-hash.js?v=1"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

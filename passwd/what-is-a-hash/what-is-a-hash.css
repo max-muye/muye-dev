@@ -1,0 +1,123 @@
+.hash-page {
+  background:
+    linear-gradient(135deg, rgba(7, 9, 8, 0.98), rgba(9, 13, 12, 0.96)),
+    url("/assets/hero-workspace-us.png") center / cover fixed;
+}
+
+.hash-shell {
+  width: min(1120px, calc(100% - 36px));
+}
+
+.hash-hero {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 8vh 0 32px;
+}
+
+.hash-hero-copy {
+  width: min(820px, 100%);
+}
+
+.hash-hero h1 {
+  margin: 0;
+  font-size: clamp(48px, 9vw, 108px);
+  line-height: 0.94;
+}
+
+.hash-hero p:not(.eyebrow) {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.45;
+}
+
+.hash-lang {
+  min-width: 48px;
+  min-height: 40px;
+}
+
+.hash-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.hash-panel {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-height: 210px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(16, 21, 20, 0.78);
+}
+
+.hash-wide {
+  grid-column: 1 / -1;
+  min-height: 0;
+}
+
+.hash-number {
+  width: 38px;
+  height: 38px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(242, 189, 121, 0.42);
+  border-radius: 50%;
+  color: #120f0a;
+  background: var(--accent-strong);
+  font-weight: 900;
+}
+
+.hash-panel h2 {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.08;
+}
+
+.hash-panel p,
+.hash-panel li {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.hash-panel code {
+  width: 100%;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 13px;
+  color: var(--accent-strong);
+  background: rgba(7, 9, 8, 0.9);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(13px, 2vw, 18px);
+  line-height: 1.5;
+}
+
+.hash-panel ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.hash-actions {
+  margin-top: 24px;
+}
+
+@media (max-width: 760px) {
+  .hash-hero {
+    display: grid;
+    margin-top: 6vh;
+  }
+
+  .hash-layout {
+    grid-template-columns: 1fr;
+  }
+}

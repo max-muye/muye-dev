@@ -26,14 +26,15 @@ const appHtml = `<!doctype html>
     [data-theme=dark]{color-scheme:dark;--bg:#0d1210;--panel:#151d19;--text:#eef7f0;--muted:#9eaaa3;--line:#2a3931;--accent:#5fd193;--accent2:#7db7ff;--bubble:#20372a;--admin:#1d2a42;--shadow:0 18px 70px rgba(0,0,0,.38)}
     *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 20% 10%,color-mix(in srgb,var(--accent2) 18%,transparent),transparent 28rem),radial-gradient(circle at 86% 18%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 24rem),var(--bg);color:var(--text);display:grid;place-items:stretch;transition:background-color .34s ease,color .34s ease}
     body::before{content:"";position:fixed;inset:0;background:#d8ddd9;opacity:0;pointer-events:none;z-index:5;transition:opacity .22s ease}body.theme-wash::before{opacity:.72}
-    main{width:min(920px,calc(100% - 24px));height:calc(100vh - 24px);margin:12px auto;display:grid;grid-template-rows:auto 1fr auto auto;background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);overflow:hidden;transition:background-color .34s ease,border-color .34s ease,box-shadow .34s ease}
+    main{width:min(920px,calc(100% - 24px));height:calc(100vh - 24px);margin:12px auto;display:grid;grid-template-rows:auto auto 1fr auto auto;background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);overflow:hidden;transition:background-color .34s ease,border-color .34s ease,box-shadow .34s ease}
     header{padding:18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px;backdrop-filter:blur(16px);transition:border-color .34s ease,background-color .34s ease}h1{margin:0;font-size:21px;font-weight:800;letter-spacing:0}.sub{margin-top:2px;color:var(--muted);font-size:13px}.header-side{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}.status{color:var(--muted);font-size:13px;min-width:62px;text-align:right}
     .disclaimer{border-top:1px solid var(--line);background:color-mix(in srgb,#fff8dc 80%,var(--panel));color:#5c4611;padding:10px 18px;font-size:12px;line-height:1.35;transition:background-color .34s ease,border-color .34s ease}.disclaimer strong{margin-right:6px}[data-theme=dark] .disclaimer{background:#2d2a1d;color:#f2dfa0}
+    .downloads{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 18px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--panel) 88%,var(--accent));transition:background-color .34s ease,border-color .34s ease}.downloads span{color:var(--muted);font-size:13px;font-weight:800}.download-link{height:34px;padding:0 11px;border:1px solid var(--line);border-radius:8px;display:inline-grid;place-items:center;color:var(--text);background:color-mix(in srgb,var(--panel) 80%,transparent);font-size:13px;font-weight:800;text-decoration:none}.download-link:hover{border-color:var(--accent);color:var(--accent)}.download-link:disabled{opacity:.62;cursor:progress;transform:none}.download-help{color:var(--accent2);font-size:13px;font-weight:800;text-decoration:none}.download-help:hover{text-decoration:underline}
     #messages{padding:18px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}.message{align-self:flex-start;max-width:min(700px,88%);padding:11px 13px;border-radius:8px;background:var(--bubble);border:1px solid color-mix(in srgb,var(--accent) 14%,transparent);overflow-wrap:anywhere;line-height:1.38;transition:background-color .34s ease,border-color .34s ease,color .34s ease,outline-color .18s ease}.message:hover{outline:2px solid color-mix(in srgb,var(--accent) 20%,transparent);outline-offset:2px}.message.admin{background:var(--admin);border-color:color-mix(in srgb,var(--accent2) 24%,transparent)}.message.new{animation:messageIn .42s cubic-bezier(.16,1,.3,1)}.message p{margin:0;white-space:pre-wrap}.message pre{max-width:100%;margin:8px 0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#050505;color:#f8f4ea;overflow:auto;white-space:pre;font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.message code{font:inherit}.html-frame{display:block;width:min(520px,100%);height:260px;margin:8px 0;border:1px solid var(--line);border-radius:8px;background:#fff}.sender{display:block;margin-bottom:4px;color:var(--accent);font-size:12px;font-weight:800}.message.admin .sender{color:var(--accent2)}.file-link{color:var(--accent2);font-weight:800;text-decoration:none}.file-link:hover{text-decoration:underline}.time{display:block;margin-top:6px;color:var(--muted);font-size:12px}.quote{margin:0 0 8px;padding:7px 9px;border-left:3px solid var(--accent);border-radius:6px;background:color-mix(in srgb,var(--panel) 64%,transparent);color:var(--muted);font-size:12px}.mini-actions{display:flex;gap:6px;margin-top:8px}.mini-button{height:28px;padding:0 9px;border-radius:7px;font-size:12px;color:var(--text);background:color-mix(in srgb,var(--panel) 76%,transparent);border:1px solid var(--line)}
     form{border-top:1px solid var(--line);padding:12px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;background:color-mix(in srgb,var(--panel) 96%,transparent);transition:background-color .34s ease,border-color .34s ease}.quote-bar{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:color-mix(in srgb,var(--bubble) 72%,transparent);color:var(--muted);font-size:13px}.quote-bar[hidden]{display:none}.quote-clear{height:26px;width:26px;padding:0;border-radius:7px;color:var(--text);background:transparent;border:1px solid var(--line)}input{min-width:0;height:46px;border:1px solid var(--line);border-radius:8px;padding:0 14px;font:inherit;background:color-mix(in srgb,var(--panel) 82%,transparent);color:var(--text);outline:none;transition:background-color .34s ease,border-color .34s ease,color .34s ease,box-shadow .18s ease}input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
     button,.button-link,.file-button{height:46px;border:0;border-radius:8px;padding:0 18px;font:inherit;font-weight:750;color:#fff;background:var(--accent);cursor:pointer;text-decoration:none;display:inline-grid;place-items:center;transition:background-color .34s ease,border-color .34s ease,color .34s ease,filter .18s ease,transform .18s ease}.file-button{width:46px;padding:0;color:var(--text);background:transparent;border:1px solid var(--line);font-size:24px}button:hover,.button-link:hover,.file-button:hover{filter:brightness(.94);transform:translateY(-1px)}.mini-button{height:28px;padding:0 9px;color:var(--text);background:color-mix(in srgb,var(--panel) 76%,transparent);border:1px solid var(--line);border-radius:7px;font-size:12px}.secondary-button{height:36px;padding:0 12px;color:var(--text);background:color-mix(in srgb,var(--panel) 76%,transparent);border:1px solid var(--line)}.admin-link,.signed-link{color:var(--accent2);background:transparent;border:1px solid var(--line)}#file{display:none}
     @keyframes messageIn{from{opacity:0;transform:translateY(26px) scale(.97)}70%{opacity:1;transform:translateY(-2px) scale(1)}to{opacity:1;transform:translateY(0) scale(1)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-    @media(max-width:620px){main{width:100%;height:100vh;margin:0;border:0;border-radius:0}header{align-items:flex-start}form{grid-template-columns:1fr}.file-button,form button{width:100%}}
+    @media(max-width:620px){main{width:100%;height:100vh;margin:0;border:0;border-radius:0}header{align-items:flex-start}.downloads{align-items:stretch}.download-link{flex:1;min-width:130px}form{grid-template-columns:1fr}.file-button,form button{width:100%}}
   </style>
 </head>
 <body>
@@ -49,6 +50,12 @@ const appHtml = `<!doctype html>
         <div class="status" id="status">loading... / 加载中...</div>
       </div>
     </header>
+    <section class="downloads" aria-label="LocalTalk app downloads">
+      <span>Apps</span>
+      <button class="download-link" type="button" data-download-app="macos">MacOS ZIP</button>
+      <button class="download-link" type="button" data-download-app="windows">Windows ZIP</button>
+      <a class="download-help" href="/talk/download">Mac blocked it?</a>
+    </section>
     <section id="messages" aria-live="polite"></section>
     <form id="form">
       <div class="quote-bar" id="quote-bar" hidden><span id="quote-text"></span><button class="quote-clear" id="quote-clear" type="button">x</button></div>
@@ -60,9 +67,10 @@ const appHtml = `<!doctype html>
   </main>
   <script>
     if("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(()=>{});
-    const dict={en:{title:"Local Talk",sub:"anonymous room",send:"Send",message:"Message",loading:"loading...",online:"online",banned:"banned",notAllowed:"this message is not allowed",sendFailed:"send failed",uploading:"uploading...",uploadFailed:"upload failed",download:"Download All",dark:"Dark",light:"Light",home:"Home",signedRoom:"Signed room",admin:"Admin",you:"You",someone:"Someone",nameSender:"Name this sender",namePrompt:"Name this sender. Leave empty to clear the name.",nameSaved:"name saved",nameFailed:"name failed",quote:"Quote",private:"Private",chooseUser:"choose a user",privateTo:"Private to",privateMsg:"Private message",name:"Name",fileQuote:"File",notify:"Notify",notificationsOn:"Notifications On",notificationsUnavailable:"notifications unavailable",notificationsBlocked:"notifications blocked",newMessage:"New message",dbError:"database error",disclaimerTitle:"Accuracy and Risk",disclaimer:"This site does not guarantee that all content is always accurate, complete, timely, or available. Users are responsible for the risks arising from downloading, accessing, and using related content; to the extent permitted by law, this site is not liable for losses caused by improper use."},zh:{title:"本地聊天",sub:"匿名聊天室",send:"发送",message:"消息",loading:"加载中...",online:"在线",banned:"已封禁",notAllowed:"这条消息不允许发送",sendFailed:"发送失败",uploading:"上传中...",uploadFailed:"上传失败",download:"下载全部",dark:"深色",light:"浅色",home:"主页",signedRoom:"登录房间",admin:"管理",you:"你",someone:"某人",nameSender:"给发送者命名",namePrompt:"给这个发送者起名。留空可以清除名字。",nameSaved:"名字已保存",nameFailed:"保存名字失败",quote:"引用",private:"私聊",chooseUser:"选择一个用户",privateTo:"私聊给",privateMsg:"私聊消息",name:"命名",fileQuote:"文件",notify:"通知",notificationsOn:"通知已开启",notificationsUnavailable:"通知不可用",notificationsBlocked:"通知已阻止",newMessage:"新消息",dbError:"数据库错误",disclaimerTitle:"准确性与风险",disclaimer:"本站不保证所有内容始终准确、完整、及时或可用。用户下载、访问和使用相关内容所产生的风险由用户自行承担；因不当使用造成的损失，本站在法律允许的范围内不承担责任。"}};
+    const dict={en:{title:"Local Talk",sub:"anonymous room",send:"Send",message:"Message",loading:"loading...",online:"online",banned:"banned",notAllowed:"this message is not allowed",sendFailed:"send failed",uploading:"uploading...",uploadFailed:"upload failed",download:"Download All",downloadFailed:"download failed",dark:"Dark",light:"Light",home:"Home",signedRoom:"Signed room",admin:"Admin",you:"You",someone:"Someone",nameSender:"Name this sender",namePrompt:"Name this sender. Leave empty to clear the name.",nameSaved:"name saved",nameFailed:"name failed",quote:"Quote",private:"Private",chooseUser:"choose a user",privateTo:"Private to",privateMsg:"Private message",name:"Name",fileQuote:"File",notify:"Notify",notificationsOn:"Notifications On",notificationsUnavailable:"notifications unavailable",notificationsBlocked:"notifications blocked",newMessage:"New message",dbError:"database error",disclaimerTitle:"Accuracy and Risk",disclaimer:"This site does not guarantee that all content is always accurate, complete, timely, or available. Users are responsible for the risks arising from downloading, accessing, and using related content; to the extent permitted by law, this site is not liable for losses caused by improper use."},zh:{title:"本地聊天",sub:"匿名聊天室",send:"发送",message:"消息",loading:"加载中...",online:"在线",banned:"已封禁",notAllowed:"这条消息不允许发送",sendFailed:"发送失败",uploading:"上传中...",uploadFailed:"上传失败",download:"下载全部",downloadFailed:"下载失败",dark:"深色",light:"浅色",home:"主页",signedRoom:"登录房间",admin:"管理",you:"你",someone:"某人",nameSender:"给发送者命名",namePrompt:"给这个发送者起名。留空可以清除名字。",nameSaved:"名字已保存",nameFailed:"保存名字失败",quote:"引用",private:"私聊",chooseUser:"选择一个用户",privateTo:"私聊给",privateMsg:"私聊消息",name:"命名",fileQuote:"文件",notify:"通知",notificationsOn:"通知已开启",notificationsUnavailable:"通知不可用",notificationsBlocked:"通知已阻止",newMessage:"新消息",dbError:"数据库错误",disclaimerTitle:"准确性与风险",disclaimer:"本站不保证所有内容始终准确、完整、及时或可用。用户下载、访问和使用相关内容所产生的风险由用户自行承担；因不当使用造成的损失，本站在法律允许的范围内不承担责任。"}};
     const root=document.documentElement;root.dataset.theme=localStorage.getItem("localtalk-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
     const talkBase="/talk";
+    const appDownloads={macos:{name:"Localtalk MacOS.zip",parts:["/downloads/localtalk/localtalk-macos.zip.part-aa","/downloads/localtalk/localtalk-macos.zip.part-ab"]},windows:{name:"Localtalk Windows.zip",parts:["/downloads/localtalk/localtalk-windows.zip.part-aa","/downloads/localtalk/localtalk-windows.zip.part-ab"]}};
     const browserPath=location.pathname.replace(/\\/$/,"");
     const roomPath=browserPath===""||browserPath===talkBase?"":browserPath.startsWith(talkBase+"/")?browserPath.slice(talkBase.length):browserPath;
     ["ja","ko","es","fr","de","pt","ru","ar"].forEach(code=>{dict[code]=dict.en});
@@ -72,6 +80,7 @@ const appHtml = `<!doctype html>
     function api(path){return talkBase+roomPath+path}
     function t(k){return dict[lang][k]||dict.en[k]||k}
     function syncText(){document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));document.querySelector("#public-disclaimer-title").textContent=t("disclaimerTitle");document.querySelector("#public-disclaimer").textContent=t("disclaimer");input.placeholder=t("message");themeToggle.textContent=root.dataset.theme==="dark"?t("light"):t("dark");syncNotify()}
+    async function downloadApp(kind,button){const app=appDownloads[kind];if(!app)return;const label=button.textContent;button.disabled=true;button.textContent="Downloading...";try{const blobs=[];for(const part of app.parts){const r=await fetch(part,{cache:"force-cache"});if(!r.ok)throw new Error("download failed");blobs.push(await r.blob())}const url=URL.createObjectURL(new Blob(blobs,{type:"application/zip"}));const a=document.createElement("a");a.href=url;a.download=app.name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}catch(error){status.textContent=t("downloadFailed")||"download failed"}finally{button.disabled=false;button.textContent=label}}
     function displayText(value){return String(value||"").replace(/(?:\\\\b|\u0008)[\s\S]*/g,"").replace(/\\\\n/g,"\\n").replace(/\\\\\\\\/g,"\\\\")}
     function linkHref(value){return value.startsWith("https://")?value:"https://"+value}
     function appendLinkedText(node,value){const text=displayText(value);const re=/((?:https:\\/\\/|(?:localtalk|www)\\.muye\\.dev\\/)[^\\s<>"'\\\\]+)/g;let last=0;for(const match of text.matchAll(re)){if(match.index>last)node.append(document.createTextNode(text.slice(last,match.index)));const a=document.createElement("a");a.className="file-link";a.href=linkHref(match[0]).replace("https://www.muye.dev/talk/","https://www.muye.dev/talk/");a.target="_blank";a.rel="noopener noreferrer";a.textContent=match[0].replace("www.muye.dev/talk/","www.muye.dev/talk/");node.appendChild(a);last=match.index+match[0].length}if(last<text.length)node.append(document.createTextNode(text.slice(last)))}
@@ -98,6 +107,7 @@ const appHtml = `<!doctype html>
     themeToggle.addEventListener("click",()=>{document.body.classList.add("theme-wash");setTimeout(()=>{root.dataset.theme=root.dataset.theme==="dark"?"light":"dark";localStorage.setItem("localtalk-theme",root.dataset.theme);syncText()},90);setTimeout(()=>document.body.classList.remove("theme-wash"),330)});
     quoteClear.addEventListener("click",clearQuote);
     notifyToggle.addEventListener("click",enableNotifications);
+    document.querySelectorAll("[data-download-app]").forEach(button=>button.addEventListener("click",()=>downloadApp(button.dataset.downloadApp,button)));
     window.addEventListener("pointerdown",askNotificationsOnce,{once:true});
     window.addEventListener("keydown",askNotificationsOnce,{once:true});
     file.closest(".file-button")?.addEventListener("pointerdown",()=>{filePickUntil=Date.now()+4000});
@@ -188,6 +198,62 @@ const adminHtml = `<!doctype html>
     adminFile.onchange=()=>uploadAdminFile(adminFile,false);
     adminMasterFile.onchange=()=>uploadAdminFile(adminMasterFile,true);
     syncText();
+  </script>
+  <script src="/assets/site-footer.js?v=1"></script>
+</body>
+</html>`;
+
+const downloadHtml = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050505">
+  <link rel="manifest" href="/talk/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icon-localtalk.svg">
+  <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  <title>Download LocalTalk</title>
+  <style>
+    :root{color-scheme:dark;--bg:#050606;--panel:#101512;--text:#f7f5ed;--muted:#a9b2ac;--line:#26332c;--accent:#61d693;--accent2:#82b7ff}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 20% 10%,rgba(97,214,147,.16),transparent 28rem),#050606;color:var(--text);display:grid;grid-template-rows:1fr auto}
+    main{width:min(860px,calc(100% - 28px));margin:40px auto;display:grid;gap:22px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.back{color:var(--accent2);font-weight:800;text-decoration:none}h1{margin:0;font-size:clamp(38px,8vw,82px);letter-spacing:0;line-height:.95}p{margin:0;color:var(--muted);font-size:17px;line-height:1.55}.downloads{display:flex;gap:10px;flex-wrap:wrap}.download-button{height:46px;padding:0 16px;border:1px solid var(--line);border-radius:8px;color:var(--text);background:var(--panel);font:inherit;font-weight:850;cursor:pointer}.download-button:hover{border-color:var(--accent);color:var(--accent)}.download-button:disabled{opacity:.62;cursor:progress}.help{display:grid;gap:12px;padding:18px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}h2{margin:0;font-size:24px}.steps{margin:0;padding-left:22px;color:var(--muted);line-height:1.65}.steps strong{color:var(--text)}code{padding:2px 6px;border:1px solid var(--line);border-radius:6px;background:#050606;color:var(--text)}.status{min-height:22px;color:var(--accent);font-weight:800}@media(max-width:620px){main{margin:24px auto}.top{align-items:flex-start;flex-direction:column}.download-button{width:100%}}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="top">
+      <a class="back" href="/talk/">Back to LocalTalk</a>
+      <a class="back" href="/">Home</a>
+    </div>
+    <section>
+      <h1>Download LocalTalk</h1>
+      <p>Choose the app for your computer. The browser will save one ZIP file.</p>
+    </section>
+    <section class="downloads" aria-label="LocalTalk app downloads">
+      <button class="download-button" type="button" data-download-app="macos">MacOS ZIP</button>
+      <button class="download-button" type="button" data-download-app="windows">Windows ZIP</button>
+    </section>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <section class="help">
+      <h2>Mac blocked it?</h2>
+      <p>LocalTalk is not Apple-notarized yet, so macOS may say Apple could not verify it. To open it:</p>
+      <ol class="steps">
+        <li>Open the ZIP, then right-click <strong>Localtalk.app</strong>.</li>
+        <li>Choose <strong>Open</strong>, then approve it if macOS asks again.</li>
+        <li>If it still refuses, open Terminal in the folder and run <code>xattr -dr com.apple.quarantine Localtalk.app</code>.</li>
+      </ol>
+    </section>
+  </main>
+  <footer>
+    <p>© <span id="year"></span> Muye. Built for Cloudflare Pages.</p>
+    <a href="mailto:muye@muye.dev">muye@muye.dev</a>
+  </footer>
+  <script>
+    document.querySelector("#year").textContent = new Date().getFullYear();
+    const status=document.querySelector("#status");
+    const appDownloads={macos:{name:"Localtalk MacOS.zip",parts:["/downloads/localtalk/localtalk-macos.zip.part-aa","/downloads/localtalk/localtalk-macos.zip.part-ab"]},windows:{name:"Localtalk Windows.zip",parts:["/downloads/localtalk/localtalk-windows.zip.part-aa","/downloads/localtalk/localtalk-windows.zip.part-ab"]}};
+    async function downloadApp(kind,button){const app=appDownloads[kind];if(!app)return;const label=button.textContent;button.disabled=true;button.textContent="Downloading...";status.textContent="Preparing "+app.name;try{const blobs=[];for(const part of app.parts){const r=await fetch(part,{cache:"force-cache"});if(!r.ok)throw new Error("download failed");blobs.push(await r.blob())}const url=URL.createObjectURL(new Blob(blobs,{type:"application/zip"}));const a=document.createElement("a");a.href=url;a.download=app.name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);status.textContent="Saved "+app.name}catch(error){status.textContent="Download failed."}finally{button.disabled=false;button.textContent=label}}
+    document.querySelectorAll("[data-download-app]").forEach(button=>button.addEventListener("click",()=>downloadApp(button.dataset.downloadApp,button)));
   </script>
   <script src="/assets/site-footer.js?v=1"></script>
 </body>
@@ -701,7 +767,7 @@ function signedPrivateRoom(room = "") {
 function publicRoomPath(pathname) {
   const match = String(pathname || "").match(/^\/([a-zA-Z0-9_-]{1,40})(?:\/(history|room-state|file\/\d+|send|upload|sender-key|name-sender))?\/?$/);
   if (!match) return null;
-  if (["admin", "signed", "history", "room-state", "file", "send", "upload", "sender-key", "name-sender", "export"].includes(match[1].toLowerCase())) return null;
+  if (["admin", "signed", "download", "history", "room-state", "file", "send", "upload", "sender-key", "name-sender", "export"].includes(match[1].toLowerCase())) return null;
   return { room: cleanRoom(match[1]), action: match[2] ? "/" + match[2] : "/" };
 }
 
@@ -1326,7 +1392,6 @@ async function saveGameRecord(sql, userId, body) {
 
 export default {
   async fetch(request, env) {
-    if (!env.DATABASE_URL) return json({ ok: false, error: "DATABASE_URL is missing" }, { status: 500 });
     const url = new URL(request.url);
     if (url.pathname === "/api/talk") {
       url.pathname = "/signed/api";
@@ -1337,12 +1402,14 @@ export default {
     } else if (url.pathname.startsWith("/talk/")) {
       url.pathname = url.pathname.slice("/talk".length) || "/";
     }
+    if (!env.DATABASE_URL) return json({ ok: false, error: "DATABASE_URL is missing" }, { status: 500 });
     const sql = neon(env.DATABASE_URL);
     try {
       await ensureSetup(sql);
       const roomRoute = publicRoomPath(url.pathname);
       const signedRoute = signedRoomPath(url.pathname);
       if (request.method === "GET" && url.pathname === "/") return new Response(appHtml, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
+      if (request.method === "GET" && url.pathname === "/download") return new Response(downloadHtml, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
       if (request.method === "GET" && roomRoute?.action === "/") {
         const roomOk = await ensureRoomAccess(sql, roomRoute.room, clientIp(request), false);
         if (!roomOk) return new Response(roomLimitHtml, { status: 429, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });

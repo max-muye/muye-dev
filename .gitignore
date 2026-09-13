@@ -2,6 +2,7 @@
 node_modules/
 .wrangler/
 .worker-downloads/
+downloads/localtalk/
 
 .env
 .env.*

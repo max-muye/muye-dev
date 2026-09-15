@@ -1,4 +1,5 @@
 const games = {
+  "mc-2d": { title: "MC 2D", type: "Action", description: "Mine, build, explore, and save your own world.", how: ["Move through a generated block world.", "Mine blocks and place them from your hotbar.", "Your world saves automatically for this user on this browser."] },
   "2048": { title: "2048", type: "Action", description: "Slide matching tiles together and reach 2048.", how: ["Swipe or press the arrow buttons to move every tile.", "Matching numbers merge into one larger tile.", "Your board is saved for your user after every move."], render: render2048 },
   minesweeper: { title: "Minesweeper", type: "Action", description: "Clear the field without hitting a mine.", how: ["Tap a square to reveal it.", "Right-click, long-press, or hold to place a flag.", "Numbers show how many mines touch that square."], render: renderMinesweeper },
   "connect-four": { title: "Connect Four", type: "Strategy", description: "Drop four discs in a row first.", how: ["Tap a column to drop your disc.", "Red and yellow take turns.", "Four in a row wins: across, down, or diagonal."], render: renderConnectFour },
@@ -43,9 +44,11 @@ const gameText = {
     playing: "Playing", matched: "Matched", cleared: "Cleared", solved: "Solved", missed: "Missed", guessing: "Guessing", chooseOne: "Choose one", instantRound: "Instant round", personalRecord: "New personal record", globalRecord: "New all-user record", rock: "Rock", paper: "Paper", scissors: "Scissors", rpsResult: "{result}. You chose {you}; the game chose {them}.", youWin: "You win", youLose: "You lose", draw: "Draw", yourTurn: "Your turn", dealerWins: "Dealer wins", closest21: "Closest to 21", dealer: "Dealer", you: "You", hit: "Hit", stand: "Stand", filling: "Filling", tapCell: "Tap a cell", twoPlayers: "Two players", findPairs: "Find pairs", turnLightsOff: "Turn all lights off", fiveLetters: "Five letters", try: "Try", findFleet: "Find the fleet", compactBoard: "Compact board", simplifiedBoard: "Simplified {game} board from the secret games collection, sized for phones and tablets.", blackTurn: "Black's turn", whiteTurn: "White's turn", sliding: "Sliding", order15: "Put 1 to 15 in order", ready: "Ready", correct: "Correct", keepGoing: "Keep going", round: "Round {count}", startPattern: "Start a pattern", pattern: "Pattern: {count}", higher: "Higher", lower: "Lower", foundIt: "Found it", guesses: "{count} guesses", guessesList: "Guesses: {list}", noGuesses: "No guesses yet.", chance: "Chance", quickPicker: "Quick picker", flipCoin: "Flip Coin", rollDice: "Roll Dice", heads: "Heads", tails: "Tails", noBest: "No best yet", bestMs: "Best {best}ms", tap: "TAP", wait: "Wait...", start: "Start", waitGreen: "Wait for green", tapNow: "Tap now", tooEarly: "Too early", running: "Running", scoreBest: "Score {score} · Best {best}", whacking: "Whacking", findExit: "Find the exit", escaped: "Escaped", moves: "{count} moves", choose: "Choose", streakBest: "Streak {streak} · Best {best}", itWas: "It was {answer}", score10: "Score {score}/10", answerIs: "Answer: {answer}", gameOver: "Game over", finished: "Finished", boom: "Boom", noMoves: "No moves left", reached2048: "You reached 2048", swipeArrows: "Swipe or tap arrows", revealFlag: "Tap reveal, right-click or hold flag", redTurn: "Red's turn", yellowTurn: "Yellow's turn", redWins: "Red wins", yellowWins: "Yellow wins", xTurn: "X's turn", oTurn: "O's turn", wins: "{mark} wins", missesLeft: "{count} misses left",
   },
   zh: {
+    "mc-2d": { title: "MC 2D", type: "动作", description: "挖掘、建造、探索并保存你自己的世界。", how: ["在生成的方块世界里移动。", "挖掘方块，再从快捷栏放置。", "世界会自动为这个浏览器中的当前用户保存。"] },
     games: "游戏", home: "主页", game: "游戏", play: "开玩", intro: "适合触屏的经典、益智、记忆和棋盘小游戏。每个游戏页都会说明规则，并为当前用户在这个浏览器保存进度。", featured: "推荐", snakeTitle: "贪吃蛇实验室", snakeDescription: "带更多控制的经典贪吃蛇", snakeDetail: "可配置的完整贪吃蛇模式", action: "动作", strategy: "策略", puzzle: "益智", word: "文字", classic: "经典", memory: "记忆", challenge: "挑战", allGames: "所有游戏", newGame: "新游戏", howToPlay: "怎么玩", savedAccount: "已为你的账户保存在这个浏览器", savedDevice: "已保存在这个设备", playing: "进行中", matched: "已配对", cleared: "已清空", solved: "已解出", missed: "失败了", guessing: "猜测中", chooseOne: "选一个", instantRound: "即时一局", personalRecord: "新的个人记录", globalRecord: "新的全站记录", rock: "石头", paper: "布", scissors: "剪刀", rpsResult: "{result}。你选了 {you}；游戏选了 {them}。", youWin: "你赢了", youLose: "你输了", draw: "平局", yourTurn: "你的回合", dealerWins: "庄家赢了", closest21: "尽量接近 21", dealer: "庄家", you: "你", hit: "要牌", stand: "停牌", filling: "填写中", tapCell: "点格子", twoPlayers: "双人游戏", findPairs: "找对子", turnLightsOff: "关掉所有灯", fiveLetters: "五个字母", try: "试试", findFleet: "找到舰队", compactBoard: "小棋盘", simplifiedBoard: "来自秘密游戏合集的简化 {game} 棋盘，适合手机和平板。", blackTurn: "黑方回合", whiteTurn: "白方回合", sliding: "滑动中", order15: "把 1 到 15 排回顺序", ready: "准备好了", correct: "正确", keepGoing: "继续", round: "第 {count} 轮", startPattern: "开始一个序列", pattern: "序列：{count}", higher: "更大", lower: "更小", foundIt: "找到了", guesses: "已猜 {count} 次", guessesList: "猜过：{list}", noGuesses: "还没有猜。", chance: "机会", quickPicker: "快速随机", flipCoin: "抛硬币", rollDice: "掷骰子", heads: "正面", tails: "反面", noBest: "还没有最佳", bestMs: "最佳 {best}ms", tap: "点！", wait: "等待...", start: "开始", waitGreen: "等绿色", tapNow: "现在点", tooEarly: "太早了", running: "运行中", scoreBest: "分数 {score} · 最佳 {best}", whacking: "敲打中", findExit: "找到出口", escaped: "逃出去了", moves: "{count} 步", choose: "选择", streakBest: "连对 {streak} · 最佳 {best}", itWas: "答案是 {answer}", score10: "分数 {score}/10", answerIs: "答案：{answer}", gameOver: "游戏结束", finished: "完成", boom: "爆了", noMoves: "没有可走步数", reached2048: "到达 2048", swipeArrows: "滑动或点箭头", revealFlag: "点开，右键或长按插旗", redTurn: "红方回合", yellowTurn: "黄方回合", redWins: "红方赢了", yellowWins: "黄方赢了", xTurn: "X 回合", oTurn: "O 回合", wins: "{mark} 赢了", missesLeft: "还可错 {count} 次",
   },
   ja: {
+    "mc-2d": { title: "MC 2D", type: "アクション", description: "掘って、作って、探検して、自分の世界を保存。", how: ["生成されたブロック世界を移動します。", "ブロックを掘り、ホットバーから置きます。", "このブラウザのユーザーごとに自動保存されます。"] },
     "pattern-grid": { title: "パターングリッド", type: "記憶", description: "光ったマスを覚えます。", how: ["スタートで小さなパターンを表示します。", "隠れたら同じマスをタップします。", "クリアするたびにマスが1つ増えます。"] },
     "word-scramble": { title: "文字ならべ", type: "単語", description: "短い単語を元に戻します。", how: ["シャッフルされた文字を見ます。", "元の単語を入力します。", "新しいゲームで別の単語にできます。"] },
     "tile-stack": { title: "タイル整列", type: "パズル", description: "同じ記号を落ち着いてそろえます。", how: ["2つのタイルをタップして交換します。", "同じ記号を列にまとめます。", "交換するたびに保存されます。"] },
@@ -58,6 +61,7 @@ const gameText = {
     "shape-sort": { title: "形分け", type: "パズル", description: "形を合う箱に分けます。", how: ["形をタップして選びます。", "合う箱をタップします。", "自分のペースで全部片付けます。"] },
   },
   ko: {
+    "mc-2d": { title: "MC 2D", type: "액션", description: "캐고, 짓고, 탐험하며 나만의 월드를 저장하세요.", how: ["생성된 블록 월드를 이동하세요.", "블록을 캐고 단축바에서 다시 놓으세요.", "이 브라우저의 현재 사용자별로 자동 저장됩니다."] },
     "pattern-grid": { title: "패턴 그리드", type: "기억", description: "빛난 칸을 기억하세요.", how: ["시작을 눌러 작은 패턴을 봅니다.", "사라진 뒤 같은 칸을 누릅니다.", "성공할 때마다 칸이 하나 늘어납니다."] },
     "word-scramble": { title: "단어 섞기", type: "단어", description: "짧은 단어를 다시 맞춥니다.", how: ["섞인 글자를 봅니다.", "원래 단어를 입력합니다.", "새 게임으로 다른 단어를 받습니다."] },
     "tile-stack": { title: "타일 쌓기", type: "퍼즐", description: "같은 기호를 차분히 모읍니다.", how: ["타일 두 개를 눌러 바꿉니다.", "같은 기호를 줄로 모읍니다.", "바꿀 때마다 저장됩니다."] },
@@ -70,6 +74,7 @@ const gameText = {
     "shape-sort": { title: "도형 분류", type: "퍼즐", description: "도형을 맞는 상자에 넣습니다.", how: ["도형을 눌러 선택합니다.", "맞는 상자를 누릅니다.", "천천히 모두 정리합니다."] },
   },
   es: {
+    "mc-2d": { title: "MC 2D", type: "Acción", description: "Mina, construye, explora y guarda tu propio mundo.", how: ["Recorre un mundo de bloques generado.", "Mina bloques y colócalos desde la barra rápida.", "El mundo se guarda para este usuario en el navegador."] },
     "pattern-grid": { title: "Cuadrícula de patrones", type: "Memoria", description: "Recuerda las casillas iluminadas.", how: ["Pulsa Inicio para ver un patrón.", "Cuando se oculte, toca las mismas casillas.", "Cada ronda añade una casilla."] },
     "word-scramble": { title: "Palabra mezclada", type: "Palabras", description: "Ordena una palabra pequeña.", how: ["Mira las letras mezcladas.", "Escribe la palabra original.", "Usa Nuevo juego para otra palabra."] },
     "tile-stack": { title: "Pila de fichas", type: "Puzzle", description: "Agrupa fichas iguales en columnas tranquilas.", how: ["Toca dos fichas para cambiarlas.", "Agrupa símbolos iguales en columnas.", "El tablero se guarda tras cada cambio."] },
@@ -82,6 +87,7 @@ const gameText = {
     "shape-sort": { title: "Ordenar formas", type: "Puzzle", description: "Pon cada forma en su caja.", how: ["Toca una forma para tomarla.", "Toca la caja correcta.", "Limpia todas a tu ritmo."] },
   },
   fr: {
+    "mc-2d": { title: "MC 2D", type: "Action", description: "Mine, construis, explore et sauvegarde ton monde.", how: ["Parcours un monde de blocs généré.", "Mine des blocs et replace-les depuis la barre.", "Le monde est sauvegardé pour cet utilisateur."] },
     "pattern-grid": { title: "Grille de motifs", type: "Mémoire", description: "Mémorise les cases allumées.", how: ["Appuie sur Démarrer pour voir un motif.", "Quand il disparaît, touche les mêmes cases.", "Chaque réussite ajoute une case."] },
     "word-scramble": { title: "Mot mélangé", type: "Mots", description: "Remets un petit mot dans l'ordre.", how: ["Regarde les lettres mélangées.", "Tape le mot d'origine.", "Nouveau jeu donne un autre mot."] },
     "tile-stack": { title: "Pile de tuiles", type: "Puzzle", description: "Range les tuiles identiques en colonnes.", how: ["Touche deux tuiles pour les échanger.", "Regroupe les mêmes symboles.", "Le plateau est sauvegardé après chaque échange."] },
@@ -94,6 +100,7 @@ const gameText = {
     "shape-sort": { title: "Tri de formes", type: "Puzzle", description: "Range les formes dans les bons bacs.", how: ["Touche une forme pour la choisir.", "Touche le bac correspondant.", "Vide tout à ton rythme."] },
   },
   de: {
+    "mc-2d": { title: "MC 2D", type: "Action", description: "Grabe, baue, erkunde und speichere deine Welt.", how: ["Bewege dich durch eine erzeugte Blockwelt.", "Baue Blöcke ab und setze sie aus der Leiste.", "Die Welt wird für diesen Benutzer gespeichert."] },
     "pattern-grid": { title: "Mustergitter", type: "Gedächtnis", description: "Merke dir die leuchtenden Felder.", how: ["Tippe Start, um ein Muster zu sehen.", "Wenn es verschwindet, tippe dieselben Felder.", "Jede Runde kommt ein Feld dazu."] },
     "word-scramble": { title: "Wortsalat", type: "Wörter", description: "Setze ein kurzes Wort zusammen.", how: ["Sieh dir die gemischten Buchstaben an.", "Gib das ursprüngliche Wort ein.", "Neues Spiel bringt ein anderes Wort."] },
     "tile-stack": { title: "Kacheln stapeln", type: "Puzzle", description: "Ordne gleiche Kacheln in ruhige Spalten.", how: ["Tippe zwei Kacheln zum Tauschen.", "Gruppiere gleiche Symbole in Spalten.", "Nach jedem Tausch wird gespeichert."] },
@@ -106,6 +113,7 @@ const gameText = {
     "shape-sort": { title: "Formen sortieren", type: "Puzzle", description: "Sortiere Formen in passende Behälter.", how: ["Tippe eine Form, um sie zu nehmen.", "Tippe den passenden Behälter.", "Räume alles in deinem Tempo auf."] },
   },
   pt: {
+    "mc-2d": { title: "MC 2D", type: "Ação", description: "Minere, construa, explore e salve seu próprio mundo.", how: ["Ande por um mundo de blocos gerado.", "Minere blocos e coloque-os pela barra rápida.", "O mundo salva para este usuário no navegador."] },
     "pattern-grid": { title: "Grade de padrões", type: "Memória", description: "Memorize os quadrados acesos.", how: ["Toque em Iniciar para ver um padrão.", "Quando sumir, toque nos mesmos quadrados.", "Cada rodada adiciona mais um quadrado."] },
     "word-scramble": { title: "Palavra embaralhada", type: "Palavras", description: "Desembaralhe uma palavra pequena.", how: ["Veja as letras misturadas.", "Digite a palavra original.", "Use Novo jogo para outra palavra."] },
     "tile-stack": { title: "Pilha de peças", type: "Puzzle", description: "Junte peças iguais em colunas.", how: ["Toque em duas peças para trocar.", "Agrupe símbolos iguais em colunas.", "O tabuleiro salva após cada troca."] },
@@ -118,6 +126,7 @@ const gameText = {
     "shape-sort": { title: "Separar formas", type: "Puzzle", description: "Coloque formas nas caixas certas.", how: ["Toque numa forma para pegar.", "Toque na caixa correspondente.", "Limpe tudo no seu ritmo."] },
   },
   ru: {
+    "mc-2d": { title: "MC 2D", type: "Экшен", description: "Добывай, строй, исследуй и сохраняй свой мир.", how: ["Исследуй созданный блочный мир.", "Добывай блоки и ставь их с панели.", "Мир сохраняется для этого пользователя в браузере."] },
     "pattern-grid": { title: "Сетка узора", type: "Память", description: "Запомни подсвеченные клетки.", how: ["Нажми Старт, чтобы увидеть узор.", "Когда он исчезнет, нажми те же клетки.", "Каждый раунд добавляет одну клетку."] },
     "word-scramble": { title: "Слово вперемешку", type: "Слова", description: "Собери короткое слово.", how: ["Посмотри на перемешанные буквы.", "Введи исходное слово.", "Новая игра даст другое слово."] },
     "tile-stack": { title: "Стопка плиток", type: "Головоломка", description: "Собери одинаковые плитки в спокойные столбцы.", how: ["Нажми две плитки, чтобы поменять их.", "Собери одинаковые символы в столбцы.", "Доска сохраняется после каждого обмена."] },
@@ -130,6 +139,7 @@ const gameText = {
     "shape-sort": { title: "Сортировка фигур", type: "Головоломка", description: "Разложи фигуры по подходящим ящикам.", how: ["Нажми фигуру, чтобы взять ее.", "Нажми подходящий ящик.", "Очисти все в своем темпе."] },
   },
   ar: {
+    "mc-2d": { title: "MC 2D", type: "حركة", description: "احفر وابن واستكشف واحفظ عالمك الخاص.", how: ["تحرك في عالم مكعبات مولد.", "احفر الكتل وضعها من الشريط.", "يحفظ العالم لهذا المستخدم في المتصفح."] },
     "pattern-grid": { title: "شبكة النمط", type: "ذاكرة", description: "تذكر المربعات المضيئة.", how: ["اضغط بدء لعرض نمط صغير.", "بعد اختفائه، اضغط المربعات نفسها.", "كل جولة ناجحة تضيف مربعا."] },
     "word-scramble": { title: "كلمة مبعثرة", type: "كلمات", description: "رتب كلمة صغيرة من جديد.", how: ["انظر إلى الحروف المبعثرة.", "اكتب الكلمة الأصلية.", "استخدم لعبة جديدة لكلمة أخرى."] },
     "tile-stack": { title: "رص البلاطات", type: "لغز", description: "اجمع الرموز المتشابهة في أعمدة هادئة.", how: ["اضغط بلاطتين لتبديلهما.", "اجمع الرموز المتشابهة في أعمدة.", "يتم حفظ اللوحة بعد كل تبديل."] },
@@ -205,8 +215,8 @@ function translateGamesHome() {
   document.documentElement.lang = currentLang();
   document.documentElement.dir = currentLang() === "ar" ? "rtl" : "ltr";
   document.querySelectorAll("[data-i18n]").forEach((node) => { node.textContent = gt(node.dataset.i18n); });
-  document.querySelectorAll(".game-links a[href*='/games/play/?game=']").forEach((link) => {
-    const gameSlug = new URL(link.href, location.href).searchParams.get("game");
+  document.querySelectorAll(".game-links a[data-game], .game-links a[href*='/games/play/?game=']").forEach((link) => {
+    const gameSlug = link.dataset.game || new URL(link.href, location.href).searchParams.get("game");
     const data = localGame(gameSlug);
     if (!data) return;
     link.querySelector("span").textContent = data.title;
@@ -223,6 +233,7 @@ let resetButton = null;
 
 if (document.documentElement.dataset.gamesHome !== undefined) {
   translateGamesHome();
+  window.addEventListener("muye-language-change", translateGamesHome);
 } else {
 panel = document.querySelector("#play-panel");
 resetButton = document.querySelector("#reset-game");

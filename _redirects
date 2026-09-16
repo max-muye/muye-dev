@@ -1,5 +1,6 @@
 https://muye.dev/ https://www.muye.dev/ 301
 https://muye.dev/* https://www.muye.dev/:splat 301
+/talk/download /download/#localtalk 302
 /sign-in/factor-one /sign-in/factor-one/index.html 200
 /sign-in/factor-two /sign-in/factor-two/index.html 200
 /sign-in/sso-callback /sign-in/sso-callback/index.html 200

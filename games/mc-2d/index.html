@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#050706">
     <title>MC 2D · Muye Games</title>
     <link rel="icon" href="/assets/favicon.png" type="image/png">
-    <link rel="stylesheet" href="/games/mc-2d/mc-2d.css?v=2">
+    <link rel="stylesheet" href="/games/mc-2d/mc-2d.css?v=3">
     <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body>
@@ -55,6 +55,7 @@
           <div class="hotbar" id="hotbar" aria-label="Block hotbar"></div>
           <div class="inventory-actions">
             <span class="equipped-tool" id="equipped-tool">✋ Hand</span>
+            <button class="backpack-button" id="backpack-button" type="button"><span class="backpack-icon" aria-hidden="true">▣</span><span data-i18n="backpack">Backpack</span></button>
             <button class="craft-button" id="craft-button" type="button"><span class="craft-icon">▦</span><span data-i18n="craft">Craft &amp; smelt</span></button>
           </div>
         </div>
@@ -101,6 +102,27 @@
       </form>
     </dialog>
 
+    <dialog id="backpack-dialog" class="backpack-dialog">
+      <form method="dialog">
+        <button class="dialog-close" aria-label="Close" title="Close">×</button>
+        <p class="eyebrow" data-i18n="inventory">INVENTORY</p>
+        <h2 data-i18n="backpackTitle">Backpack</h2>
+        <p class="backpack-hint" data-i18n="backpackHint">Choose a block or tool to equip it.</p>
+        <section>
+          <h3 data-i18n="blocks">Blocks</h3>
+          <div class="backpack-grid" id="backpack-blocks"></div>
+        </section>
+        <section>
+          <h3 data-i18n="materials">Materials</h3>
+          <div class="resource-list" id="backpack-materials"></div>
+        </section>
+        <section>
+          <h3 data-i18n="tools">Tools</h3>
+          <div class="tool-list" id="backpack-tools"></div>
+        </section>
+      </form>
+    </dialog>
+
     <dialog id="craft-dialog" class="craft-dialog">
       <form method="dialog">
         <button class="dialog-close" aria-label="Close" title="Close">×</button>
@@ -136,7 +158,7 @@
     </dialog>
 
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script src="/games/mc-2d/mc-2d.js?v=2"></script>
+    <script src="/games/mc-2d/mc-2d.js?v=3"></script>
     <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

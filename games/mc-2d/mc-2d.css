@@ -102,6 +102,7 @@ h1 span { color: var(--grass); }
 
 .world-actions { gap: 8px; }
 .world-actions button,
+.backpack-button,
 .craft-button,
 .start-overlay button,
 .dialog-actions button {
@@ -116,6 +117,7 @@ h1 span { color: var(--grass); }
   cursor: pointer;
 }
 .world-actions button:active,
+.backpack-button:active,
 .craft-button:active,
 .start-overlay button:active,
 .dialog-actions button:active { transform: translateY(2px); box-shadow: none; }
@@ -224,7 +226,10 @@ h1 span { color: var(--grass); }
 .hotbar-slot[disabled] { opacity: 0.42; }
 .inventory-actions { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; }
 .equipped-tool { max-width: 170px; color: var(--muted); font-size: 12px; font-weight: 850; }
+.backpack-button,
 .craft-button { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.backpack-button { border-color: #536153; color: var(--ink); background: #111612; box-shadow: 0 3px 0 #030403; }
+.backpack-icon,
 .craft-icon { font-size: 20px; }
 
 .mobile-controls { display: none; justify-content: space-between; gap: 14px; padding: 0 12px 14px; }
@@ -272,10 +277,35 @@ dialog label { display: grid; gap: 8px; margin: 20px 0; font-weight: 850; }
 dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5px; padding: 0 12px; color: white; background: #050706; }
 .dialog-actions { justify-content: flex-end; gap: 8px; }
 
-.craft-dialog { width: min(760px, calc(100% - 28px)); }
-.craft-dialog form { max-height: min(82svh, 760px); overflow-y: auto; }
-.craft-dialog section + section { margin-top: 24px; }
-.craft-dialog h3 { margin: 0 0 10px; color: var(--muted); font-size: 12px; text-transform: uppercase; }
+.craft-dialog,
+.backpack-dialog { width: min(760px, calc(100% - 28px)); }
+.craft-dialog form,
+.backpack-dialog form { max-height: min(82svh, 760px); overflow-y: auto; }
+.craft-dialog section + section,
+.backpack-dialog section + section { margin-top: 24px; }
+.craft-dialog h3,
+.backpack-dialog h3 { margin: 0 0 10px; color: var(--muted); font-size: 12px; text-transform: uppercase; }
+.backpack-hint { margin: -4px 0 22px; }
+.backpack-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.backpack-slot {
+  position: relative;
+  display: grid;
+  min-height: 104px;
+  place-items: center;
+  gap: 5px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 6px 8px;
+  color: var(--ink);
+  background: #111612;
+  cursor: pointer;
+}
+.backpack-slot:hover:not([disabled]) { border-color: var(--grass); background: #152015; }
+.backpack-slot.selected { border-color: white; box-shadow: inset 0 0 0 2px var(--grass); }
+.backpack-slot[disabled] { opacity: 0.44; cursor: default; }
+.backpack-slot canvas { width: 40px; height: 40px; image-rendering: pixelated; pointer-events: none; }
+.backpack-slot strong { max-width: 100%; overflow-wrap: anywhere; font-size: 11px; text-align: center; }
+.backpack-slot small { color: var(--gold); font: 900 12px/1 ui-monospace, monospace; }
 .resource-list { display: flex; flex-wrap: wrap; gap: 7px; }
 .resource-chip { padding: 7px 9px; border: 1px solid var(--line); border-radius: 5px; background: #060806; font-size: 12px; font-weight: 800; }
 .resource-chip strong { color: var(--gold); }
@@ -330,7 +360,8 @@ dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5
   .inventory-row { align-items: stretch; flex-direction: column; }
   .hotbar { grid-template-columns: repeat(7, minmax(38px, 1fr)); width: 100%; }
   .hotbar-slot { width: 100%; height: 49px; }
-  .inventory-actions { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  .inventory-actions { display: grid; grid-template-columns: minmax(0, 1fr) repeat(2, auto); }
+  .backpack-button,
   .craft-button { justify-content: center; }
   .tips { grid-template-columns: 1fr; padding-top: 40px; }
 }
@@ -347,6 +378,9 @@ dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5
   .tip-grid { grid-template-columns: 1fr; }
   .tool-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .recipe-list { grid-template-columns: 1fr; }
+  .backpack-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .inventory-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .equipped-tool { grid-column: 1 / -1; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -12,11 +12,15 @@ const overlay = document.querySelector("#start-overlay");
 const helpDialog = document.querySelector("#help-dialog");
 const newWorldDialog = document.querySelector("#new-world-dialog");
 const craftDialog = document.querySelector("#craft-dialog");
+const backpackDialog = document.querySelector("#backpack-dialog");
 const worldNameInput = document.querySelector("#world-name-input");
 const resourceList = document.querySelector("#resource-list");
 const toolList = document.querySelector("#tool-list");
 const recipeList = document.querySelector("#recipe-list");
 const equippedToolEl = document.querySelector("#equipped-tool");
+const backpackBlocks = document.querySelector("#backpack-blocks");
+const backpackMaterials = document.querySelector("#backpack-materials");
+const backpackTools = document.querySelector("#backpack-tools");
 
 const WORLD_WIDTH = 160;
 const WORLD_HEIGHT = 56;
@@ -96,16 +100,16 @@ const text = {
 
 const languages = ["en", "zh", "ja", "ko", "es", "fr", "de", "pt", "ru", "ar"];
 const craftingText = {
-  en: { craft: "Craft & smelt", breakTip: "Hold left-click, or tap a nearby block, until it breaks.", help4: "Craft tools, mine coal and iron, then smelt iron in a furnace.", workshop: "WORKSHOP", craftSmelt: "Craft & smelt", resources: "Resources", tools: "Tools", recipes: "Recipes", equipped: "Equipped", hand: "Hand", sticks: "Sticks", ironOre: "Iron ore", ironIngot: "Iron ingot", furnace: "Furnace", woodPickaxe: "Wooden pickaxe", stonePickaxe: "Stone pickaxe", ironPickaxe: "Iron pickaxe", woodAxe: "Wooden axe", stoneAxe: "Stone axe", ironAxe: "Iron axe", recipePlanks: "4 wooden planks", recipeSticks: "4 sticks", smeltIron: "Smelt iron ingot", notEnough: "You need more resources", craftedItem: "Made {item}", owned: "Owned", needsFurnace: "Craft and carry a furnace first", needBetterPickaxe: "A stronger pickaxe is needed", mining: "Mining {block}..." },
-  zh: { craft: "合成与熔炼", breakTip: "按住左键，或点一下附近方块，直到它被挖开。", help4: "合成工具，挖煤和铁矿，再用熔炉炼出铁锭。", workshop: "工作台", craftSmelt: "合成与熔炼", resources: "资源", tools: "工具", recipes: "配方", equipped: "已装备", hand: "空手", sticks: "木棍", ironOre: "铁矿石", ironIngot: "铁锭", furnace: "熔炉", woodPickaxe: "木镐", stonePickaxe: "石镐", ironPickaxe: "铁镐", woodAxe: "木斧", stoneAxe: "石斧", ironAxe: "铁斧", recipePlanks: "4 块木板", recipeSticks: "4 根木棍", smeltIron: "熔炼铁锭", notEnough: "资源不够", craftedItem: "制作了 {item}", owned: "已有", needsFurnace: "先合成并携带一个熔炉", needBetterPickaxe: "需要更强的镐", mining: "正在挖 {block}..." },
-  ja: { craft: "クラフトと製錬", breakTip: "左クリックを長押し、または近くのブロックをタップして壊します。", help4: "道具を作り、石炭と鉄を掘り、かまどで鉄を製錬します。", workshop: "作業場", craftSmelt: "クラフトと製錬", resources: "素材", tools: "道具", recipes: "レシピ", equipped: "装備中", hand: "素手", sticks: "棒", ironOre: "鉄鉱石", ironIngot: "鉄インゴット", furnace: "かまど", woodPickaxe: "木のツルハシ", stonePickaxe: "石のツルハシ", ironPickaxe: "鉄のツルハシ", woodAxe: "木の斧", stoneAxe: "石の斧", ironAxe: "鉄の斧", recipePlanks: "木材4個", recipeSticks: "棒4本", smeltIron: "鉄を製錬", notEnough: "素材が足りません", craftedItem: "{item}を作りました", owned: "所持", needsFurnace: "先にかまどを作って持ってください", needBetterPickaxe: "もっと強いツルハシが必要です", mining: "{block}を採掘中..." },
-  ko: { craft: "제작과 제련", breakTip: "왼쪽 클릭을 누르거나 가까운 블록을 탭해 부수세요.", help4: "도구를 만들고 석탄과 철을 캐서 화로에서 제련하세요.", workshop: "작업장", craftSmelt: "제작과 제련", resources: "자원", tools: "도구", recipes: "조합법", equipped: "장착", hand: "맨손", sticks: "막대기", ironOre: "철광석", ironIngot: "철괴", furnace: "화로", woodPickaxe: "나무 곡괭이", stonePickaxe: "돌 곡괭이", ironPickaxe: "철 곡괭이", woodAxe: "나무 도끼", stoneAxe: "돌 도끼", ironAxe: "철 도끼", recipePlanks: "나무 판자 4개", recipeSticks: "막대기 4개", smeltIron: "철괴 제련", notEnough: "자원이 부족합니다", craftedItem: "{item} 제작 완료", owned: "보유", needsFurnace: "먼저 화로를 만들어 가지고 있어야 합니다", needBetterPickaxe: "더 강한 곡괭이가 필요합니다", mining: "{block} 캐는 중..." },
-  es: { craft: "Crear y fundir", breakTip: "Mantén el clic izquierdo o toca un bloque hasta romperlo.", help4: "Crea herramientas, extrae carbón y hierro y funde hierro en un horno.", workshop: "TALLER", craftSmelt: "Crear y fundir", resources: "Recursos", tools: "Herramientas", recipes: "Recetas", equipped: "Equipado", hand: "Mano", sticks: "Palos", ironOre: "Mineral de hierro", ironIngot: "Lingote de hierro", furnace: "Horno", woodPickaxe: "Pico de madera", stonePickaxe: "Pico de piedra", ironPickaxe: "Pico de hierro", woodAxe: "Hacha de madera", stoneAxe: "Hacha de piedra", ironAxe: "Hacha de hierro", recipePlanks: "4 tablones", recipeSticks: "4 palos", smeltIron: "Fundir lingote", notEnough: "Faltan recursos", craftedItem: "Creaste {item}", owned: "Tienes", needsFurnace: "Primero crea y lleva un horno", needBetterPickaxe: "Necesitas un pico más fuerte", mining: "Minando {block}..." },
-  fr: { craft: "Fabriquer et fondre", breakTip: "Maintiens le clic gauche ou touche un bloc jusqu'à le casser.", help4: "Fabrique des outils, mine charbon et fer, puis fonds le fer au four.", workshop: "ATELIER", craftSmelt: "Fabriquer et fondre", resources: "Ressources", tools: "Outils", recipes: "Recettes", equipped: "Équipé", hand: "Main", sticks: "Bâtons", ironOre: "Minerai de fer", ironIngot: "Lingot de fer", furnace: "Four", woodPickaxe: "Pioche en bois", stonePickaxe: "Pioche en pierre", ironPickaxe: "Pioche en fer", woodAxe: "Hache en bois", stoneAxe: "Hache en pierre", ironAxe: "Hache en fer", recipePlanks: "4 planches", recipeSticks: "4 bâtons", smeltIron: "Fondre un lingot", notEnough: "Il manque des ressources", craftedItem: "{item} fabriqué", owned: "Possédé", needsFurnace: "Fabrique et garde d'abord un four", needBetterPickaxe: "Il faut une pioche plus solide", mining: "Minage de {block}..." },
-  de: { craft: "Bauen und schmelzen", breakTip: "Halte die linke Maustaste oder tippe einen Block, bis er bricht.", help4: "Baue Werkzeuge, fördere Kohle und Eisen und schmelze Eisen im Ofen.", workshop: "WERKSTATT", craftSmelt: "Bauen und schmelzen", resources: "Rohstoffe", tools: "Werkzeuge", recipes: "Rezepte", equipped: "Ausgerüstet", hand: "Hand", sticks: "Stöcke", ironOre: "Eisenerz", ironIngot: "Eisenbarren", furnace: "Ofen", woodPickaxe: "Holzspitzhacke", stonePickaxe: "Steinspitzhacke", ironPickaxe: "Eisenspitzhacke", woodAxe: "Holzaxt", stoneAxe: "Steinaxt", ironAxe: "Eisenaxt", recipePlanks: "4 Bretter", recipeSticks: "4 Stöcke", smeltIron: "Eisenbarren schmelzen", notEnough: "Nicht genug Rohstoffe", craftedItem: "{item} hergestellt", owned: "Besitz", needsFurnace: "Baue und trage zuerst einen Ofen", needBetterPickaxe: "Eine stärkere Spitzhacke ist nötig", mining: "{block} wird abgebaut..." },
-  pt: { craft: "Criar e fundir", breakTip: "Segure o clique esquerdo ou toque num bloco até quebrar.", help4: "Crie ferramentas, minere carvão e ferro e funda ferro numa fornalha.", workshop: "OFICINA", craftSmelt: "Criar e fundir", resources: "Recursos", tools: "Ferramentas", recipes: "Receitas", equipped: "Equipado", hand: "Mão", sticks: "Gravetos", ironOre: "Minério de ferro", ironIngot: "Barra de ferro", furnace: "Fornalha", woodPickaxe: "Picareta de madeira", stonePickaxe: "Picareta de pedra", ironPickaxe: "Picareta de ferro", woodAxe: "Machado de madeira", stoneAxe: "Machado de pedra", ironAxe: "Machado de ferro", recipePlanks: "4 tábuas", recipeSticks: "4 gravetos", smeltIron: "Fundir barra de ferro", notEnough: "Faltam recursos", craftedItem: "Criou {item}", owned: "Possui", needsFurnace: "Primeiro crie e carregue uma fornalha", needBetterPickaxe: "É preciso uma picareta mais forte", mining: "Minerando {block}..." },
-  ru: { craft: "Создать и плавить", breakTip: "Удерживай левую кнопку или коснись блока, пока он не сломается.", help4: "Создай инструменты, добудь уголь и железо и переплавь железо в печи.", workshop: "МАСТЕРСКАЯ", craftSmelt: "Создать и плавить", resources: "Ресурсы", tools: "Инструменты", recipes: "Рецепты", equipped: "Выбрано", hand: "Рука", sticks: "Палки", ironOre: "Железная руда", ironIngot: "Железный слиток", furnace: "Печь", woodPickaxe: "Деревянная кирка", stonePickaxe: "Каменная кирка", ironPickaxe: "Железная кирка", woodAxe: "Деревянный топор", stoneAxe: "Каменный топор", ironAxe: "Железный топор", recipePlanks: "4 доски", recipeSticks: "4 палки", smeltIron: "Выплавить слиток", notEnough: "Не хватает ресурсов", craftedItem: "Создано: {item}", owned: "Есть", needsFurnace: "Сначала создай и носи печь", needBetterPickaxe: "Нужна более крепкая кирка", mining: "Добывается {block}..." },
-  ar: { craft: "صناعة وصهر", breakTip: "اضغط مطولا أو المس كتلة قريبة حتى تنكسر.", help4: "اصنع الأدوات واحفر الفحم والحديد ثم اصهر الحديد في الفرن.", workshop: "ورشة", craftSmelt: "صناعة وصهر", resources: "الموارد", tools: "الأدوات", recipes: "الوصفات", equipped: "المجهز", hand: "اليد", sticks: "عيدان", ironOre: "خام الحديد", ironIngot: "سبيكة حديد", furnace: "فرن", woodPickaxe: "معول خشبي", stonePickaxe: "معول حجري", ironPickaxe: "معول حديدي", woodAxe: "فأس خشبي", stoneAxe: "فأس حجري", ironAxe: "فأس حديدي", recipePlanks: "4 ألواح", recipeSticks: "4 عيدان", smeltIron: "صهر سبيكة حديد", notEnough: "تحتاج إلى موارد أكثر", craftedItem: "تم صنع {item}", owned: "مملوك", needsFurnace: "اصنع واحمل فرنا أولا", needBetterPickaxe: "تحتاج إلى معول أقوى", mining: "جار حفر {block}..." }
+  en: { craft: "Craft & smelt", breakTip: "Hold left-click, or tap a nearby block, until it breaks.", help4: "Craft tools, mine coal and iron, then smelt iron in a furnace.", workshop: "WORKSHOP", craftSmelt: "Craft & smelt", resources: "Resources", tools: "Tools", recipes: "Recipes", equipped: "Equipped", hand: "Hand", sticks: "Sticks", ironOre: "Iron ore", ironIngot: "Iron ingot", furnace: "Furnace", woodPickaxe: "Wooden pickaxe", stonePickaxe: "Stone pickaxe", ironPickaxe: "Iron pickaxe", woodAxe: "Wooden axe", stoneAxe: "Stone axe", ironAxe: "Iron axe", recipePlanks: "4 wooden planks", recipeSticks: "4 sticks", smeltIron: "Smelt iron ingot", notEnough: "You need more resources", craftedItem: "Made {item}", owned: "Owned", needsFurnace: "Craft and carry a furnace first", needBetterPickaxe: "A stronger pickaxe is needed", mining: "Mining {block}...", backpack: "Backpack", inventory: "INVENTORY", backpackTitle: "Backpack", backpackHint: "Choose a placeable block or an owned tool to equip it. Press B to open.", blocks: "Blocks", materials: "Materials", chooseBlock: "Equip {item}" },
+  zh: { craft: "合成与熔炼", breakTip: "按住左键，或点一下附近方块，直到它被挖开。", help4: "合成工具，挖煤和铁矿，再用熔炉炼出铁锭。", workshop: "工作台", craftSmelt: "合成与熔炼", resources: "资源", tools: "工具", recipes: "配方", equipped: "已装备", hand: "空手", sticks: "木棍", ironOre: "铁矿石", ironIngot: "铁锭", furnace: "熔炉", woodPickaxe: "木镐", stonePickaxe: "石镐", ironPickaxe: "铁镐", woodAxe: "木斧", stoneAxe: "石斧", ironAxe: "铁斧", recipePlanks: "4 块木板", recipeSticks: "4 根木棍", smeltIron: "熔炼铁锭", notEnough: "资源不够", craftedItem: "制作了 {item}", owned: "已有", needsFurnace: "先合成并携带一个熔炉", needBetterPickaxe: "需要更强的镐", mining: "正在挖 {block}...", backpack: "背包", inventory: "物品栏", backpackTitle: "背包", backpackHint: "选择可放置的方块或已有工具来装备。按 B 打开。", blocks: "方块", materials: "材料", chooseBlock: "装备 {item}" },
+  ja: { craft: "クラフトと製錬", breakTip: "左クリックを長押し、または近くのブロックをタップして壊します。", help4: "道具を作り、石炭と鉄を掘り、かまどで鉄を製錬します。", workshop: "作業場", craftSmelt: "クラフトと製錬", resources: "素材", tools: "道具", recipes: "レシピ", equipped: "装備中", hand: "素手", sticks: "棒", ironOre: "鉄鉱石", ironIngot: "鉄インゴット", furnace: "かまど", woodPickaxe: "木のツルハシ", stonePickaxe: "石のツルハシ", ironPickaxe: "鉄のツルハシ", woodAxe: "木の斧", stoneAxe: "石の斧", ironAxe: "鉄の斧", recipePlanks: "木材4個", recipeSticks: "棒4本", smeltIron: "鉄を製錬", notEnough: "素材が足りません", craftedItem: "{item}を作りました", owned: "所持", needsFurnace: "先にかまどを作って持ってください", needBetterPickaxe: "もっと強いツルハシが必要です", mining: "{block}を採掘中...", backpack: "バックパック", inventory: "インベントリ", backpackTitle: "バックパック", backpackHint: "置けるブロックまたは所持中の道具を選んで装備します。Bで開きます。", blocks: "ブロック", materials: "素材", chooseBlock: "{item}を装備" },
+  ko: { craft: "제작과 제련", breakTip: "왼쪽 클릭을 누르거나 가까운 블록을 탭해 부수세요.", help4: "도구를 만들고 석탄과 철을 캐서 화로에서 제련하세요.", workshop: "작업장", craftSmelt: "제작과 제련", resources: "자원", tools: "도구", recipes: "조합법", equipped: "장착", hand: "맨손", sticks: "막대기", ironOre: "철광석", ironIngot: "철괴", furnace: "화로", woodPickaxe: "나무 곡괭이", stonePickaxe: "돌 곡괭이", ironPickaxe: "철 곡괭이", woodAxe: "나무 도끼", stoneAxe: "돌 도끼", ironAxe: "철 도끼", recipePlanks: "나무 판자 4개", recipeSticks: "막대기 4개", smeltIron: "철괴 제련", notEnough: "자원이 부족합니다", craftedItem: "{item} 제작 완료", owned: "보유", needsFurnace: "먼저 화로를 만들어 가지고 있어야 합니다", needBetterPickaxe: "더 강한 곡괭이가 필요합니다", mining: "{block} 캐는 중...", backpack: "배낭", inventory: "보관함", backpackTitle: "배낭", backpackHint: "놓을 수 있는 블록이나 보유 도구를 선택해 장착하세요. B로 엽니다.", blocks: "블록", materials: "재료", chooseBlock: "{item} 장착" },
+  es: { craft: "Crear y fundir", breakTip: "Mantén el clic izquierdo o toca un bloque hasta romperlo.", help4: "Crea herramientas, extrae carbón y hierro y funde hierro en un horno.", workshop: "TALLER", craftSmelt: "Crear y fundir", resources: "Recursos", tools: "Herramientas", recipes: "Recetas", equipped: "Equipado", hand: "Mano", sticks: "Palos", ironOre: "Mineral de hierro", ironIngot: "Lingote de hierro", furnace: "Horno", woodPickaxe: "Pico de madera", stonePickaxe: "Pico de piedra", ironPickaxe: "Pico de hierro", woodAxe: "Hacha de madera", stoneAxe: "Hacha de piedra", ironAxe: "Hacha de hierro", recipePlanks: "4 tablones", recipeSticks: "4 palos", smeltIron: "Fundir lingote", notEnough: "Faltan recursos", craftedItem: "Creaste {item}", owned: "Tienes", needsFurnace: "Primero crea y lleva un horno", needBetterPickaxe: "Necesitas un pico más fuerte", mining: "Minando {block}...", backpack: "Mochila", inventory: "INVENTARIO", backpackTitle: "Mochila", backpackHint: "Elige un bloque colocable o una herramienta propia. Pulsa B para abrir.", blocks: "Bloques", materials: "Materiales", chooseBlock: "Equipar {item}" },
+  fr: { craft: "Fabriquer et fondre", breakTip: "Maintiens le clic gauche ou touche un bloc jusqu'à le casser.", help4: "Fabrique des outils, mine charbon et fer, puis fonds le fer au four.", workshop: "ATELIER", craftSmelt: "Fabriquer et fondre", resources: "Ressources", tools: "Outils", recipes: "Recettes", equipped: "Équipé", hand: "Main", sticks: "Bâtons", ironOre: "Minerai de fer", ironIngot: "Lingot de fer", furnace: "Four", woodPickaxe: "Pioche en bois", stonePickaxe: "Pioche en pierre", ironPickaxe: "Pioche en fer", woodAxe: "Hache en bois", stoneAxe: "Hache en pierre", ironAxe: "Hache en fer", recipePlanks: "4 planches", recipeSticks: "4 bâtons", smeltIron: "Fondre un lingot", notEnough: "Il manque des ressources", craftedItem: "{item} fabriqué", owned: "Possédé", needsFurnace: "Fabrique et garde d'abord un four", needBetterPickaxe: "Il faut une pioche plus solide", mining: "Minage de {block}...", backpack: "Sac", inventory: "INVENTAIRE", backpackTitle: "Sac à dos", backpackHint: "Choisis un bloc plaçable ou un outil possédé. Appuie sur B pour ouvrir.", blocks: "Blocs", materials: "Matériaux", chooseBlock: "Équiper {item}" },
+  de: { craft: "Bauen und schmelzen", breakTip: "Halte die linke Maustaste oder tippe einen Block, bis er bricht.", help4: "Baue Werkzeuge, fördere Kohle und Eisen und schmelze Eisen im Ofen.", workshop: "WERKSTATT", craftSmelt: "Bauen und schmelzen", resources: "Rohstoffe", tools: "Werkzeuge", recipes: "Rezepte", equipped: "Ausgerüstet", hand: "Hand", sticks: "Stöcke", ironOre: "Eisenerz", ironIngot: "Eisenbarren", furnace: "Ofen", woodPickaxe: "Holzspitzhacke", stonePickaxe: "Steinspitzhacke", ironPickaxe: "Eisenspitzhacke", woodAxe: "Holzaxt", stoneAxe: "Steinaxt", ironAxe: "Eisenaxt", recipePlanks: "4 Bretter", recipeSticks: "4 Stöcke", smeltIron: "Eisenbarren schmelzen", notEnough: "Nicht genug Rohstoffe", craftedItem: "{item} hergestellt", owned: "Besitz", needsFurnace: "Baue und trage zuerst einen Ofen", needBetterPickaxe: "Eine stärkere Spitzhacke ist nötig", mining: "{block} wird abgebaut...", backpack: "Rucksack", inventory: "INVENTAR", backpackTitle: "Rucksack", backpackHint: "Wähle einen platzierbaren Block oder ein eigenes Werkzeug. Öffne mit B.", blocks: "Blöcke", materials: "Materialien", chooseBlock: "{item} ausrüsten" },
+  pt: { craft: "Criar e fundir", breakTip: "Segure o clique esquerdo ou toque num bloco até quebrar.", help4: "Crie ferramentas, minere carvão e ferro e funda ferro numa fornalha.", workshop: "OFICINA", craftSmelt: "Criar e fundir", resources: "Recursos", tools: "Ferramentas", recipes: "Receitas", equipped: "Equipado", hand: "Mão", sticks: "Gravetos", ironOre: "Minério de ferro", ironIngot: "Barra de ferro", furnace: "Fornalha", woodPickaxe: "Picareta de madeira", stonePickaxe: "Picareta de pedra", ironPickaxe: "Picareta de ferro", woodAxe: "Machado de madeira", stoneAxe: "Machado de pedra", ironAxe: "Machado de ferro", recipePlanks: "4 tábuas", recipeSticks: "4 gravetos", smeltIron: "Fundir barra de ferro", notEnough: "Faltam recursos", craftedItem: "Criou {item}", owned: "Possui", needsFurnace: "Primeiro crie e carregue uma fornalha", needBetterPickaxe: "É preciso uma picareta mais forte", mining: "Minerando {block}...", backpack: "Mochila", inventory: "INVENTÁRIO", backpackTitle: "Mochila", backpackHint: "Escolha um bloco colocável ou ferramenta que possui. Pressione B para abrir.", blocks: "Blocos", materials: "Materiais", chooseBlock: "Equipar {item}" },
+  ru: { craft: "Создать и плавить", breakTip: "Удерживай левую кнопку или коснись блока, пока он не сломается.", help4: "Создай инструменты, добудь уголь и железо и переплавь железо в печи.", workshop: "МАСТЕРСКАЯ", craftSmelt: "Создать и плавить", resources: "Ресурсы", tools: "Инструменты", recipes: "Рецепты", equipped: "Выбрано", hand: "Рука", sticks: "Палки", ironOre: "Железная руда", ironIngot: "Железный слиток", furnace: "Печь", woodPickaxe: "Деревянная кирка", stonePickaxe: "Каменная кирка", ironPickaxe: "Железная кирка", woodAxe: "Деревянный топор", stoneAxe: "Каменный топор", ironAxe: "Железный топор", recipePlanks: "4 доски", recipeSticks: "4 палки", smeltIron: "Выплавить слиток", notEnough: "Не хватает ресурсов", craftedItem: "Создано: {item}", owned: "Есть", needsFurnace: "Сначала создай и носи печь", needBetterPickaxe: "Нужна более крепкая кирка", mining: "Добывается {block}...", backpack: "Рюкзак", inventory: "ИНВЕНТАРЬ", backpackTitle: "Рюкзак", backpackHint: "Выбери доступный блок или свой инструмент. Открыть: B.", blocks: "Блоки", materials: "Материалы", chooseBlock: "Выбрать {item}" },
+  ar: { craft: "صناعة وصهر", breakTip: "اضغط مطولا أو المس كتلة قريبة حتى تنكسر.", help4: "اصنع الأدوات واحفر الفحم والحديد ثم اصهر الحديد في الفرن.", workshop: "ورشة", craftSmelt: "صناعة وصهر", resources: "الموارد", tools: "الأدوات", recipes: "الوصفات", equipped: "المجهز", hand: "اليد", sticks: "عيدان", ironOre: "خام الحديد", ironIngot: "سبيكة حديد", furnace: "فرن", woodPickaxe: "معول خشبي", stonePickaxe: "معول حجري", ironPickaxe: "معول حديدي", woodAxe: "فأس خشبي", stoneAxe: "فأس حجري", ironAxe: "فأس حديدي", recipePlanks: "4 ألواح", recipeSticks: "4 عيدان", smeltIron: "صهر سبيكة حديد", notEnough: "تحتاج إلى موارد أكثر", craftedItem: "تم صنع {item}", owned: "مملوك", needsFurnace: "اصنع واحمل فرنا أولا", needBetterPickaxe: "تحتاج إلى معول أقوى", mining: "جار حفر {block}...", backpack: "حقيبة", inventory: "المخزون", backpackTitle: "حقيبة الظهر", backpackHint: "اختر كتلة قابلة للوضع أو أداة تملكها. اضغط B للفتح.", blocks: "الكتل", materials: "المواد", chooseBlock: "تجهيز {item}" }
 };
 languages.forEach((code) => Object.assign(text[code], craftingText[code]));
 let lang = languages.includes(localStorage.getItem("muye-lang")) ? localStorage.getItem("muye-lang") : "en";
@@ -130,6 +134,7 @@ let pointerTile = null;
 let mining = null;
 let keys = new Set();
 let craftResume = false;
+let backpackResume = false;
 let player = { x: 12, y: 10, vx: 0, vy: 0, width: 0.72, height: 1.78, grounded: false, health: 5, facing: 1, spawnX: 12, spawnY: 10 };
 
 function t(key, data = {}) {
@@ -148,6 +153,7 @@ function applyLanguage() {
   if (world.length && playerKey) saveState.textContent = playerKey.startsWith("user:") ? t("accountSave") : t("deviceSave");
   renderHotbar();
   renderCrafting();
+  renderBackpack();
   updateHud();
 }
 
@@ -380,6 +386,58 @@ function renderHotbar() {
     button.appendChild(count);
     button.addEventListener("click", () => { selectedSlot = index; dirty = true; renderHotbar(); });
     hotbar.appendChild(button);
+  });
+}
+
+function selectBackpackBlock(id) {
+  const slot = HOTBAR_BLOCKS.indexOf(id);
+  if (slot < 0 || !(inventory[id] > 0)) return;
+  selectedSlot = slot;
+  dirty = true;
+  renderHotbar();
+  renderBackpack();
+}
+
+function renderBackpack() {
+  if (!backpackBlocks || !backpackMaterials || !backpackTools) return;
+  const blockIds = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const selectedBlock = HOTBAR_BLOCKS[selectedSlot];
+  backpackBlocks.innerHTML = "";
+  blockIds.forEach((id) => {
+    const amount = inventory[id] || 0;
+    const placeable = HOTBAR_BLOCKS.includes(id);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `backpack-slot${id === selectedBlock ? " selected" : ""}`;
+    button.disabled = !placeable || amount < 1;
+    button.title = placeable ? t("chooseBlock", { item: blockName(id) }) : blockName(id);
+    button.setAttribute("aria-label", `${blockName(id)}: ${amount}`);
+    const icon = document.createElement("canvas");
+    icon.width = 40;
+    icon.height = 40;
+    drawBlock(icon.getContext("2d"), id, 0, 0, 40);
+    const name = document.createElement("strong");
+    name.textContent = blockName(id);
+    const count = document.createElement("small");
+    count.textContent = `×${amount}`;
+    button.append(icon, name, count);
+    if (placeable) button.addEventListener("click", () => selectBackpackBlock(id));
+    backpackBlocks.appendChild(button);
+  });
+
+  backpackMaterials.innerHTML = ["sticks", "ironIngot"].map((id) => `<span class="resource-chip">${itemName(id)} <strong>${inventory[id] || 0}</strong></span>`).join("");
+  backpackTools.innerHTML = Object.entries(toolData).map(([id, tool]) => {
+    const owned = id === "hand" || tools[id];
+    return `<button class="tool-button${equippedTool === id ? " selected" : ""}" type="button" data-backpack-tool="${id}" ${owned ? "" : "disabled"}>${tool.icon} ${t(tool.name)}${id !== "hand" && owned ? `<small> · ${t("owned")}</small>` : ""}</button>`;
+  }).join("");
+  backpackTools.querySelectorAll("[data-backpack-tool]").forEach((button) => {
+    button.addEventListener("click", () => {
+      equippedTool = button.dataset.backpackTool;
+      mining = null;
+      dirty = true;
+      renderCrafting();
+      renderBackpack();
+    });
   });
 }
 
@@ -734,11 +792,13 @@ canvas.addEventListener("pointercancel", () => { mining = null; });
 canvas.addEventListener("contextmenu", (event) => event.preventDefault());
 
 window.addEventListener("keydown", (event) => {
+  if (event.code === "Escape" && document.querySelector("dialog[open]")) return;
   if (["ArrowLeft", "ArrowRight", "ArrowUp", "Space", "KeyA", "KeyD", "KeyW"].includes(event.code)) {
     event.preventDefault();
     keys.add(event.code);
   }
   if (/^Digit[1-7]$/.test(event.code)) { selectedSlot = Number(event.code.at(-1)) - 1; dirty = true; renderHotbar(); }
+  if (event.code === "KeyB" && !event.repeat && !document.querySelector("dialog[open]")) openBackpack();
   if (event.code === "KeyP" || event.code === "Escape") setPaused(!paused);
 });
 window.addEventListener("keyup", (event) => keys.delete(event.code));
@@ -769,6 +829,17 @@ document.querySelector("#craft-button").addEventListener("click", () => {
   craftDialog.showModal();
 });
 craftDialog.addEventListener("close", () => { if (craftResume) setPaused(false); craftResume = false; });
+
+function openBackpack() {
+  mining = null;
+  backpackResume = running && !paused;
+  if (backpackResume) setPaused(true);
+  renderBackpack();
+  backpackDialog.showModal();
+}
+
+document.querySelector("#backpack-button").addEventListener("click", openBackpack);
+backpackDialog.addEventListener("close", () => { if (backpackResume) setPaused(false); backpackResume = false; });
 document.querySelector("#save-button").addEventListener("click", () => saveWorld(true));
 document.querySelector("#play-button").addEventListener("click", startPlaying);
 document.querySelector("#pause-button").addEventListener("click", () => setPaused(!paused));

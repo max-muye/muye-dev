@@ -1,5 +1,9 @@
 const canvas = document.querySelector("#world");
 const ctx = canvas.getContext("2d", { alpha: false });
+const lightCanvas = document.createElement("canvas");
+lightCanvas.width = canvas.width;
+lightCanvas.height = canvas.height;
+const lightCtx = lightCanvas.getContext("2d");
 const hotbar = document.querySelector("#hotbar");
 const saveState = document.querySelector("#save-state");
 const positionEl = document.querySelector("#position");
@@ -7,6 +11,7 @@ const worldNameEl = document.querySelector("#world-name");
 const clockIcon = document.querySelector("#clock-icon");
 const clockLabel = document.querySelector("#clock-label");
 const heartsEl = document.querySelector("#hearts");
+const hungerEl = document.querySelector("#hunger");
 const toastEl = document.querySelector("#toast");
 const overlay = document.querySelector("#start-overlay");
 const helpDialog = document.querySelector("#help-dialog");
@@ -21,12 +26,13 @@ const equippedToolEl = document.querySelector("#equipped-tool");
 const backpackBlocks = document.querySelector("#backpack-blocks");
 const backpackMaterials = document.querySelector("#backpack-materials");
 const backpackTools = document.querySelector("#backpack-tools");
+const backpackSurvival = document.querySelector("#backpack-survival");
 
 const WORLD_WIDTH = 160;
 const WORLD_HEIGHT = 56;
 const TILE = 32;
 const REACH = 5.25;
-const SAVE_VERSION = 2;
+const SAVE_VERSION = 3;
 const HOTBAR_BLOCKS = [2, 3, 4, 8, 5, 7, 10];
 
 const blockData = {
@@ -40,6 +46,10 @@ const blockData = {
   8: { name: "planks", solid: true, hardness: 1, tool: "axe" },
   9: { name: "ironOre", solid: true, hardness: 3.5, tool: "pickaxe", tier: 2 },
   10: { name: "furnace", solid: true, hardness: 3, tool: "pickaxe", tier: 1 },
+  11: { name: "sapling", solid: false, hardness: 0.18 },
+  12: { name: "flowerBud", solid: false, hardness: 0.12 },
+  13: { name: "flower", solid: false, hardness: 0.15 },
+  14: { name: "torch", solid: false, hardness: 0.12 },
 };
 
 const toolData = {
@@ -60,6 +70,7 @@ const recipes = [
   { id: "stonePickaxe", name: "stonePickaxe", icon: "⛏", cost: { 3: 3, sticks: 2 }, tool: "stonePickaxe" },
   { id: "stoneAxe", name: "stoneAxe", icon: "🪓", cost: { 3: 3, sticks: 2 }, tool: "stoneAxe" },
   { id: "furnace", name: "furnace", icon: "▣", cost: { 3: 8 }, output: { 10: 1 } },
+  { id: "torches", name: "recipeTorches", icon: "♨", cost: { sticks: 1, 6: 1 }, output: { 14: 4 } },
   { id: "smeltIron", name: "smeltIron", icon: "♨", cost: { 9: 1, 6: 1 }, output: { ironIngot: 1 }, furnace: true },
   { id: "ironPickaxe", name: "ironPickaxe", icon: "⛏", cost: { ironIngot: 3, sticks: 2 }, tool: "ironPickaxe" },
   { id: "ironAxe", name: "ironAxe", icon: "🪓", cost: { ironIngot: 3, sticks: 2 }, tool: "ironAxe" },
@@ -111,14 +122,27 @@ const craftingText = {
   ru: { craft: "Создать и плавить", breakTip: "Удерживай левую кнопку или коснись блока, пока он не сломается.", help4: "Создай инструменты, добудь уголь и железо и переплавь железо в печи.", workshop: "МАСТЕРСКАЯ", craftSmelt: "Создать и плавить", resources: "Ресурсы", tools: "Инструменты", recipes: "Рецепты", equipped: "Выбрано", hand: "Рука", sticks: "Палки", ironOre: "Железная руда", ironIngot: "Железный слиток", furnace: "Печь", woodPickaxe: "Деревянная кирка", stonePickaxe: "Каменная кирка", ironPickaxe: "Железная кирка", woodAxe: "Деревянный топор", stoneAxe: "Каменный топор", ironAxe: "Железный топор", recipePlanks: "4 доски", recipeSticks: "4 палки", smeltIron: "Выплавить слиток", notEnough: "Не хватает ресурсов", craftedItem: "Создано: {item}", owned: "Есть", needsFurnace: "Сначала создай и носи печь", needBetterPickaxe: "Нужна более крепкая кирка", mining: "Добывается {block}...", backpack: "Рюкзак", inventory: "ИНВЕНТАРЬ", backpackTitle: "Рюкзак", backpackHint: "Выбери доступный блок или свой инструмент. Открыть: B.", blocks: "Блоки", materials: "Материалы", chooseBlock: "Выбрать {item}" },
   ar: { craft: "صناعة وصهر", breakTip: "اضغط مطولا أو المس كتلة قريبة حتى تنكسر.", help4: "اصنع الأدوات واحفر الفحم والحديد ثم اصهر الحديد في الفرن.", workshop: "ورشة", craftSmelt: "صناعة وصهر", resources: "الموارد", tools: "الأدوات", recipes: "الوصفات", equipped: "المجهز", hand: "اليد", sticks: "عيدان", ironOre: "خام الحديد", ironIngot: "سبيكة حديد", furnace: "فرن", woodPickaxe: "معول خشبي", stonePickaxe: "معول حجري", ironPickaxe: "معول حديدي", woodAxe: "فأس خشبي", stoneAxe: "فأس حجري", ironAxe: "فأس حديدي", recipePlanks: "4 ألواح", recipeSticks: "4 عيدان", smeltIron: "صهر سبيكة حديد", notEnough: "تحتاج إلى موارد أكثر", craftedItem: "تم صنع {item}", owned: "مملوك", needsFurnace: "اصنع واحمل فرنا أولا", needBetterPickaxe: "تحتاج إلى معول أقوى", mining: "جار حفر {block}...", backpack: "حقيبة", inventory: "المخزون", backpackTitle: "حقيبة الظهر", backpackHint: "اختر كتلة قابلة للوضع أو أداة تملكها. اضغط B للفتح.", blocks: "الكتل", materials: "المواد", chooseBlock: "تجهيز {item}" }
 };
-languages.forEach((code) => Object.assign(text[code], craftingText[code]));
+const survivalText = {
+  en: { hunger: "Hunger", help5: "Collect drops, plant seeds, eat food, and use torches to survive the night.", survival: "Survival", treeSeed: "Tree seed", flowerSeed: "Flower seed", apple: "Apple", torch: "Torch", sapling: "Sapling", flowerBud: "Flower bud", flower: "Flower", recipeTorches: "4 torches", eat: "Eat", plant: "Plant", select: "Select", selectedItem: "Selected {item}", plantOnSoil: "Seeds need empty space above soil", pickedUp: "Picked up {item}", mobHit: "Hit the night mob", playerHit: "A mob hurt you", starving: "You are starving", grew: "Your seed has grown" },
+  zh: { hunger: "饥饿", help5: "收集掉落物、种下种子、吃食物，并用火把度过黑夜。", survival: "生存", treeSeed: "树种", flowerSeed: "花种", apple: "苹果", torch: "火把", sapling: "树苗", flowerBud: "花芽", flower: "花", recipeTorches: "4 个火把", eat: "吃", plant: "种植", select: "选择", selectedItem: "已选择 {item}", plantOnSoil: "种子需要种在空着的泥土上", pickedUp: "捡起了 {item}", mobHit: "击中了夜怪", playerHit: "怪物伤到了你", starving: "你正在挨饿", grew: "你种下的种子长大了" },
+  ja: { hunger: "空腹", help5: "ドロップを拾い、種を植え、食べ、たいまつで夜を生き延びよう。", survival: "サバイバル", treeSeed: "木の種", flowerSeed: "花の種", apple: "リンゴ", torch: "たいまつ", sapling: "苗木", flowerBud: "花のつぼみ", flower: "花", recipeTorches: "たいまつ4本", eat: "食べる", plant: "植える", select: "選ぶ", selectedItem: "{item}を選択", plantOnSoil: "種は土の上の空いた場所に植えます", pickedUp: "{item}を拾いました", mobHit: "夜のモブを攻撃した", playerHit: "モブに攻撃された", starving: "お腹が空いています", grew: "種が育ちました" },
+  ko: { hunger: "허기", help5: "아이템을 줍고 씨앗을 심고 음식을 먹고 횃불로 밤을 버티세요.", survival: "생존", treeSeed: "나무 씨앗", flowerSeed: "꽃 씨앗", apple: "사과", torch: "횃불", sapling: "묘목", flowerBud: "꽃봉오리", flower: "꽃", recipeTorches: "횃불 4개", eat: "먹기", plant: "심기", select: "선택", selectedItem: "{item} 선택", plantOnSoil: "씨앗은 흙 위 빈 공간에 심어야 합니다", pickedUp: "{item} 획득", mobHit: "밤 몹을 공격했습니다", playerHit: "몹에게 공격받았습니다", starving: "배가 고픕니다", grew: "씨앗이 자랐습니다" },
+  es: { hunger: "Hambre", help5: "Recoge objetos, planta semillas, come y usa antorchas para sobrevivir la noche.", survival: "Supervivencia", treeSeed: "Semilla de árbol", flowerSeed: "Semilla de flor", apple: "Manzana", torch: "Antorcha", sapling: "Brote", flowerBud: "Capullo", flower: "Flor", recipeTorches: "4 antorchas", eat: "Comer", plant: "Plantar", select: "Elegir", selectedItem: "Elegiste {item}", plantOnSoil: "Las semillas necesitan espacio vacío sobre tierra", pickedUp: "Recogiste {item}", mobHit: "Golpeaste al monstruo nocturno", playerHit: "Un monstruo te hirió", starving: "Tienes mucha hambre", grew: "Tu semilla creció" },
+  fr: { hunger: "Faim", help5: "Ramasse les objets, plante, mange et utilise des torches pour survivre à la nuit.", survival: "Survie", treeSeed: "Graine d'arbre", flowerSeed: "Graine de fleur", apple: "Pomme", torch: "Torche", sapling: "Pousse", flowerBud: "Bouton", flower: "Fleur", recipeTorches: "4 torches", eat: "Manger", plant: "Planter", select: "Choisir", selectedItem: "{item} sélectionné", plantOnSoil: "Les graines ont besoin d'une case vide sur la terre", pickedUp: "{item} ramassé", mobHit: "Monstre nocturne frappé", playerHit: "Un monstre t'a blessé", starving: "Tu meurs de faim", grew: "Ta graine a poussé" },
+  de: { hunger: "Hunger", help5: "Sammle Gegenstände, pflanze Samen, iss und überlebe mit Fackeln die Nacht.", survival: "Überleben", treeSeed: "Baumsamen", flowerSeed: "Blumensamen", apple: "Apfel", torch: "Fackel", sapling: "Setzling", flowerBud: "Knospe", flower: "Blume", recipeTorches: "4 Fackeln", eat: "Essen", plant: "Pflanzen", select: "Wählen", selectedItem: "{item} gewählt", plantOnSoil: "Samen brauchen freien Platz über Erde", pickedUp: "{item} aufgehoben", mobHit: "Nachtmonster getroffen", playerHit: "Ein Monster hat dich verletzt", starving: "Du hungerst", grew: "Dein Samen ist gewachsen" },
+  pt: { hunger: "Fome", help5: "Colete itens, plante sementes, coma e use tochas para sobreviver à noite.", survival: "Sobrevivência", treeSeed: "Semente de árvore", flowerSeed: "Semente de flor", apple: "Maçã", torch: "Tocha", sapling: "Muda", flowerBud: "Botão", flower: "Flor", recipeTorches: "4 tochas", eat: "Comer", plant: "Plantar", select: "Escolher", selectedItem: "Selecionou {item}", plantOnSoil: "Sementes precisam de espaço vazio sobre terra", pickedUp: "Pegou {item}", mobHit: "Acertou o monstro noturno", playerHit: "Um monstro feriu você", starving: "Você está com muita fome", grew: "Sua semente cresceu" },
+  ru: { hunger: "Голод", help5: "Собирай предметы, сажай семена, ешь и освещай ночь факелами.", survival: "Выживание", treeSeed: "Семя дерева", flowerSeed: "Семя цветка", apple: "Яблоко", torch: "Факел", sapling: "Саженец", flowerBud: "Бутон", flower: "Цветок", recipeTorches: "4 факела", eat: "Съесть", plant: "Посадить", select: "Выбрать", selectedItem: "Выбрано: {item}", plantOnSoil: "Семена сажают в пустом месте над землёй", pickedUp: "Подобрано: {item}", mobHit: "Ночной моб ранен", playerHit: "Моб ранил тебя", starving: "Ты голодаешь", grew: "Семя выросло" },
+  ar: { hunger: "الجوع", help5: "اجمع الأغراض وازرع البذور وكل واستخدم المشاعل للنجاة ليلا.", survival: "البقاء", treeSeed: "بذرة شجرة", flowerSeed: "بذرة زهرة", apple: "تفاحة", torch: "شعلة", sapling: "شتلة", flowerBud: "برعم", flower: "زهرة", recipeTorches: "4 مشاعل", eat: "أكل", plant: "زرع", select: "اختيار", selectedItem: "تم اختيار {item}", plantOnSoil: "تحتاج البذور إلى مكان فارغ فوق التربة", pickedUp: "التقطت {item}", mobHit: "أصبت وحش الليل", playerHit: "أصابك وحش", starving: "أنت جائع", grew: "نمت بذرتك" }
+};
+languages.forEach((code) => Object.assign(text[code], craftingText[code], survivalText[code]));
 let lang = languages.includes(localStorage.getItem("muye-lang")) ? localStorage.getItem("muye-lang") : "en";
 let playerKey = "";
 let world = [];
-let inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, sticks: 0, ironIngot: 0 };
+let inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, sticks: 0, ironIngot: 0, treeSeed: 0, flowerSeed: 0, apple: 0 };
 let tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false };
 let equippedTool = "hand";
 let selectedSlot = 0;
+let selectedItem = 2;
 let worldName = "";
 let elapsed = 0;
 let day = 1;
@@ -135,6 +159,14 @@ let mining = null;
 let keys = new Set();
 let craftResume = false;
 let backpackResume = false;
+let hunger = 10;
+let hungerTimer = 0;
+let starvationTimer = 0;
+let regenerationTimer = 0;
+let drops = [];
+let growths = [];
+let mobs = [];
+let mobSpawnTimer = 0;
 let player = { x: 12, y: 10, vx: 0, vy: 0, width: 0.72, height: 1.78, grounded: false, health: 5, facing: 1, spawnX: 12, spawnY: 10 };
 
 function t(key, data = {}) {
@@ -228,13 +260,25 @@ function generateWorld(seed = Math.floor(Math.random() * 2147483647), name = t("
       }
     }
   }
+  for (let x = 3; x < WORLD_WIDTH - 3; x += 1) {
+    if (random() < 0.09 && getTile(x, heights[x] - 1) === 0) setTile(x, heights[x] - 1, 13);
+  }
   const spawnX = 12;
   const spawnY = heights[spawnX] - 2;
   player = { x: spawnX + 0.15, y: spawnY, vx: 0, vy: 0, width: 0.72, height: 1.78, grounded: false, health: 5, facing: 1, spawnX: spawnX + 0.15, spawnY };
-  inventory = { 2: 8, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, sticks: 0, ironIngot: 0 };
+  inventory = { 2: 8, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, sticks: 0, ironIngot: 0, treeSeed: 1, flowerSeed: 1, apple: 2 };
   tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false };
   equippedTool = "hand";
   selectedSlot = 0;
+  selectedItem = HOTBAR_BLOCKS[0];
+  hunger = 10;
+  hungerTimer = 0;
+  starvationTimer = 0;
+  regenerationTimer = 0;
+  drops = [];
+  growths = [];
+  mobs = [];
+  mobSpawnTimer = 0;
   worldName = name || t("worldDefault");
   elapsed = 22;
   day = 1;
@@ -273,7 +317,7 @@ function loadWorld() {
     const decoded = decodeWorld(saved?.world);
     if (!saved || !decoded) return false;
     world = decoded;
-    inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, sticks: 0, ironIngot: 0, ...saved.inventory };
+    inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, sticks: 0, ironIngot: 0, treeSeed: 0, flowerSeed: 0, apple: 0, ...saved.inventory };
     tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false, ...saved.tools };
     equippedTool = tools[saved.equippedTool] ? saved.equippedTool : "hand";
     if ((saved.version || 1) < 2) {
@@ -283,7 +327,19 @@ function loadWorld() {
       }
       dirty = true;
     }
+    if ((saved.version || 1) < 3) {
+      inventory.treeSeed = Math.max(1, inventory.treeSeed || 0);
+      inventory.flowerSeed = Math.max(1, inventory.flowerSeed || 0);
+      inventory.apple = Math.max(2, inventory.apple || 0);
+      dirty = true;
+    }
     selectedSlot = Math.max(0, Math.min(HOTBAR_BLOCKS.length - 1, saved.selectedSlot || 0));
+    selectedItem = saved.selectedItem ?? HOTBAR_BLOCKS[selectedSlot];
+    hunger = Math.max(0, Math.min(10, Number(saved.hunger ?? 10)));
+    hungerTimer = Number(saved.hungerTimer) || 0;
+    drops = Array.isArray(saved.drops) ? saved.drops.filter((drop) => drop && (blockData[Number(drop.item)] || ["treeSeed", "flowerSeed", "apple", "sticks", "ironIngot"].includes(drop.item))).slice(0, 80) : [];
+    growths = Array.isArray(saved.growths) ? saved.growths.filter((growth) => growth && inWorld(growth.x, growth.y)).slice(0, 80) : [];
+    mobs = [];
     worldName = saved.worldName || t("worldDefault");
     elapsed = Number(saved.elapsed) || 0;
     day = Number(saved.day) || 1;
@@ -302,6 +358,11 @@ function saveWorld(manual = false) {
     tools,
     equippedTool,
     selectedSlot,
+    selectedItem,
+    hunger,
+    hungerTimer,
+    drops: drops.slice(0, 80).map(({ item, x, y, amount = 1 }) => ({ item, x, y, amount })),
+    growths,
     worldName,
     elapsed,
     day,
@@ -360,9 +421,41 @@ function drawBlock(target, id, x, y, size) {
     target.fillStyle = "#777d7d"; target.fillRect(unit, unit, unit*6, unit*2);
     target.fillStyle = "#191b1b"; target.fillRect(unit*1.5, unit*4, unit*5, unit*3);
     target.fillStyle = "#d57934"; target.fillRect(unit*2.5, unit*5.5, unit*3, unit*1.5);
+  } else if (id === 11) {
+    target.fillStyle = "#6d4827"; target.fillRect(unit*3.5, unit*4, unit, unit*4);
+    target.fillStyle = "#59a84d"; target.fillRect(unit*2, unit*2, unit*2, unit*3); target.fillRect(unit*4, unit, unit*2, unit*4);
+  } else if (id === 12 || id === 13) {
+    target.fillStyle = "#55a34d"; target.fillRect(unit*3.5, unit*3, unit, unit*5);
+    target.fillRect(unit*2.5, unit*5, unit, unit); target.fillRect(unit*4.5, unit*4, unit, unit);
+    target.fillStyle = id === 12 ? "#8b5aac" : "#ef6d96";
+    target.fillRect(unit*2, unit, unit*4, unit*3);
+    if (id === 13) { target.fillStyle = "#ffd45c"; target.fillRect(unit*3, unit*1.2, unit*2, unit*1.5); }
+  } else if (id === 14) {
+    target.fillStyle = "#80542d"; target.fillRect(unit*3.5, unit*2.5, unit, unit*5.5);
+    target.fillStyle = "#ff8b35"; target.fillRect(unit*2.5, unit, unit*3, unit*3);
+    target.fillStyle = "#ffe36c"; target.fillRect(unit*3.25, unit*0.5, unit*1.5, unit*2);
   }
   target.strokeStyle = "rgba(0,0,0,.17)";
   target.strokeRect(0.5, 0.5, size - 1, size - 1);
+  target.restore();
+}
+
+function drawItemIcon(target, item, x, y, size) {
+  const numeric = Number(item);
+  if (Number.isFinite(numeric) && blockData[numeric]) return drawBlock(target, numeric, x, y, size);
+  target.save();
+  target.translate(x, y);
+  if (item === "apple") {
+    target.fillStyle = "#e34e3f"; target.fillRect(size*0.18, size*0.25, size*0.64, size*0.58);
+    target.fillStyle = "#7a4b28"; target.fillRect(size*0.48, size*0.08, size*0.1, size*0.24);
+    target.fillStyle = "#62a74a"; target.fillRect(size*0.58, size*0.09, size*0.24, size*0.14);
+  } else if (item === "treeSeed" || item === "flowerSeed") {
+    target.fillStyle = item === "treeSeed" ? "#8e6333" : "#8b5aac";
+    target.fillRect(size*0.25, size*0.28, size*0.5, size*0.46);
+    target.fillStyle = "#65ad4b"; target.fillRect(size*0.52, size*0.12, size*0.28, size*0.2);
+  } else {
+    target.fillStyle = "#d5b474"; target.fillRect(size*0.42, size*0.1, size*0.16, size*0.8);
+  }
   target.restore();
 }
 
@@ -372,7 +465,7 @@ function renderHotbar() {
   HOTBAR_BLOCKS.forEach((id, index) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = `hotbar-slot${index === selectedSlot ? " selected" : ""}`;
+    button.className = `hotbar-slot${selectedItem === id ? " selected" : ""}`;
     button.title = blockName(id);
     button.setAttribute("aria-label", `${blockName(id)}: ${inventory[id] || 0}`);
     if (!(inventory[id] > 0)) button.disabled = true;
@@ -384,7 +477,7 @@ function renderHotbar() {
     const count = document.createElement("small");
     count.textContent = String(inventory[id] || 0);
     button.appendChild(count);
-    button.addEventListener("click", () => { selectedSlot = index; dirty = true; renderHotbar(); });
+    button.addEventListener("click", () => { selectedSlot = index; selectedItem = id; dirty = true; renderHotbar(); });
     hotbar.appendChild(button);
   });
 }
@@ -393,19 +486,20 @@ function selectBackpackBlock(id) {
   const slot = HOTBAR_BLOCKS.indexOf(id);
   if (slot < 0 || !(inventory[id] > 0)) return;
   selectedSlot = slot;
+  selectedItem = id;
   dirty = true;
   renderHotbar();
   renderBackpack();
 }
 
 function renderBackpack() {
-  if (!backpackBlocks || !backpackMaterials || !backpackTools) return;
-  const blockIds = [2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const selectedBlock = HOTBAR_BLOCKS[selectedSlot];
+  if (!backpackBlocks || !backpackMaterials || !backpackTools || !backpackSurvival) return;
+  const blockIds = [2, 3, 4, 5, 6, 7, 8, 9, 10, 14];
+  const selectedBlock = selectedItem;
   backpackBlocks.innerHTML = "";
   blockIds.forEach((id) => {
     const amount = inventory[id] || 0;
-    const placeable = HOTBAR_BLOCKS.includes(id);
+    const placeable = HOTBAR_BLOCKS.includes(id) || id === 14;
     const button = document.createElement("button");
     button.type = "button";
     button.className = `backpack-slot${id === selectedBlock ? " selected" : ""}`;
@@ -421,11 +515,30 @@ function renderBackpack() {
     const count = document.createElement("small");
     count.textContent = `×${amount}`;
     button.append(icon, name, count);
-    if (placeable) button.addEventListener("click", () => selectBackpackBlock(id));
+    if (placeable) button.addEventListener("click", () => {
+      if (id === 14) {
+        selectedItem = id;
+        dirty = true;
+        renderHotbar();
+        renderBackpack();
+        showToast(t("selectedItem", { item: itemName(id) }));
+      } else selectBackpackBlock(id);
+    });
     backpackBlocks.appendChild(button);
   });
 
   backpackMaterials.innerHTML = ["sticks", "ironIngot"].map((id) => `<span class="resource-chip">${itemName(id)} <strong>${inventory[id] || 0}</strong></span>`).join("");
+  const survivalItems = [
+    { id: "treeSeed", icon: "♣", action: "plant" },
+    { id: "flowerSeed", icon: "✿", action: "plant" },
+    { id: "apple", icon: "●", action: "eat" },
+  ];
+  backpackSurvival.innerHTML = survivalItems.map((item) => {
+    const amount = inventory[item.id] || 0;
+    const disabled = amount < 1 || (item.id === "apple" && hunger >= 10);
+    return `<button class="survival-item${selectedItem === item.id ? " selected" : ""}" type="button" data-survival="${item.id}" ${disabled ? "disabled" : ""}><span>${item.icon}</span><span class="survival-copy"><strong>${t(item.id)} ×${amount}</strong><small>${t(item.action)}</small></span></button>`;
+  }).join("");
+  backpackSurvival.querySelectorAll("[data-survival]").forEach((button) => button.addEventListener("click", () => useSurvivalItem(button.dataset.survival)));
   backpackTools.innerHTML = Object.entries(toolData).map(([id, tool]) => {
     const owned = id === "hand" || tools[id];
     return `<button class="tool-button${equippedTool === id ? " selected" : ""}" type="button" data-backpack-tool="${id}" ${owned ? "" : "disabled"}>${tool.icon} ${t(tool.name)}${id !== "hand" && owned ? `<small> · ${t("owned")}</small>` : ""}</button>`;
@@ -439,6 +552,29 @@ function renderBackpack() {
       renderBackpack();
     });
   });
+}
+
+function useSurvivalItem(item) {
+  if (!(inventory[item] > 0)) return;
+  if (item === "apple") {
+    if (hunger >= 10) return;
+    inventory.apple -= 1;
+    hunger = Math.min(10, hunger + 4);
+    if (player.health < 5) player.health += 1;
+    dirty = true;
+    updateHud();
+    renderBackpack();
+    showToast(`${t("eat")}: ${t("apple")}`);
+    return;
+  }
+  selectedItem = item;
+  dirty = true;
+  renderHotbar();
+  renderBackpack();
+  showToast(t("selectedItem", { item: t(item) }));
+  backpackDialog.close();
+  touchMode = "place";
+  document.querySelectorAll("[data-mode]").forEach((button) => button.classList.toggle("active", button.dataset.mode === "place"));
 }
 
 function hasFurnace() {
@@ -459,7 +595,7 @@ function canCraft(recipe) {
 
 function renderCrafting() {
   if (!resourceList || !toolList || !recipeList) return;
-  const resources = [4, 8, "sticks", 3, 6, 9, "ironIngot", 7, 10];
+  const resources = [4, 8, "sticks", 3, 6, 9, "ironIngot", 7, 10, 14];
   resourceList.innerHTML = resources.map((id) => `<span class="resource-chip">${itemName(id)} <strong>${inventory[id] || 0}</strong></span>`).join("");
   toolList.innerHTML = Object.entries(toolData).map(([id, tool]) => {
     const owned = id === "hand" || tools[id];
@@ -496,6 +632,7 @@ function craftRecipe(recipeId) {
   dirty = true;
   renderHotbar();
   renderCrafting();
+  renderBackpack();
   showToast(t("craftedItem", { item: t(recipe.name) }));
 }
 
@@ -504,8 +641,9 @@ function updateHud() {
   positionEl.textContent = `${Math.floor(player.x)}, ${Math.floor(player.y)}`;
   heartsEl.textContent = `${"♥ ".repeat(player.health).trim()}${player.health < 5 ? ` ${"♡ ".repeat(5 - player.health).trim()}` : ""}`;
   heartsEl.setAttribute("aria-label", `${t("health")}: ${player.health}/5`);
-  const phase = (elapsed % 180) / 180;
-  const night = phase > 0.56 || phase < 0.08;
+  hungerEl.textContent = `${"● ".repeat(hunger).trim()}${hunger < 10 ? ` ${"○ ".repeat(10 - hunger).trim()}` : ""}`;
+  hungerEl.setAttribute("aria-label", `${t("hunger")}: ${hunger}/10`);
+  const night = isNightTime();
   clockIcon.textContent = night ? "☾" : "☀";
   clockLabel.textContent = t(night ? "night" : "day", { day });
 }
@@ -552,17 +690,32 @@ function finishMining() {
   if (!mining || getTile(mining.x, mining.y) !== mining.id) { mining = null; return; }
   const { x, y, id } = mining;
   setTile(x, y, 0);
-  const drop = id === 1 ? 2 : id;
-  inventory[drop] = (inventory[drop] || 0) + 1;
+  growths = growths.filter((growth) => growth.x !== x || growth.y !== y);
+  const drop = id === 1 ? 2 : id === 11 ? "treeSeed" : id === 12 || id === 13 ? "flowerSeed" : id;
+  spawnDrop(drop, x + 0.5, y + 0.35);
+  if (id === 5 && Math.random() < 0.38) spawnDrop("treeSeed", x + 0.35, y + 0.25);
+  if (id === 5 && Math.random() < 0.16) spawnDrop("apple", x + 0.7, y + 0.25);
+  if (id === 1 && Math.random() < 0.2) spawnDrop("flowerSeed", x + 0.65, y + 0.2);
   mining = null;
   dirty = true;
-  renderHotbar();
-  renderCrafting();
-  showToast(t("mined", { block: blockName(drop) }));
+  showToast(t("mined", { block: itemName(drop) }));
 }
 
 function placeTile(x, y) {
-  const id = HOTBAR_BLOCKS[selectedSlot];
+  if (selectedItem === "treeSeed" || selectedItem === "flowerSeed") {
+    if (!inventory[selectedItem]) return showToast(t("noBlock"));
+    if (!tileInReach(x, y)) return showToast(t("tooFar"));
+    if (getTile(x, y) || playerOverlapsTile(x, y) || ![1, 2].includes(getTile(x, y + 1))) return showToast(t("plantOnSoil"));
+    const id = selectedItem === "treeSeed" ? 11 : 12;
+    setTile(x, y, id);
+    inventory[selectedItem] -= 1;
+    growths.push({ x, y, type: selectedItem === "treeSeed" ? "tree" : "flower", age: 0, target: selectedItem === "treeSeed" ? 28 + Math.random() * 18 : 12 + Math.random() * 10 });
+    dirty = true;
+    renderBackpack();
+    showToast(t("placed", { block: blockName(id) }));
+    return;
+  }
+  const id = Number(selectedItem) || HOTBAR_BLOCKS[selectedSlot];
   if (!inventory[id]) return showToast(t("noBlock"));
   if (!tileInReach(x, y)) return showToast(t("tooFar"));
   if (getTile(x, y) || playerOverlapsTile(x, y)) return showToast(t("blocked"));
@@ -572,7 +725,128 @@ function placeTile(x, y) {
   inventory[id] -= 1;
   dirty = true;
   renderHotbar();
+  renderBackpack();
   showToast(t("placed", { block: blockName(id) }));
+}
+
+function spawnDrop(item, x, y, amount = 1) {
+  drops.push({ item, x, y, amount, vx: (Math.random() - 0.5) * 2.2, vy: -2.5 - Math.random(), age: 0 });
+  if (drops.length > 100) drops.shift();
+  dirty = true;
+}
+
+function updateDrops(dt) {
+  let changed = false;
+  drops = drops.filter((drop) => {
+    drop.age = (drop.age || 0) + dt;
+    drop.vx = Number(drop.vx) || 0;
+    drop.vy = Math.min(8, (Number(drop.vy) || 0) + 14 * dt);
+    const nextX = drop.x + drop.vx * dt;
+    const nextY = drop.y + drop.vy * dt;
+    if (!isSolid(Math.floor(nextX), Math.floor(drop.y))) drop.x = nextX;
+    else drop.vx *= -0.25;
+    if (!isSolid(Math.floor(drop.x), Math.floor(nextY + 0.18))) drop.y = nextY;
+    else { drop.vy = 0; drop.y = Math.floor(nextY + 0.18) - 0.19; drop.vx *= 0.82; }
+    const dx = drop.x - (player.x + player.width / 2);
+    const dy = drop.y - (player.y + player.height / 2);
+    if (drop.age > 0.3 && Math.hypot(dx, dy) < 1.25) {
+      inventory[drop.item] = (inventory[drop.item] || 0) + (drop.amount || 1);
+      showToast(t("pickedUp", { item: itemName(drop.item) }));
+      changed = true;
+      return false;
+    }
+    return drop.y < WORLD_HEIGHT + 3 && drop.age < 600;
+  });
+  if (changed) { dirty = true; renderHotbar(); renderCrafting(); renderBackpack(); }
+}
+
+function growTree(x, y) {
+  if (getTile(x, y) !== 11) return false;
+  for (let height = 1; height < 5; height += 1) if (getTile(x, y - height)) return false;
+  setTile(x, y, 4); setTile(x, y - 1, 4); setTile(x, y - 2, 4); setTile(x, y - 3, 4);
+  for (let dx = -2; dx <= 2; dx += 1) {
+    for (let dy = -2; dy <= 1; dy += 1) {
+      if (Math.abs(dx) + Math.abs(dy) < 4 && !getTile(x + dx, y - 3 + dy)) setTile(x + dx, y - 3 + dy, 5);
+    }
+  }
+  return true;
+}
+
+function updateGrowth(dt) {
+  growths = growths.filter((growth) => {
+    growth.age += dt;
+    if (growth.age < growth.target) return true;
+    if (growth.type === "tree") {
+      if (!growTree(growth.x, growth.y)) { growth.age = growth.target - 3; return true; }
+    } else if (getTile(growth.x, growth.y) === 12) setTile(growth.x, growth.y, 13);
+    else return false;
+    dirty = true;
+    showToast(t("grew"));
+    return false;
+  });
+}
+
+function isNightTime() {
+  const phase = (elapsed % 180) / 180;
+  return phase > 0.78 || phase < 0.12;
+}
+
+function damagePlayer(amount, message = "playerHit") {
+  player.health = Math.max(0, player.health - amount);
+  showToast(t(message));
+  dirty = true;
+  if (player.health <= 0) {
+    player.health = 5;
+    hunger = 6;
+    respawn();
+  }
+}
+
+function spawnMob() {
+  const direction = Math.random() < 0.5 ? -1 : 1;
+  const x = Math.max(2, Math.min(WORLD_WIDTH - 3, Math.floor(player.x + direction * (10 + Math.random() * 8))));
+  let ground = 1;
+  while (ground < WORLD_HEIGHT - 2 && !isSolid(x, ground)) ground += 1;
+  if (ground >= WORLD_HEIGHT - 2 || Math.abs(x - player.x) < 7) return;
+  mobs.push({ x: x + 0.15, y: ground - 1.55, vx: 0, vy: 0, hp: 3, attack: 0, grounded: false });
+}
+
+function updateMobs(dt) {
+  mobSpawnTimer -= dt;
+  if (isNightTime() && mobSpawnTimer <= 0 && mobs.length < 5) { spawnMob(); mobSpawnTimer = 6 + Math.random() * 5; }
+  mobs = mobs.filter((mob) => {
+    if (!isNightTime()) return false;
+    mob.attack = Math.max(0, (mob.attack || 0) - dt);
+    const direction = Math.sign(player.x - mob.x) || 1;
+    mob.vx += (direction * 1.55 - mob.vx) * Math.min(1, dt * 4);
+    mob.vy = Math.min(12, mob.vy + 22 * dt);
+    const nextX = mob.x + mob.vx * dt;
+    if (!collides(nextX, mob.y, 0.72, 1.55)) mob.x = nextX;
+    else if (mob.grounded) mob.vy = -7;
+    const nextY = mob.y + mob.vy * dt;
+    mob.grounded = false;
+    if (!collides(mob.x, nextY, 0.72, 1.55)) mob.y = nextY;
+    else { if (mob.vy > 0) mob.grounded = true; mob.vy = 0; }
+    const touches = player.x < mob.x + 0.72 && player.x + player.width > mob.x && player.y < mob.y + 1.55 && player.y + player.height > mob.y;
+    if (touches && mob.attack <= 0) { damagePlayer(1); mob.attack = 1.35; player.vx = -direction * 5; }
+    return mob.hp > 0 && mob.y < WORLD_HEIGHT + 2;
+  });
+}
+
+function attackMobAt(x, y) {
+  const index = mobs.findIndex((mob) => x + 1 > mob.x && x < mob.x + 0.72 && y + 1 > mob.y && y < mob.y + 1.55 && tileInReach(x, y));
+  if (index < 0) return false;
+  const mob = mobs[index];
+  const tool = toolData[equippedTool] || toolData.hand;
+  mob.hp -= Math.max(1, tool.tier || 1);
+  mob.vx = Math.sign(mob.x - player.x) * 6;
+  showToast(t("mobHit"));
+  if (mob.hp <= 0) {
+    if (Math.random() < 0.45) spawnDrop("apple", mob.x + 0.35, mob.y + 0.5);
+    mobs.splice(index, 1);
+  }
+  dirty = true;
+  return true;
 }
 
 function pointerToTile(event) {
@@ -623,7 +897,6 @@ function respawn() {
   player.y = player.spawnY;
   player.vx = 0;
   player.vy = 0;
-  player.health = Math.max(1, player.health - 1);
   dirty = true;
 }
 
@@ -640,7 +913,7 @@ function update(dt) {
   if (jump && player.grounded) { player.vy = -9.3; player.grounded = false; keys.delete("touch-jump"); }
   player.vy = Math.min(14, player.vy + 24 * dt);
   movePlayer(player.vx * dt, player.vy * dt);
-  if (player.y > WORLD_HEIGHT + 4) respawn();
+  if (player.y > WORLD_HEIGHT + 4) { damagePlayer(1); respawn(); }
   if (mining) {
     if (!tileInReach(mining.x, mining.y) || getTile(mining.x, mining.y) !== mining.id) mining = null;
     else {
@@ -648,6 +921,19 @@ function update(dt) {
       if (mining.progress >= mining.duration) finishMining();
     }
   }
+  updateDrops(dt);
+  updateGrowth(dt);
+  updateMobs(dt);
+  hungerTimer += dt * (Math.abs(player.vx) > 0.25 ? 1.55 : 0.75);
+  if (hungerTimer >= 30) { hungerTimer -= 30; hunger = Math.max(0, hunger - 1); dirty = true; }
+  if (hunger === 0) {
+    starvationTimer += dt;
+    if (starvationTimer >= 8) { starvationTimer = 0; damagePlayer(1, "starving"); }
+  } else starvationTimer = 0;
+  if (hunger >= 9 && player.health < 5) {
+    regenerationTimer += dt;
+    if (regenerationTimer >= 14) { regenerationTimer = 0; player.health += 1; hunger = Math.max(0, hunger - 1); dirty = true; }
+  } else regenerationTimer = 0;
   dirty = dirty || Math.abs(player.vx) > 0.01 || Math.abs(player.vy) > 0.01;
   updateHud();
 }
@@ -684,6 +970,57 @@ function drawPlayer(screenX, screenY) {
   ctx.restore();
 }
 
+function drawDrops() {
+  drops.forEach((drop) => {
+    const x = (drop.x - camera.x) * TILE;
+    const y = (drop.y - camera.y) * TILE + Math.sin((drop.age || 0) * 5) * 2;
+    if (x < -24 || x > canvas.width + 24 || y < -24 || y > canvas.height + 24) return;
+    ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.fillRect(x - 7, y + 8, 18, 4);
+    drawItemIcon(ctx, drop.item, x - 6, y - 7, 17);
+  });
+}
+
+function drawMobs() {
+  mobs.forEach((mob) => {
+    const x = Math.round((mob.x - camera.x) * TILE);
+    const y = Math.round((mob.y - camera.y) * TILE);
+    const width = 0.72 * TILE;
+    const height = 1.55 * TILE;
+    ctx.fillStyle = "#527a43"; ctx.fillRect(x + width*0.14, y, width*0.72, height*0.34);
+    ctx.fillStyle = "#d7e9b8"; ctx.fillRect(x + width*0.25, y + height*0.12, 3, 3); ctx.fillRect(x + width*0.65, y + height*0.12, 3, 3);
+    ctx.fillStyle = "#58426e"; ctx.fillRect(x + width*0.08, y + height*0.34, width*0.84, height*0.42);
+    ctx.fillStyle = "#303d36"; ctx.fillRect(x + width*0.1, y + height*0.76, width*0.34, height*0.24); ctx.fillRect(x + width*0.56, y + height*0.76, width*0.34, height*0.24);
+    ctx.fillStyle = "#b93030"; ctx.fillRect(x, y - 6, width, 3);
+    ctx.fillStyle = "#65aa45"; ctx.fillRect(x, y - 6, width * Math.max(0, mob.hp) / 3, 3);
+  });
+}
+
+function clearLightAt(screenX, screenY, radius) {
+  const gradient = lightCtx.createRadialGradient(screenX, screenY, 2, screenX, screenY, radius);
+  gradient.addColorStop(0, "rgba(0,0,0,1)");
+  gradient.addColorStop(0.55, "rgba(0,0,0,.78)");
+  gradient.addColorStop(1, "rgba(0,0,0,0)");
+  lightCtx.fillStyle = gradient;
+  lightCtx.beginPath(); lightCtx.arc(screenX, screenY, radius, 0, Math.PI * 2); lightCtx.fill();
+}
+
+function drawNightLighting(light, startX, endX, startY, endY) {
+  const darkness = Math.max(0, 0.68 - light * 0.78);
+  if (darkness <= 0.04) return;
+  lightCtx.clearRect(0, 0, lightCanvas.width, lightCanvas.height);
+  lightCtx.globalCompositeOperation = "source-over";
+  lightCtx.fillStyle = `rgba(0, 3, 8, ${darkness})`;
+  lightCtx.fillRect(0, 0, lightCanvas.width, lightCanvas.height);
+  lightCtx.globalCompositeOperation = "destination-out";
+  for (let y = startY; y < endY; y += 1) {
+    for (let x = startX; x < endX; x += 1) {
+      if (getTile(x, y) === 14) clearLightAt((x + 0.5 - camera.x) * TILE, (y + 0.5 - camera.y) * TILE, TILE * 5.2);
+    }
+  }
+  lightCtx.globalCompositeOperation = "source-over";
+  ctx.drawImage(lightCanvas, 0, 0);
+}
+
 function drawWorld() {
   const viewWidth = canvas.width / TILE;
   const viewHeight = canvas.height / TILE;
@@ -698,7 +1035,7 @@ function drawWorld() {
 
   const celestialX = phase * canvas.width;
   const celestialY = canvas.height * 0.62 - Math.sin(phase * Math.PI) * canvas.height * 0.48;
-  ctx.fillStyle = phase > 0.55 ? "#dce4ec" : "#ffe28b";
+  ctx.fillStyle = isNightTime() ? "#dce4ec" : "#ffe28b";
   ctx.fillRect(Math.round(celestialX), Math.round(celestialY), 30, 30);
   if (light < 0.25) {
     ctx.fillStyle = "rgba(255,255,255,.72)";
@@ -721,16 +1058,15 @@ function drawWorld() {
       drawBlock(ctx, id, (x - camera.x) * TILE, (y - camera.y) * TILE, TILE + 0.5);
     }
   }
+  drawDrops();
+  drawMobs();
   drawPlayer((player.x - camera.x) * TILE, (player.y - camera.y) * TILE);
   if (pointerTile && tileInReach(pointerTile.x, pointerTile.y)) {
     ctx.strokeStyle = touchMode === "place" ? "#78d75d" : "rgba(255,255,255,.9)";
     ctx.lineWidth = 2;
     ctx.strokeRect(Math.round((pointerTile.x - camera.x) * TILE) + 1, Math.round((pointerTile.y - camera.y) * TILE) + 1, TILE - 2, TILE - 2);
   }
-  if (light < 0.34) {
-    ctx.fillStyle = `rgba(0, 4, 8, ${0.62 - light})`;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
+  drawNightLighting(light, startX, endX, startY, endY);
   if (mining) {
     const x = Math.round((mining.x - camera.x) * TILE);
     const y = Math.round((mining.y - camera.y) * TILE);
@@ -783,6 +1119,7 @@ canvas.addEventListener("pointerdown", (event) => {
   pointerTile = tile;
   if (event.button === 2 || touchMode === "place") { mining = null; placeTile(tile.x, tile.y); }
   else {
+    if (attackMobAt(tile.x, tile.y)) return;
     startMining(tile.x, tile.y, event.pointerType || "mouse");
     if (event.pointerType === "mouse") canvas.setPointerCapture?.(event.pointerId);
   }
@@ -797,7 +1134,7 @@ window.addEventListener("keydown", (event) => {
     event.preventDefault();
     keys.add(event.code);
   }
-  if (/^Digit[1-7]$/.test(event.code)) { selectedSlot = Number(event.code.at(-1)) - 1; dirty = true; renderHotbar(); }
+  if (/^Digit[1-7]$/.test(event.code)) { selectedSlot = Number(event.code.at(-1)) - 1; selectedItem = HOTBAR_BLOCKS[selectedSlot]; dirty = true; renderHotbar(); }
   if (event.code === "KeyB" && !event.repeat && !document.querySelector("dialog[open]")) openBackpack();
   if (event.code === "KeyP" || event.code === "Escape") setPaused(!paused);
 });

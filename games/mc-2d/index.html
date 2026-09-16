@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#050706">
     <title>MC 2D · Muye Games</title>
     <link rel="icon" href="/assets/favicon.png" type="image/png">
-    <link rel="stylesheet" href="/games/mc-2d/mc-2d.css?v=3">
+    <link rel="stylesheet" href="/games/mc-2d/mc-2d.css?v=4">
     <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body>
@@ -35,7 +35,10 @@
 
       <section class="game-frame" aria-label="MC 2D game">
         <div class="hud" aria-live="polite">
-          <div class="hearts" id="hearts" aria-label="Health">♥ ♥ ♥ ♥ ♥</div>
+          <div class="vitals">
+            <div class="hearts" id="hearts" aria-label="Health">♥ ♥ ♥ ♥ ♥</div>
+            <div class="hunger" id="hunger" aria-label="Hunger">● ● ● ● ● ● ● ● ● ●</div>
+          </div>
           <div class="hud-center"><span id="world-name">World 1</span><small id="position">0, 0</small></div>
           <div class="clock"><span id="clock-icon">☀</span><span id="clock-label">Day 1</span></div>
         </div>
@@ -97,6 +100,7 @@
           <li data-i18n="help2">Craft each log into four wooden planks.</li>
           <li data-i18n="help3">Mine dirt and stone, then build a shelter.</li>
           <li data-i18n="help4">Craft tools, mine coal and iron, then smelt iron in a furnace.</li>
+          <li data-i18n="help5">Collect drops, plant seeds, eat food, and use torches to survive the night.</li>
         </ol>
         <p data-i18n="autosaveHelp">The world autosaves after changes and when you leave the page.</p>
       </form>
@@ -115,6 +119,10 @@
         <section>
           <h3 data-i18n="materials">Materials</h3>
           <div class="resource-list" id="backpack-materials"></div>
+        </section>
+        <section>
+          <h3 data-i18n="survival">Survival</h3>
+          <div class="survival-list" id="backpack-survival"></div>
         </section>
         <section>
           <h3 data-i18n="tools">Tools</h3>
@@ -158,7 +166,7 @@
     </dialog>
 
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script src="/games/mc-2d/mc-2d.js?v=3"></script>
+    <script src="/games/mc-2d/mc-2d.js?v=4"></script>
     <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

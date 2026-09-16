@@ -52,7 +52,7 @@ const appHtml = `<!doctype html>
     </header>
     <section class="downloads" aria-label="LocalTalk app downloads">
       <span>Apps</span>
-      <a class="download-link" href="/talk/download">Download</a>
+      <a class="download-link" href="/download/#localtalk">Download</a>
     </section>
     <section id="messages" aria-live="polite"></section>
     <form id="form">
@@ -1419,7 +1419,7 @@ export default {
       const roomRoute = publicRoomPath(url.pathname);
       const signedRoute = signedRoomPath(url.pathname);
       if (request.method === "GET" && url.pathname === "/") return new Response(appHtml, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
-      if (request.method === "GET" && url.pathname === "/download") return new Response(downloadHtml, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
+  if (request.method === "GET" && url.pathname === "/download") return Response.redirect(new URL("/download/#localtalk", request.url), 302);
       if (request.method === "GET" && roomRoute?.action === "/") {
         const roomOk = await ensureRoomAccess(sql, roomRoute.room, clientIp(request), false);
         if (!roomOk) return new Response(roomLimitHtml, { status: 429, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });

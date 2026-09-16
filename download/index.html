@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Downloads for Muye apps and tools.">
+    <meta name="theme-color" content="#050505">
+    <title>Download · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #050606;
+        --panel: #101512;
+        --panel-2: #151c18;
+        --text: #f7f5ed;
+        --muted: #a9b2ac;
+        --line: #26332c;
+        --accent: #61d693;
+        --accent-2: #82b7ff;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; background: var(--bg); }
+      body {
+        min-height: 100svh;
+        margin: 0;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        background:
+          radial-gradient(circle at 12% 8%, rgba(97, 214, 147, 0.14), transparent 26rem),
+          radial-gradient(circle at 92% 62%, rgba(130, 183, 255, 0.1), transparent 30rem),
+          #050606;
+        color: var(--text);
+      }
+      a { color: inherit; }
+      header, main, footer { width: min(1040px, calc(100% - 28px)); margin-inline: auto; }
+      header {
+        min-height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+      .brand, nav a { text-decoration: none; }
+      .brand { font-size: 18px; font-weight: 900; }
+      nav { display: flex; align-items: center; gap: 16px; color: var(--muted); font-size: 14px; font-weight: 750; }
+      nav a:hover { color: var(--accent); }
+      .language-button {
+        width: 40px;
+        height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--text);
+        background: rgba(247, 245, 237, 0.08);
+        font: inherit;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .language-button:hover { border-color: var(--accent); color: var(--accent); }
+      main { display: grid; gap: 44px; padding: clamp(34px, 7vw, 86px) 0 48px; }
+      .hero { display: grid; gap: 12px; }
+      .eyebrow { margin: 0; color: var(--accent); font-size: 12px; font-weight: 950; letter-spacing: 0; text-transform: uppercase; }
+      h1, h2, p { margin-top: 0; }
+      h1 { max-width: 780px; margin-bottom: 4px; font-size: clamp(48px, 9vw, 104px); line-height: 0.92; letter-spacing: 0; }
+      .lede { max-width: 690px; color: var(--muted); font-size: 18px; line-height: 1.55; }
+      .download-card {
+        scroll-margin-top: 24px;
+        display: grid;
+        gap: 22px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: clamp(18px, 4vw, 30px);
+        background: color-mix(in srgb, var(--panel) 88%, transparent);
+      }
+      .download-card-head { display: grid; gap: 8px; }
+      .download-card h2 { margin-bottom: 0; font-size: clamp(30px, 5vw, 56px); line-height: 1; }
+      .download-card p { color: var(--muted); line-height: 1.55; }
+      .download-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+      .download-button, .copy-button {
+        min-height: 46px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0 16px;
+        color: var(--text);
+        background: var(--panel-2);
+        font: inherit;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .download-button:hover, .copy-button:hover { border-color: var(--accent); color: var(--accent); }
+      .download-button:disabled { opacity: 0.62; cursor: progress; }
+      .status { min-height: 24px; color: var(--accent); font-weight: 850; }
+      .help {
+        display: grid;
+        gap: 12px;
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+      }
+      .help h3 { margin: 0; font-size: 24px; }
+      .steps { margin: 0; padding-left: 22px; color: var(--muted); line-height: 1.65; }
+      .steps strong { color: var(--text); }
+      .command-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+      code {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 8px 10px;
+        background: #050606;
+        color: var(--text);
+        overflow-wrap: anywhere;
+      }
+      .copy-button { min-height: 34px; padding: 0 11px; font-size: 13px; }
+      footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 28px 0; border-top: 1px solid var(--line); color: var(--muted); }
+      footer p { margin: 0; }
+
+      @media (max-width: 620px) {
+        header, footer { align-items: flex-start; flex-direction: column; }
+        nav { flex-wrap: wrap; }
+        .download-actions, .download-button, .copy-button, code { width: 100%; }
+        .command-row { align-items: stretch; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/">Muye</a>
+      <nav aria-label="Download navigation">
+        <a href="/talk/" data-i18n="talk">Talk</a>
+        <a href="/games/" data-i18n="games">Games</a>
+        <a href="/" data-i18n="home">Home</a>
+        <button class="language-button" id="language-button" type="button" aria-label="Change language">A中</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow" data-i18n="downloads">Downloads</p>
+        <h1 data-i18n="heroTitle">Get Muye apps.</h1>
+        <p class="lede" data-i18n="heroCopy">Install the small tools that belong to this site. Downloads stay here, with notes for opening them safely on your computer.</p>
+      </section>
+
+      <section class="download-card" id="localtalk" aria-labelledby="localtalk-title">
+        <div class="download-card-head">
+          <p class="eyebrow">LocalTalk</p>
+          <h2 id="localtalk-title" data-i18n="localtalkTitle">Download LocalTalk</h2>
+          <p data-i18n="localtalkCopy">Choose the app for your computer. The browser will save one ZIP file.</p>
+        </div>
+
+        <div class="download-actions" aria-label="LocalTalk app downloads">
+          <button class="download-button" type="button" data-download-app="macos" data-i18n="macZip">MacOS ZIP</button>
+          <button class="download-button" type="button" data-download-app="windows" data-i18n="windowsZip">Windows ZIP</button>
+        </div>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+
+        <section class="help" aria-labelledby="mac-help-title">
+          <h3 id="mac-help-title" data-i18n="macBlocked">Mac blocked it?</h3>
+          <p data-i18n="macCopy">LocalTalk is not Apple-notarized yet, so macOS may say Apple could not verify it. To open it:</p>
+          <ol class="steps">
+            <li data-i18n-html="stepOpen">Open the ZIP, then right-click <strong>Localtalk.app</strong>.</li>
+            <li data-i18n-html="stepApprove">Choose <strong>Open</strong>, then approve it if macOS asks again.</li>
+            <li data-i18n-html="stepTerminal">To open Terminal, press <strong>⌘ Command</strong> + <strong>Space</strong>, type <strong>Terminal</strong>, press <strong>Enter</strong>, then paste one command below.</li>
+            <li><span data-i18n="downloadsCommand">If it is in Downloads, run:</span>
+              <span class="command-row">
+                <code id="downloads-command">xattr -dr com.apple.quarantine ~/Downloads/Localtalk.app</code>
+                <button class="copy-button" type="button" data-copy-command="downloads-command" data-i18n="copy">Copy</button>
+              </span>
+            </li>
+            <li><span data-i18n="desktopCommand">If it is on Desktop, run:</span>
+              <span class="command-row">
+                <code id="desktop-command">xattr -dr com.apple.quarantine ~/Desktop/Localtalk.app</code>
+                <button class="copy-button" type="button" data-copy-command="desktop-command" data-i18n="copy">Copy</button>
+              </span>
+            </li>
+            <li data-i18n-html="stepDrag">Or type <code>xattr -dr com.apple.quarantine </code>, drag <strong>Localtalk.app</strong> into Terminal, then press Enter.</li>
+          </ol>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> Muye. <span data-i18n="built">Built for Cloudflare Pages.</span></p>
+      <a href="mailto:muye@muye.dev">muye@muye.dev</a>
+    </footer>
+
+    <script>
+      document.querySelector("#year").textContent = new Date().getFullYear();
+      const languages = [
+        ["en", "English", "ltr"], ["zh", "中文", "ltr"], ["ja", "日本語", "ltr"], ["ko", "한국어", "ltr"], ["es", "Español", "ltr"],
+        ["fr", "Français", "ltr"], ["de", "Deutsch", "ltr"], ["pt", "Português", "ltr"], ["ru", "Русский", "ltr"], ["ar", "العربية", "rtl"],
+      ];
+      const text = {
+        en: { talk: "Talk", games: "Games", home: "Home", downloads: "Downloads", heroTitle: "Get Muye apps.", heroCopy: "Install the small tools that belong to this site. Downloads stay here, with notes for opening them safely on your computer.", localtalkTitle: "Download LocalTalk", localtalkCopy: "Choose the app for your computer. The browser will save one ZIP file.", macZip: "MacOS ZIP", windowsZip: "Windows ZIP", macBlocked: "Mac blocked it?", macCopy: "LocalTalk is not Apple-notarized yet, so macOS may say Apple could not verify it. To open it:", stepOpen: "Open the ZIP, then right-click <strong>Localtalk.app</strong>.", stepApprove: "Choose <strong>Open</strong>, then approve it if macOS asks again.", stepTerminal: "To open Terminal, press <strong>⌘ Command</strong> + <strong>Space</strong>, type <strong>Terminal</strong>, press <strong>Enter</strong>, then paste one command below.", downloadsCommand: "If it is in Downloads, run:", desktopCommand: "If it is on Desktop, run:", stepDrag: "Or type <code>xattr -dr com.apple.quarantine </code>, drag <strong>Localtalk.app</strong> into Terminal, then press Enter.", copy: "Copy", copied: "Copied", downloading: "Downloading...", preparing: "Preparing {name}", saved: "Saved {name}", failed: "Download failed.", built: "Built for Cloudflare Pages." },
+        zh: { talk: "聊天", games: "游戏", home: "主页", downloads: "下载", heroTitle: "获取 Muye 应用。", heroCopy: "安装属于这个网站的小工具。下载都放在这里，也会写清楚如何在电脑上安全打开。", localtalkTitle: "下载 LocalTalk", localtalkCopy: "选择你的电脑版本。浏览器会保存一个 ZIP 文件。", macZip: "MacOS ZIP", windowsZip: "Windows ZIP", macBlocked: "Mac 拦住了？", macCopy: "LocalTalk 还没有 Apple 公证，所以 macOS 可能会说无法验证。打开方法：", stepOpen: "打开 ZIP，然后右键 <strong>Localtalk.app</strong>。", stepApprove: "选择 <strong>打开</strong>，如果 macOS 再问一次就确认。", stepTerminal: "打开终端：按 <strong>⌘ Command</strong> + <strong>Space</strong>，输入 <strong>Terminal</strong>，按 <strong>Enter</strong>，然后粘贴下面的命令。", downloadsCommand: "如果在 Downloads 里，运行：", desktopCommand: "如果在 Desktop 上，运行：", stepDrag: "或者输入 <code>xattr -dr com.apple.quarantine </code>，把 <strong>Localtalk.app</strong> 拖进终端，再按 Enter。", copy: "复制", copied: "已复制", downloading: "下载中...", preparing: "正在准备 {name}", saved: "已保存 {name}", failed: "下载失败。", built: "为 Cloudflare Pages 构建。" },
+        ja: { talk: "Talk", games: "ゲーム", home: "ホーム", downloads: "ダウンロード", heroTitle: "Muyeアプリを入手。", heroCopy: "このサイトの小さなツールをインストールできます。安全に開くためのメモもここにあります。", localtalkTitle: "LocalTalkをダウンロード", localtalkCopy: "コンピューター用のアプリを選んでください。ZIPファイルが保存されます。", macZip: "MacOS ZIP", windowsZip: "Windows ZIP", macBlocked: "Macで止められた？", macCopy: "LocalTalkはまだApple公証されていないため、macOSが確認できないと言う場合があります。開くには：", stepOpen: "ZIPを開き、<strong>Localtalk.app</strong>を右クリックします。", stepApprove: "<strong>開く</strong>を選び、再確認されたら許可します。", stepTerminal: "Terminalを開くには <strong>⌘ Command</strong> + <strong>Space</strong>、<strong>Terminal</strong>と入力し、<strong>Enter</strong>、下のコマンドを貼り付けます。", downloadsCommand: "Downloadsにある場合：", desktopCommand: "Desktopにある場合：", stepDrag: "または <code>xattr -dr com.apple.quarantine </code> と入力し、<strong>Localtalk.app</strong>をTerminalへドラッグしてEnter。", copy: "コピー", copied: "コピー済み", downloading: "ダウンロード中...", preparing: "{name}を準備中", saved: "{name}を保存しました", failed: "ダウンロード失敗。", built: "Cloudflare Pages 用に構築。" },
+        ko: { talk: "Talk", games: "게임", home: "홈", downloads: "다운로드", heroTitle: "Muye 앱 받기.", heroCopy: "이 사이트의 작은 도구를 설치하세요. 다운로드와 안전하게 여는 방법을 여기에 모았습니다.", localtalkTitle: "LocalTalk 다운로드", localtalkCopy: "컴퓨터용 앱을 선택하세요. 브라우저가 ZIP 파일 하나를 저장합니다.", macZip: "MacOS ZIP", windowsZip: "Windows ZIP", macBlocked: "Mac이 막았나요?", macCopy: "LocalTalk는 아직 Apple 공증이 없어 macOS가 확인할 수 없다고 할 수 있습니다. 여는 방법:", stepOpen: "ZIP을 열고 <strong>Localtalk.app</strong>을 오른쪽 클릭하세요.", stepApprove: "<strong>열기</strong>를 선택하고 다시 물으면 승인하세요.", stepTerminal: "Terminal을 열려면 <strong>⌘ Command</strong> + <strong>Space</strong>, <strong>Terminal</strong> 입력, <strong>Enter</strong>, 아래 명령 붙여넣기.", downloadsCommand: "Downloads에 있으면 실행:", desktopCommand: "Desktop에 있으면 실행:", stepDrag: "또는 <code>xattr -dr com.apple.quarantine </code> 입력 후 <strong>Localtalk.app</strong>을 Terminal로 끌고 Enter.", copy: "복사", copied: "복사됨", downloading: "다운로드 중...", preparing: "{name} 준비 중", saved: "{name} 저장됨", failed: "다운로드 실패.", built: "Cloudflare Pages용으로 제작." },
+        es: { talk: "Chat", games: "Juegos", home: "Inicio", downloads: "Descargas", heroTitle: "Obtén apps de Muye.", heroCopy: "Instala las pequeñas herramientas de este sitio. Las descargas y las notas para abrirlas con seguridad viven aquí.", localtalkTitle: "Descargar LocalTalk", localtalkCopy: "Elige la app para tu computadora. El navegador guardará un archivo ZIP.", macZip: "MacOS ZIP", windowsZip: "Windows ZIP", macBlocked: "¿Mac lo bloqueó?", macCopy: "LocalTalk aún no está notarizado por Apple, así que macOS puede decir que no puede verificarlo. Para abrirlo:", stepOpen: "Abre el ZIP y haz clic derecho en <strong>Localtalk.app</strong>.", stepApprove: "Elige <strong>Abrir</strong> y apruébalo si macOS pregunta otra vez.", stepTerminal: "Para abrir Terminal, presiona <strong>⌘ Command</strong> + <strong>Space</strong>, escribe <strong>Terminal</strong>, presiona <strong>Enter</strong> y pega un comando.", downloadsCommand: "Si está en Downloads, ejecuta:", desktopCommand: "Si está en Desktop, ejecuta:", stepDrag: "O escribe <code>xattr -dr com.apple.quarantine </code>, arrastra <strong>Localtalk.app</strong> a Terminal y presiona Enter.", copy: "Copiar", copied: "Copiado", downloading: "Descargando...", preparing: "Preparando {name}", saved: "Guardado {name}", failed: "Descarga fallida.", built: "Hecho para Cloudflare Pages." },
+        fr: { talk: "Discussion", games: "Jeux", home: "Accueil", downloads: "Téléchargements", heroTitle: "Télécharger les apps Muye.", heroCopy: "Installe les petits outils de ce site. Les téléchargements et les notes d'ouverture sûre sont ici.", localtalkTitle: "Télécharger LocalTalk", localtalkCopy: "Choisis l'app pour ton ordinateur. Le navigateur enregistrera un ZIP.", macZip: "MacOS ZIP", windowsZip: "Windows ZIP", macBlocked: "Mac l'a bloquée ?", macCopy: "LocalTalk n'est pas encore notariée par Apple, donc macOS peut refuser de la vérifier. Pour l'ouvrir :", stepOpen: "Ouvre le ZIP, puis clic droit sur <strong>Localtalk.app</strong>.", stepApprove: "Choisis <strong>Ouvrir</strong>, puis accepte si macOS redemande.", stepTerminal: "Pour ouvrir Terminal, appuie sur <strong>⌘ Command</strong> + <strong>Space</strong>, tape <strong>Terminal</strong>, appuie sur <strong>Enter</strong>, puis colle une commande.", downloadsCommand: "Si elle est dans Downloads, lance :", desktopCommand: "Si elle est sur Desktop, lance :", stepDrag: "Ou tape <code>xattr -dr com.apple.quarantine </code>, glisse <strong>Localtalk.app</strong> dans Terminal, puis Enter.", copy: "Copier", copied: "Copié", downloading: "Téléchargement...", preparing: "Préparation de {name}", saved: "{name} enregistré", failed: "Téléchargement échoué.", built: "Construit pour Cloudflare Pages." },
+        de: { talk: "Talk", games: "Spiele", home: "Start", downloads: "Downloads", heroTitle: "Muye-Apps laden.", heroCopy: "Installiere die kleinen Tools dieser Seite. Downloads und sichere Öffnungshinweise stehen hier.", localtalkTitle: "LocalTalk herunterladen", localtalkCopy: "Wähle die App für deinen Computer. Der Browser speichert eine ZIP-Datei.", macZip: "MacOS ZIP", windowsZip: "Windows ZIP", macBlocked: "Mac blockiert es?", macCopy: "LocalTalk ist noch nicht von Apple notarisiert, daher kann macOS die Prüfung verweigern. So öffnest du es:", stepOpen: "Öffne die ZIP und klicke mit rechts auf <strong>Localtalk.app</strong>.", stepApprove: "Wähle <strong>Öffnen</strong> und bestätige erneut, falls macOS fragt.", stepTerminal: "Terminal öffnen: <strong>⌘ Command</strong> + <strong>Space</strong>, <strong>Terminal</strong> tippen, <strong>Enter</strong>, dann einen Befehl einfügen.", downloadsCommand: "Wenn sie in Downloads liegt:", desktopCommand: "Wenn sie auf Desktop liegt:", stepDrag: "Oder tippe <code>xattr -dr com.apple.quarantine </code>, ziehe <strong>Localtalk.app</strong> ins Terminal und drücke Enter.", copy: "Kopieren", copied: "Kopiert", downloading: "Lädt...", preparing: "{name} wird vorbereitet", saved: "{name} gespeichert", failed: "Download fehlgeschlagen.", built: "Gebaut für Cloudflare Pages." },
+        pt: { talk: "Talk", games: "Jogos", home: "Início", downloads: "Downloads", heroTitle: "Baixe apps Muye.", heroCopy: "Instale as pequenas ferramentas deste site. Downloads e notas para abrir com segurança ficam aqui.", localtalkTitle: "Baixar LocalTalk", localtalkCopy: "Escolha o app para seu computador. O navegador salvará um ZIP.", macZip: "MacOS ZIP", windowsZip: "Windows ZIP", macBlocked: "Mac bloqueou?", macCopy: "LocalTalk ainda não é autenticado pela Apple, então o macOS pode dizer que não consegue verificar. Para abrir:", stepOpen: "Abra o ZIP e clique com o botão direito em <strong>Localtalk.app</strong>.", stepApprove: "Escolha <strong>Abrir</strong> e aprove se o macOS perguntar de novo.", stepTerminal: "Para abrir o Terminal, pressione <strong>⌘ Command</strong> + <strong>Space</strong>, digite <strong>Terminal</strong>, pressione <strong>Enter</strong> e cole um comando.", downloadsCommand: "Se estiver em Downloads, rode:", desktopCommand: "Se estiver na Desktop, rode:", stepDrag: "Ou digite <code>xattr -dr com.apple.quarantine </code>, arraste <strong>Localtalk.app</strong> para o Terminal e pressione Enter.", copy: "Copiar", copied: "Copiado", downloading: "Baixando...", preparing: "Preparando {name}", saved: "{name} salvo", failed: "Download falhou.", built: "Feito para Cloudflare Pages." },
+        ru: { talk: "Чат", games: "Игры", home: "Главная", downloads: "Загрузки", heroTitle: "Скачать приложения Muye.", heroCopy: "Установи небольшие инструменты этого сайта. Загрузки и заметки по безопасному открытию находятся здесь.", localtalkTitle: "Скачать LocalTalk", localtalkCopy: "Выбери приложение для компьютера. Браузер сохранит ZIP-файл.", macZip: "MacOS ZIP", windowsZip: "Windows ZIP", macBlocked: "Mac заблокировал?", macCopy: "LocalTalk ещё не заверен Apple, поэтому macOS может сказать, что не может проверить его. Чтобы открыть:", stepOpen: "Открой ZIP, затем нажми правой кнопкой на <strong>Localtalk.app</strong>.", stepApprove: "Выбери <strong>Open</strong> и подтверди, если macOS спросит снова.", stepTerminal: "Чтобы открыть Terminal, нажми <strong>⌘ Command</strong> + <strong>Space</strong>, введи <strong>Terminal</strong>, нажми <strong>Enter</strong> и вставь команду.", downloadsCommand: "Если файл в Downloads, выполни:", desktopCommand: "Если файл на Desktop, выполни:", stepDrag: "Или введи <code>xattr -dr com.apple.quarantine </code>, перетащи <strong>Localtalk.app</strong> в Terminal и нажми Enter.", copy: "Копировать", copied: "Скопировано", downloading: "Загрузка...", preparing: "Подготовка {name}", saved: "{name} сохранён", failed: "Загрузка не удалась.", built: "Сделано для Cloudflare Pages." },
+        ar: { talk: "دردشة", games: "ألعاب", home: "الرئيسية", downloads: "تنزيلات", heroTitle: "نزّل تطبيقات Muye.", heroCopy: "ثبّت الأدوات الصغيرة التابعة لهذا الموقع. التنزيلات وملاحظات الفتح الآمن هنا.", localtalkTitle: "تنزيل LocalTalk", localtalkCopy: "اختر التطبيق لجهازك. سيحفظ المتصفح ملف ZIP واحدا.", macZip: "MacOS ZIP", windowsZip: "Windows ZIP", macBlocked: "هل منعه Mac؟", macCopy: "LocalTalk غير موثق من Apple بعد، لذلك قد يقول macOS إنه لا يستطيع التحقق منه. لفتحه:", stepOpen: "افتح ملف ZIP، ثم انقر بزر الفأرة الأيمن على <strong>Localtalk.app</strong>.", stepApprove: "اختر <strong>Open</strong> ثم وافق إذا سأل macOS مرة أخرى.", stepTerminal: "لفتح Terminal اضغط <strong>⌘ Command</strong> + <strong>Space</strong>، اكتب <strong>Terminal</strong>، اضغط <strong>Enter</strong>، ثم الصق أحد الأوامر.", downloadsCommand: "إذا كان في Downloads، شغّل:", desktopCommand: "إذا كان على Desktop، شغّل:", stepDrag: "أو اكتب <code>xattr -dr com.apple.quarantine </code>، واسحب <strong>Localtalk.app</strong> إلى Terminal، ثم اضغط Enter.", copy: "نسخ", copied: "تم النسخ", downloading: "جار التنزيل...", preparing: "جار تجهيز {name}", saved: "تم حفظ {name}", failed: "فشل التنزيل.", built: "مبني على Cloudflare Pages." },
+      };
+      function lang() {
+        const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";
+        return languages.some(([code]) => code === saved) ? saved : "en";
+      }
+      function t(key, data = {}) {
+        const value = text[lang()]?.[key] || text.en[key] || key;
+        return Object.entries(data).reduce((copy, [name, replacement]) => copy.replaceAll("{" + name + "}", replacement), value);
+      }
+      function applyLanguage() {
+        const current = lang();
+        const info = languages.find(([code]) => code === current) || languages[0];
+        document.documentElement.lang = current;
+        document.documentElement.dir = info[2];
+        document.querySelectorAll("[data-i18n]").forEach((node) => { node.textContent = t(node.dataset.i18n); });
+        document.querySelectorAll("[data-i18n-html]").forEach((node) => { node.innerHTML = t(node.dataset.i18nHtml); });
+        const button = document.querySelector("#language-button");
+        button.textContent = current === "zh" ? "中A" : "A中";
+        button.setAttribute("aria-label", "Change language. Current: " + info[1]);
+      }
+      document.querySelector("#language-button").addEventListener("click", () => {
+        const index = languages.findIndex(([code]) => code === lang());
+        const next = languages[(index + 1) % languages.length][0];
+        localStorage.setItem("muye-lang", next);
+        localStorage.setItem("localtalk-lang", next === "zh" ? "zh" : "en");
+        applyLanguage();
+      });
+      const status = document.querySelector("#status");
+      const appDownloads = {
+        macos: { name: "Localtalk MacOS.zip", parts: ["/downloads/localtalk/localtalk-macos.zip.part-aa", "/downloads/localtalk/localtalk-macos.zip.part-ab"] },
+        windows: { name: "Localtalk Windows.zip", parts: ["/downloads/localtalk/localtalk-windows.zip.part-aa", "/downloads/localtalk/localtalk-windows.zip.part-ab"] },
+      };
+
+      async function downloadApp(kind, button) {
+        const app = appDownloads[kind];
+        if (!app) return;
+        const label = button.textContent;
+        button.disabled = true;
+        button.textContent = t("downloading");
+        status.textContent = t("preparing", { name: app.name });
+        try {
+          const blobs = [];
+          for (const part of app.parts) {
+            const response = await fetch(part, { cache: "force-cache" });
+            if (!response.ok) throw new Error("download failed");
+            blobs.push(await response.blob());
+          }
+          const url = URL.createObjectURL(new Blob(blobs, { type: "application/zip" }));
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = app.name;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+          status.textContent = t("saved", { name: app.name });
+        } catch (error) {
+          status.textContent = t("failed");
+        } finally {
+          button.disabled = false;
+          button.textContent = label;
+        }
+      }
+
+      async function copyCommand(button) {
+        const text = document.querySelector("#" + button.dataset.copyCommand).textContent;
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch (error) {
+          const area = document.createElement("textarea");
+          area.value = text;
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          document.execCommand("copy");
+          area.remove();
+        }
+        button.textContent = t("copied");
+        setTimeout(() => { button.textContent = t("copy"); }, 1400);
+      }
+
+      document.querySelectorAll("[data-download-app]").forEach((button) => {
+        button.addEventListener("click", () => downloadApp(button.dataset.downloadApp, button));
+      });
+      document.querySelectorAll("[data-copy-command]").forEach((button) => {
+        button.addEventListener("click", () => copyCommand(button));
+      });
+      applyLanguage();
+    </script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

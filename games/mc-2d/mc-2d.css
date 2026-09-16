@@ -278,6 +278,15 @@ dialog li + li { margin-top: 7px; }
 dialog label { display: grid; gap: 8px; margin: 20px 0; font-weight: 850; }
 dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5px; padding: 0 12px; color: white; background: #050706; }
 .dialog-actions { justify-content: flex-end; gap: 8px; }
+.world-list { display: grid; gap: 9px; margin: 18px 0; }
+.world-entry { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 6px; padding: 10px; background: #070a08; }
+.world-entry-copy { display: grid; gap: 3px; min-width: 0; }
+.world-entry-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.world-entry-copy small { color: var(--muted); font-size: 11px; }
+.world-entry button { min-height: 38px; border: 1px solid var(--grass); border-radius: 5px; padding: 0 11px; color: #071005; background: var(--grass); font-weight: 850; cursor: pointer; }
+.world-entry button[disabled] { opacity: .42; cursor: default; }
+.world-entry .delete-world { border-color: #673c3c; color: #f2caca; background: #241313; }
+.world-entry .delete-world[disabled] { opacity: .35; cursor: default; }
 
 .craft-dialog,
 .backpack-dialog { width: min(760px, calc(100% - 28px)); }
@@ -377,7 +386,7 @@ dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5
   .mc-shell { width: 100%; padding-top: env(safe-area-inset-top); }
   .mc-topbar, .mc-heading, .tips { width: calc(100% - 24px); margin-inline: auto; }
   .mc-heading { align-items: flex-start; flex-direction: column; padding-top: 24px; }
-  .world-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .world-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
   .world-actions button { min-width: 0; width: 100%; padding-inline: 10px; }
   .game-frame { border-inline: 0; border-radius: 0; }
   .canvas-wrap { aspect-ratio: 4 / 3; min-height: 330px; }
@@ -391,6 +400,9 @@ dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5
 }
 
 @media (max-width: 480px) {
+  .world-actions { grid-template-columns: 1fr; }
+  .world-entry { grid-template-columns: minmax(0, 1fr) auto; }
+  .world-entry .delete-world { grid-column: 2; }
   .save-state { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .hud { padding-inline: 8px; }
   .hearts { font-size: 15px; letter-spacing: 0; }

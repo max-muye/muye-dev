@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#050706">
     <title>MC 2D · Muye Games</title>
     <link rel="icon" href="/assets/favicon.png" type="image/png">
-    <link rel="stylesheet" href="/games/mc-2d/mc-2d.css?v=4">
+    <link rel="stylesheet" href="/games/mc-2d/mc-2d.css?v=5">
     <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body>
@@ -29,6 +29,7 @@
         </div>
         <div class="world-actions">
           <button id="save-button" type="button" data-i18n="save">Save</button>
+          <button id="load-world-button" class="secondary" type="button" data-i18n="loadWorld">Load world</button>
           <button id="new-world-button" class="secondary" type="button" data-i18n="newWorld">New world</button>
         </div>
       </section>
@@ -156,7 +157,7 @@
         <button class="dialog-close" value="cancel" aria-label="Close" title="Close">×</button>
         <p class="eyebrow" data-i18n="newAdventure">NEW ADVENTURE</p>
         <h2 data-i18n="makeWorld">Make a new world?</h2>
-        <p data-i18n="replaceWarning">This replaces the saved MC 2D world for this user on this browser.</p>
+        <p data-i18n="replaceWarning">This creates another saved world. Your other worlds stay safe.</p>
         <label><span data-i18n="worldName">World name</span><input id="world-name-input" maxlength="28" value="World 1"></label>
         <div class="dialog-actions">
           <button value="cancel" class="secondary" data-i18n="cancel">Cancel</button>
@@ -165,8 +166,20 @@
       </form>
     </dialog>
 
+    <dialog id="load-world-dialog" class="world-list-dialog">
+      <form method="dialog">
+        <button class="dialog-close" aria-label="Close" title="Close">×</button>
+        <p class="eyebrow" data-i18n="savedWorlds">SAVED WORLDS</p>
+        <h2 data-i18n="loadWorld">Load world</h2>
+        <div class="world-list" id="world-list"></div>
+        <div class="dialog-actions">
+          <button value="cancel" class="secondary" data-i18n="cancel">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script src="/games/mc-2d/mc-2d.js?v=5"></script>
+    <script src="/games/mc-2d/mc-2d.js?v=6"></script>
     <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

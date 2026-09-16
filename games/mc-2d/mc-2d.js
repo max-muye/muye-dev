@@ -16,6 +16,8 @@ const toastEl = document.querySelector("#toast");
 const overlay = document.querySelector("#start-overlay");
 const helpDialog = document.querySelector("#help-dialog");
 const newWorldDialog = document.querySelector("#new-world-dialog");
+const loadWorldDialog = document.querySelector("#load-world-dialog");
+const worldList = document.querySelector("#world-list");
 const craftDialog = document.querySelector("#craft-dialog");
 const backpackDialog = document.querySelector("#backpack-dialog");
 const worldNameInput = document.querySelector("#world-name-input");
@@ -32,7 +34,7 @@ const WORLD_WIDTH = 160;
 const WORLD_HEIGHT = 56;
 const TILE = 32;
 const REACH = 5.25;
-const SAVE_VERSION = 3;
+const SAVE_VERSION = 4;
 const HOTBAR_BLOCKS = [2, 3, 4, 8, 5, 7, 10];
 
 const blockData = {
@@ -50,6 +52,11 @@ const blockData = {
   12: { name: "flowerBud", solid: false, hardness: 0.12 },
   13: { name: "flower", solid: false, hardness: 0.15 },
   14: { name: "torch", solid: false, hardness: 0.12 },
+  15: { name: "sand", solid: true, hardness: 0.45 },
+  16: { name: "glass", solid: true, hardness: 0.35 },
+  17: { name: "bricks", solid: true, hardness: 2.1, tool: "pickaxe", tier: 1 },
+  18: { name: "bed", solid: false, hardness: 0.5, tool: "axe" },
+  19: { name: "ladder", solid: false, hardness: 0.35, tool: "axe" },
 };
 
 const toolData = {
@@ -71,6 +78,10 @@ const recipes = [
   { id: "stoneAxe", name: "stoneAxe", icon: "🪓", cost: { 3: 3, sticks: 2 }, tool: "stoneAxe" },
   { id: "furnace", name: "furnace", icon: "▣", cost: { 3: 8 }, output: { 10: 1 } },
   { id: "torches", name: "recipeTorches", icon: "♨", cost: { sticks: 1, 6: 1 }, output: { 14: 4 } },
+  { id: "glass", name: "recipeGlass", icon: "◇", cost: { 15: 2, 6: 1 }, output: { 16: 2 }, furnace: true },
+  { id: "bricks", name: "recipeBricks", icon: "▦", cost: { 3: 4 }, output: { 17: 4 } },
+  { id: "bed", name: "recipeBed", icon: "▬", cost: { 8: 3, 5: 3 }, output: { 18: 1 } },
+  { id: "ladders", name: "recipeLadders", icon: "╫", cost: { sticks: 7 }, output: { 19: 3 } },
   { id: "smeltIron", name: "smeltIron", icon: "♨", cost: { 9: 1, 6: 1 }, output: { ironIngot: 1 }, furnace: true },
   { id: "ironPickaxe", name: "ironPickaxe", icon: "⛏", cost: { ironIngot: 3, sticks: 2 }, tool: "ironPickaxe" },
   { id: "ironAxe", name: "ironAxe", icon: "🪓", cost: { ironIngot: 3, sticks: 2 }, tool: "ironAxe" },
@@ -134,11 +145,24 @@ const survivalText = {
   ru: { hunger: "Голод", help5: "Собирай предметы, сажай семена, ешь и освещай ночь факелами.", survival: "Выживание", treeSeed: "Семя дерева", flowerSeed: "Семя цветка", apple: "Яблоко", torch: "Факел", sapling: "Саженец", flowerBud: "Бутон", flower: "Цветок", recipeTorches: "4 факела", eat: "Съесть", plant: "Посадить", select: "Выбрать", selectedItem: "Выбрано: {item}", plantOnSoil: "Семена сажают в пустом месте над землёй", pickedUp: "Подобрано: {item}", mobHit: "Ночной моб ранен", playerHit: "Моб ранил тебя", starving: "Ты голодаешь", grew: "Семя выросло" },
   ar: { hunger: "الجوع", help5: "اجمع الأغراض وازرع البذور وكل واستخدم المشاعل للنجاة ليلا.", survival: "البقاء", treeSeed: "بذرة شجرة", flowerSeed: "بذرة زهرة", apple: "تفاحة", torch: "شعلة", sapling: "شتلة", flowerBud: "برعم", flower: "زهرة", recipeTorches: "4 مشاعل", eat: "أكل", plant: "زرع", select: "اختيار", selectedItem: "تم اختيار {item}", plantOnSoil: "تحتاج البذور إلى مكان فارغ فوق التربة", pickedUp: "التقطت {item}", mobHit: "أصبت وحش الليل", playerHit: "أصابك وحش", starving: "أنت جائع", grew: "نمت بذرتك" }
 };
-languages.forEach((code) => Object.assign(text[code], craftingText[code], survivalText[code]));
+const expansionText = {
+  en: { loadWorld: "Load world", savedWorlds: "SAVED WORLDS", replaceWarning: "This creates another saved world. Your other worlds stay safe.", load: "Load", delete: "Delete", activeWorld: "Playing now", worldSaved: "Saved {time}", noWorlds: "No saved worlds yet.", loadedWorld: "Loaded {world}", sand: "Sand", glass: "Glass", bricks: "Bricks", bed: "Bed", ladder: "Ladder", recipeGlass: "Smelt 2 glass", recipeBricks: "4 stone bricks", recipeBed: "Bed", recipeLadders: "3 ladders", bedSet: "Spawn set. You slept until morning.", zombie: "Zombie", spider: "Spider", slime: "Slime" },
+  zh: { loadWorld: "加载世界", savedWorlds: "已保存的世界", replaceWarning: "这会新建一个存档，其他世界会保留。", load: "加载", delete: "删除", activeWorld: "正在游玩", worldSaved: "保存于 {time}", noWorlds: "还没有已保存的世界。", loadedWorld: "已加载 {world}", sand: "沙子", glass: "玻璃", bricks: "石砖", bed: "床", ladder: "梯子", recipeGlass: "熔炼 2 块玻璃", recipeBricks: "4 块石砖", recipeBed: "床", recipeLadders: "3 个梯子", bedSet: "出生点已设置，睡到了早晨。", zombie: "僵尸", spider: "蜘蛛", slime: "史莱姆" },
+  ja: { loadWorld: "ワールドをロード", savedWorlds: "保存済みワールド", replaceWarning: "別のワールドを作成します。以前のワールドは残ります。", load: "ロード", delete: "削除", activeWorld: "プレイ中", worldSaved: "{time} に保存", noWorlds: "保存済みワールドはありません。", loadedWorld: "{world}をロードしました", sand: "砂", glass: "ガラス", bricks: "レンガ", bed: "ベッド", ladder: "はしご", recipeGlass: "ガラス2個を製錬", recipeBricks: "石レンガ4個", recipeBed: "ベッド", recipeLadders: "はしご3個", bedSet: "リスポーン地点を設定し、朝まで眠りました。", zombie: "ゾンビ", spider: "クモ", slime: "スライム" },
+  ko: { loadWorld: "월드 불러오기", savedWorlds: "저장된 월드", replaceWarning: "새 저장 월드를 만듭니다. 다른 월드는 유지됩니다.", load: "불러오기", delete: "삭제", activeWorld: "플레이 중", worldSaved: "{time} 저장", noWorlds: "저장된 월드가 없습니다.", loadedWorld: "{world} 불러옴", sand: "모래", glass: "유리", bricks: "벽돌", bed: "침대", ladder: "사다리", recipeGlass: "유리 2개 제련", recipeBricks: "석재 벽돌 4개", recipeBed: "침대", recipeLadders: "사다리 3개", bedSet: "스폰 지점을 정하고 아침까지 잤습니다.", zombie: "좀비", spider: "거미", slime: "슬라임" },
+  es: { loadWorld: "Cargar mundo", savedWorlds: "MUNDOS GUARDADOS", replaceWarning: "Crea otro mundo guardado. Los demás se conservan.", load: "Cargar", delete: "Borrar", activeWorld: "Jugando ahora", worldSaved: "Guardado {time}", noWorlds: "Aún no hay mundos guardados.", loadedWorld: "Cargado {world}", sand: "Arena", glass: "Vidrio", bricks: "Ladrillos", bed: "Cama", ladder: "Escalera", recipeGlass: "Fundir 2 vidrios", recipeBricks: "4 ladrillos", recipeBed: "Cama", recipeLadders: "3 escaleras", bedSet: "Punto de aparición fijado. Dormiste hasta la mañana.", zombie: "Zombi", spider: "Araña", slime: "Slime" },
+  fr: { loadWorld: "Charger un monde", savedWorlds: "MONDES SAUVEGARDÉS", replaceWarning: "Crée un autre monde. Les autres restent sauvegardés.", load: "Charger", delete: "Supprimer", activeWorld: "Monde actif", worldSaved: "Sauvé {time}", noWorlds: "Aucun monde sauvegardé.", loadedWorld: "{world} chargé", sand: "Sable", glass: "Verre", bricks: "Briques", bed: "Lit", ladder: "Échelle", recipeGlass: "Fondre 2 verres", recipeBricks: "4 briques", recipeBed: "Lit", recipeLadders: "3 échelles", bedSet: "Réapparition définie. Tu as dormi jusqu'au matin.", zombie: "Zombie", spider: "Araignée", slime: "Slime" },
+  de: { loadWorld: "Welt laden", savedWorlds: "GESPEICHERTE WELTEN", replaceWarning: "Erstellt eine weitere Welt. Andere Welten bleiben erhalten.", load: "Laden", delete: "Löschen", activeWorld: "Gerade aktiv", worldSaved: "Gespeichert {time}", noWorlds: "Noch keine Welten gespeichert.", loadedWorld: "{world} geladen", sand: "Sand", glass: "Glas", bricks: "Ziegel", bed: "Bett", ladder: "Leiter", recipeGlass: "2 Glas schmelzen", recipeBricks: "4 Steinziegel", recipeBed: "Bett", recipeLadders: "3 Leitern", bedSet: "Spawn gesetzt. Du hast bis zum Morgen geschlafen.", zombie: "Zombie", spider: "Spinne", slime: "Schleim" },
+  pt: { loadWorld: "Carregar mundo", savedWorlds: "MUNDOS SALVOS", replaceWarning: "Cria outro mundo salvo. Os outros ficam seguros.", load: "Carregar", delete: "Excluir", activeWorld: "Jogando agora", worldSaved: "Salvo {time}", noWorlds: "Ainda não há mundos salvos.", loadedWorld: "Carregou {world}", sand: "Areia", glass: "Vidro", bricks: "Tijolos", bed: "Cama", ladder: "Escada", recipeGlass: "Fundir 2 vidros", recipeBricks: "4 tijolos", recipeBed: "Cama", recipeLadders: "3 escadas", bedSet: "Ponto de retorno definido. Você dormiu até de manhã.", zombie: "Zumbi", spider: "Aranha", slime: "Slime" },
+  ru: { loadWorld: "Загрузить мир", savedWorlds: "СОХРАНЁННЫЕ МИРЫ", replaceWarning: "Создаёт ещё один мир. Остальные сохранятся.", load: "Загрузить", delete: "Удалить", activeWorld: "Текущий мир", worldSaved: "Сохранено {time}", noWorlds: "Сохранённых миров пока нет.", loadedWorld: "Загружен {world}", sand: "Песок", glass: "Стекло", bricks: "Кирпичи", bed: "Кровать", ladder: "Лестница", recipeGlass: "Выплавить 2 стекла", recipeBricks: "4 каменных кирпича", recipeBed: "Кровать", recipeLadders: "3 лестницы", bedSet: "Точка возрождения задана. Ты проспал до утра.", zombie: "Зомби", spider: "Паук", slime: "Слизень" },
+  ar: { loadWorld: "تحميل عالم", savedWorlds: "العوالم المحفوظة", replaceWarning: "ينشئ عالما محفوظا آخر وتبقى عوالمك الأخرى.", load: "تحميل", delete: "حذف", activeWorld: "العالم الحالي", worldSaved: "حُفظ {time}", noWorlds: "لا توجد عوالم محفوظة بعد.", loadedWorld: "تم تحميل {world}", sand: "رمل", glass: "زجاج", bricks: "طوب", bed: "سرير", ladder: "سلم", recipeGlass: "صهر قطعتين زجاج", recipeBricks: "4 قطع طوب", recipeBed: "سرير", recipeLadders: "3 سلالم", bedSet: "تم تعيين نقطة الظهور والنوم حتى الصباح.", zombie: "زومبي", spider: "عنكبوت", slime: "هلام" }
+};
+languages.forEach((code) => Object.assign(text[code], craftingText[code], survivalText[code], expansionText[code]));
 let lang = languages.includes(localStorage.getItem("muye-lang")) ? localStorage.getItem("muye-lang") : "en";
 let playerKey = "";
+let worldId = "";
 let world = [];
-let inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, sticks: 0, ironIngot: 0, treeSeed: 0, flowerSeed: 0, apple: 0 };
+let inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, sticks: 0, ironIngot: 0, treeSeed: 0, flowerSeed: 0, apple: 0 };
 let tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false };
 let equippedTool = "hand";
 let selectedSlot = 0;
@@ -212,7 +236,46 @@ async function findPlayerKey() {
   } catch {}
 }
 
-function saveKey() { return `muye-game:${playerKey}:mc-2d`; }
+function legacySaveKey() { return `muye-game:${playerKey}:mc-2d`; }
+function worldIndexKey() { return `muye-game:${playerKey}:mc-2d-worlds`; }
+function activeWorldKey() { return `muye-game:${playerKey}:mc-2d-active`; }
+function saveKey(id = worldId) { return `muye-game:${playerKey}:mc-2d:${id}`; }
+function createWorldId() { return globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`; }
+
+function readWorldIndex() {
+  try {
+    const value = JSON.parse(localStorage.getItem(worldIndexKey()) || "[]");
+    return Array.isArray(value) ? value.filter((item) => item?.id) : [];
+  } catch { return []; }
+}
+
+function writeWorldIndex(worlds) {
+  localStorage.setItem(worldIndexKey(), JSON.stringify(worlds.slice(0, 12)));
+}
+
+function initializeWorldStorage() {
+  let worlds = readWorldIndex();
+  const legacy = localStorage.getItem(legacySaveKey());
+  if (legacy && worlds.length === 0) {
+    const migratedId = "original-world";
+    try {
+      const saved = JSON.parse(legacy);
+      localStorage.setItem(saveKey(migratedId), legacy);
+      worlds = [{ id: migratedId, name: saved?.worldName || t("worldDefault"), savedAt: saved?.savedAt || Date.now(), day: saved?.day || 1 }];
+      writeWorldIndex(worlds);
+      localStorage.setItem(activeWorldKey(), migratedId);
+    } catch {}
+  }
+  worldId = localStorage.getItem(activeWorldKey()) || worlds[0]?.id || createWorldId();
+  localStorage.setItem(activeWorldKey(), worldId);
+}
+
+function updateWorldIndex(savedAt = Date.now()) {
+  const worlds = readWorldIndex().filter((item) => item.id !== worldId);
+  worlds.unshift({ id: worldId, name: worldName || t("worldDefault"), savedAt, day });
+  writeWorldIndex(worlds);
+  localStorage.setItem(activeWorldKey(), worldId);
+}
 
 function randomGenerator(seed) {
   let value = seed >>> 0;
@@ -242,7 +305,8 @@ function generateWorld(seed = Math.floor(Math.random() * 2147483647), name = t("
     const surface = Math.round(height + Math.sin(x / 9) * 2);
     heights.push(surface);
     for (let y = surface; y < WORLD_HEIGHT; y += 1) {
-      let type = y === surface ? 1 : y < surface + 4 ? 2 : 3;
+      const sandy = x % 41 >= 31 && x % 41 <= 36;
+      let type = sandy && y < surface + 3 ? 15 : y === surface ? 1 : y < surface + 4 ? 2 : 3;
       if (type === 3 && y > surface + 4 && random() < 0.075) type = 6;
       if (type === 3 && y > surface + 7 && random() < 0.04) type = 9;
       if (type === 3 && y > surface + 12 && random() < 0.018) type = 7;
@@ -267,7 +331,7 @@ function generateWorld(seed = Math.floor(Math.random() * 2147483647), name = t("
   const spawnX = 12;
   const spawnY = heights[spawnX] - 2;
   player = { x: spawnX + 0.15, y: spawnY, vx: 0, vy: 0, width: 0.72, height: 1.78, grounded: false, health: 5, facing: 1, spawnX: spawnX + 0.15, spawnY };
-  inventory = { 2: 8, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, sticks: 0, ironIngot: 0, treeSeed: 1, flowerSeed: 1, apple: 2 };
+  inventory = { 2: 8, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, sticks: 0, ironIngot: 0, treeSeed: 1, flowerSeed: 1, apple: 2 };
   tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false };
   equippedTool = "hand";
   selectedSlot = 0;
@@ -312,13 +376,13 @@ function decodeWorld(encoded) {
   return values.length === WORLD_WIDTH * WORLD_HEIGHT ? values : null;
 }
 
-function loadWorld() {
+function loadWorld(id = worldId) {
   try {
-    const saved = JSON.parse(localStorage.getItem(saveKey()) || "null");
+    const saved = JSON.parse(localStorage.getItem(saveKey(id)) || "null");
     const decoded = decodeWorld(saved?.world);
     if (!saved || !decoded) return false;
     world = decoded;
-    inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, sticks: 0, ironIngot: 0, treeSeed: 0, flowerSeed: 0, apple: 0, ...saved.inventory };
+    inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, sticks: 0, ironIngot: 0, treeSeed: 0, flowerSeed: 0, apple: 0, ...saved.inventory };
     tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false, ...saved.tools };
     equippedTool = tools[saved.equippedTool] ? saved.equippedTool : "hand";
     if ((saved.version || 1) < 2) {
@@ -345,6 +409,9 @@ function loadWorld() {
     elapsed = Number(saved.elapsed) || 0;
     day = Number(saved.day) || 1;
     player = { ...player, ...saved.player, vx: 0, vy: 0 };
+    worldId = id;
+    localStorage.setItem(activeWorldKey(), worldId);
+    updateWorldIndex(saved.savedAt || Date.now());
     return true;
   } catch { return false; }
 }
@@ -372,12 +439,63 @@ function saveWorld(manual = false) {
   };
   try {
     localStorage.setItem(saveKey(), JSON.stringify(payload));
+    updateWorldIndex(payload.savedAt);
     dirty = false;
     saveState.textContent = playerKey.startsWith("user:") ? t("accountSave") : t("deviceSave");
     if (manual) showToast(t("saved"));
   } catch {
     saveState.textContent = t("saved");
   }
+}
+
+function renderWorldList() {
+  if (!worldList) return;
+  const worlds = readWorldIndex();
+  worldList.innerHTML = "";
+  if (!worlds.length) {
+    const empty = document.createElement("p");
+    empty.textContent = t("noWorlds");
+    worldList.appendChild(empty);
+    return;
+  }
+  worlds.forEach((entry) => {
+    const row = document.createElement("article");
+    row.className = "world-entry";
+    const copy = document.createElement("span");
+    copy.className = "world-entry-copy";
+    const name = document.createElement("strong");
+    name.textContent = entry.name || t("worldDefault");
+    const detail = document.createElement("small");
+    const time = entry.savedAt ? new Date(entry.savedAt).toLocaleString(lang, { dateStyle: "medium", timeStyle: "short" }) : "";
+    detail.textContent = entry.id === worldId ? t("activeWorld") : t("worldSaved", { time });
+    copy.append(name, detail);
+    const loadButton = document.createElement("button");
+    loadButton.type = "button";
+    loadButton.textContent = t("load");
+    loadButton.disabled = entry.id === worldId;
+    loadButton.addEventListener("click", () => {
+      saveWorld();
+      if (!loadWorld(entry.id)) return;
+      running = false;
+      paused = true;
+      overlay.hidden = false;
+      overlay.querySelector("p").textContent = t("loadedWorld", { world: worldName });
+      renderHotbar(); renderCrafting(); renderBackpack(); updateHud();
+      loadWorldDialog.close();
+    });
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "delete-world";
+    deleteButton.textContent = t("delete");
+    deleteButton.disabled = entry.id === worldId;
+    deleteButton.addEventListener("click", () => {
+      localStorage.removeItem(saveKey(entry.id));
+      writeWorldIndex(readWorldIndex().filter((item) => item.id !== entry.id));
+      renderWorldList();
+    });
+    row.append(copy, loadButton, deleteButton);
+    worldList.appendChild(row);
+  });
 }
 
 function blockName(id) { return t(blockData[id]?.name || "stone"); }
@@ -435,6 +553,25 @@ function drawBlock(target, id, x, y, size) {
     target.fillStyle = "#80542d"; target.fillRect(unit*3.5, unit*2.5, unit, unit*5.5);
     target.fillStyle = "#ff8b35"; target.fillRect(unit*2.5, unit, unit*3, unit*3);
     target.fillStyle = "#ffe36c"; target.fillRect(unit*3.25, unit*0.5, unit*1.5, unit*2);
+  } else if (id === 15) {
+    target.fillStyle = "#d8bd72"; target.fillRect(0, 0, size, size);
+    target.fillStyle = "#f0d994"; [[1,1],[5,2],[3,5],[6,6]].forEach(([px,py]) => target.fillRect(px*unit, py*unit, unit, unit));
+  } else if (id === 16) {
+    target.fillStyle = "rgba(126,201,214,.35)"; target.fillRect(0, 0, size, size);
+    target.fillStyle = "#c9f3f4"; target.fillRect(unit, unit, unit*4, unit*.6); target.fillRect(unit, unit, unit*.6, unit*4);
+    target.strokeStyle = "#72aeb6"; target.lineWidth = Math.max(1, unit*.5); target.strokeRect(unit*.5, unit*.5, size-unit, size-unit);
+  } else if (id === 17) {
+    target.fillStyle = "#8b5b4d"; target.fillRect(0, 0, size, size);
+    target.strokeStyle = "#d19a7f"; target.lineWidth = Math.max(1, unit*.5);
+    for (let row = 0; row < 4; row += 1) { const yy = row*unit*2; target.beginPath(); target.moveTo(0, yy); target.lineTo(size, yy); target.stroke(); const xx = row%2 ? size*.35 : size*.65; target.beginPath(); target.moveTo(xx, yy); target.lineTo(xx, yy+unit*2); target.stroke(); }
+  } else if (id === 18) {
+    target.fillStyle = "#76502d"; target.fillRect(unit*.5, unit*6, unit*7, unit*1.4);
+    target.fillStyle = "#e5ddd0"; target.fillRect(unit*.7, unit*3, unit*2.2, unit*3);
+    target.fillStyle = "#b9343f"; target.fillRect(unit*2.9, unit*3, unit*4.4, unit*3);
+    target.fillStyle = "#68431f"; target.fillRect(unit*.7, unit*7, unit*.7, unit); target.fillRect(unit*6.6, unit*7, unit*.7, unit);
+  } else if (id === 19) {
+    target.fillStyle = "#9b642f"; target.fillRect(unit*1.2, 0, unit, size); target.fillRect(unit*5.8, 0, unit, size);
+    for (let row = 1; row < 8; row += 2) target.fillRect(unit*1.2, unit*row, unit*5.6, unit*.8);
   }
   target.strokeStyle = "rgba(0,0,0,.17)";
   target.strokeRect(0.5, 0.5, size - 1, size - 1);
@@ -495,12 +632,12 @@ function selectBackpackBlock(id) {
 
 function renderBackpack() {
   if (!backpackBlocks || !backpackMaterials || !backpackTools || !backpackSurvival) return;
-  const blockIds = [2, 3, 4, 5, 6, 7, 8, 9, 10, 14];
+  const blockIds = [2, 3, 4, 5, 6, 7, 8, 9, 10, 14, 15, 16, 17, 18, 19];
   const selectedBlock = selectedItem;
   backpackBlocks.innerHTML = "";
   blockIds.forEach((id) => {
     const amount = inventory[id] || 0;
-    const placeable = HOTBAR_BLOCKS.includes(id) || id === 14;
+    const placeable = ![6, 7, 9].includes(id);
     const button = document.createElement("button");
     button.type = "button";
     button.className = `backpack-slot${id === selectedBlock ? " selected" : ""}`;
@@ -517,7 +654,7 @@ function renderBackpack() {
     count.textContent = `×${amount}`;
     button.append(icon, name, count);
     if (placeable) button.addEventListener("click", () => {
-      if (id === 14) {
+      if (!HOTBAR_BLOCKS.includes(id)) {
         selectedItem = id;
         dirty = true;
         renderHotbar();
@@ -709,6 +846,15 @@ function finishMining() {
 }
 
 function placeTile(x, y) {
+  if (getTile(x, y) === 18 && tileInReach(x, y)) {
+    player.spawnX = x + 0.14;
+    player.spawnY = y - player.height;
+    if (isNightTime()) { elapsed = 24; day += 1; mobs = []; }
+    dirty = true;
+    updateHud();
+    showToast(t("bedSet"));
+    return;
+  }
   if (selectedItem === "treeSeed" || selectedItem === "flowerSeed") {
     if (!inventory[selectedItem]) return showToast(t("noBlock"));
     if (!tileInReach(x, y)) return showToast(t("tooFar"));
@@ -815,7 +961,10 @@ function spawnMob() {
   let ground = 1;
   while (ground < WORLD_HEIGHT - 2 && !isSolid(x, ground)) ground += 1;
   if (ground >= WORLD_HEIGHT - 2 || Math.abs(x - player.x) < 7) return;
-  mobs.push({ x: x + 0.15, y: ground - 1.55, vx: 0, vy: 0, hp: 3, attack: 0, grounded: false });
+  const roll = Math.random();
+  const type = roll < 0.48 ? "zombie" : roll < 0.78 ? "spider" : "slime";
+  const stats = type === "zombie" ? { width: 0.72, height: 1.55, hp: 3 } : type === "spider" ? { width: 1.08, height: 0.62, hp: 2 } : { width: 0.82, height: 0.82, hp: 2 };
+  mobs.push({ type, x: x + 0.08, y: ground - stats.height, vx: 0, vy: 0, hp: stats.hp, maxHp: stats.hp, attack: 0, grounded: false, ...stats });
 }
 
 function updateMobs(dt) {
@@ -825,23 +974,26 @@ function updateMobs(dt) {
     if (!isNightTime()) return false;
     mob.attack = Math.max(0, (mob.attack || 0) - dt);
     const direction = Math.sign(player.x - mob.x) || 1;
-    mob.vx += (direction * 1.55 - mob.vx) * Math.min(1, dt * 4);
+    const speed = mob.type === "spider" ? 2.6 : mob.type === "slime" ? 1.15 : 1.55;
+    mob.vx += (direction * speed - mob.vx) * Math.min(1, dt * 4);
+    if (mob.grounded && mob.type === "slime") mob.vy = -5.4;
+    else if (mob.grounded && mob.type === "spider" && Math.abs(player.x - mob.x) < 5) mob.vy = -6.8;
     mob.vy = Math.min(12, mob.vy + 22 * dt);
     const nextX = mob.x + mob.vx * dt;
-    if (!collides(nextX, mob.y, 0.72, 1.55)) mob.x = nextX;
+    if (!collides(nextX, mob.y, mob.width, mob.height)) mob.x = nextX;
     else if (mob.grounded) mob.vy = -7;
     const nextY = mob.y + mob.vy * dt;
     mob.grounded = false;
-    if (!collides(mob.x, nextY, 0.72, 1.55)) mob.y = nextY;
+    if (!collides(mob.x, nextY, mob.width, mob.height)) mob.y = nextY;
     else { if (mob.vy > 0) mob.grounded = true; mob.vy = 0; }
-    const touches = player.x < mob.x + 0.72 && player.x + player.width > mob.x && player.y < mob.y + 1.55 && player.y + player.height > mob.y;
+    const touches = player.x < mob.x + mob.width && player.x + player.width > mob.x && player.y < mob.y + mob.height && player.y + player.height > mob.y;
     if (touches && mob.attack <= 0) { damagePlayer(1); mob.attack = 1.35; player.vx = -direction * 5; }
     return mob.hp > 0 && mob.y < WORLD_HEIGHT + 2;
   });
 }
 
 function attackMobAt(x, y) {
-  const index = mobs.findIndex((mob) => x + 1 > mob.x && x < mob.x + 0.72 && y + 1 > mob.y && y < mob.y + 1.55 && tileInReach(x, y));
+  const index = mobs.findIndex((mob) => x + 1 > mob.x && x < mob.x + mob.width && y + 1 > mob.y && y < mob.y + mob.height && tileInReach(x, y));
   if (index < 0) return false;
   const mob = mobs[index];
   const tool = toolData[equippedTool] || toolData.hand;
@@ -849,7 +1001,9 @@ function attackMobAt(x, y) {
   mob.vx = Math.sign(mob.x - player.x) * 6;
   showToast(t("mobHit"));
   if (mob.hp <= 0) {
-    if (Math.random() < 0.45) spawnDrop("apple", mob.x + 0.35, mob.y + 0.5);
+    if (mob.type === "zombie" && Math.random() < 0.55) spawnDrop("apple", mob.x + 0.35, mob.y + 0.5);
+    if (mob.type === "spider" && Math.random() < 0.7) spawnDrop("sticks", mob.x + 0.35, mob.y + 0.3, 2);
+    if (mob.type === "slime" && Math.random() < 0.65) spawnDrop("flowerSeed", mob.x + 0.35, mob.y + 0.3);
     mobs.splice(index, 1);
   }
   dirty = true;
@@ -873,6 +1027,13 @@ function collides(x, y, width = player.width, height = player.height) {
   const bottom = Math.floor(y + height - 0.001);
   for (let ty = top; ty <= bottom; ty += 1) for (let tx = left; tx <= right; tx += 1) if (isSolid(tx, ty)) return true;
   return false;
+}
+
+function playerOnLadder() {
+  const left = Math.floor(player.x + 0.1);
+  const right = Math.floor(player.x + player.width - 0.1);
+  const middle = Math.floor(player.y + player.height * 0.55);
+  return getTile(left, middle) === 19 || getTile(right, middle) === 19;
 }
 
 function movePlayer(dx, dy) {
@@ -917,8 +1078,10 @@ function update(dt) {
   const targetVelocity = (right ? 1 : 0) - (left ? 1 : 0);
   player.vx += (targetVelocity * 6.4 - player.vx) * Math.min(1, dt * (player.grounded ? 13 : 5));
   if (targetVelocity) player.facing = Math.sign(targetVelocity);
-  if (jump && player.grounded) { player.vy = -9.3; player.grounded = false; keys.delete("touch-jump"); }
-  player.vy = Math.min(14, player.vy + 24 * dt);
+  const onLadder = playerOnLadder();
+  if (jump && (player.grounded || onLadder)) { player.vy = onLadder ? -4.8 : -9.3; player.grounded = false; keys.delete("touch-jump"); }
+  if (onLadder && !jump) player.vy *= Math.max(0, 1 - dt * 10);
+  player.vy = Math.min(14, player.vy + (onLadder ? 5 : 24) * dt);
   movePlayer(player.vx * dt, player.vy * dt);
   if (player.y > WORLD_HEIGHT + 4) { damagePlayer(1); respawn(); }
   if (mining) {
@@ -991,14 +1154,24 @@ function drawMobs() {
   mobs.forEach((mob) => {
     const x = Math.round((mob.x - camera.x) * TILE);
     const y = Math.round((mob.y - camera.y) * TILE);
-    const width = 0.72 * TILE;
-    const height = 1.55 * TILE;
-    ctx.fillStyle = "#527a43"; ctx.fillRect(x + width*0.14, y, width*0.72, height*0.34);
-    ctx.fillStyle = "#d7e9b8"; ctx.fillRect(x + width*0.25, y + height*0.12, 3, 3); ctx.fillRect(x + width*0.65, y + height*0.12, 3, 3);
-    ctx.fillStyle = "#58426e"; ctx.fillRect(x + width*0.08, y + height*0.34, width*0.84, height*0.42);
-    ctx.fillStyle = "#303d36"; ctx.fillRect(x + width*0.1, y + height*0.76, width*0.34, height*0.24); ctx.fillRect(x + width*0.56, y + height*0.76, width*0.34, height*0.24);
+    const width = mob.width * TILE;
+    const height = mob.height * TILE;
+    if (mob.type === "spider") {
+      ctx.fillStyle = "#30263a"; ctx.fillRect(x + width*.2, y + height*.08, width*.6, height*.7);
+      ctx.fillStyle = "#17131d"; for (let i = 0; i < 4; i += 1) { const yy = y + height*(.18+i*.14); ctx.fillRect(x, yy, width*.28, 3); ctx.fillRect(x+width*.72, yy, width*.28, 3); }
+      ctx.fillStyle = "#e95248"; ctx.fillRect(x+width*.36, y+height*.25, 3, 3); ctx.fillRect(x+width*.6, y+height*.25, 3, 3);
+    } else if (mob.type === "slime") {
+      ctx.fillStyle = "rgba(89,192,105,.84)"; ctx.fillRect(x, y + height*.1, width, height*.9);
+      ctx.fillStyle = "#183c24"; ctx.fillRect(x+width*.22, y+height*.4, 4, 4); ctx.fillRect(x+width*.68, y+height*.4, 4, 4);
+      ctx.fillStyle = "#d6f5d8"; ctx.fillRect(x+width*.35, y+height*.67, width*.3, 3);
+    } else {
+      ctx.fillStyle = "#527a43"; ctx.fillRect(x + width*.14, y, width*.72, height*.34);
+      ctx.fillStyle = "#d7e9b8"; ctx.fillRect(x + width*.25, y + height*.12, 3, 3); ctx.fillRect(x + width*.65, y + height*.12, 3, 3);
+      ctx.fillStyle = "#58426e"; ctx.fillRect(x + width*.08, y + height*.34, width*.84, height*.42);
+      ctx.fillStyle = "#303d36"; ctx.fillRect(x + width*.1, y + height*.76, width*.34, height*.24); ctx.fillRect(x + width*.56, y + height*.76, width*.34, height*.24);
+    }
     ctx.fillStyle = "#b93030"; ctx.fillRect(x, y - 6, width, 3);
-    ctx.fillStyle = "#65aa45"; ctx.fillRect(x, y - 6, width * Math.max(0, mob.hp) / 3, 3);
+    ctx.fillStyle = "#65aa45"; ctx.fillRect(x, y - 6, width * Math.max(0, mob.hp) / (mob.maxHp || 3), 3);
   });
 }
 
@@ -1203,12 +1376,15 @@ function openBackpack() {
 document.querySelector("#backpack-button").addEventListener("click", openBackpack);
 backpackDialog.addEventListener("close", () => { if (backpackResume) setPaused(false); backpackResume = false; });
 document.querySelector("#save-button").addEventListener("click", () => saveWorld(true));
+document.querySelector("#load-world-button").addEventListener("click", () => { renderWorldList(); loadWorldDialog.showModal(); });
 document.querySelector("#play-button").addEventListener("click", startPlaying);
 document.querySelector("#pause-button").addEventListener("click", () => setPaused(!paused));
 document.querySelector("#help-button").addEventListener("click", () => helpDialog.showModal());
 document.querySelector("#new-world-button").addEventListener("click", () => { worldNameInput.value = worldName || t("worldDefault"); newWorldDialog.showModal(); });
 document.querySelector("#confirm-new-world").addEventListener("click", (event) => {
   event.preventDefault();
+  saveWorld();
+  worldId = createWorldId();
   generateWorld(Math.floor(Math.random() * 2147483647), worldNameInput.value.trim() || t("worldDefault"));
   saveWorld(true);
   newWorldDialog.close();
@@ -1227,6 +1403,7 @@ document.addEventListener("visibilitychange", () => { if (document.hidden && run
 async function boot() {
   applyLanguage();
   await findPlayerKey();
+  initializeWorldStorage();
   if (!loadWorld()) generateWorld();
   worldNameInput.value = worldName;
   renderHotbar();

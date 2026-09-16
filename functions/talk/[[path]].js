@@ -11,6 +11,9 @@ function localtalkEnv(env) {
 
 export function onRequest(context) {
   const url = new URL(context.request.url);
+  if (url.pathname === "/talk/download" || url.pathname === "/talk/download/") {
+    return Response.redirect(new URL("/download/#localtalk", url), 302);
+  }
   if (url.pathname === "/talk/manifest.webmanifest") {
     return context.env.ASSETS.fetch(new URL("/talk-manifest.webmanifest", url));
   }

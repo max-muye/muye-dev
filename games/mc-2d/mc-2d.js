@@ -156,6 +156,7 @@ let lastFrame = performance.now();
 let camera = { x: 0, y: 0 };
 let pointerTile = null;
 let mining = null;
+let activeMiningPointer = null;
 let keys = new Set();
 let craftResume = false;
 let backpackResume = false;
@@ -672,9 +673,10 @@ function miningTime(id) {
   return block.hardness / speed;
 }
 
-function startMining(x, y, pointerType = "mouse") {
+function startMining(x, y, pointerType = "mouse", pointerId = null) {
+  mining = null;
   const id = getTile(x, y);
-  if (!id) { mining = null; return; }
+  if (!id) return;
   if (!tileInReach(x, y)) return showToast(t("tooFar"));
   const block = blockData[id];
   const tool = toolData[equippedTool] || toolData.hand;
@@ -682,8 +684,13 @@ function startMining(x, y, pointerType = "mouse") {
     mining = null;
     return showToast(t("needBetterPickaxe"));
   }
-  mining = { x, y, id, progress: 0, duration: miningTime(id), pointerType };
+  mining = { x, y, id, progress: 0, duration: miningTime(id), pointerType, pointerId };
   showToast(t("mining", { block: blockName(id) }));
+}
+
+function retargetMining(x, y, pointerType = "mouse", pointerId = null) {
+  if (mining?.x === x && mining?.y === y && mining.pointerId === pointerId) return;
+  startMining(x, y, pointerType, pointerId);
 }
 
 function finishMining() {
@@ -1097,7 +1104,7 @@ function frame(now) {
 
 function setPaused(value) {
   paused = value;
-  if (paused) mining = null;
+  if (paused) { mining = null; activeMiningPointer = null; }
   document.querySelector("#pause-button").textContent = paused ? t("resume") : t("pause");
   if (paused && running) showToast(t("paused"));
 }
@@ -1110,22 +1117,40 @@ function startPlaying() {
   document.querySelector("#pause-button").textContent = t("pause");
 }
 
-canvas.addEventListener("pointermove", (event) => { pointerTile = pointerToTile(event); });
-canvas.addEventListener("pointerleave", () => { pointerTile = null; });
+canvas.addEventListener("pointermove", (event) => {
+  const tile = pointerToTile(event);
+  pointerTile = tile;
+  if (!activeMiningPointer || activeMiningPointer.pointerId !== event.pointerId) return;
+  if (activeMiningPointer.pointerType === "mouse" && !(event.buttons & 1)) {
+    activeMiningPointer = null;
+    mining = null;
+    return;
+  }
+  if (tile.x === activeMiningPointer.x && tile.y === activeMiningPointer.y) return;
+  activeMiningPointer.x = tile.x;
+  activeMiningPointer.y = tile.y;
+  retargetMining(tile.x, tile.y, activeMiningPointer.pointerType, event.pointerId);
+});
+canvas.addEventListener("pointerleave", () => { pointerTile = null; mining = null; activeMiningPointer = null; });
 canvas.addEventListener("pointerdown", (event) => {
   if (!running || paused) return;
   event.preventDefault();
   const tile = pointerToTile(event);
   pointerTile = tile;
-  if (event.button === 2 || touchMode === "place") { mining = null; placeTile(tile.x, tile.y); }
+  if (event.button === 2 || touchMode === "place") { mining = null; activeMiningPointer = null; placeTile(tile.x, tile.y); }
   else {
-    if (attackMobAt(tile.x, tile.y)) return;
-    startMining(tile.x, tile.y, event.pointerType || "mouse");
+    if (attackMobAt(tile.x, tile.y)) { activeMiningPointer = null; return; }
+    const pointerType = event.pointerType || "mouse";
+    activeMiningPointer = { pointerId: event.pointerId, pointerType, x: tile.x, y: tile.y };
+    startMining(tile.x, tile.y, pointerType, event.pointerId);
     if (event.pointerType === "mouse") canvas.setPointerCapture?.(event.pointerId);
   }
 });
-canvas.addEventListener("pointerup", (event) => { if (mining?.pointerType === "mouse") mining = null; });
-canvas.addEventListener("pointercancel", () => { mining = null; });
+canvas.addEventListener("pointerup", (event) => {
+  if (activeMiningPointer?.pointerId === event.pointerId) activeMiningPointer = null;
+  if (mining?.pointerType === "mouse") mining = null;
+});
+canvas.addEventListener("pointercancel", () => { mining = null; activeMiningPointer = null; });
 canvas.addEventListener("contextmenu", (event) => event.preventDefault());
 
 window.addEventListener("keydown", (event) => {

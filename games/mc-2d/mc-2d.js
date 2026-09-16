@@ -29,12 +29,14 @@ const backpackBlocks = document.querySelector("#backpack-blocks");
 const backpackMaterials = document.querySelector("#backpack-materials");
 const backpackTools = document.querySelector("#backpack-tools");
 const backpackSurvival = document.querySelector("#backpack-survival");
+const worldSpeedInputs = [...document.querySelectorAll('input[name="world-speed"]')];
+const gameModeInputs = [...document.querySelectorAll('input[name="game-mode"]')];
 
 const WORLD_WIDTH = 160;
 const WORLD_HEIGHT = 56;
 const TILE = 32;
 const REACH = 5.25;
-const SAVE_VERSION = 4;
+const SAVE_VERSION = 5;
 const HOTBAR_BLOCKS = [2, 3, 4, 8, 5, 7, 10];
 
 const blockData = {
@@ -57,6 +59,8 @@ const blockData = {
   17: { name: "bricks", solid: true, hardness: 2.1, tool: "pickaxe", tier: 1 },
   18: { name: "bed", solid: false, hardness: 0.5, tool: "axe" },
   19: { name: "ladder", solid: false, hardness: 0.35, tool: "axe" },
+  20: { name: "water", solid: false, hardness: 0.25, fluid: true },
+  21: { name: "lava", solid: false, hardness: 0.35, fluid: true, hot: true },
 };
 
 const toolData = {
@@ -157,7 +161,19 @@ const expansionText = {
   ru: { loadWorld: "Загрузить мир", savedWorlds: "СОХРАНЁННЫЕ МИРЫ", replaceWarning: "Создаёт ещё один мир. Остальные сохранятся.", load: "Загрузить", delete: "Удалить", activeWorld: "Текущий мир", worldSaved: "Сохранено {time}", noWorlds: "Сохранённых миров пока нет.", loadedWorld: "Загружен {world}", sand: "Песок", glass: "Стекло", bricks: "Кирпичи", bed: "Кровать", ladder: "Лестница", recipeGlass: "Выплавить 2 стекла", recipeBricks: "4 каменных кирпича", recipeBed: "Кровать", recipeLadders: "3 лестницы", bedSet: "Точка возрождения задана. Ты проспал до утра.", zombie: "Зомби", spider: "Паук", slime: "Слизень" },
   ar: { loadWorld: "تحميل عالم", savedWorlds: "العوالم المحفوظة", replaceWarning: "ينشئ عالما محفوظا آخر وتبقى عوالمك الأخرى.", load: "تحميل", delete: "حذف", activeWorld: "العالم الحالي", worldSaved: "حُفظ {time}", noWorlds: "لا توجد عوالم محفوظة بعد.", loadedWorld: "تم تحميل {world}", sand: "رمل", glass: "زجاج", bricks: "طوب", bed: "سرير", ladder: "سلم", recipeGlass: "صهر قطعتين زجاج", recipeBricks: "4 قطع طوب", recipeBed: "سرير", recipeLadders: "3 سلالم", bedSet: "تم تعيين نقطة الظهور والنوم حتى الصباح.", zombie: "زومبي", spider: "عنكبوت", slime: "هلام" }
 };
-languages.forEach((code) => Object.assign(text[code], craftingText[code], survivalText[code], expansionText[code]));
+const worldOptionText = {
+  en: { water: "Water", lava: "Lava", worldSpeed: "World speed", slowMode: "Slow", fastMode: "Fast", gameMode: "Game mode", survivalMode: "Survival", creativeMode: "Creative", rainy: "Rain", creativeNotice: "Creative mode: build freely.", lavaBurn: "Lava burned you", slept: "You slept until morning.", bedSet: "Spawn set. You slept until morning." },
+  zh: { water: "水", lava: "岩浆", worldSpeed: "世界速度", slowMode: "慢速", fastMode: "快速", gameMode: "游戏模式", survivalMode: "生存", creativeMode: "创造", rainy: "下雨", creativeNotice: "创造模式：自由建造。", lavaBurn: "岩浆烫伤了你", slept: "你睡到了早晨。", bedSet: "出生点已设置，睡到了早晨。" },
+  ja: { water: "水", lava: "溶岩", worldSpeed: "ワールド速度", slowMode: "ゆっくり", fastMode: "高速", gameMode: "ゲームモード", survivalMode: "サバイバル", creativeMode: "クリエイティブ", rainy: "雨", creativeNotice: "クリエイティブ：自由に建築。", lavaBurn: "溶岩でダメージ", slept: "朝まで眠りました。", bedSet: "リスポーン地点を設定し、朝まで眠りました。" },
+  ko: { water: "물", lava: "용암", worldSpeed: "월드 속도", slowMode: "느림", fastMode: "빠름", gameMode: "게임 모드", survivalMode: "서바이벌", creativeMode: "크리에이티브", rainy: "비", creativeNotice: "크리에이티브: 자유롭게 건설하세요.", lavaBurn: "용암에 데었습니다", slept: "아침까지 잤습니다.", bedSet: "스폰 지점을 정하고 아침까지 잤습니다." },
+  es: { water: "Agua", lava: "Lava", worldSpeed: "Velocidad", slowMode: "Lenta", fastMode: "Rápida", gameMode: "Modo", survivalMode: "Supervivencia", creativeMode: "Creativo", rainy: "Lluvia", creativeNotice: "Modo creativo: construye libremente.", lavaBurn: "La lava te quemó", slept: "Dormiste hasta la mañana.", bedSet: "Punto de aparición fijado. Dormiste hasta la mañana." },
+  fr: { water: "Eau", lava: "Lave", worldSpeed: "Vitesse", slowMode: "Lente", fastMode: "Rapide", gameMode: "Mode", survivalMode: "Survie", creativeMode: "Créatif", rainy: "Pluie", creativeNotice: "Mode créatif : construis librement.", lavaBurn: "La lave t'a brûlé", slept: "Tu as dormi jusqu'au matin.", bedSet: "Réapparition définie. Tu as dormi jusqu'au matin." },
+  de: { water: "Wasser", lava: "Lava", worldSpeed: "Weltgeschwindigkeit", slowMode: "Langsam", fastMode: "Schnell", gameMode: "Spielmodus", survivalMode: "Überleben", creativeMode: "Kreativ", rainy: "Regen", creativeNotice: "Kreativmodus: frei bauen.", lavaBurn: "Lava hat dich verbrannt", slept: "Du hast bis zum Morgen geschlafen.", bedSet: "Spawn gesetzt. Du hast bis zum Morgen geschlafen." },
+  pt: { water: "Água", lava: "Lava", worldSpeed: "Velocidade", slowMode: "Lenta", fastMode: "Rápida", gameMode: "Modo", survivalMode: "Sobrevivência", creativeMode: "Criativo", rainy: "Chuva", creativeNotice: "Modo criativo: construa livremente.", lavaBurn: "A lava queimou você", slept: "Você dormiu até de manhã.", bedSet: "Ponto de retorno definido. Você dormiu até de manhã." },
+  ru: { water: "Вода", lava: "Лава", worldSpeed: "Скорость мира", slowMode: "Медленно", fastMode: "Быстро", gameMode: "Режим", survivalMode: "Выживание", creativeMode: "Творческий", rainy: "Дождь", creativeNotice: "Творческий режим: строй свободно.", lavaBurn: "Лава обожгла тебя", slept: "Ты проспал до утра.", bedSet: "Точка возрождения задана. Ты проспал до утра." },
+  ar: { water: "ماء", lava: "حمم", worldSpeed: "سرعة العالم", slowMode: "بطيء", fastMode: "سريع", gameMode: "نمط اللعب", survivalMode: "بقاء", creativeMode: "إبداع", rainy: "مطر", creativeNotice: "نمط الإبداع: ابن بحرية.", lavaBurn: "أحرقتك الحمم", slept: "نمت حتى الصباح.", bedSet: "تم تعيين نقطة الظهور والنوم حتى الصباح." },
+};
+languages.forEach((code) => Object.assign(text[code], craftingText[code], survivalText[code], expansionText[code], worldOptionText[code]));
 let lang = languages.includes(localStorage.getItem("muye-lang")) ? localStorage.getItem("muye-lang") : "en";
 let playerKey = "";
 let worldId = "";
@@ -188,15 +204,51 @@ let hunger = 10;
 let hungerTimer = 0;
 let starvationTimer = 0;
 let regenerationTimer = 0;
+let lavaDamageTimer = 0;
 let drops = [];
 let growths = [];
 let mobs = [];
 let mobSpawnTimer = 0;
+let raining = false;
+let rainTimer = 35;
+let fluidTimer = 0;
+let worldSettings = { speed: "slow", mode: "survival" };
 let player = { x: 12, y: 10, vx: 0, vy: 0, width: 0.72, height: 1.78, grounded: false, health: 5, facing: 1, spawnX: 12, spawnY: 10 };
 
 function t(key, data = {}) {
   const source = text[lang]?.[key] || text.en[key] || key;
   return Object.entries(data).reduce((value, [name, replacement]) => value.replaceAll(`{${name}}`, String(replacement)), source);
+}
+
+function isCreative() { return worldSettings.mode === "creative"; }
+function speedMultiplier() { return worldSettings.speed === "fast" ? 1.65 : 1; }
+
+function readWorldOptions() {
+  return {
+    speed: worldSpeedInputs.find((input) => input.checked)?.value === "fast" ? "fast" : "slow",
+    mode: gameModeInputs.find((input) => input.checked)?.value === "creative" ? "creative" : "survival",
+  };
+}
+
+function applyWorldOptions(options = worldSettings) {
+  worldSettings = {
+    speed: options.speed === "fast" ? "fast" : "slow",
+    mode: options.mode === "creative" ? "creative" : "survival",
+  };
+  worldSpeedInputs.forEach((input) => { input.checked = input.value === worldSettings.speed; });
+  gameModeInputs.forEach((input) => { input.checked = input.value === worldSettings.mode; });
+}
+
+function startingInventory(mode = worldSettings.mode) {
+  const base = { 2: 8, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, 20: 0, 21: 0, sticks: 0, ironIngot: 0, treeSeed: 1, flowerSeed: 1, apple: 2 };
+  if (mode !== "creative") return base;
+  [2, 3, 4, 5, 8, 10, 14, 15, 16, 17, 18, 19, 20, 21].forEach((id) => { base[id] = 99; });
+  base.treeSeed = 99;
+  base.flowerSeed = 99;
+  base.apple = 99;
+  base.sticks = 99;
+  base.ironIngot = 99;
+  return base;
 }
 
 function applyLanguage() {
@@ -294,7 +346,8 @@ function getTile(x, y) { return inWorld(x, y) ? world[tileIndex(x, y)] || 0 : 3;
 function setTile(x, y, value) { if (inWorld(x, y)) world[tileIndex(x, y)] = value; }
 function isSolid(x, y) { return Boolean(blockData[getTile(x, y)]?.solid); }
 
-function generateWorld(seed = Math.floor(Math.random() * 2147483647), name = t("worldDefault")) {
+function generateWorld(seed = Math.floor(Math.random() * 2147483647), name = t("worldDefault"), options = worldSettings) {
+  applyWorldOptions(options);
   const random = randomGenerator(seed);
   world = Array(WORLD_WIDTH * WORLD_HEIGHT).fill(0);
   const heights = [];
@@ -328,12 +381,30 @@ function generateWorld(seed = Math.floor(Math.random() * 2147483647), name = t("
   for (let x = 3; x < WORLD_WIDTH - 3; x += 1) {
     if (random() < 0.09 && getTile(x, heights[x] - 1) === 0) setTile(x, heights[x] - 1, 13);
   }
+  for (let lake = 0; lake < 5; lake += 1) {
+    const center = 22 + Math.floor(random() * (WORLD_WIDTH - 44));
+    const radius = 2 + Math.floor(random() * 3);
+    for (let dx = -radius; dx <= radius; dx += 1) {
+      const x = center + dx;
+      const y = heights[x] - 1;
+      if (x > 2 && x < WORLD_WIDTH - 2 && getTile(x, y) === 0 && getTile(x, y + 1)) setTile(x, y, 20);
+    }
+  }
+  for (let pocket = 0; pocket < 18; pocket += 1) {
+    const x = 8 + Math.floor(random() * (WORLD_WIDTH - 16));
+    const y = Math.min(WORLD_HEIGHT - 4, heights[x] + 14 + Math.floor(random() * 18));
+    if (getTile(x, y) === 3) {
+      setTile(x, y, 21);
+      if (getTile(x + 1, y) === 3 && random() < 0.55) setTile(x + 1, y, 21);
+      if (getTile(x, y + 1) === 3 && random() < 0.45) setTile(x, y + 1, 21);
+    }
+  }
   const spawnX = 12;
   const spawnY = heights[spawnX] - 2;
   player = { x: spawnX + 0.15, y: spawnY, vx: 0, vy: 0, width: 0.72, height: 1.78, grounded: false, health: 5, facing: 1, spawnX: spawnX + 0.15, spawnY };
-  inventory = { 2: 8, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, sticks: 0, ironIngot: 0, treeSeed: 1, flowerSeed: 1, apple: 2 };
-  tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false };
-  equippedTool = "hand";
+  inventory = startingInventory();
+  tools = isCreative() ? { woodPickaxe: true, stonePickaxe: true, ironPickaxe: true, woodAxe: true, stoneAxe: true, ironAxe: true } : { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false };
+  equippedTool = isCreative() ? "ironPickaxe" : "hand";
   selectedSlot = 0;
   selectedItem = HOTBAR_BLOCKS[0];
   hunger = 10;
@@ -344,6 +415,10 @@ function generateWorld(seed = Math.floor(Math.random() * 2147483647), name = t("
   growths = [];
   mobs = [];
   mobSpawnTimer = 0;
+  lavaDamageTimer = 0;
+  raining = random() < 0.22;
+  rainTimer = 28 + random() * 55;
+  fluidTimer = 0;
   worldName = name || t("worldDefault");
   elapsed = 22;
   day = 1;
@@ -382,8 +457,14 @@ function loadWorld(id = worldId) {
     const decoded = decodeWorld(saved?.world);
     if (!saved || !decoded) return false;
     world = decoded;
-    inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, sticks: 0, ironIngot: 0, treeSeed: 0, flowerSeed: 0, apple: 0, ...saved.inventory };
+    inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, 20: 0, 21: 0, sticks: 0, ironIngot: 0, treeSeed: 0, flowerSeed: 0, apple: 0, ...saved.inventory };
     tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false, ...saved.tools };
+    applyWorldOptions(saved.settings || { speed: "slow", mode: "survival" });
+    if (isCreative()) {
+      const creativeItems = startingInventory("creative");
+      Object.keys(creativeItems).forEach((id) => { inventory[id] = Math.max(Number(inventory[id]) || 0, creativeItems[id]); });
+      tools = { woodPickaxe: true, stonePickaxe: true, ironPickaxe: true, woodAxe: true, stoneAxe: true, ironAxe: true, ...tools };
+    }
     equippedTool = tools[saved.equippedTool] ? saved.equippedTool : "hand";
     if ((saved.version || 1) < 2) {
       let added = 0;
@@ -405,6 +486,10 @@ function loadWorld(id = worldId) {
     drops = Array.isArray(saved.drops) ? saved.drops.filter((drop) => drop && (blockData[Number(drop.item)] || ["treeSeed", "flowerSeed", "apple", "sticks", "ironIngot"].includes(drop.item))).slice(0, 80) : [];
     growths = Array.isArray(saved.growths) ? saved.growths.filter((growth) => growth && inWorld(growth.x, growth.y)).slice(0, 80) : [];
     mobs = [];
+    raining = Boolean(saved.raining);
+    rainTimer = Number(saved.rainTimer) || 35;
+    lavaDamageTimer = 0;
+    fluidTimer = 0;
     worldName = saved.worldName || t("worldDefault");
     elapsed = Number(saved.elapsed) || 0;
     day = Number(saved.day) || 1;
@@ -431,6 +516,9 @@ function saveWorld(manual = false) {
     hungerTimer,
     drops: drops.slice(0, 80).map(({ item, x, y, amount = 1 }) => ({ item, x, y, amount })),
     growths,
+    settings: worldSettings,
+    raining,
+    rainTimer,
     worldName,
     elapsed,
     day,
@@ -572,6 +660,14 @@ function drawBlock(target, id, x, y, size) {
   } else if (id === 19) {
     target.fillStyle = "#9b642f"; target.fillRect(unit*1.2, 0, unit, size); target.fillRect(unit*5.8, 0, unit, size);
     for (let row = 1; row < 8; row += 2) target.fillRect(unit*1.2, unit*row, unit*5.6, unit*.8);
+  } else if (id === 20) {
+    target.fillStyle = "rgba(43, 126, 202, .76)"; target.fillRect(0, 0, size, size);
+    target.fillStyle = "rgba(161, 221, 255, .75)";
+    for (let row = 1; row < 8; row += 3) target.fillRect(unit, unit * row, unit * 6, unit * 0.7);
+  } else if (id === 21) {
+    target.fillStyle = "#d8491f"; target.fillRect(0, 0, size, size);
+    target.fillStyle = "#ffb638"; target.fillRect(unit, unit, unit * 2, unit * 5); target.fillRect(unit * 5, unit * 2, unit * 2, unit * 4);
+    target.fillStyle = "#fff06a"; target.fillRect(unit * 2, unit * 5, unit * 4, unit * 1.2);
   }
   target.strokeStyle = "rgba(0,0,0,.17)";
   target.strokeRect(0.5, 0.5, size - 1, size - 1);
@@ -605,15 +701,15 @@ function renderHotbar() {
     button.type = "button";
     button.className = `hotbar-slot${selectedItem === id ? " selected" : ""}`;
     button.title = blockName(id);
-    button.setAttribute("aria-label", `${blockName(id)}: ${inventory[id] || 0}`);
-    if (!(inventory[id] > 0)) button.disabled = true;
+    button.setAttribute("aria-label", `${blockName(id)}: ${isCreative() ? "∞" : inventory[id] || 0}`);
+    if (!isCreative() && !(inventory[id] > 0)) button.disabled = true;
     const icon = document.createElement("canvas");
     icon.width = 32; icon.height = 32;
     drawBlock(icon.getContext("2d"), id, 0, 0, 32);
     button.innerHTML = `<kbd>${index + 1}</kbd>`;
     button.appendChild(icon);
     const count = document.createElement("small");
-    count.textContent = String(inventory[id] || 0);
+    count.textContent = isCreative() ? "∞" : String(inventory[id] || 0);
     button.appendChild(count);
     button.addEventListener("click", () => { selectedSlot = index; selectedItem = id; dirty = true; renderHotbar(); });
     hotbar.appendChild(button);
@@ -622,7 +718,7 @@ function renderHotbar() {
 
 function selectBackpackBlock(id) {
   const slot = HOTBAR_BLOCKS.indexOf(id);
-  if (slot < 0 || !(inventory[id] > 0)) return;
+  if (slot < 0 || (!isCreative() && !(inventory[id] > 0))) return;
   selectedSlot = slot;
   selectedItem = id;
   dirty = true;
@@ -632,7 +728,7 @@ function selectBackpackBlock(id) {
 
 function renderBackpack() {
   if (!backpackBlocks || !backpackMaterials || !backpackTools || !backpackSurvival) return;
-  const blockIds = [2, 3, 4, 5, 6, 7, 8, 9, 10, 14, 15, 16, 17, 18, 19];
+  const blockIds = [2, 3, 4, 5, 6, 7, 8, 9, 10, 14, 15, 16, 17, 18, 19, 20, 21];
   const selectedBlock = selectedItem;
   backpackBlocks.innerHTML = "";
   blockIds.forEach((id) => {
@@ -641,7 +737,7 @@ function renderBackpack() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `backpack-slot${id === selectedBlock ? " selected" : ""}`;
-    button.disabled = !placeable || amount < 1;
+    button.disabled = !placeable || (!isCreative() && amount < 1);
     button.title = placeable ? t("chooseBlock", { item: blockName(id) }) : blockName(id);
     button.setAttribute("aria-label", `${blockName(id)}: ${amount}`);
     const icon = document.createElement("canvas");
@@ -651,7 +747,7 @@ function renderBackpack() {
     const name = document.createElement("strong");
     name.textContent = blockName(id);
     const count = document.createElement("small");
-    count.textContent = `×${amount}`;
+    count.textContent = isCreative() && placeable ? "∞" : `×${amount}`;
     button.append(icon, name, count);
     if (placeable) button.addEventListener("click", () => {
       if (!HOTBAR_BLOCKS.includes(id)) {
@@ -665,7 +761,7 @@ function renderBackpack() {
     backpackBlocks.appendChild(button);
   });
 
-  backpackMaterials.innerHTML = ["sticks", "ironIngot"].map((id) => `<span class="resource-chip">${itemName(id)} <strong>${inventory[id] || 0}</strong></span>`).join("");
+  backpackMaterials.innerHTML = ["sticks", "ironIngot"].map((id) => `<span class="resource-chip">${itemName(id)} <strong>${isCreative() ? "∞" : inventory[id] || 0}</strong></span>`).join("");
   const survivalItems = [
     { id: "treeSeed", icon: "♣", action: "plant" },
     { id: "flowerSeed", icon: "✿", action: "plant" },
@@ -673,8 +769,9 @@ function renderBackpack() {
   ];
   backpackSurvival.innerHTML = survivalItems.map((item) => {
     const amount = inventory[item.id] || 0;
-    const disabled = amount < 1 || (item.id === "apple" && hunger >= 10);
-    return `<button class="survival-item${selectedItem === item.id ? " selected" : ""}" type="button" data-survival="${item.id}" ${disabled ? "disabled" : ""}><span>${item.icon}</span><span class="survival-copy"><strong>${t(item.id)} ×${amount}</strong><small>${t(item.action)}</small></span></button>`;
+    const disabled = (!isCreative() && amount < 1) || (item.id === "apple" && (hunger >= 10 || isCreative()));
+    const count = isCreative() && item.id !== "apple" ? "∞" : amount;
+    return `<button class="survival-item${selectedItem === item.id ? " selected" : ""}" type="button" data-survival="${item.id}" ${disabled ? "disabled" : ""}><span>${item.icon}</span><span class="survival-copy"><strong>${t(item.id)} ×${count}</strong><small>${t(item.action)}</small></span></button>`;
   }).join("");
   backpackSurvival.querySelectorAll("[data-survival]").forEach((button) => button.addEventListener("click", () => useSurvivalItem(button.dataset.survival)));
   backpackTools.innerHTML = Object.entries(toolData).map(([id, tool]) => {
@@ -726,6 +823,7 @@ function hasFurnace() {
 }
 
 function canCraft(recipe) {
+  if (isCreative()) return true;
   if (recipe.tool && tools[recipe.tool]) return false;
   if (recipe.furnace && !hasFurnace()) return false;
   return Object.entries(recipe.cost).every(([id, amount]) => (inventory[id] || 0) >= amount);
@@ -761,7 +859,7 @@ function renderCrafting() {
 function craftRecipe(recipeId) {
   const recipe = recipes.find((item) => item.id === recipeId);
   if (!recipe || !canCraft(recipe)) return showToast(recipe?.furnace && !hasFurnace() ? t("needsFurnace") : t("notEnough"));
-  Object.entries(recipe.cost).forEach(([id, amount]) => { inventory[id] -= amount; });
+  if (!isCreative()) Object.entries(recipe.cost).forEach(([id, amount]) => { inventory[id] -= amount; });
   if (recipe.output) Object.entries(recipe.output).forEach(([id, amount]) => { inventory[id] = (inventory[id] || 0) + amount; });
   if (recipe.tool) {
     tools[recipe.tool] = true;
@@ -779,11 +877,11 @@ function updateHud() {
   positionEl.textContent = `${Math.floor(player.x)}, ${Math.floor(player.y)}`;
   heartsEl.textContent = `${"♥ ".repeat(player.health).trim()}${player.health < 5 ? ` ${"♡ ".repeat(5 - player.health).trim()}` : ""}`;
   heartsEl.setAttribute("aria-label", `${t("health")}: ${player.health}/5`);
-  hungerEl.textContent = `${"● ".repeat(hunger).trim()}${hunger < 10 ? ` ${"○ ".repeat(10 - hunger).trim()}` : ""}`;
+  hungerEl.textContent = isCreative() ? t("creativeMode") : `${"● ".repeat(hunger).trim()}${hunger < 10 ? ` ${"○ ".repeat(10 - hunger).trim()}` : ""}`;
   hungerEl.setAttribute("aria-label", `${t("hunger")}: ${hunger}/10`);
   const night = isNightTime();
-  clockIcon.textContent = night ? "☾" : "☀";
-  clockLabel.textContent = t(night ? "night" : "day", { day });
+  clockIcon.textContent = raining ? "☔" : night ? "☾" : "☀";
+  clockLabel.textContent = `${t(night ? "night" : "day", { day })}${raining ? ` · ${t("rainy")}` : ""}${worldSettings.speed === "fast" ? ` · ${t("fastMode")}` : ""}`;
 }
 
 function showToast(message) {
@@ -807,7 +905,7 @@ function miningTime(id) {
   const block = blockData[id];
   const tool = toolData[equippedTool] || toolData.hand;
   const speed = block.tool === tool.kind ? tool.speed : 0.68;
-  return block.hardness / speed;
+  return isCreative() ? 0.04 : block.hardness / speed / speedMultiplier();
 }
 
 function startMining(x, y, pointerType = "mouse", pointerId = null) {
@@ -836,10 +934,12 @@ function finishMining() {
   setTile(x, y, 0);
   growths = growths.filter((growth) => growth.x !== x || growth.y !== y);
   const drop = id === 1 ? 2 : id === 11 ? "treeSeed" : id === 12 || id === 13 ? "flowerSeed" : id;
-  spawnDrop(drop, x + 0.5, y + 0.35);
-  if (id === 5 && Math.random() < 0.38) spawnDrop("treeSeed", x + 0.35, y + 0.25);
-  if (id === 5 && Math.random() < 0.16) spawnDrop("apple", x + 0.7, y + 0.25);
-  if (id === 1 && Math.random() < 0.2) spawnDrop("flowerSeed", x + 0.65, y + 0.2);
+  if (!isCreative()) {
+    spawnDrop(drop, x + 0.5, y + 0.35);
+    if (id === 5 && Math.random() < 0.38) spawnDrop("treeSeed", x + 0.35, y + 0.25);
+    if (id === 5 && Math.random() < 0.16) spawnDrop("apple", x + 0.7, y + 0.25);
+    if (id === 1 && Math.random() < 0.2) spawnDrop("flowerSeed", x + 0.65, y + 0.2);
+  }
   mining = null;
   dirty = true;
   showToast(t("mined", { block: itemName(drop) }));
@@ -847,21 +947,24 @@ function finishMining() {
 
 function placeTile(x, y) {
   if (getTile(x, y) === 18 && tileInReach(x, y)) {
+    const wasNight = isNightTime();
     player.spawnX = x + 0.14;
     player.spawnY = y - player.height;
-    if (isNightTime()) { elapsed = 24; day += 1; mobs = []; }
+    if (wasNight) { elapsed = 24; day += 1; mobs = []; }
+    raining = false;
+    rainTimer = 45;
     dirty = true;
     updateHud();
-    showToast(t("bedSet"));
+    showToast(t(wasNight ? "bedSet" : "slept"));
     return;
   }
   if (selectedItem === "treeSeed" || selectedItem === "flowerSeed") {
-    if (!inventory[selectedItem]) return showToast(t("noBlock"));
+    if (!isCreative() && !inventory[selectedItem]) return showToast(t("noBlock"));
     if (!tileInReach(x, y)) return showToast(t("tooFar"));
     if (getTile(x, y) || playerOverlapsTile(x, y) || ![1, 2].includes(getTile(x, y + 1))) return showToast(t("plantOnSoil"));
     const id = selectedItem === "treeSeed" ? 11 : 12;
     setTile(x, y, id);
-    inventory[selectedItem] -= 1;
+    if (!isCreative()) inventory[selectedItem] -= 1;
     growths.push({ x, y, type: selectedItem === "treeSeed" ? "tree" : "flower", age: 0, target: selectedItem === "treeSeed" ? 28 + Math.random() * 18 : 12 + Math.random() * 10 });
     dirty = true;
     renderBackpack();
@@ -869,13 +972,13 @@ function placeTile(x, y) {
     return;
   }
   const id = Number(selectedItem) || HOTBAR_BLOCKS[selectedSlot];
-  if (!inventory[id]) return showToast(t("noBlock"));
+  if (!isCreative() && !inventory[id]) return showToast(t("noBlock"));
   if (!tileInReach(x, y)) return showToast(t("tooFar"));
   if (getTile(x, y) || playerOverlapsTile(x, y)) return showToast(t("blocked"));
   const supported = [[1,0],[-1,0],[0,1],[0,-1]].some(([dx, dy]) => getTile(x + dx, y + dy));
   if (!supported) return showToast(t("needsSupport"));
   setTile(x, y, id);
-  inventory[id] -= 1;
+  if (!isCreative()) inventory[id] -= 1;
   dirty = true;
   renderHotbar();
   renderBackpack();
@@ -945,6 +1048,7 @@ function isNightTime() {
 }
 
 function damagePlayer(amount, message = "playerHit") {
+  if (isCreative()) return;
   player.health = Math.max(0, player.health - amount);
   showToast(t(message));
   dirty = true;
@@ -953,6 +1057,52 @@ function damagePlayer(amount, message = "playerHit") {
     hunger = 6;
     respawn();
   }
+}
+
+function playerTouchingTile(id) {
+  const left = Math.floor(player.x + 0.08);
+  const right = Math.floor(player.x + player.width - 0.08);
+  const top = Math.floor(player.y + 0.08);
+  const bottom = Math.floor(player.y + player.height - 0.08);
+  for (let y = top; y <= bottom; y += 1) for (let x = left; x <= right; x += 1) if (getTile(x, y) === id) return true;
+  return false;
+}
+
+function updateWeather(dt) {
+  rainTimer -= dt;
+  if (rainTimer > 0) return;
+  raining = !raining;
+  rainTimer = raining ? 28 + Math.random() * 48 : 38 + Math.random() * 72;
+  dirty = true;
+}
+
+function canFluidEnter(x, y, type) {
+  const tile = getTile(x, y);
+  if (tile !== 0) return false;
+  if (type === 21 && raining && y < 30) return false;
+  return inWorld(x, y);
+}
+
+function updateFluids(dt) {
+  fluidTimer += dt;
+  if (fluidTimer < 0.42) return;
+  fluidTimer = 0;
+  const changes = [];
+  for (let y = WORLD_HEIGHT - 2; y >= 0; y -= 1) {
+    for (let x = 1; x < WORLD_WIDTH - 1; x += 1) {
+      const id = getTile(x, y);
+      if (id !== 20 && id !== 21) continue;
+      if (id === 21 && raining && y < 30 && Math.random() < 0.25) { changes.push([x, y, 3]); continue; }
+      if (canFluidEnter(x, y + 1, id)) changes.push([x, y + 1, id]);
+      else if (Math.random() < 0.35) {
+        const dir = Math.random() < 0.5 ? -1 : 1;
+        if (canFluidEnter(x + dir, y, id) && getTile(x + dir, y + 1)) changes.push([x + dir, y, id]);
+      }
+    }
+  }
+  if (!changes.length) return;
+  changes.slice(0, 14).forEach(([x, y, id]) => setTile(x, y, id));
+  dirty = true;
 }
 
 function spawnMob() {
@@ -1070,20 +1220,31 @@ function respawn() {
 
 function update(dt) {
   if (!running || paused) return;
-  elapsed += dt;
+  const speed = speedMultiplier();
+  elapsed += dt * speed;
   if (elapsed >= 180) { elapsed -= 180; day += 1; dirty = true; }
+  updateWeather(dt * speed);
+  updateFluids(dt * speed);
   const left = keys.has("ArrowLeft") || keys.has("KeyA") || keys.has("touch-left");
   const right = keys.has("ArrowRight") || keys.has("KeyD") || keys.has("touch-right");
   const jump = keys.has("ArrowUp") || keys.has("KeyW") || keys.has("Space") || keys.has("touch-jump");
+  const inWater = playerTouchingTile(20);
+  const inLava = playerTouchingTile(21);
   const targetVelocity = (right ? 1 : 0) - (left ? 1 : 0);
-  player.vx += (targetVelocity * 6.4 - player.vx) * Math.min(1, dt * (player.grounded ? 13 : 5));
+  const movementSpeed = (inWater ? 3.4 : 6.4) * (worldSettings.speed === "fast" ? 1.12 : 1);
+  player.vx += (targetVelocity * movementSpeed - player.vx) * Math.min(1, dt * (player.grounded ? 13 : 5));
   if (targetVelocity) player.facing = Math.sign(targetVelocity);
   const onLadder = playerOnLadder();
-  if (jump && (player.grounded || onLadder)) { player.vy = onLadder ? -4.8 : -9.3; player.grounded = false; keys.delete("touch-jump"); }
+  if (jump && (player.grounded || onLadder || inWater)) { player.vy = onLadder ? -4.8 : inWater ? -5.2 : -9.3; player.grounded = false; keys.delete("touch-jump"); }
   if (onLadder && !jump) player.vy *= Math.max(0, 1 - dt * 10);
-  player.vy = Math.min(14, player.vy + (onLadder ? 5 : 24) * dt);
+  if (inWater) player.vy *= Math.max(0, 1 - dt * 5);
+  player.vy = Math.min(inWater ? 4.8 : 14, player.vy + (onLadder ? 5 : inWater ? 7 : 24) * dt);
   movePlayer(player.vx * dt, player.vy * dt);
   if (player.y > WORLD_HEIGHT + 4) { damagePlayer(1); respawn(); }
+  if (inLava && !isCreative()) {
+    lavaDamageTimer += dt;
+    if (lavaDamageTimer >= 1) { lavaDamageTimer = 0; damagePlayer(1, "lavaBurn"); }
+  } else lavaDamageTimer = 0;
   if (mining) {
     if (!tileInReach(mining.x, mining.y) || getTile(mining.x, mining.y) !== mining.id) mining = null;
     else {
@@ -1092,18 +1253,26 @@ function update(dt) {
     }
   }
   updateDrops(dt);
-  updateGrowth(dt);
-  updateMobs(dt);
-  hungerTimer += dt * (Math.abs(player.vx) > 0.25 ? 1.55 : 0.75);
-  if (hungerTimer >= 30) { hungerTimer -= 30; hunger = Math.max(0, hunger - 1); dirty = true; }
-  if (hunger === 0) {
-    starvationTimer += dt;
-    if (starvationTimer >= 8) { starvationTimer = 0; damagePlayer(1, "starving"); }
-  } else starvationTimer = 0;
-  if (hunger >= 9 && player.health < 5) {
-    regenerationTimer += dt;
-    if (regenerationTimer >= 14) { regenerationTimer = 0; player.health += 1; hunger = Math.max(0, hunger - 1); dirty = true; }
-  } else regenerationTimer = 0;
+  updateGrowth(dt * (raining ? 1.55 : 1));
+  if (!isCreative()) updateMobs(dt);
+  else mobs = [];
+  if (!isCreative()) {
+    hungerTimer += dt * (Math.abs(player.vx) > 0.25 ? 1.55 : 0.75);
+    if (hungerTimer >= 30) { hungerTimer -= 30; hunger = Math.max(0, hunger - 1); dirty = true; }
+    if (hunger === 0) {
+      starvationTimer += dt;
+      if (starvationTimer >= 8) { starvationTimer = 0; damagePlayer(1, "starving"); }
+    } else starvationTimer = 0;
+    if (hunger >= 9 && player.health < 5) {
+      regenerationTimer += dt;
+      if (regenerationTimer >= 14) { regenerationTimer = 0; player.health += 1; hunger = Math.max(0, hunger - 1); dirty = true; }
+    } else regenerationTimer = 0;
+  } else {
+    hunger = 10;
+    player.health = 5;
+    starvationTimer = 0;
+    regenerationTimer = 0;
+  }
   dirty = dirty || Math.abs(player.vx) > 0.01 || Math.abs(player.vy) > 0.01;
   updateHud();
 }
@@ -1201,6 +1370,25 @@ function drawNightLighting(light, startX, endX, startY, endY) {
   ctx.drawImage(lightCanvas, 0, 0);
 }
 
+function drawRain() {
+  if (!raining) return;
+  ctx.save();
+  ctx.strokeStyle = "rgba(158, 205, 238, .55)";
+  ctx.lineWidth = 1.5;
+  const drift = (elapsed * 90) % 42;
+  for (let x = -50; x < canvas.width + 80; x += 28) {
+    const startX = x + drift;
+    const startY = ((x * 17 + elapsed * 360) % (canvas.height + 90)) - 70;
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(startX - 15, startY + 36);
+    ctx.stroke();
+  }
+  ctx.fillStyle = "rgba(20, 39, 51, .18)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
+}
+
 function drawWorld() {
   const viewWidth = canvas.width / TILE;
   const viewHeight = canvas.height / TILE;
@@ -1221,7 +1409,6 @@ function drawWorld() {
     ctx.fillStyle = "rgba(255,255,255,.72)";
     for (let i = 0; i < 34; i += 1) ctx.fillRect((i * 83) % canvas.width, (i * 47) % Math.floor(canvas.height * 0.58), 2, 2);
   }
-
   ctx.fillStyle = `rgba(29, 59, 62, ${0.45 + light * 0.25})`;
   ctx.beginPath(); ctx.moveTo(0, canvas.height);
   for (let x = 0; x <= canvas.width; x += 60) ctx.lineTo(x, canvas.height * 0.55 + Math.sin((x + camera.x * 8) / 140) * 45);
@@ -1246,6 +1433,7 @@ function drawWorld() {
     ctx.lineWidth = 2;
     ctx.strokeRect(Math.round((pointerTile.x - camera.x) * TILE) + 1, Math.round((pointerTile.y - camera.y) * TILE) + 1, TILE - 2, TILE - 2);
   }
+  drawRain();
   drawNightLighting(light, startX, endX, startY, endY);
   if (mining) {
     const x = Math.round((mining.x - camera.x) * TILE);
@@ -1380,12 +1568,17 @@ document.querySelector("#load-world-button").addEventListener("click", () => { r
 document.querySelector("#play-button").addEventListener("click", startPlaying);
 document.querySelector("#pause-button").addEventListener("click", () => setPaused(!paused));
 document.querySelector("#help-button").addEventListener("click", () => helpDialog.showModal());
-document.querySelector("#new-world-button").addEventListener("click", () => { worldNameInput.value = worldName || t("worldDefault"); newWorldDialog.showModal(); });
+document.querySelector("#new-world-button").addEventListener("click", () => {
+  worldNameInput.value = worldName || t("worldDefault");
+  worldSpeedInputs.forEach((input) => { input.checked = input.value === "slow"; });
+  gameModeInputs.forEach((input) => { input.checked = input.value === "survival"; });
+  newWorldDialog.showModal();
+});
 document.querySelector("#confirm-new-world").addEventListener("click", (event) => {
   event.preventDefault();
   saveWorld();
   worldId = createWorldId();
-  generateWorld(Math.floor(Math.random() * 2147483647), worldNameInput.value.trim() || t("worldDefault"));
+  generateWorld(Math.floor(Math.random() * 2147483647), worldNameInput.value.trim() || t("worldDefault"), readWorldOptions());
   saveWorld(true);
   newWorldDialog.close();
   overlay.hidden = false;

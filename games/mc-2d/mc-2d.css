@@ -277,6 +277,32 @@ dialog li + li { margin-top: 7px; }
 .dialog-close { position: absolute; top: 12px; right: 12px; border: 0; color: var(--ink); background: transparent; font-size: 28px; cursor: pointer; }
 dialog label { display: grid; gap: 8px; margin: 20px 0; font-weight: 850; }
 dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5px; padding: 0 12px; color: white; background: #050706; }
+.world-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 20px;
+}
+.world-options > div {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px;
+  background: #070a08;
+}
+.world-options p { margin: 0; color: var(--ink); font-size: 12px; font-weight: 900; }
+.world-options label {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+.world-options input { min-height: auto; accent-color: var(--grass); }
 .dialog-actions { justify-content: flex-end; gap: 8px; }
 .world-list { display: grid; gap: 9px; margin: 18px 0; }
 .world-entry { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 6px; padding: 10px; background: #070a08; }
@@ -418,6 +444,7 @@ dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5
   .backpack-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .inventory-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .equipped-tool { grid-column: 1 / -1; }
+  .world-options { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

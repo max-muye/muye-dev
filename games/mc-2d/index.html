@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#050706">
     <title>MC 2D · Muye Games</title>
     <link rel="icon" href="/assets/favicon.png" type="image/png">
-    <link rel="stylesheet" href="/games/mc-2d/mc-2d.css?v=5">
+    <link rel="stylesheet" href="/games/mc-2d/mc-2d.css?v=6">
     <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body>
@@ -159,6 +159,18 @@
         <h2 data-i18n="makeWorld">Make a new world?</h2>
         <p data-i18n="replaceWarning">This creates another saved world. Your other worlds stay safe.</p>
         <label><span data-i18n="worldName">World name</span><input id="world-name-input" maxlength="28" value="World 1"></label>
+        <section class="world-options" aria-label="World options">
+          <div>
+            <p data-i18n="worldSpeed">World speed</p>
+            <label><input type="radio" name="world-speed" value="slow" checked><span data-i18n="slowMode">Slow</span></label>
+            <label><input type="radio" name="world-speed" value="fast"><span data-i18n="fastMode">Fast</span></label>
+          </div>
+          <div>
+            <p data-i18n="gameMode">Game mode</p>
+            <label><input type="radio" name="game-mode" value="survival" checked><span data-i18n="survivalMode">Survival</span></label>
+            <label><input type="radio" name="game-mode" value="creative"><span data-i18n="creativeMode">Creative</span></label>
+          </div>
+        </section>
         <div class="dialog-actions">
           <button value="cancel" class="secondary" data-i18n="cancel">Cancel</button>
           <button value="confirm" id="confirm-new-world" data-i18n="create">Create world</button>
@@ -179,7 +191,7 @@
     </dialog>
 
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script src="/games/mc-2d/mc-2d.js?v=6"></script>
+    <script src="/games/mc-2d/mc-2d.js?v=7"></script>
     <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

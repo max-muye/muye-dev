@@ -11,25 +11,55 @@ const toastEl = document.querySelector("#toast");
 const overlay = document.querySelector("#start-overlay");
 const helpDialog = document.querySelector("#help-dialog");
 const newWorldDialog = document.querySelector("#new-world-dialog");
+const craftDialog = document.querySelector("#craft-dialog");
 const worldNameInput = document.querySelector("#world-name-input");
+const resourceList = document.querySelector("#resource-list");
+const toolList = document.querySelector("#tool-list");
+const recipeList = document.querySelector("#recipe-list");
+const equippedToolEl = document.querySelector("#equipped-tool");
 
 const WORLD_WIDTH = 160;
 const WORLD_HEIGHT = 56;
 const TILE = 32;
 const REACH = 5.25;
-const SAVE_VERSION = 1;
-const HOTBAR_BLOCKS = [2, 3, 4, 8, 5, 7];
+const SAVE_VERSION = 2;
+const HOTBAR_BLOCKS = [2, 3, 4, 8, 5, 7, 10];
 
 const blockData = {
-  1: { name: "grass", solid: true },
-  2: { name: "dirt", solid: true },
-  3: { name: "stone", solid: true },
-  4: { name: "log", solid: true },
-  5: { name: "leaves", solid: true },
-  6: { name: "coal", solid: true },
-  7: { name: "crystal", solid: true },
-  8: { name: "planks", solid: true },
+  1: { name: "grass", solid: true, hardness: 0.65 },
+  2: { name: "dirt", solid: true, hardness: 0.7 },
+  3: { name: "stone", solid: true, hardness: 2.5, tool: "pickaxe", tier: 1 },
+  4: { name: "log", solid: true, hardness: 1.6, tool: "axe" },
+  5: { name: "leaves", solid: true, hardness: 0.35 },
+  6: { name: "coal", solid: true, hardness: 3, tool: "pickaxe", tier: 1 },
+  7: { name: "crystal", solid: true, hardness: 4.5, tool: "pickaxe", tier: 3 },
+  8: { name: "planks", solid: true, hardness: 1, tool: "axe" },
+  9: { name: "ironOre", solid: true, hardness: 3.5, tool: "pickaxe", tier: 2 },
+  10: { name: "furnace", solid: true, hardness: 3, tool: "pickaxe", tier: 1 },
 };
+
+const toolData = {
+  hand: { name: "hand", icon: "✋", kind: "hand", tier: 0, speed: 1 },
+  woodPickaxe: { name: "woodPickaxe", icon: "⛏", kind: "pickaxe", tier: 1, speed: 2.4 },
+  stonePickaxe: { name: "stonePickaxe", icon: "⛏", kind: "pickaxe", tier: 2, speed: 4.2 },
+  ironPickaxe: { name: "ironPickaxe", icon: "⛏", kind: "pickaxe", tier: 3, speed: 6.4 },
+  woodAxe: { name: "woodAxe", icon: "🪓", kind: "axe", tier: 1, speed: 2.8 },
+  stoneAxe: { name: "stoneAxe", icon: "🪓", kind: "axe", tier: 2, speed: 4.5 },
+  ironAxe: { name: "ironAxe", icon: "🪓", kind: "axe", tier: 3, speed: 6.6 },
+};
+
+const recipes = [
+  { id: "planks", name: "recipePlanks", icon: "▤", cost: { 4: 1 }, output: { 8: 4 } },
+  { id: "sticks", name: "recipeSticks", icon: "╫", cost: { 8: 2 }, output: { sticks: 4 } },
+  { id: "woodPickaxe", name: "woodPickaxe", icon: "⛏", cost: { 8: 3, sticks: 2 }, tool: "woodPickaxe" },
+  { id: "woodAxe", name: "woodAxe", icon: "🪓", cost: { 8: 3, sticks: 2 }, tool: "woodAxe" },
+  { id: "stonePickaxe", name: "stonePickaxe", icon: "⛏", cost: { 3: 3, sticks: 2 }, tool: "stonePickaxe" },
+  { id: "stoneAxe", name: "stoneAxe", icon: "🪓", cost: { 3: 3, sticks: 2 }, tool: "stoneAxe" },
+  { id: "furnace", name: "furnace", icon: "▣", cost: { 3: 8 }, output: { 10: 1 } },
+  { id: "smeltIron", name: "smeltIron", icon: "♨", cost: { 9: 1, 6: 1 }, output: { ironIngot: 1 }, furnace: true },
+  { id: "ironPickaxe", name: "ironPickaxe", icon: "⛏", cost: { ironIngot: 3, sticks: 2 }, tool: "ironPickaxe" },
+  { id: "ironAxe", name: "ironAxe", icon: "🪓", cost: { ironIngot: 3, sticks: 2 }, tool: "ironAxe" },
+];
 
 const text = {
   en: {
@@ -65,10 +95,25 @@ const text = {
 };
 
 const languages = ["en", "zh", "ja", "ko", "es", "fr", "de", "pt", "ru", "ar"];
+const craftingText = {
+  en: { craft: "Craft & smelt", breakTip: "Hold left-click, or tap a nearby block, until it breaks.", help4: "Craft tools, mine coal and iron, then smelt iron in a furnace.", workshop: "WORKSHOP", craftSmelt: "Craft & smelt", resources: "Resources", tools: "Tools", recipes: "Recipes", equipped: "Equipped", hand: "Hand", sticks: "Sticks", ironOre: "Iron ore", ironIngot: "Iron ingot", furnace: "Furnace", woodPickaxe: "Wooden pickaxe", stonePickaxe: "Stone pickaxe", ironPickaxe: "Iron pickaxe", woodAxe: "Wooden axe", stoneAxe: "Stone axe", ironAxe: "Iron axe", recipePlanks: "4 wooden planks", recipeSticks: "4 sticks", smeltIron: "Smelt iron ingot", notEnough: "You need more resources", craftedItem: "Made {item}", owned: "Owned", needsFurnace: "Craft and carry a furnace first", needBetterPickaxe: "A stronger pickaxe is needed", mining: "Mining {block}..." },
+  zh: { craft: "合成与熔炼", breakTip: "按住左键，或点一下附近方块，直到它被挖开。", help4: "合成工具，挖煤和铁矿，再用熔炉炼出铁锭。", workshop: "工作台", craftSmelt: "合成与熔炼", resources: "资源", tools: "工具", recipes: "配方", equipped: "已装备", hand: "空手", sticks: "木棍", ironOre: "铁矿石", ironIngot: "铁锭", furnace: "熔炉", woodPickaxe: "木镐", stonePickaxe: "石镐", ironPickaxe: "铁镐", woodAxe: "木斧", stoneAxe: "石斧", ironAxe: "铁斧", recipePlanks: "4 块木板", recipeSticks: "4 根木棍", smeltIron: "熔炼铁锭", notEnough: "资源不够", craftedItem: "制作了 {item}", owned: "已有", needsFurnace: "先合成并携带一个熔炉", needBetterPickaxe: "需要更强的镐", mining: "正在挖 {block}..." },
+  ja: { craft: "クラフトと製錬", breakTip: "左クリックを長押し、または近くのブロックをタップして壊します。", help4: "道具を作り、石炭と鉄を掘り、かまどで鉄を製錬します。", workshop: "作業場", craftSmelt: "クラフトと製錬", resources: "素材", tools: "道具", recipes: "レシピ", equipped: "装備中", hand: "素手", sticks: "棒", ironOre: "鉄鉱石", ironIngot: "鉄インゴット", furnace: "かまど", woodPickaxe: "木のツルハシ", stonePickaxe: "石のツルハシ", ironPickaxe: "鉄のツルハシ", woodAxe: "木の斧", stoneAxe: "石の斧", ironAxe: "鉄の斧", recipePlanks: "木材4個", recipeSticks: "棒4本", smeltIron: "鉄を製錬", notEnough: "素材が足りません", craftedItem: "{item}を作りました", owned: "所持", needsFurnace: "先にかまどを作って持ってください", needBetterPickaxe: "もっと強いツルハシが必要です", mining: "{block}を採掘中..." },
+  ko: { craft: "제작과 제련", breakTip: "왼쪽 클릭을 누르거나 가까운 블록을 탭해 부수세요.", help4: "도구를 만들고 석탄과 철을 캐서 화로에서 제련하세요.", workshop: "작업장", craftSmelt: "제작과 제련", resources: "자원", tools: "도구", recipes: "조합법", equipped: "장착", hand: "맨손", sticks: "막대기", ironOre: "철광석", ironIngot: "철괴", furnace: "화로", woodPickaxe: "나무 곡괭이", stonePickaxe: "돌 곡괭이", ironPickaxe: "철 곡괭이", woodAxe: "나무 도끼", stoneAxe: "돌 도끼", ironAxe: "철 도끼", recipePlanks: "나무 판자 4개", recipeSticks: "막대기 4개", smeltIron: "철괴 제련", notEnough: "자원이 부족합니다", craftedItem: "{item} 제작 완료", owned: "보유", needsFurnace: "먼저 화로를 만들어 가지고 있어야 합니다", needBetterPickaxe: "더 강한 곡괭이가 필요합니다", mining: "{block} 캐는 중..." },
+  es: { craft: "Crear y fundir", breakTip: "Mantén el clic izquierdo o toca un bloque hasta romperlo.", help4: "Crea herramientas, extrae carbón y hierro y funde hierro en un horno.", workshop: "TALLER", craftSmelt: "Crear y fundir", resources: "Recursos", tools: "Herramientas", recipes: "Recetas", equipped: "Equipado", hand: "Mano", sticks: "Palos", ironOre: "Mineral de hierro", ironIngot: "Lingote de hierro", furnace: "Horno", woodPickaxe: "Pico de madera", stonePickaxe: "Pico de piedra", ironPickaxe: "Pico de hierro", woodAxe: "Hacha de madera", stoneAxe: "Hacha de piedra", ironAxe: "Hacha de hierro", recipePlanks: "4 tablones", recipeSticks: "4 palos", smeltIron: "Fundir lingote", notEnough: "Faltan recursos", craftedItem: "Creaste {item}", owned: "Tienes", needsFurnace: "Primero crea y lleva un horno", needBetterPickaxe: "Necesitas un pico más fuerte", mining: "Minando {block}..." },
+  fr: { craft: "Fabriquer et fondre", breakTip: "Maintiens le clic gauche ou touche un bloc jusqu'à le casser.", help4: "Fabrique des outils, mine charbon et fer, puis fonds le fer au four.", workshop: "ATELIER", craftSmelt: "Fabriquer et fondre", resources: "Ressources", tools: "Outils", recipes: "Recettes", equipped: "Équipé", hand: "Main", sticks: "Bâtons", ironOre: "Minerai de fer", ironIngot: "Lingot de fer", furnace: "Four", woodPickaxe: "Pioche en bois", stonePickaxe: "Pioche en pierre", ironPickaxe: "Pioche en fer", woodAxe: "Hache en bois", stoneAxe: "Hache en pierre", ironAxe: "Hache en fer", recipePlanks: "4 planches", recipeSticks: "4 bâtons", smeltIron: "Fondre un lingot", notEnough: "Il manque des ressources", craftedItem: "{item} fabriqué", owned: "Possédé", needsFurnace: "Fabrique et garde d'abord un four", needBetterPickaxe: "Il faut une pioche plus solide", mining: "Minage de {block}..." },
+  de: { craft: "Bauen und schmelzen", breakTip: "Halte die linke Maustaste oder tippe einen Block, bis er bricht.", help4: "Baue Werkzeuge, fördere Kohle und Eisen und schmelze Eisen im Ofen.", workshop: "WERKSTATT", craftSmelt: "Bauen und schmelzen", resources: "Rohstoffe", tools: "Werkzeuge", recipes: "Rezepte", equipped: "Ausgerüstet", hand: "Hand", sticks: "Stöcke", ironOre: "Eisenerz", ironIngot: "Eisenbarren", furnace: "Ofen", woodPickaxe: "Holzspitzhacke", stonePickaxe: "Steinspitzhacke", ironPickaxe: "Eisenspitzhacke", woodAxe: "Holzaxt", stoneAxe: "Steinaxt", ironAxe: "Eisenaxt", recipePlanks: "4 Bretter", recipeSticks: "4 Stöcke", smeltIron: "Eisenbarren schmelzen", notEnough: "Nicht genug Rohstoffe", craftedItem: "{item} hergestellt", owned: "Besitz", needsFurnace: "Baue und trage zuerst einen Ofen", needBetterPickaxe: "Eine stärkere Spitzhacke ist nötig", mining: "{block} wird abgebaut..." },
+  pt: { craft: "Criar e fundir", breakTip: "Segure o clique esquerdo ou toque num bloco até quebrar.", help4: "Crie ferramentas, minere carvão e ferro e funda ferro numa fornalha.", workshop: "OFICINA", craftSmelt: "Criar e fundir", resources: "Recursos", tools: "Ferramentas", recipes: "Receitas", equipped: "Equipado", hand: "Mão", sticks: "Gravetos", ironOre: "Minério de ferro", ironIngot: "Barra de ferro", furnace: "Fornalha", woodPickaxe: "Picareta de madeira", stonePickaxe: "Picareta de pedra", ironPickaxe: "Picareta de ferro", woodAxe: "Machado de madeira", stoneAxe: "Machado de pedra", ironAxe: "Machado de ferro", recipePlanks: "4 tábuas", recipeSticks: "4 gravetos", smeltIron: "Fundir barra de ferro", notEnough: "Faltam recursos", craftedItem: "Criou {item}", owned: "Possui", needsFurnace: "Primeiro crie e carregue uma fornalha", needBetterPickaxe: "É preciso uma picareta mais forte", mining: "Minerando {block}..." },
+  ru: { craft: "Создать и плавить", breakTip: "Удерживай левую кнопку или коснись блока, пока он не сломается.", help4: "Создай инструменты, добудь уголь и железо и переплавь железо в печи.", workshop: "МАСТЕРСКАЯ", craftSmelt: "Создать и плавить", resources: "Ресурсы", tools: "Инструменты", recipes: "Рецепты", equipped: "Выбрано", hand: "Рука", sticks: "Палки", ironOre: "Железная руда", ironIngot: "Железный слиток", furnace: "Печь", woodPickaxe: "Деревянная кирка", stonePickaxe: "Каменная кирка", ironPickaxe: "Железная кирка", woodAxe: "Деревянный топор", stoneAxe: "Каменный топор", ironAxe: "Железный топор", recipePlanks: "4 доски", recipeSticks: "4 палки", smeltIron: "Выплавить слиток", notEnough: "Не хватает ресурсов", craftedItem: "Создано: {item}", owned: "Есть", needsFurnace: "Сначала создай и носи печь", needBetterPickaxe: "Нужна более крепкая кирка", mining: "Добывается {block}..." },
+  ar: { craft: "صناعة وصهر", breakTip: "اضغط مطولا أو المس كتلة قريبة حتى تنكسر.", help4: "اصنع الأدوات واحفر الفحم والحديد ثم اصهر الحديد في الفرن.", workshop: "ورشة", craftSmelt: "صناعة وصهر", resources: "الموارد", tools: "الأدوات", recipes: "الوصفات", equipped: "المجهز", hand: "اليد", sticks: "عيدان", ironOre: "خام الحديد", ironIngot: "سبيكة حديد", furnace: "فرن", woodPickaxe: "معول خشبي", stonePickaxe: "معول حجري", ironPickaxe: "معول حديدي", woodAxe: "فأس خشبي", stoneAxe: "فأس حجري", ironAxe: "فأس حديدي", recipePlanks: "4 ألواح", recipeSticks: "4 عيدان", smeltIron: "صهر سبيكة حديد", notEnough: "تحتاج إلى موارد أكثر", craftedItem: "تم صنع {item}", owned: "مملوك", needsFurnace: "اصنع واحمل فرنا أولا", needBetterPickaxe: "تحتاج إلى معول أقوى", mining: "جار حفر {block}..." }
+};
+languages.forEach((code) => Object.assign(text[code], craftingText[code]));
 let lang = languages.includes(localStorage.getItem("muye-lang")) ? localStorage.getItem("muye-lang") : "en";
 let playerKey = "";
 let world = [];
-let inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 8: 0 };
+let inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, sticks: 0, ironIngot: 0 };
+let tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false };
+let equippedTool = "hand";
 let selectedSlot = 0;
 let worldName = "";
 let elapsed = 0;
@@ -82,7 +127,9 @@ let saveTimer = 0;
 let lastFrame = performance.now();
 let camera = { x: 0, y: 0 };
 let pointerTile = null;
+let mining = null;
 let keys = new Set();
+let craftResume = false;
 let player = { x: 12, y: 10, vx: 0, vy: 0, width: 0.72, height: 1.78, grounded: false, health: 5, facing: 1, spawnX: 12, spawnY: 10 };
 
 function t(key, data = {}) {
@@ -100,6 +147,7 @@ function applyLanguage() {
   document.querySelector("#pause-button").textContent = paused ? t("resume") : t("pause");
   if (world.length && playerKey) saveState.textContent = playerKey.startsWith("user:") ? t("accountSave") : t("deviceSave");
   renderHotbar();
+  renderCrafting();
   updateHud();
 }
 
@@ -157,7 +205,8 @@ function generateWorld(seed = Math.floor(Math.random() * 2147483647), name = t("
     for (let y = surface; y < WORLD_HEIGHT; y += 1) {
       let type = y === surface ? 1 : y < surface + 4 ? 2 : 3;
       if (type === 3 && y > surface + 4 && random() < 0.075) type = 6;
-      if (type === 3 && y > surface + 12 && random() < 0.025) type = 7;
+      if (type === 3 && y > surface + 7 && random() < 0.04) type = 9;
+      if (type === 3 && y > surface + 12 && random() < 0.018) type = 7;
       setTile(x, y, type);
     }
   }
@@ -176,7 +225,9 @@ function generateWorld(seed = Math.floor(Math.random() * 2147483647), name = t("
   const spawnX = 12;
   const spawnY = heights[spawnX] - 2;
   player = { x: spawnX + 0.15, y: spawnY, vx: 0, vy: 0, width: 0.72, height: 1.78, grounded: false, health: 5, facing: 1, spawnX: spawnX + 0.15, spawnY };
-  inventory = { 2: 8, 3: 0, 4: 0, 5: 0, 7: 0, 8: 0 };
+  inventory = { 2: 8, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, sticks: 0, ironIngot: 0 };
+  tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false };
+  equippedTool = "hand";
   selectedSlot = 0;
   worldName = name || t("worldDefault");
   elapsed = 22;
@@ -184,6 +235,7 @@ function generateWorld(seed = Math.floor(Math.random() * 2147483647), name = t("
   dirty = true;
   updateHud();
   renderHotbar();
+  renderCrafting();
 }
 
 function encodeWorld(values) {
@@ -213,9 +265,18 @@ function loadWorld() {
   try {
     const saved = JSON.parse(localStorage.getItem(saveKey()) || "null");
     const decoded = decodeWorld(saved?.world);
-    if (!saved || saved.version !== SAVE_VERSION || !decoded) return false;
+    if (!saved || !decoded) return false;
     world = decoded;
-    inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 8: 0, ...saved.inventory };
+    inventory = { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, sticks: 0, ironIngot: 0, ...saved.inventory };
+    tools = { woodPickaxe: false, stonePickaxe: false, ironPickaxe: false, woodAxe: false, stoneAxe: false, ironAxe: false, ...saved.tools };
+    equippedTool = tools[saved.equippedTool] ? saved.equippedTool : "hand";
+    if ((saved.version || 1) < 2) {
+      let added = 0;
+      for (let i = WORLD_WIDTH * 30; i < world.length && added < 110; i += 1) {
+        if (world[i] === 3 && ((i * 31 + 17) % 97) < 3) { world[i] = 9; added += 1; }
+      }
+      dirty = true;
+    }
     selectedSlot = Math.max(0, Math.min(HOTBAR_BLOCKS.length - 1, saved.selectedSlot || 0));
     worldName = saved.worldName || t("worldDefault");
     elapsed = Number(saved.elapsed) || 0;
@@ -232,6 +293,8 @@ function saveWorld(manual = false) {
     version: SAVE_VERSION,
     world: encodeWorld(world),
     inventory,
+    tools,
+    equippedTool,
     selectedSlot,
     worldName,
     elapsed,
@@ -251,6 +314,11 @@ function saveWorld(manual = false) {
 
 function blockName(id) { return t(blockData[id]?.name || "stone"); }
 
+function itemName(id) {
+  const numericId = Number(id);
+  return Number.isFinite(numericId) && blockData[numericId] ? blockName(numericId) : t(id);
+}
+
 function drawBlock(target, id, x, y, size) {
   const unit = size / 8;
   target.save();
@@ -263,11 +331,12 @@ function drawBlock(target, id, x, y, size) {
   } else if (id === 2) {
     target.fillStyle = "#795239"; target.fillRect(0, 0, size, size);
     target.fillStyle = "#573b2c"; for (let i = 0; i < 7; i += 1) target.fillRect(((i * 17 + 3) % 29) / 32 * size, ((i * 11 + 8) % 29) / 32 * size, unit, unit);
-  } else if (id === 3 || id === 6 || id === 7) {
+  } else if (id === 3 || id === 6 || id === 7 || id === 9) {
     target.fillStyle = "#686d6d"; target.fillRect(0, 0, size, size);
     target.fillStyle = "#515555"; for (let i = 0; i < 6; i += 1) target.fillRect(((i * 13 + 4) % 27) / 32 * size, ((i * 19 + 6) % 27) / 32 * size, unit * 1.2, unit);
     if (id === 6) { target.fillStyle = "#202526"; [[2,2],[5,4],[3,6],[6,1]].forEach(([px,py]) => target.fillRect(px*unit, py*unit, unit*1.5, unit*1.5)); }
     if (id === 7) { target.fillStyle = "#43daca"; [[2,1],[5,3],[3,6],[6,6]].forEach(([px,py]) => { target.fillRect(px*unit, py*unit, unit, unit*2); target.fillStyle = "#a2fff3"; target.fillRect(px*unit, py*unit, unit/2, unit); target.fillStyle = "#43daca"; }); }
+    if (id === 9) { target.fillStyle = "#c68b68"; [[1,2],[5,1],[3,5],[6,6]].forEach(([px,py]) => { target.fillRect(px*unit, py*unit, unit*1.5, unit*1.5); target.fillStyle = "#e0ae89"; target.fillRect(px*unit, py*unit, unit/2, unit/2); target.fillStyle = "#c68b68"; }); }
   } else if (id === 4) {
     target.fillStyle = "#6e4624"; target.fillRect(0, 0, size, size);
     target.fillStyle = "#a16a34"; target.fillRect(unit, 0, unit * 2, size); target.fillRect(unit * 5, 0, unit, size);
@@ -280,6 +349,11 @@ function drawBlock(target, id, x, y, size) {
     target.fillStyle = "#aa7137"; target.fillRect(0, 0, size, size);
     target.fillStyle = "#d19a55"; for (let row = 0; row < 4; row += 1) target.fillRect(0, row*unit*2, size, unit/2);
     target.fillStyle = "#754822"; target.fillRect(size/2, 0, unit/2, unit*2); target.fillRect(size/4, unit*4, unit/2, unit*2);
+  } else if (id === 10) {
+    target.fillStyle = "#555b5b"; target.fillRect(0, 0, size, size);
+    target.fillStyle = "#777d7d"; target.fillRect(unit, unit, unit*6, unit*2);
+    target.fillStyle = "#191b1b"; target.fillRect(unit*1.5, unit*4, unit*5, unit*3);
+    target.fillStyle = "#d57934"; target.fillRect(unit*2.5, unit*5.5, unit*3, unit*1.5);
   }
   target.strokeStyle = "rgba(0,0,0,.17)";
   target.strokeRect(0.5, 0.5, size - 1, size - 1);
@@ -307,6 +381,64 @@ function renderHotbar() {
     button.addEventListener("click", () => { selectedSlot = index; dirty = true; renderHotbar(); });
     hotbar.appendChild(button);
   });
+}
+
+function hasFurnace() {
+  if (inventory[10] > 0) return true;
+  const centerX = Math.floor(player.x + player.width / 2);
+  const centerY = Math.floor(player.y + player.height / 2);
+  for (let y = centerY - 5; y <= centerY + 5; y += 1) {
+    for (let x = centerX - 5; x <= centerX + 5; x += 1) if (getTile(x, y) === 10) return true;
+  }
+  return false;
+}
+
+function canCraft(recipe) {
+  if (recipe.tool && tools[recipe.tool]) return false;
+  if (recipe.furnace && !hasFurnace()) return false;
+  return Object.entries(recipe.cost).every(([id, amount]) => (inventory[id] || 0) >= amount);
+}
+
+function renderCrafting() {
+  if (!resourceList || !toolList || !recipeList) return;
+  const resources = [4, 8, "sticks", 3, 6, 9, "ironIngot", 7, 10];
+  resourceList.innerHTML = resources.map((id) => `<span class="resource-chip">${itemName(id)} <strong>${inventory[id] || 0}</strong></span>`).join("");
+  toolList.innerHTML = Object.entries(toolData).map(([id, tool]) => {
+    const owned = id === "hand" || tools[id];
+    return `<button class="tool-button${equippedTool === id ? " selected" : ""}" type="button" data-tool="${id}" ${owned ? "" : "disabled"}>${tool.icon} ${t(tool.name)}${id !== "hand" && owned ? `<small> · ${t("owned")}</small>` : ""}</button>`;
+  }).join("");
+  toolList.querySelectorAll("[data-tool]").forEach((button) => {
+    button.addEventListener("click", () => {
+      equippedTool = button.dataset.tool;
+      mining = null;
+      dirty = true;
+      renderCrafting();
+    });
+  });
+  recipeList.innerHTML = recipes.map((recipe) => {
+    const cost = Object.entries(recipe.cost).map(([id, amount]) => `${amount} ${itemName(id)}`).join(" + ");
+    const unavailable = !canCraft(recipe);
+    const reason = recipe.tool && tools[recipe.tool] ? t("owned") : recipe.furnace && !hasFurnace() ? t("needsFurnace") : cost;
+    return `<button class="recipe-button" type="button" data-recipe="${recipe.id}" ${unavailable ? "disabled" : ""}><span class="recipe-icon">${recipe.icon}</span><span class="recipe-copy"><strong>${t(recipe.name)}</strong><small>${reason}</small></span></button>`;
+  }).join("");
+  recipeList.querySelectorAll("[data-recipe]").forEach((button) => button.addEventListener("click", () => craftRecipe(button.dataset.recipe)));
+  const equipped = toolData[equippedTool] || toolData.hand;
+  equippedToolEl.textContent = `${equipped.icon} ${t("equipped")}: ${t(equipped.name)}`;
+}
+
+function craftRecipe(recipeId) {
+  const recipe = recipes.find((item) => item.id === recipeId);
+  if (!recipe || !canCraft(recipe)) return showToast(recipe?.furnace && !hasFurnace() ? t("needsFurnace") : t("notEnough"));
+  Object.entries(recipe.cost).forEach(([id, amount]) => { inventory[id] -= amount; });
+  if (recipe.output) Object.entries(recipe.output).forEach(([id, amount]) => { inventory[id] = (inventory[id] || 0) + amount; });
+  if (recipe.tool) {
+    tools[recipe.tool] = true;
+    equippedTool = recipe.tool;
+  }
+  dirty = true;
+  renderHotbar();
+  renderCrafting();
+  showToast(t("craftedItem", { item: t(recipe.name) }));
 }
 
 function updateHud() {
@@ -337,15 +469,37 @@ function tileInReach(x, y) {
   return Math.hypot(dx, dy) <= REACH;
 }
 
-function mineTile(x, y) {
+function miningTime(id) {
+  const block = blockData[id];
+  const tool = toolData[equippedTool] || toolData.hand;
+  const speed = block.tool === tool.kind ? tool.speed : 0.68;
+  return block.hardness / speed;
+}
+
+function startMining(x, y, pointerType = "mouse") {
   const id = getTile(x, y);
-  if (!id) return;
+  if (!id) { mining = null; return; }
   if (!tileInReach(x, y)) return showToast(t("tooFar"));
+  const block = blockData[id];
+  const tool = toolData[equippedTool] || toolData.hand;
+  if (block.tier && (tool.kind !== "pickaxe" || tool.tier < block.tier)) {
+    mining = null;
+    return showToast(t("needBetterPickaxe"));
+  }
+  mining = { x, y, id, progress: 0, duration: miningTime(id), pointerType };
+  showToast(t("mining", { block: blockName(id) }));
+}
+
+function finishMining() {
+  if (!mining || getTile(mining.x, mining.y) !== mining.id) { mining = null; return; }
+  const { x, y, id } = mining;
   setTile(x, y, 0);
   const drop = id === 1 ? 2 : id;
   inventory[drop] = (inventory[drop] || 0) + 1;
+  mining = null;
   dirty = true;
   renderHotbar();
+  renderCrafting();
   showToast(t("mined", { block: blockName(drop) }));
 }
 
@@ -429,6 +583,13 @@ function update(dt) {
   player.vy = Math.min(14, player.vy + 24 * dt);
   movePlayer(player.vx * dt, player.vy * dt);
   if (player.y > WORLD_HEIGHT + 4) respawn();
+  if (mining) {
+    if (!tileInReach(mining.x, mining.y) || getTile(mining.x, mining.y) !== mining.id) mining = null;
+    else {
+      mining.progress += dt;
+      if (mining.progress >= mining.duration) finishMining();
+    }
+  }
   dirty = dirty || Math.abs(player.vx) > 0.01 || Math.abs(player.vy) > 0.01;
   updateHud();
 }
@@ -451,6 +612,17 @@ function drawPlayer(screenX, screenY) {
   ctx.fillStyle = "#248b91"; ctx.fillRect(width * 0.08, height * 0.31, width * 0.84, height * 0.38);
   ctx.fillStyle = "#2e405e"; ctx.fillRect(width * 0.08, height * 0.69, width * 0.36, height * 0.31); ctx.fillRect(width * 0.56, height * 0.69, width * 0.36, height * 0.31);
   ctx.fillStyle = "#1b2022"; ctx.fillRect(width * 0.05, height * 0.92, width * 0.4, height * 0.08); ctx.fillRect(width * 0.55, height * 0.92, width * 0.42, height * 0.08);
+  const held = toolData[equippedTool] || toolData.hand;
+  if (held.kind !== "hand") {
+    ctx.save();
+    ctx.translate(width * 0.82, height * 0.48);
+    ctx.rotate(-0.5);
+    ctx.fillStyle = "#8d5a2e"; ctx.fillRect(0, 0, 3, height * 0.38);
+    ctx.fillStyle = held.tier === 1 ? "#b27a3d" : held.tier === 2 ? "#969c9d" : "#d4d9dc";
+    if (held.kind === "pickaxe") ctx.fillRect(-8, -2, 19, 5);
+    else { ctx.fillRect(-5, -4, 11, 10); ctx.fillStyle = "#5d6466"; ctx.fillRect(4, -2, 5, 6); }
+    ctx.restore();
+  }
   ctx.restore();
 }
 
@@ -501,6 +673,24 @@ function drawWorld() {
     ctx.fillStyle = `rgba(0, 4, 8, ${0.62 - light})`;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
+  if (mining) {
+    const x = Math.round((mining.x - camera.x) * TILE);
+    const y = Math.round((mining.y - camera.y) * TILE);
+    const progress = Math.min(1, mining.progress / mining.duration);
+    ctx.strokeStyle = "rgba(255,255,255,.92)";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x + 2, y + 2, TILE - 4, TILE - 4);
+    ctx.fillStyle = "rgba(0,0,0,.72)";
+    ctx.fillRect(x + 3, y + TILE - 6, TILE - 6, 3);
+    ctx.fillStyle = progress > 0.72 ? "#e8b74d" : "#f4f1e8";
+    ctx.fillRect(x + 3, y + TILE - 6, (TILE - 6) * progress, 3);
+    ctx.strokeStyle = `rgba(0,0,0,${0.2 + progress * 0.55})`;
+    ctx.lineWidth = 1 + progress * 2;
+    ctx.beginPath();
+    ctx.moveTo(x + 6, y + 5); ctx.lineTo(x + 15, y + 15); ctx.lineTo(x + 10, y + 26);
+    ctx.moveTo(x + 27, y + 7); ctx.lineTo(x + 19, y + 15); ctx.lineTo(x + 26, y + 25);
+    ctx.stroke();
+  }
 }
 
 function frame(now) {
@@ -513,6 +703,7 @@ function frame(now) {
 
 function setPaused(value) {
   paused = value;
+  if (paused) mining = null;
   document.querySelector("#pause-button").textContent = paused ? t("resume") : t("pause");
   if (paused && running) showToast(t("paused"));
 }
@@ -532,9 +723,14 @@ canvas.addEventListener("pointerdown", (event) => {
   event.preventDefault();
   const tile = pointerToTile(event);
   pointerTile = tile;
-  if (event.button === 2 || touchMode === "place") placeTile(tile.x, tile.y);
-  else mineTile(tile.x, tile.y);
+  if (event.button === 2 || touchMode === "place") { mining = null; placeTile(tile.x, tile.y); }
+  else {
+    startMining(tile.x, tile.y, event.pointerType || "mouse");
+    if (event.pointerType === "mouse") canvas.setPointerCapture?.(event.pointerId);
+  }
 });
+canvas.addEventListener("pointerup", (event) => { if (mining?.pointerType === "mouse") mining = null; });
+canvas.addEventListener("pointercancel", () => { mining = null; });
 canvas.addEventListener("contextmenu", (event) => event.preventDefault());
 
 window.addEventListener("keydown", (event) => {
@@ -542,7 +738,7 @@ window.addEventListener("keydown", (event) => {
     event.preventDefault();
     keys.add(event.code);
   }
-  if (/^Digit[1-6]$/.test(event.code)) { selectedSlot = Number(event.code.at(-1)) - 1; dirty = true; renderHotbar(); }
+  if (/^Digit[1-7]$/.test(event.code)) { selectedSlot = Number(event.code.at(-1)) - 1; dirty = true; renderHotbar(); }
   if (event.code === "KeyP" || event.code === "Escape") setPaused(!paused);
 });
 window.addEventListener("keyup", (event) => keys.delete(event.code));
@@ -560,18 +756,19 @@ document.querySelectorAll("[data-control]").forEach((button) => {
 document.querySelectorAll("[data-mode]").forEach((button) => {
   button.addEventListener("click", () => {
     touchMode = button.dataset.mode;
+    mining = null;
     document.querySelectorAll("[data-mode]").forEach((item) => item.classList.toggle("active", item === button));
   });
 });
 
 document.querySelector("#craft-button").addEventListener("click", () => {
-  if (!(inventory[4] > 0)) return showToast(t("needLog"));
-  inventory[4] -= 1;
-  inventory[8] = (inventory[8] || 0) + 4;
-  dirty = true;
-  renderHotbar();
-  showToast(t("crafted"));
+  mining = null;
+  craftResume = running && !paused;
+  if (craftResume) setPaused(true);
+  renderCrafting();
+  craftDialog.showModal();
 });
+craftDialog.addEventListener("close", () => { if (craftResume) setPaused(false); craftResume = false; });
 document.querySelector("#save-button").addEventListener("click", () => saveWorld(true));
 document.querySelector("#play-button").addEventListener("click", startPlaying);
 document.querySelector("#pause-button").addEventListener("click", () => setPaused(!paused));

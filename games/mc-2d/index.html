@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#050706">
     <title>MC 2D · Muye Games</title>
     <link rel="icon" href="/assets/favicon.png" type="image/png">
-    <link rel="stylesheet" href="/games/mc-2d/mc-2d.css?v=1">
+    <link rel="stylesheet" href="/games/mc-2d/mc-2d.css?v=2">
     <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body>
@@ -53,7 +53,10 @@
 
         <div class="inventory-row">
           <div class="hotbar" id="hotbar" aria-label="Block hotbar"></div>
-          <button class="craft-button" id="craft-button" type="button"><span class="craft-icon">▦</span><span data-i18n="craft">Craft planks</span></button>
+          <div class="inventory-actions">
+            <span class="equipped-tool" id="equipped-tool">✋ Hand</span>
+            <button class="craft-button" id="craft-button" type="button"><span class="craft-icon">▦</span><span data-i18n="craft">Craft &amp; smelt</span></button>
+          </div>
         </div>
 
         <div class="mobile-controls" aria-label="Touch controls">
@@ -76,9 +79,9 @@
         </div>
         <div class="tip-grid">
           <article><strong>WASD</strong><span data-i18n="moveTip">Move with A/D and jump with W or Space.</span></article>
-          <article><strong data-i18n="breakTitle">Break</strong><span data-i18n="breakTip">Left-click or tap a nearby block to mine it.</span></article>
+          <article><strong data-i18n="breakTitle">Break</strong><span data-i18n="breakTip">Hold left-click, or tap a nearby block, until it breaks.</span></article>
           <article><strong data-i18n="buildTitle">Build</strong><span data-i18n="buildTip">Right-click, or choose Place on touch screens.</span></article>
-          <article><strong>1–6</strong><span data-i18n="hotbarTip">Choose a block from your hotbar.</span></article>
+          <article><strong>1–7</strong><span data-i18n="hotbarTip">Choose a block from your hotbar.</span></article>
         </div>
       </section>
     </main>
@@ -92,9 +95,29 @@
           <li data-i18n="help1">Mine a tree to collect logs.</li>
           <li data-i18n="help2">Craft each log into four wooden planks.</li>
           <li data-i18n="help3">Mine dirt and stone, then build a shelter.</li>
-          <li data-i18n="help4">Explore underground to find coal and bright crystal.</li>
+          <li data-i18n="help4">Craft tools, mine coal and iron, then smelt iron in a furnace.</li>
         </ol>
         <p data-i18n="autosaveHelp">The world autosaves after changes and when you leave the page.</p>
+      </form>
+    </dialog>
+
+    <dialog id="craft-dialog" class="craft-dialog">
+      <form method="dialog">
+        <button class="dialog-close" aria-label="Close" title="Close">×</button>
+        <p class="eyebrow" data-i18n="workshop">WORKSHOP</p>
+        <h2 data-i18n="craftSmelt">Craft &amp; smelt</h2>
+        <section>
+          <h3 data-i18n="resources">Resources</h3>
+          <div class="resource-list" id="resource-list"></div>
+        </section>
+        <section>
+          <h3 data-i18n="tools">Tools</h3>
+          <div class="tool-list" id="tool-list"></div>
+        </section>
+        <section>
+          <h3 data-i18n="recipes">Recipes</h3>
+          <div class="recipe-list" id="recipe-list"></div>
+        </section>
       </form>
     </dialog>
 
@@ -113,7 +136,7 @@
     </dialog>
 
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script src="/games/mc-2d/mc-2d.js?v=1"></script>
+    <script src="/games/mc-2d/mc-2d.js?v=2"></script>
     <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

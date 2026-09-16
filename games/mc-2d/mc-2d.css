@@ -204,7 +204,7 @@ h1 span { color: var(--grass); }
 .start-overlay p { margin: 0; font-size: clamp(18px, 3vw, 28px); font-weight: 950; text-shadow: 2px 2px #000; }
 
 .inventory-row { justify-content: space-between; gap: 12px; padding: 12px; border-top: 1px solid var(--line); }
-.hotbar { display: grid; grid-template-columns: repeat(6, 54px); gap: 7px; min-width: 0; }
+.hotbar { display: grid; grid-template-columns: repeat(7, 54px); gap: 7px; min-width: 0; }
 .hotbar-slot {
   position: relative;
   display: grid;
@@ -222,6 +222,8 @@ h1 span { color: var(--grass); }
 .hotbar-slot kbd { position: absolute; top: 2px; left: 4px; color: var(--muted); font: 700 9px/1 ui-monospace, monospace; }
 .hotbar-slot small { position: absolute; right: 3px; bottom: 2px; font: 900 11px/1 ui-monospace, monospace; text-shadow: 1px 1px #000; }
 .hotbar-slot[disabled] { opacity: 0.42; }
+.inventory-actions { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; }
+.equipped-tool { max-width: 170px; color: var(--muted); font-size: 12px; font-weight: 850; }
 .craft-button { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
 .craft-icon { font-size: 20px; }
 
@@ -270,6 +272,48 @@ dialog label { display: grid; gap: 8px; margin: 20px 0; font-weight: 850; }
 dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5px; padding: 0 12px; color: white; background: #050706; }
 .dialog-actions { justify-content: flex-end; gap: 8px; }
 
+.craft-dialog { width: min(760px, calc(100% - 28px)); }
+.craft-dialog form { max-height: min(82svh, 760px); overflow-y: auto; }
+.craft-dialog section + section { margin-top: 24px; }
+.craft-dialog h3 { margin: 0 0 10px; color: var(--muted); font-size: 12px; text-transform: uppercase; }
+.resource-list { display: flex; flex-wrap: wrap; gap: 7px; }
+.resource-chip { padding: 7px 9px; border: 1px solid var(--line); border-radius: 5px; background: #060806; font-size: 12px; font-weight: 800; }
+.resource-chip strong { color: var(--gold); }
+.tool-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.tool-button {
+  min-height: 62px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px;
+  color: var(--ink);
+  background: #111612;
+  font-weight: 850;
+  cursor: pointer;
+}
+.tool-button.selected { border-color: var(--grass); background: #1c321b; box-shadow: inset 0 0 0 1px var(--grass); }
+.tool-button[disabled] { opacity: 0.36; cursor: default; }
+.recipe-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.recipe-button {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  min-height: 74px;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px;
+  color: var(--ink);
+  background: #0d110e;
+  text-align: left;
+  cursor: pointer;
+}
+.recipe-button:hover:not([disabled]) { border-color: var(--grass); background: #152015; }
+.recipe-button[disabled] { opacity: 0.44; cursor: default; }
+.recipe-icon { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid #394239; border-radius: 4px; background: #050705; font-size: 22px; }
+.recipe-copy { display: grid; gap: 4px; min-width: 0; }
+.recipe-copy strong { font-size: 13px; }
+.recipe-copy small { color: var(--muted); font-size: 11px; line-height: 1.35; }
+
 @media (pointer: coarse), (max-width: 800px) {
   .mobile-controls { display: flex; }
   .crosshair { display: none; }
@@ -284,9 +328,10 @@ dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5
   .game-frame { border-inline: 0; border-radius: 0; }
   .canvas-wrap { aspect-ratio: 4 / 3; min-height: 330px; }
   .inventory-row { align-items: stretch; flex-direction: column; }
-  .hotbar { grid-template-columns: repeat(6, minmax(42px, 1fr)); width: 100%; }
+  .hotbar { grid-template-columns: repeat(7, minmax(38px, 1fr)); width: 100%; }
   .hotbar-slot { width: 100%; height: 49px; }
-  .craft-button { justify-content: center; width: 100%; }
+  .inventory-actions { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  .craft-button { justify-content: center; }
   .tips { grid-template-columns: 1fr; padding-top: 40px; }
 }
 
@@ -300,6 +345,8 @@ dialog input { min-height: 45px; border: 1px solid var(--line); border-radius: 5
   .action-pad { grid-template-columns: repeat(2, 1fr); }
   .mobile-controls button { width: 100%; }
   .tip-grid { grid-template-columns: 1fr; }
+  .tool-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .recipe-list { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

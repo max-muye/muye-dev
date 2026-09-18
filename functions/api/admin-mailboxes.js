@@ -126,7 +126,7 @@ export async function onRequestPatch({ request, env }) {
     await env.muye_mailboxes.batch([
       env.muye_mailboxes.prepare(
         "INSERT INTO mailboxes (mailbox, identity_hash, identity_type, password_hash, device_id, clerk_user_id) VALUES (?, ?, ?, ?, ?, ?)",
-      ).bind(requestMailbox, identityHash, "approved_request", requestRow.password_hash, `approved-request:${requestId}`, requestRow.requester_clerk_user_id || null),
+      ).bind(requestMailbox, identityHash, "email", requestRow.password_hash, `approved-request:${requestId}`, requestRow.requester_clerk_user_id || null),
       env.muye_mailboxes.prepare(
         "UPDATE email_requests SET status = 'closed' WHERE id = ?",
       ).bind(requestId),

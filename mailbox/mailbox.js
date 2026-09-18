@@ -823,6 +823,10 @@ document.querySelector("#logout-button").addEventListener("click", async () => {
 applyMailboxLanguage();
 
 async function restoreMailboxSession() {
+  if (localStorage.getItem("muye_open_mail_today") === todayKey) {
+    autoOpenApp();
+    return;
+  }
   try {
     const response = await fetch("/api/mailbox-messages?view=inbox", { cache: "no-store" });
     if (response.ok) {

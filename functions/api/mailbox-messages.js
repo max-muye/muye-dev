@@ -32,10 +32,30 @@ async function mailboxIsBanned(env, mailbox) {
   return Boolean(row?.banned_at);
 }
 
+async function removeFilelessDuplicates(env, mailbox) {
+  await env.muye_mailboxes.prepare(
+    `DELETE FROM messages AS plain
+     WHERE plain.mailbox = ?
+       AND COALESCE(plain.image_data, '') = ''
+       AND EXISTS (
+         SELECT 1 FROM messages AS with_file
+         WHERE with_file.mailbox = plain.mailbox
+           AND with_file.direction = plain.direction
+           AND with_file.sender = plain.sender
+           AND with_file.recipient = plain.recipient
+           AND with_file.subject = plain.subject
+           AND with_file.body = plain.body
+           AND with_file.created_at = plain.created_at
+           AND COALESCE(with_file.image_data, '') != ''
+       )`,
+  ).bind(mailbox).run();
+}
+
 export async function onRequestGet({ request, env }) {
   let mailbox;
   try { mailbox = await mailboxFromRequest(request, env); } catch { return json({ error: "Sign in to your mailbox." }, 401); }
   if (await mailboxIsBanned(env, mailbox)) return json({ error: "This mailbox is banned." }, 403);
+  await removeFilelessDuplicates(env, mailbox);
   const url = new URL(request.url);
   const requestedView = url.searchParams.get("view");
   const view = requestedView === "outbox" || requestedView === "trash" ? requestedView : "inbox";

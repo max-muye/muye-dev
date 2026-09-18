@@ -113,7 +113,7 @@ export async function onRequestPost({ request, env }) {
 
   if (!isOwner) {
     if (password.length < 8) return json({ error: "Password must be at least 8 characters." }, 400);
-    if (requestText.length < 4 || requestText.length > 1200) {
+    if (requestText.length < 12 || requestText.length > 1200) {
       return json({ error: "Write a short request with what you want this email for." }, 400);
     }
     try {

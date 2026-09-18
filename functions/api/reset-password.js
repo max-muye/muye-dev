@@ -37,7 +37,8 @@ export async function onRequestPost({ request, env }) {
   try { body = await request.json(); } catch { return json({ error: "Invalid request." }, 400); }
   const proof = String(body.proof || "");
   const password = String(body.password || "");
-  if (password.length < 8 || !proof) return json({ error: "Enter a new password and verification code." }, 400);
+  if (!proof) return json({ error: "Enter a new password and verification code." }, 400);
+  if (password.length < 8 || !/\d/.test(password)) return json({ error: "Password must be at least 8 characters and include a number." }, 400);
 
   let verified;
   try { verified = await decryptProof(proof, env.EMAIL_VERIFICATION_SECRET); } catch { return json({ error: "Your verification has expired. Verify again." }, 400); }

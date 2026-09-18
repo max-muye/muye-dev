@@ -112,7 +112,7 @@ export async function onRequestPost({ request, env }) {
   const isOwner = String(clerkUser?.email || "").toLowerCase() === "muye@muye.dev";
 
   if (!isOwner) {
-    if (password.length < 8) return json({ error: "Password must be at least 8 characters." }, 400);
+    if (password.length < 8 || !/\d/.test(password)) return json({ error: "Password must be at least 8 characters and include a number." }, 400);
     if (requestText.length < 12 || requestText.length > 1200) {
       return json({ error: "Write a short request with what you want this email for." }, 400);
     }
@@ -129,7 +129,7 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: true, requested: true, mailbox: `${emailName}@muye.dev` });
   }
 
-  if (password.length < 8) return json({ error: "Password must be at least 8 characters." }, 400);
+  if (password.length < 8 || !/\d/.test(password)) return json({ error: "Password must be at least 8 characters and include a number." }, 400);
 
   let verified;
   if (proof) {

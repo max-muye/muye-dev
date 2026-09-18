@@ -36,7 +36,7 @@ export async function onRequestPost({ request, env }) {
   let body;
   try { body = await request.json(); } catch { return json({ error: "Invalid request." }, 400); }
   const password = String(body.password || "");
-  if (password.length < 8) return json({ error: "Password must be at least 8 characters." }, 400);
+  if (password.length < 8 || !/\d/.test(password)) return json({ error: "Password must be at least 8 characters and include a number." }, 400);
   const result = await env.muye_mailboxes.prepare("UPDATE mailboxes SET password_hash = ? WHERE mailbox = ? AND banned_at IS NULL").bind(await passwordHash(password), mailbox).run();
   if (!result.meta?.changes) return json({ error: "Mailbox not found or unavailable." }, 404);
   return json({ ok: true });

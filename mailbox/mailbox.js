@@ -85,7 +85,6 @@ function applyMailboxLanguage() {
   document.querySelectorAll(".password-toggle").forEach((button) => { button.textContent = t("show"); button.setAttribute("aria-label", t("show")); });
   document.querySelector(".mailbox-keep-open span").textContent = t("openToday");
   document.querySelector('#login-form button[type="submit"]').textContent = t("openMailbox");
-  document.querySelector("#show-reset-button").textContent = t("replacePassword");
   document.querySelector(".mailbox-switch").innerHTML = `${t("needEmail")} <a href="/create-email">${t("createOne")}</a>`;
   document.querySelector("#reset-panel .eyebrow").textContent = t("recovery");
   document.querySelector("#reset-title").textContent = t("replacePassword");
@@ -675,7 +674,6 @@ function togglePassword(input, button) {
 document.querySelector("#login-password-toggle").addEventListener("click", (event) => togglePassword(document.querySelector("#login-password"), event.currentTarget));
 document.querySelectorAll("[data-reset-toggle]").forEach((button) => button.addEventListener("click", () => togglePassword(button.previousElementSibling, button)));
 
-document.querySelector("#show-reset-button").addEventListener("click", () => { login.hidden = true; resetPanel.hidden = false; });
 document.querySelector("#back-to-login").addEventListener("click", () => { resetPanel.hidden = true; login.hidden = false; });
 document.querySelector("#show-change-password-button").addEventListener("click", () => { changePasswordPanel.hidden = false; changePasswordForm.querySelector('input[name="password"]').focus(); });
 document.querySelector("#cancel-change-password-button").addEventListener("click", () => { changePasswordForm.reset(); changePasswordPanel.hidden = true; setMessage(changePasswordMessage, ""); });

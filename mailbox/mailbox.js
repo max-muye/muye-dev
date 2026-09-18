@@ -391,7 +391,6 @@ function renderAdminRequests(requests) {
         <p class="empty-state">${escapeHtml(request.requester_email || request.requester_name || t("noRequester"))}</p>
         ${request.status === "open" ? `
           <div class="message-actions">
-            <input class="admin-temp-password" type="password" autocomplete="new-password" placeholder="${escapeAttribute(t("temporaryPassword"))}" minlength="8">
             <button class="mailbox-button quiet" type="button" data-approve-request="${request.id}">${t("approveRequest")}</button>
           </div>` : ""}`;
       adminMessageDetail.querySelector("[data-approve-request]")?.addEventListener("click", () => approveRequest(request.id));
@@ -400,19 +399,12 @@ function renderAdminRequests(requests) {
 }
 
 async function approveRequest(requestId) {
-  const passwordInput = adminMessageDetail.querySelector(".admin-temp-password");
-  const password = String(passwordInput?.value || "");
-  if (password.length < 8) {
-    setMessage(adminMessage, t("passwordShort"), true);
-    passwordInput?.focus();
-    return;
-  }
   try {
     setMessage(adminMessage, t("approving"));
     const result = await adminFetch("/api/admin-mailboxes", {
       method: "PATCH",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ action: "approve-request", requestId, password }),
+      body: JSON.stringify({ action: "approve-request", requestId }),
     });
     setMessage(adminMessage, `${t("approved")}: ${result.mailbox}`);
     await loadAdminMailboxes();

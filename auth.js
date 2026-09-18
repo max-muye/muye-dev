@@ -183,7 +183,7 @@ async function configureCreateEmailMode(form) {
   createEmailOwnerMode = email === "muye@muye.dev";
   ownerOnly.forEach((element) => { element.hidden = !createEmailOwnerMode; });
   requestOnly.forEach((element) => { element.hidden = createEmailOwnerMode; });
-  form.querySelectorAll("[data-owner-only] input").forEach((input) => { input.required = createEmailOwnerMode; });
+  form.querySelectorAll('[name="password"], [name="passwordConfirm"]').forEach((input) => { input.required = true; });
   form.querySelectorAll("[data-request-only] textarea").forEach((input) => { input.required = !createEmailOwnerMode; });
   if (submit) submit.textContent = createEmailOwnerMode ? tt("createEmail") : tt("sendRequest");
 }
@@ -287,19 +287,19 @@ forms.forEach((form) => {
         return;
       }
 
-      if (createEmailOwnerMode) {
-        if (password.length < 8) {
-          message.textContent = tt("passwordShort");
-          message.classList.add("error");
-          return;
-        }
+      if (password.length < 8) {
+        message.textContent = tt("passwordShort");
+        message.classList.add("error");
+        return;
+      }
 
-        if (password !== passwordConfirm) {
-          message.textContent = tt("passwordMismatch");
-          message.classList.add("error");
-          return;
-        }
-      } else if (requestText.length < 12) {
+      if (password !== passwordConfirm) {
+        message.textContent = tt("passwordMismatch");
+        message.classList.add("error");
+        return;
+      }
+
+      if (!createEmailOwnerMode && requestText.length < 12) {
         message.textContent = tt("shortRequest");
         message.classList.add("error");
         return;

@@ -112,14 +112,16 @@ export async function onRequestPost({ request, env }) {
   const isOwner = String(clerkUser?.email || "").toLowerCase() === "muye@muye.dev";
 
   if (!isOwner) {
+    if (password.length < 8) return json({ error: "Password must be at least 8 characters." }, 400);
     if (requestText.length < 12 || requestText.length > 1200) {
       return json({ error: "Write a short request with what you want this email for." }, 400);
     }
     try {
+      const requestedPasswordHash = await passwordHash(password);
       await env.muye_mailboxes.prepare(
-        `INSERT INTO email_requests (email_name, request_text, requester_clerk_user_id, requester_email, requester_name)
-         VALUES (?, ?, ?, ?, ?)`,
-      ).bind(emailName, requestText, clerkUser?.id || null, clerkUser?.email || null, clerkUser?.username || null).run();
+        `INSERT INTO email_requests (email_name, request_text, requester_clerk_user_id, requester_email, requester_name, password_hash)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+      ).bind(emailName, requestText, clerkUser?.id || null, clerkUser?.email || null, clerkUser?.username || null, requestedPasswordHash).run();
     } catch (error) {
       console.error("create-email request failed", error);
       return json({ error: `Request database error: ${String(error?.message || error).slice(0, 180)}` }, 500);

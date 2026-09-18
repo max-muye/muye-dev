@@ -75,7 +75,6 @@
 .message-detail h3 { margin: 12px 0 16px; font-size: 20px; line-height: 1.25; }
 .message-detail pre { margin: 0; color: var(--ink); font: inherit; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
 .message-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
-.admin-temp-password { min-height: 40px; min-width: min(260px, 100%); border: 1px solid var(--line); border-radius: 6px; padding: 0 12px; background: rgba(248, 244, 234, 0.08); color: var(--ink); font: inherit; outline: none; }
 .message-html { color: var(--ink); line-height: 1.55; overflow-wrap: anywhere; }
 .message-html :is(h1, h2, h3, h4, p, ul, ol, blockquote, table, pre) { margin: 0 0 14px; }
 .message-html a { color: var(--accent-strong); }

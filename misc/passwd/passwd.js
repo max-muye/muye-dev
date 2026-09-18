@@ -1,8 +1,6 @@
 const encoder = new TextEncoder();
 const algorithm = "pbkdf2_sha256";
 const defaultIterations = 210000;
-const minIterations = 10000;
-const maxIterations = 1200000;
 
 const languages = [
   "en",
@@ -21,12 +19,12 @@ const text = {
   en: {
     eyebrow: "Misc / Password Hash", title: "Password Hash", miscHome: "Misc Home", coder: "Coder", lambda: "Lambda Projects", hashExplainer: "What is a hash?",
     note: "Hashes are one-way. This page runs locally in your browser and does not send the password anywhere.",
-    generateTitle: "Generate hash", verifyTitle: "Test password", password: "Password", iterations: "Iterations", makeHash: "Make hash", hash: "Hash", copy: "Copy", copied: "Copied", storedHash: "Stored hash", testHash: "Test password", made: "Hash generated.", ok: "Password matches the hash.", bad: "Password does not match.", invalid: "That hash is not in the supported format.",
+    generateTitle: "Generate hash", verifyTitle: "Test password", password: "Password", iterations: "Iterations", iterationsAdvice: "Recommended: 10,000–1,200,000. Other positive values are allowed.", makeHash: "Make hash", hash: "Hash", copy: "Copy", copied: "Copied", storedHash: "Stored hash", testHash: "Test password", made: "Hash generated.", ok: "Password matches the hash.", bad: "Password does not match.", invalid: "That hash is not in the supported format.",
   },
   zh: {
     eyebrow: "杂项 / 密码哈希", title: "密码哈希", miscHome: "杂项主页", coder: "编码器", lambda: "Lambda 项目", hashExplainer: "什么是哈希？",
     note: "哈希是单向的。这个页面只在你的浏览器里运行，不会把密码发送出去。",
-    generateTitle: "生成哈希", verifyTitle: "测试密码", password: "密码", iterations: "迭代次数", makeHash: "生成哈希", hash: "哈希", copy: "复制", copied: "已复制", storedHash: "已保存的哈希", testHash: "测试密码", made: "哈希已生成。", ok: "密码匹配这个哈希。", bad: "密码不匹配。", invalid: "这个哈希格式不支持。",
+    generateTitle: "生成哈希", verifyTitle: "测试密码", password: "密码", iterations: "迭代次数", iterationsAdvice: "建议：10,000–1,200,000。也可以使用其他正数。", makeHash: "生成哈希", hash: "哈希", copy: "复制", copied: "已复制", storedHash: "已保存的哈希", testHash: "测试密码", made: "哈希已生成。", ok: "密码匹配这个哈希。", bad: "密码不匹配。", invalid: "这个哈希格式不支持。",
   },
   ja: {
     eyebrow: "その他 / パスワードハッシュ", title: "パスワードハッシュ", miscHome: "その他ホーム", coder: "コーダー", lambda: "Lambda プロジェクト", hashExplainer: "ハッシュとは？",
@@ -97,7 +95,7 @@ function parseHash(value) {
   const parts = String(value || "").trim().split("$");
   if (parts.length !== 4 || parts[0] !== algorithm) throw new Error("bad hash");
   const iterations = Number(parts[1]);
-  if (!Number.isSafeInteger(iterations) || iterations < 10000) throw new Error("bad iterations");
+  if (!Number.isSafeInteger(iterations) || iterations < 1) throw new Error("bad iterations");
   return { iterations, salt: base64ToBytes(parts[2]), hash: base64ToBytes(parts[3]) };
 }
 
@@ -122,8 +120,8 @@ document.querySelector("#language-button").addEventListener("click", () => {
 document.querySelector("#generate-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const password = document.querySelector("#generate-password").value;
-  const requestedIterations = Number(document.querySelector("#iterations").value) || defaultIterations;
-  const iterations = Math.min(maxIterations, Math.max(minIterations, Math.floor(requestedIterations)));
+  const rawIterations = Number(document.querySelector("#iterations").value);
+  const iterations = Number.isSafeInteger(rawIterations) && rawIterations > 0 ? rawIterations : defaultIterations;
   const salt = randomSalt();
   const hash = await derive(password, salt, iterations);
   const output = `${algorithm}$${iterations}$${bytesToBase64(salt)}$${bytesToBase64(hash)}`;

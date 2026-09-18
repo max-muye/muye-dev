@@ -12,4 +12,3 @@ https://muye.dev/* https://www.muye.dev/:splat 301
 /mailbox/* /mailbox/index.html 200
 /captcha/* /captcha/index.html 200
 /misc/passwd/pdk /misc/passwd/ 301
-/misc/passwd/pbk /misc/passwd/ 301

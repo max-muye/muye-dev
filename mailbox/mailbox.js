@@ -810,10 +810,18 @@ document.querySelector("#logout-button").addEventListener("click", async () => {
 
 applyMailboxLanguage();
 
-if (localStorage.getItem("muye_open_mail_today") === todayKey) {
-  autoOpenApp();
-} else {
+async function restoreMailboxSession() {
+  try {
+    const response = await fetch("/api/mailbox-messages?view=inbox", { cache: "no-store" });
+    if (response.ok) {
+      localStorage.setItem("muye_open_mail_today", todayKey);
+      autoOpenApp();
+      return;
+    }
+  } catch {}
   showLogin();
 }
+
+restoreMailboxSession();
 
 showAdminIfAllowed();

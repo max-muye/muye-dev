@@ -354,6 +354,7 @@ forms.forEach((form) => {
           submitButton.disabled = false;
           submitButton.textContent = tt("sendRequest");
         }
+        window.setTimeout(() => window.location.reload(), 700);
       } else if (submitButton) {
         submitButton.textContent = tt("emailCreated");
       }

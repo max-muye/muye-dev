@@ -299,7 +299,7 @@ forms.forEach((form) => {
         return;
       }
 
-      if (!createEmailOwnerMode && requestText.length < 12) {
+      if (!createEmailOwnerMode && requestText.length < 4) {
         message.textContent = tt("shortRequest");
         message.classList.add("error");
         return;

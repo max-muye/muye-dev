@@ -128,7 +128,7 @@ export async function onRequestPatch({ request, env }) {
         "INSERT INTO mailboxes (mailbox, identity_hash, identity_type, password_hash, device_id, clerk_user_id) VALUES (?, ?, ?, ?, ?, ?)",
       ).bind(requestMailbox, identityHash, "approved_request", requestRow.password_hash, `approved-request:${requestId}`, requestRow.requester_clerk_user_id || null),
       env.muye_mailboxes.prepare(
-        "UPDATE email_requests SET status = 'approved' WHERE id = ?",
+        "UPDATE email_requests SET status = 'closed' WHERE id = ?",
       ).bind(requestId),
     ]);
     return json({ ok: true, mailbox: requestMailbox });

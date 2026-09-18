@@ -346,7 +346,17 @@ forms.forEach((form) => {
       message.textContent = createResult.requested
         ? `Request sent for ${createResult.mailbox}.`
         : `${createResult.mailbox} is ready.`;
-      if (submitButton) submitButton.textContent = createResult.requested ? tt("requestSent") : tt("emailCreated");
+      if (createResult.requested) {
+        form.reset();
+        window.turnstile?.reset?.();
+        window.muyeCaptchaExpired();
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = tt("sendRequest");
+        }
+      } else if (submitButton) {
+        submitButton.textContent = tt("emailCreated");
+      }
       return;
     }
 

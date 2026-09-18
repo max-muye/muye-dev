@@ -36,6 +36,7 @@ let newestInboxId = 0;
 let hasLoadedInboxOnce = false;
 let notificationTimer = null;
 let messagesLoading = false;
+let pendingView = null;
 let composeSending = false;
 
 const mailboxText = {
@@ -296,7 +297,10 @@ function composeIdempotencyKey() {
 }
 
 async function loadMessages() {
-  if (messagesLoading) return;
+  if (messagesLoading) {
+    pendingView = currentView;
+    return;
+  }
   messagesLoading = true;
   try {
     const response = await fetch(`/api/mailbox-messages?view=${encodeURIComponent(currentView)}`, { cache: "no-store" });
@@ -325,6 +329,14 @@ async function loadMessages() {
     console.error(error);
   } finally {
     messagesLoading = false;
+    if (pendingView) {
+      const nextView = pendingView;
+      pendingView = null;
+      if (nextView !== currentView) {
+        currentView = nextView;
+        loadMessages();
+      }
+    }
   }
 }
 

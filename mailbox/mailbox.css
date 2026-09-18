@@ -5,6 +5,7 @@
 
 .mailbox-shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 28px 0 56px; }
 .mailbox-topbar, .mailbox-heading, .panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.mailbox-heading-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .mailbox-brand { color: var(--ink); font-size: 18px; font-weight: 760; text-decoration: none; }
 .mailbox-login { width: min(460px, 100%); margin: 16vh auto 0; padding: clamp(24px, 5vw, 38px); border: 1px solid var(--line); border-radius: 8px; background: rgba(16, 21, 20, 0.88); }
 .mailbox-login h1, .mailbox-heading h1 { margin-bottom: 12px; font-size: clamp(42px, 7vw, 68px); }
@@ -52,6 +53,8 @@
 .mailbox-switch { margin: 18px 0 0; color: var(--muted); font-size: 14px; }
 .mailbox-switch a { color: var(--accent-strong); font-weight: 760; }
 .mailbox-app, .mailbox-admin { padding-top: 8vh; }
+.change-password-panel { max-width: 520px; margin-top: 22px; padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: rgba(16, 21, 20, 0.86); }
+.change-password-panel h2 { margin: 0 0 18px; font-size: 20px; }
 .mailbox-view-tabs { display: inline-flex; gap: 6px; margin-top: 22px; padding: 5px; border: 1px solid var(--line); border-radius: 8px; background: rgba(16, 21, 20, 0.76); }
 .mailbox-view-tab { min-height: 36px; border: 0; border-radius: 6px; padding: 0 16px; color: var(--muted); background: transparent; cursor: pointer; font: inherit; font-weight: 760; }
 .mailbox-view-tab:hover, .mailbox-view-tab:focus-visible { color: var(--ink); outline: none; }

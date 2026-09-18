@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Mailbox">
-    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
     <link rel="manifest" href="/mailbox/manifest.webmanifest">
     <link rel="apple-touch-icon" href="/assets/icon-mailbox.svg">
     <link rel="stylesheet" href="/styles.css?v=10">
@@ -63,8 +63,20 @@
             <h1 id="mailbox-title">Inbox</h1>
             <p class="mailbox-address" id="mailbox-address"></p>
           </div>
-          <button class="mailbox-button quiet" id="logout-button" type="button">Sign out</button>
+          <div class="mailbox-heading-actions">
+            <button class="mailbox-button quiet" id="show-change-password-button" type="button">Change password</button>
+            <button class="mailbox-button quiet" id="logout-button" type="button">Sign out</button>
+          </div>
         </div>
+        <section class="change-password-panel" id="change-password-panel" hidden aria-labelledby="change-password-title">
+          <h2 id="change-password-title">Change password</h2>
+          <form class="mailbox-form" id="change-password-form">
+            <label>New password<span class="mailbox-password-field"><input name="password" type="password" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-change-password-toggle>Show</button></span></label>
+            <label>Confirm new password<span class="mailbox-password-field"><input name="passwordConfirm" type="password" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-change-password-toggle>Show</button></span></label>
+            <div class="message-actions"><button class="mailbox-button primary" type="submit">Change password</button><button class="mailbox-button quiet" id="cancel-change-password-button" type="button">Cancel</button></div>
+            <p class="mailbox-message" id="change-password-message" role="status" aria-live="polite"></p>
+          </form>
+        </section>
         <div class="mailbox-view-tabs" role="tablist" aria-label="Mailbox folders">
           <button class="mailbox-view-tab active" id="inbox-view-button" type="button" role="tab" aria-selected="true" data-view="inbox">Inbox</button>
           <button class="mailbox-view-tab" id="outbox-view-button" type="button" role="tab" aria-selected="false" data-view="outbox">Outbox</button>
@@ -136,7 +148,7 @@
       </section>
     </main>
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script src="/mailbox/mailbox.js?v=22"></script>
+    <script src="/mailbox/mailbox.js?v=23"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});</script>
     <script src="/assets/site-footer.js?v=1"></script>

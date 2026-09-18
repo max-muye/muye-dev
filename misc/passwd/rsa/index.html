@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Learn how RSA public-key encryption works with a browser-only demo.">
+    <title>RSA · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/misc/coder/coder.css?v=1">
+    <link rel="stylesheet" href="/misc/passwd/passwd.css?v=2">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  </head>
+  <body class="misc-page">
+    <main class="misc-shell">
+      <header class="misc-topbar">
+        <a class="misc-brand" href="/">Muye</a>
+        <a class="misc-home" href="/misc/passwd/">Password tools</a>
+      </header>
+      <section class="codec-tool passwd-tool" aria-labelledby="rsa-title">
+        <div class="passwd-head">
+          <div>
+            <p class="eyebrow">Misc / Public-key cryptography</p>
+            <h1 id="rsa-title">RSA</h1>
+          </div>
+          <a class="copy-button" href="/misc/passwd/">PBKDF2</a>
+        </div>
+        <nav class="misc-tools" aria-label="Password tools">
+          <a href="/misc/passwd/">Password hash</a>
+          <a href="/passwd/what-is-a-hash/">What is a hash?</a>
+          <a href="/misc/">Misc Home</a>
+        </nav>
+        <p class="passwd-note">RSA uses two related keys. Anyone can use the public key to encrypt a message, but only the private key can decrypt it. This demo runs locally and the keys disappear when you leave the page.</p>
+        <div class="passwd-grid">
+          <section class="passwd-card">
+            <h2>How RSA works</h2>
+            <ol class="rsa-steps">
+              <li><strong>Generate keys:</strong> make a public key and a private key.</li>
+              <li><strong>Encrypt:</strong> use the public key to lock a short message.</li>
+              <li><strong>Decrypt:</strong> use the private key to unlock it.</li>
+              <li><strong>Keep private:</strong> the private key must never be shared.</li>
+            </ol>
+            <p class="field-hint">RSA encryption is different from password hashing: encryption is designed to be reversible with a key; a password hash is designed for verification without recovery.</p>
+          </section>
+          <form class="passwd-card" id="rsa-form">
+            <h2>Try it</h2>
+            <label>
+              <span>Message</span>
+              <textarea id="rsa-message" rows="4" required>Hello from Muye</textarea>
+            </label>
+            <button class="copy-button primary-action" type="submit">Generate, encrypt, and decrypt</button>
+            <p class="codec-status" id="rsa-status" aria-live="polite"></p>
+          </form>
+        </div>
+        <section class="passwd-card rsa-output" aria-live="polite">
+          <h2>Result</h2>
+          <p><strong>Encrypted message</strong></p>
+          <textarea id="rsa-encrypted" rows="4" readonly></textarea>
+          <p><strong>Decrypted message</strong></p>
+          <textarea id="rsa-decrypted" rows="2" readonly></textarea>
+        </section>
+      </section>
+    </main>
+    <script src="/misc/passwd/rsa/rsa.js?v=1"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

@@ -91,6 +91,19 @@
   color: #ff9b8d;
 }
 
+.rsa-steps {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-left: 22px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.rsa-output {
+  margin-top: 16px;
+}
+
 @media (max-width: 760px) {
   .passwd-head,
   .passwd-grid {

@@ -633,19 +633,25 @@ loginForm.addEventListener("submit", async (event) => {
     setMessage(loginMessage, t("waitCaptcha"), true);
     return;
   }
-  const response = await fetch("/api/mailbox-login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mailbox: formData.get("mailbox"), password: formData.get("password"), captcha, openForToday, expiresAt: tomorrow.getTime() }) });
-  const result = await response.json();
-  if (!response.ok) {
+  try {
+    const response = await fetch("/api/mailbox-login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mailbox: formData.get("mailbox"), password: formData.get("password"), captcha, openForToday, expiresAt: tomorrow.getTime() }) });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      window.turnstile?.reset?.();
+      window.muyeCaptchaExpired();
+      setMessage(loginMessage, result.error || t("openFailed"), true);
+      return;
+    }
+    loginForm.reset();
+    window.muyeCaptchaExpired();
+    if (openForToday) localStorage.setItem("muye_open_mail_today", todayKey);
+    else localStorage.removeItem("muye_open_mail_today");
+    showApp(result.mailbox);
+  } catch (error) {
     window.turnstile?.reset?.();
     window.muyeCaptchaExpired();
-    setMessage(loginMessage, result.error || t("openFailed"), true);
-    return;
+    setMessage(loginMessage, error.message || t("openFailed"), true);
   }
-  loginForm.reset();
-  window.muyeCaptchaExpired();
-  if (openForToday) localStorage.setItem("muye_open_mail_today", todayKey);
-  else localStorage.removeItem("muye_open_mail_today");
-  showApp(result.mailbox);
 });
 
 function togglePassword(input, button) {

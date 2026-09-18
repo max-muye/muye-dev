@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Generate and verify password hashes in the browser.">
-    <title>Password Hash · Muye</title>
+    <meta name="description" content="Choose a password hashing or public-key cryptography tool.">
+    <title>Password tools · Muye</title>
     <link rel="icon" href="/assets/favicon.png" type="image/png">
     <link rel="stylesheet" href="/styles.css?v=11">
     <link rel="stylesheet" href="/misc/coder/coder.css?v=1">
-    <link rel="stylesheet" href="/misc/passwd/passwd.css?v=1">
+    <link rel="stylesheet" href="/misc/passwd/passwd.css?v=2">
     <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body class="misc-page">
@@ -17,68 +17,26 @@
         <a class="misc-brand" href="/">Muye</a>
         <a class="misc-home" href="/misc/">Misc</a>
       </header>
-
       <section class="codec-tool passwd-tool" aria-labelledby="passwd-title">
         <div class="passwd-head">
           <div>
-            <p class="eyebrow" data-i18n="eyebrow">Misc / Password Hash</p>
-            <h1 id="passwd-title" data-i18n="title">Password Hash</h1>
+            <p class="eyebrow">Misc / Password tools</p>
+            <h1 id="passwd-title">Password tools</h1>
           </div>
-          <button class="copy-button" id="language-button" type="button">A中</button>
+          <button class="copy-button" type="button" aria-label="Change language">A中</button>
         </div>
-
         <nav class="misc-tools" aria-label="Misc tools">
-          <a href="/misc/" data-i18n="miscHome">Misc Home</a>
-          <a href="/misc/coder/" data-i18n="coder">Coder</a>
-          <a href="/misc/lambda/" data-i18n="lambda">Lambda Projects</a>
-          <a href="/passwd/pbk/what-is-a-hash/" data-i18n="hashExplainer">What is a hash?</a>
+          <a href="/misc/">Misc Home</a>
+          <a href="/misc/coder/">Coder</a>
+          <a href="/misc/lambda/">Lambda Projects</a>
         </nav>
-
-        <p class="passwd-note" data-i18n="note">
-          Hashes are one-way. This page runs locally in your browser and does not send the password anywhere.
-        </p>
-
-        <div class="passwd-grid">
-          <form class="passwd-card" id="generate-form">
-            <h2 data-i18n="generateTitle">Generate hash</h2>
-            <label>
-              <span data-i18n="password">Password</span>
-              <input id="generate-password" type="password" autocomplete="new-password" required>
-            </label>
-            <label>
-              <span data-i18n="iterations">Iterations</span>
-              <input id="iterations" type="number" min="1" step="1" value="210000" inputmode="numeric">
-              <small class="field-hint" data-i18n="iterationsAdvice">Recommended: 10,000–1,200,000. Other positive values are allowed.</small>
-            </label>
-            <button class="copy-button primary-action" type="submit" data-i18n="makeHash">Make hash</button>
-            <label>
-              <span class="field-title">
-                <span data-i18n="hash">Hash</span>
-                <button class="copy-button" id="copy-hash" type="button" data-i18n="copy">Copy</button>
-              </span>
-              <textarea id="generated-hash" rows="5" spellcheck="false" readonly></textarea>
-            </label>
-          </form>
-
-          <form class="passwd-card" id="verify-form">
-            <h2 data-i18n="verifyTitle">Test password</h2>
-            <label>
-              <span data-i18n="password">Password</span>
-              <input id="verify-password" type="password" autocomplete="current-password" required>
-            </label>
-            <label>
-              <span data-i18n="storedHash">Stored hash</span>
-              <textarea id="verify-hash" rows="5" spellcheck="false" required></textarea>
-            </label>
-            <button class="copy-button primary-action" type="submit" data-i18n="testHash">Test password</button>
-            <p class="codec-status" id="verify-result" aria-live="polite"></p>
-          </form>
+        <p class="passwd-note">Choose a tool. PBKDF2-SHA256 creates and verifies password hashes. RSA demonstrates public-key encryption.</p>
+        <div class="passwd-switcher" aria-label="Password tools">
+          <a class="copy-button primary-action" href="/misc/passwd/pbk/">PBKDF2-SHA256</a>
+          <a class="copy-button" href="/misc/passwd/rsa/">RSA</a>
         </div>
-
-        <p class="codec-status" id="status" aria-live="polite"></p>
       </section>
     </main>
-    <script src="/misc/passwd/passwd.js?v=1"></script>
     <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

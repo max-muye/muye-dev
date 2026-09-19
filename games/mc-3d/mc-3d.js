@@ -32,6 +32,19 @@ const blockDefs = {
   one_way: { color: 0x8a5c22, poweredColor: 0xffb43b, swatch: "#c47a29", shape: "gate" },
   tnt: { color: 0xc7352f, poweredColor: 0xffe8ae, swatch: "#df3e36" },
 };
+const blockIcons = {
+  grass: `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#765035" d="M4 11 16 5l12 6v13l-12 6-12-6Z"/><path fill="#6fbd56" d="m4 11 12-6 12 6-12 6Z"/><path fill="#4c873f" d="m16 17 12-6v5l-12 6Z"/></svg>`,
+  dirt: `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#815538" d="M4 9 16 4l12 5v15l-12 5-12-5Z"/><path fill="#a0704d" d="m4 9 12 5 12-5-12-5Z"/><g fill="#4f3527"><circle cx="10" cy="18" r="1.5"/><circle cx="21" cy="21" r="1.3"/><circle cx="17" cy="11" r="1"/></g></svg>`,
+  stone: `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#777d80" d="M4 9 16 4l12 5v15l-12 5-12-5Z"/><path fill="#a6abad" d="m4 9 12 5 12-5-12-5Z"/><path fill="none" stroke="#555b5e" stroke-width="1.5" d="m8 17 4-2 4 2 4-2m-8 9 4-2 5 2"/></svg>`,
+  wood: `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#76502f" d="M7 7h18v20H7z"/><path fill="#aa7544" d="M7 7h18v7H7z"/><ellipse cx="16" cy="10.5" rx="6" ry="2.6" fill="none" stroke="#664321" stroke-width="1.4"/><path stroke="#4f331f" stroke-width="1.4" d="M11 16v9m6-9v9m5-9v9"/></svg>`,
+  leaves: `<svg viewBox="0 0 32 32" aria-hidden="true"><g fill="#4c9653" stroke="#2f6536" stroke-width="1.2"><circle cx="11" cy="12" r="6"/><circle cx="21" cy="12" r="6"/><circle cx="10" cy="21" r="6"/><circle cx="21" cy="21" r="7"/></g><path stroke="#b0db8f" stroke-width="1.5" d="m8 22 15-13M14 17l-5-1m10-3 1 6"/></svg>`,
+  sand: `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#d4bd78" d="M4 10 16 5l12 5v14l-12 5-12-5Z"/><path fill="#f0da91" d="m4 10 12 5 12-5-12-5Z"/><g fill="#9e874d"><circle cx="9" cy="12" r="1"/><circle cx="20" cy="10" r="1"/><circle cx="14" cy="23" r="1"/><circle cx="23" cy="20" r="1"/></g></svg>`,
+  redstone: `<svg viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="#ef3d35" stroke-width="3" stroke-linecap="round"><path d="M5 16h8l3-7 3 14 3-7h5"/><path d="M16 9V5m0 22v-4"/></g><g fill="#ff8179"><circle cx="5" cy="16" r="2.5"/><circle cx="27" cy="16" r="2.5"/></g></svg>`,
+  lever: `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#77716a" stroke="#d2c4ad" stroke-width="1.4" d="M6 23h20l-3 5H9Z"/><path stroke="#e7b85c" stroke-width="5" stroke-linecap="round" d="m15 22 7-15"/><circle cx="22" cy="7" r="3" fill="#ffd877"/></svg>`,
+  not_gate: `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#75447a" stroke="#edb9f2" stroke-width="1.8" d="M6 6v20l17-10Z"/><circle cx="26" cy="16" r="3" fill="#171218" stroke="#edb9f2" stroke-width="1.8"/><path stroke="#edb9f2" stroke-width="2" d="M2 16h4m23 0h2"/></svg>`,
+  one_way: `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#9b641e" stroke="#ffd17a" stroke-width="1.5" d="M4 10h13V5l11 11-11 11v-5H4Z"/><path stroke="#fff0bd" stroke-width="2" d="M7 16h15"/></svg>`,
+  tnt: `<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="4" width="24" height="24" rx="2" fill="#cf3831" stroke="#ff8a79" stroke-width="1.5"/><path fill="#f5e4c7" d="M4 11h24v11H4z"/><text x="16" y="19" fill="#21110e" font-size="8" font-weight="900" text-anchor="middle" font-family="sans-serif">TNT</text></svg>`,
+};
 const blockTypes = Object.keys(blockDefs);
 const canvas = document.querySelector("#world");
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
@@ -450,8 +463,9 @@ function renderHotbar() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `hotbar-slot${type === selectedBlock ? " selected" : ""}`;
-    button.title = t(type);
-    button.innerHTML = `<span class="block-swatch" style="background:${blockDefs[type].swatch}"></span><span class="slot-count">${settings.mode === "creative" ? "∞" : inventory[type] || 0}</span>`;
+    button.title = `${index + 1}. ${t(type)}`;
+    button.setAttribute("aria-label", `${index + 1}. ${t(type)}`);
+    button.innerHTML = `<span class="slot-number">${index + 1}</span><span class="block-icon">${blockIcons[type]}</span><span class="slot-count">${settings.mode === "creative" ? "∞" : inventory[type] || 0}</span>`;
     button.addEventListener("click", () => { selectedBlock = type; renderHotbar(); });
     hotbar.append(button);
     if (index === 0 && !selectedBlock) selectedBlock = type;
@@ -783,7 +797,9 @@ window.addEventListener("keydown", (event) => {
   }
   keys.add(event.code);
   if (event.code === "Space") { event.preventDefault(); jump(); }
-  const slot = Number(event.key) - 1;
+  let slot = /^Digit[1-9]$/.test(event.code) ? Number(event.code.at(-1)) - 1 : -1;
+  if (event.code === "Digit0" || event.code === "Numpad0") slot = 9;
+  if (event.code === "Minus" || event.code === "NumpadSubtract") slot = 10;
   if (slot >= 0 && slot < blockTypes.length) { selectedBlock = blockTypes[slot]; renderHotbar(); }
 });
 window.addEventListener("keyup", (event) => keys.delete(event.code));

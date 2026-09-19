@@ -11,6 +11,9 @@ const resetMessage = document.querySelector("#reset-message");
 const changePasswordPanel = document.querySelector("#change-password-panel");
 const changePasswordForm = document.querySelector("#change-password-form");
 const changePasswordMessage = document.querySelector("#change-password-message");
+const deleteMailboxPanel = document.querySelector("#delete-mailbox-panel");
+const deleteMailboxForm = document.querySelector("#delete-mailbox-form");
+const deleteMailboxMessage = document.querySelector("#delete-mailbox-message");
 const composeForm = document.querySelector("#compose-form");
 const composeMessage = document.querySelector("#compose-message");
 const composeAttachments = document.querySelector("#compose-attachments");
@@ -68,6 +71,28 @@ Object.assign(mailboxText.pt, { file: "Arquivos", removeFile: "Remover arquivo",
 Object.assign(mailboxText.ru, { file: "Файлы", removeFile: "Удалить файл", quote: "Цитировать", quotedHeader: "{date}, {sender} написал(а):", fileLimit: "До 5 файлов, всего не более 4 МБ.", tooManyFiles: "Выберите не более 5 файлов.", filesTooLarge: "Общий размер файлов не должен превышать 4 МБ." });
 Object.assign(mailboxText.ar, { file: "الملفات", removeFile: "إزالة الملف", quote: "اقتباس", quotedHeader: "في {date}، كتب {sender}:", fileLimit: "اختر حتى 5 ملفات، بإجمالي 4 ميجابايت.", tooManyFiles: "اختر 5 ملفات كحد أقصى.", filesTooLarge: "يجب ألا يتجاوز مجموع الملفات 4 ميجابايت." });
 
+Object.assign(mailboxText.en, { deleteOwnMailbox: "Delete email", deleteMailboxTitle: "Delete email", deleteMailboxWarning: "This permanently deletes your Muye email and every message stored in it. This cannot be undone.", currentPassword: "Current password", confirmMailbox: "Type your full Muye email", confirmMailboxHelp: "Enter the email shown above to confirm.", deletePermanently: "Delete permanently", deletingMailbox: "Deleting email...", confirmMailboxMismatch: "Type your full Muye email address exactly as shown above.", mailboxDeleteFailed: "Could not delete your email." });
+Object.assign(mailboxText.zh, { deleteOwnMailbox: "删除邮箱", deleteMailboxTitle: "删除邮箱", deleteMailboxWarning: "这会永久删除你的 Muye 邮箱和其中保存的所有邮件，且无法撤销。", currentPassword: "当前密码", confirmMailbox: "输入完整的 Muye 邮箱", confirmMailboxHelp: "输入上方显示的邮箱以确认。", deletePermanently: "永久删除", deletingMailbox: "正在删除邮箱……", confirmMailboxMismatch: "请完全按照上方显示的内容输入完整的 Muye 邮箱。", mailboxDeleteFailed: "无法删除你的邮箱。" });
+Object.assign(mailboxText.ja, { deleteOwnMailbox: "メールを削除", deleteMailboxTitle: "メールを削除", deleteMailboxWarning: "Muye メールと保存されたすべてのメッセージを完全に削除します。元に戻せません。", currentPassword: "現在のパスワード", confirmMailbox: "Muye メールをすべて入力", confirmMailboxHelp: "確認のため、上に表示されたメールを入力してください。", deletePermanently: "完全に削除", deletingMailbox: "メールを削除中...", confirmMailboxMismatch: "上に表示された Muye メールを正確に入力してください。", mailboxDeleteFailed: "メールを削除できませんでした。" });
+Object.assign(mailboxText.ko, { deleteOwnMailbox: "이메일 삭제", deleteMailboxTitle: "이메일 삭제", deleteMailboxWarning: "Muye 이메일과 저장된 모든 메시지를 영구 삭제합니다. 되돌릴 수 없습니다.", currentPassword: "현재 비밀번호", confirmMailbox: "전체 Muye 이메일 입력", confirmMailboxHelp: "확인하려면 위에 표시된 이메일을 입력하세요.", deletePermanently: "영구 삭제", deletingMailbox: "이메일 삭제 중...", confirmMailboxMismatch: "위에 표시된 전체 Muye 이메일을 정확히 입력하세요.", mailboxDeleteFailed: "이메일을 삭제할 수 없습니다." });
+Object.assign(mailboxText.es, { deleteOwnMailbox: "Eliminar email", deleteMailboxTitle: "Eliminar email", deleteMailboxWarning: "Esto elimina permanentemente tu email Muye y todos sus mensajes guardados. No se puede deshacer.", currentPassword: "Contraseña actual", confirmMailbox: "Escribe tu email Muye completo", confirmMailboxHelp: "Escribe el email mostrado arriba para confirmar.", deletePermanently: "Eliminar permanentemente", deletingMailbox: "Eliminando email...", confirmMailboxMismatch: "Escribe exactamente el email Muye completo mostrado arriba.", mailboxDeleteFailed: "No se pudo eliminar tu email." });
+Object.assign(mailboxText.fr, { deleteOwnMailbox: "Supprimer l’email", deleteMailboxTitle: "Supprimer l’email", deleteMailboxWarning: "Cela supprime définitivement votre email Muye et tous ses messages enregistrés. Cette action est irréversible.", currentPassword: "Mot de passe actuel", confirmMailbox: "Saisissez votre email Muye complet", confirmMailboxHelp: "Saisissez l’email affiché ci-dessus pour confirmer.", deletePermanently: "Supprimer définitivement", deletingMailbox: "Suppression de l’email...", confirmMailboxMismatch: "Saisissez exactement l’email Muye complet affiché ci-dessus.", mailboxDeleteFailed: "Impossible de supprimer votre email." });
+Object.assign(mailboxText.de, { deleteOwnMailbox: "E-Mail löschen", deleteMailboxTitle: "E-Mail löschen", deleteMailboxWarning: "Dadurch werden deine Muye-E-Mail und alle darin gespeicherten Nachrichten dauerhaft gelöscht. Dies kann nicht rückgängig gemacht werden.", currentPassword: "Aktuelles Passwort", confirmMailbox: "Vollständige Muye-E-Mail eingeben", confirmMailboxHelp: "Gib zur Bestätigung die oben angezeigte E-Mail ein.", deletePermanently: "Dauerhaft löschen", deletingMailbox: "E-Mail wird gelöscht...", confirmMailboxMismatch: "Gib die oben angezeigte vollständige Muye-E-Mail genau ein.", mailboxDeleteFailed: "Deine E-Mail konnte nicht gelöscht werden." });
+Object.assign(mailboxText.pt, { deleteOwnMailbox: "Excluir email", deleteMailboxTitle: "Excluir email", deleteMailboxWarning: "Isso exclui permanentemente seu email Muye e todas as mensagens salvas nele. Não pode ser desfeito.", currentPassword: "Senha atual", confirmMailbox: "Digite seu email Muye completo", confirmMailboxHelp: "Digite o email mostrado acima para confirmar.", deletePermanently: "Excluir permanentemente", deletingMailbox: "Excluindo email...", confirmMailboxMismatch: "Digite exatamente o email Muye completo mostrado acima.", mailboxDeleteFailed: "Não foi possível excluir seu email." });
+Object.assign(mailboxText.ru, { deleteOwnMailbox: "Удалить почту", deleteMailboxTitle: "Удалить почту", deleteMailboxWarning: "Это навсегда удалит вашу почту Muye и все сохранённые в ней сообщения. Отменить действие нельзя.", currentPassword: "Текущий пароль", confirmMailbox: "Введите полный адрес Muye", confirmMailboxHelp: "Для подтверждения введите адрес, показанный выше.", deletePermanently: "Удалить навсегда", deletingMailbox: "Удаление почты...", confirmMailboxMismatch: "Точно введите полный адрес Muye, показанный выше.", mailboxDeleteFailed: "Не удалось удалить вашу почту." });
+Object.assign(mailboxText.ar, { deleteOwnMailbox: "حذف البريد", deleteMailboxTitle: "حذف البريد", deleteMailboxWarning: "سيؤدي هذا إلى حذف بريد Muye وجميع الرسائل المحفوظة فيه نهائيًا. لا يمكن التراجع عن ذلك.", currentPassword: "كلمة المرور الحالية", confirmMailbox: "اكتب بريد Muye كاملًا", confirmMailboxHelp: "اكتب البريد الظاهر أعلاه للتأكيد.", deletePermanently: "حذف نهائي", deletingMailbox: "جارٍ حذف البريد...", confirmMailboxMismatch: "اكتب بريد Muye الكامل كما هو ظاهر أعلاه تمامًا.", mailboxDeleteFailed: "تعذر حذف بريدك." });
+
+Object.assign(mailboxText.en, { currentPasswordIncorrect: "Current password is incorrect." });
+Object.assign(mailboxText.zh, { currentPasswordIncorrect: "当前密码不正确。" });
+Object.assign(mailboxText.ja, { currentPasswordIncorrect: "現在のパスワードが正しくありません。" });
+Object.assign(mailboxText.ko, { currentPasswordIncorrect: "현재 비밀번호가 올바르지 않습니다." });
+Object.assign(mailboxText.es, { currentPasswordIncorrect: "La contraseña actual es incorrecta." });
+Object.assign(mailboxText.fr, { currentPasswordIncorrect: "Le mot de passe actuel est incorrect." });
+Object.assign(mailboxText.de, { currentPasswordIncorrect: "Das aktuelle Passwort ist falsch." });
+Object.assign(mailboxText.pt, { currentPasswordIncorrect: "A senha atual está incorreta." });
+Object.assign(mailboxText.ru, { currentPasswordIncorrect: "Текущий пароль неверен." });
+Object.assign(mailboxText.ar, { currentPasswordIncorrect: "كلمة المرور الحالية غير صحيحة." });
+
 function currentLanguage() {
   const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";
   return mailboxText[saved] ? saved : "en";
@@ -111,11 +136,19 @@ function applyMailboxLanguage() {
   document.querySelector("#back-to-login").textContent = t("backLogin");
   document.querySelector("#mailbox-app .eyebrow").textContent = t("eyebrow");
   document.querySelector("#show-change-password-button").textContent = t("changePassword");
+  document.querySelector("#show-delete-mailbox-button").textContent = t("deleteOwnMailbox");
   document.querySelector("#change-password-title").textContent = t("changePassword");
   setLabelText(document.querySelector('#change-password-form label:nth-of-type(1)'), t("newPassword"));
   setLabelText(document.querySelector('#change-password-form label:nth-of-type(2)'), t("confirmPassword"));
   document.querySelector('#change-password-form button[type="submit"]').textContent = t("changePassword");
   document.querySelector("#cancel-change-password-button").textContent = t("cancel");
+  document.querySelector("#delete-mailbox-title").textContent = t("deleteMailboxTitle");
+  document.querySelector(".account-delete-warning").textContent = t("deleteMailboxWarning");
+  setLabelText(document.querySelector('#delete-mailbox-form label:nth-of-type(1)'), t("currentPassword"));
+  setLabelText(document.querySelector('#delete-mailbox-form label:nth-of-type(2)'), t("confirmMailbox"));
+  document.querySelector(".account-delete-help").textContent = t("confirmMailboxHelp");
+  document.querySelector('#delete-mailbox-form button[type="submit"]').textContent = t("deletePermanently");
+  document.querySelector("#cancel-delete-mailbox-button").textContent = t("cancel");
   document.querySelector("#logout-button").textContent = t("signOut");
   document.querySelector("#inbox-view-button").textContent = t("inbox");
   document.querySelector("#outbox-view-button").textContent = t("outbox");
@@ -721,6 +754,7 @@ function autoOpenApp() {
 function showLogin() {
   login.hidden = false;
   app.hidden = true;
+  deleteMailboxPanel.hidden = true;
 }
 
 loginForm.addEventListener("submit", async (event) => {
@@ -766,9 +800,51 @@ document.querySelector("#login-password-toggle").addEventListener("click", (even
 document.querySelectorAll("[data-reset-toggle]").forEach((button) => button.addEventListener("click", () => togglePassword(button.previousElementSibling, button)));
 
 document.querySelector("#back-to-login").addEventListener("click", () => { resetPanel.hidden = true; login.hidden = false; });
-document.querySelector("#show-change-password-button").addEventListener("click", () => { changePasswordPanel.hidden = false; changePasswordForm.querySelector('input[name="password"]').focus(); });
+document.querySelector("#show-change-password-button").addEventListener("click", () => { deleteMailboxPanel.hidden = true; changePasswordPanel.hidden = false; changePasswordForm.querySelector('input[name="password"]').focus(); });
 document.querySelector("#cancel-change-password-button").addEventListener("click", () => { changePasswordForm.reset(); changePasswordPanel.hidden = true; setMessage(changePasswordMessage, ""); });
 document.querySelectorAll("[data-change-password-toggle]").forEach((button) => button.addEventListener("click", () => togglePassword(button.previousElementSibling, button)));
+document.querySelector("#show-delete-mailbox-button").addEventListener("click", () => {
+  changePasswordPanel.hidden = true;
+  deleteMailboxPanel.hidden = false;
+  deleteMailboxForm.confirmation.placeholder = address.textContent || "you@muye.dev";
+  deleteMailboxForm.querySelector('input[name="password"]').focus();
+});
+document.querySelector("#cancel-delete-mailbox-button").addEventListener("click", () => { deleteMailboxForm.reset(); deleteMailboxPanel.hidden = true; setMessage(deleteMailboxMessage, ""); });
+document.querySelectorAll("[data-delete-password-toggle]").forEach((button) => button.addEventListener("click", () => togglePassword(button.previousElementSibling, button)));
+
+deleteMailboxForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const data = new FormData(deleteMailboxForm);
+  const confirmation = String(data.get("confirmation") || "").trim().toLowerCase();
+  if (!address.textContent || confirmation !== address.textContent.trim().toLowerCase()) {
+    setMessage(deleteMailboxMessage, t("confirmMailboxMismatch"), true);
+    return;
+  }
+  const button = deleteMailboxForm.querySelector('button[type="submit"]');
+  button.disabled = true;
+  setMessage(deleteMailboxMessage, t("deletingMailbox"));
+  try {
+    const response = await fetch("/api/delete-mailbox", { method: "DELETE", headers: { "content-type": "application/json" }, body: JSON.stringify({ password: data.get("password"), confirmation }) });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const localizedError = result.code === "password_incorrect"
+        ? t("currentPasswordIncorrect")
+        : result.code === "confirmation_mismatch" ? t("confirmMailboxMismatch") : result.error;
+      throw new Error(localizedError || t("mailboxDeleteFailed"));
+    }
+    localStorage.removeItem("muye_open_mail_today");
+    if (notificationTimer) clearInterval(notificationTimer);
+    notificationTimer = null;
+    deleteMailboxForm.reset();
+    deleteMailboxPanel.hidden = true;
+    showLogin();
+    setMessage(loginMessage, t("mailboxDeleted"));
+  } catch (error) {
+    setMessage(deleteMailboxMessage, error.message || t("mailboxDeleteFailed"), true);
+  } finally {
+    button.disabled = false;
+  }
+});
 
 changePasswordForm.addEventListener("submit", async (event) => {
   event.preventDefault();

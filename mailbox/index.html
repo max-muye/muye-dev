@@ -13,7 +13,7 @@
     <link rel="manifest" href="/mailbox/manifest.webmanifest">
     <link rel="apple-touch-icon" href="/assets/icon-mailbox.svg">
     <link rel="stylesheet" href="/styles.css?v=10">
-    <link rel="stylesheet" href="/mailbox/mailbox.css?v=11">
+    <link rel="stylesheet" href="/mailbox/mailbox.css?v=12">
     <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body class="mailbox-page">
@@ -64,6 +64,7 @@
           </div>
           <div class="mailbox-heading-actions">
             <button class="mailbox-button quiet" id="show-change-password-button" type="button">Change password</button>
+            <button class="mailbox-button danger" id="show-delete-mailbox-button" type="button">Delete email</button>
             <button class="mailbox-button quiet" id="logout-button" type="button">Sign out</button>
           </div>
         </div>
@@ -74,6 +75,17 @@
             <label>Confirm new password<span class="mailbox-password-field"><input name="passwordConfirm" type="password" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-change-password-toggle>Show</button></span></label>
             <div class="message-actions"><button class="mailbox-button primary" type="submit">Change password</button><button class="mailbox-button quiet" id="cancel-change-password-button" type="button">Cancel</button></div>
             <p class="mailbox-message" id="change-password-message" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+        <section class="account-delete-panel" id="delete-mailbox-panel" hidden aria-labelledby="delete-mailbox-title">
+          <h2 id="delete-mailbox-title">Delete email</h2>
+          <p class="account-delete-warning">This permanently deletes your Muye email and every message stored in it. This cannot be undone.</p>
+          <form class="mailbox-form" id="delete-mailbox-form">
+            <label>Current password<span class="mailbox-password-field"><input name="password" type="password" autocomplete="current-password" required><button class="password-toggle" type="button" data-delete-password-toggle>Show</button></span></label>
+            <label>Type your full Muye email<input name="confirmation" type="email" autocomplete="off" spellcheck="false" required></label>
+            <p class="account-delete-help">Enter the email shown above to confirm.</p>
+            <div class="message-actions"><button class="mailbox-button danger" type="submit">Delete permanently</button><button class="mailbox-button quiet" id="cancel-delete-mailbox-button" type="button">Cancel</button></div>
+            <p class="mailbox-message" id="delete-mailbox-message" role="status" aria-live="polite"></p>
           </form>
         </section>
         <div class="mailbox-view-tabs" role="tablist" aria-label="Mailbox folders">
@@ -143,7 +155,7 @@
       </section>
     </main>
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script src="/mailbox/mailbox.js?v=31"></script>
+    <script src="/mailbox/mailbox.js?v=32"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});</script>
     <script src="/assets/site-footer.js?v=1"></script>

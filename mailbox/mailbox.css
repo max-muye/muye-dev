@@ -53,8 +53,11 @@
 .mailbox-switch { margin: 18px 0 0; color: var(--muted); font-size: 14px; }
 .mailbox-switch a { color: var(--accent-strong); font-weight: 760; }
 .mailbox-app, .mailbox-admin { padding-top: 8vh; }
-.change-password-panel { max-width: 520px; margin-top: 22px; padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: rgba(16, 21, 20, 0.86); }
-.change-password-panel h2 { margin: 0 0 18px; font-size: 20px; }
+.change-password-panel, .account-delete-panel { max-width: 520px; margin-top: 22px; padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: rgba(16, 21, 20, 0.86); }
+.change-password-panel h2, .account-delete-panel h2 { margin: 0 0 18px; font-size: 20px; }
+.account-delete-panel { border-color: rgba(242, 121, 121, 0.52); }
+.account-delete-warning { margin: 0 0 18px; color: #ffb7a8; line-height: 1.55; }
+.account-delete-help { margin: -4px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
 .mailbox-view-tabs { display: inline-flex; gap: 6px; margin-top: 22px; padding: 5px; border: 1px solid var(--line); border-radius: 8px; background: rgba(16, 21, 20, 0.76); }
 .mailbox-view-tab { min-height: 36px; border: 0; border-radius: 6px; padding: 0 16px; color: var(--muted); background: transparent; cursor: pointer; font: inherit; font-weight: 760; }
 .mailbox-view-tab:hover, .mailbox-view-tab:focus-visible { color: var(--ink); outline: none; }
@@ -99,7 +102,8 @@
 .mailbox-message { min-height: 21px; margin: 8px 0 0; color: var(--green); font-size: 14px; line-height: 1.5; }
 .mailbox-message.error { color: var(--accent-strong); }
 .admin-mailbox-counts { display: flex; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: 12px; }
-.admin-danger { border-color: rgba(242, 121, 121, 0.52); color: #ffb7a8; }
+.mailbox-button.danger, .admin-danger { border-color: rgba(242, 121, 121, 0.52); color: #ffb7a8; }
+.mailbox-button.danger:hover, .mailbox-button.danger:focus-visible { border-color: #ffb7a8; background: rgba(242, 121, 121, 0.12); }
 .admin-banned { color: #ffb7a8; font-weight: 760; }
 
 @media (max-width: 760px) {

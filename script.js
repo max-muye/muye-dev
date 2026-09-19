@@ -28,10 +28,10 @@ const languages = [
 
 const homeText = {
   en: {
-    work: "Work", games: "Games", misc: "Misc", notes: "Notes", contact: "Contact", createEmail: "Create email", mailbox: "Mailbox", talk: "Talk", signIn: "Sign in", signUp: "Sign up",
+    work: "Work", games: "Games", misc: "Tools", notes: "Notes", contact: "Contact", createEmail: "Create email", mailbox: "Mailbox", talk: "Talk", signIn: "Sign in", signUp: "Sign up",
     prompt: "Please sign up or sign in", greetings: ["Hi, {name}", "Good to see you, {name}", "Welcome back, {name}", "Ready when you are, {name}", "Let’s make something, {name}"], dailyLabel: "Daily check-in", dailyReady: "Ready for today?", dailyDone: "Checked in {count} days.", dailyButton: "Check in", dailyButtonDone: "Done",
     lede: "I build thoughtful software, shape ideas into working systems, and keep a small record of what I learn along the way.",
-    mailboxAction: "Mailbox", createEmailAction: "Create email", gamesAction: "Games", miscAction: "Misc", talkAction: "Talk", workAction: "View work",
+    mailboxAction: "Mailbox", createEmailAction: "Create email", gamesAction: "Games", miscAction: "Tools", talkAction: "Talk", workAction: "View work",
     intro: "A personal space for projects, notes, experiments, and the occasional polished thing worth sharing.",
     build: "Build", buildText: "Reliable products, prototypes, and automation.", write: "Write", writeText: "Short notes on engineering, taste, and tools.", explore: "Explore", exploreText: "Interfaces, agents, creative systems, and web craft.",
     selectedWork: "Selected Work", motion: "Things in motion", notesTitle: "Recently thinking about", noteName: "Now thinking about", noteText: "Version notes, recent deploys, and what this site is becoming.",

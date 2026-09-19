@@ -10,6 +10,9 @@ const reloadButton = document.querySelector("#reload");
 const openTabButton = document.querySelector("#open-tab");
 const newTabButton = document.querySelector("#new-tab");
 const proxyButton = document.querySelector("#proxy-button");
+const sourceButton = document.querySelector("#source-button");
+const sourceView = document.querySelector("#source-view");
+const sourceCode = document.querySelector("#source-code");
 const adminOpen = document.querySelector("#admin-open");
 const adminDialog = document.querySelector("#admin-dialog");
 const adminPassword = document.querySelector("#admin-password");
@@ -17,16 +20,18 @@ const adminLoad = document.querySelector("#admin-load");
 const adminList = document.querySelector("#admin-list");
 
 const searchUrl = "https://www.google.com/search?q=";
-const homeHtml = `<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f7f4ec;color:#151719;font-family:Inter,system-ui,sans-serif}.box{width:min(680px,calc(100% - 40px));display:grid;gap:18px}h1{margin:0;font-size:clamp(36px,8vw,76px);line-height:.95}p{margin:0;color:#596168;font-size:18px;line-height:1.45}.links{display:flex;flex-wrap:wrap;gap:10px}a{border:1px solid #d4d0c7;border-radius:8px;padding:12px 14px;color:#151719;text-decoration:none;font-weight:800;background:white}</style></head><body><main class="box"><h1>Mini Browser</h1><p>Search or type an address above. Muye pages can open inside this tool; many outside websites may ask to open in a normal tab.</p><div class="links"><a href="https://www.muye.dev/">Muye</a><a href="https://www.muye.dev/misc/">Misc</a><a href="https://www.muye.dev/games/">Games</a></div></main></body></html>`;
+const homeHtml = `<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f7f4ec;color:#151719;font-family:Inter,system-ui,sans-serif}.box{width:min(680px,calc(100% - 40px));display:grid;gap:18px}h1{margin:0;font-size:clamp(36px,8vw,76px);line-height:.95}p{margin:0;color:#596168;font-size:18px;line-height:1.45}.links{display:flex;flex-wrap:wrap;gap:10px}a{border:1px solid #d4d0c7;border-radius:8px;padding:12px 14px;color:#151719;text-decoration:none;font-weight:800;background:white}</style></head><body><main class="box"><h1>Mini Browser</h1><p>Search or type an address above. Muye pages can open inside this tool; many outside websites may ask to open in a normal tab.</p><div class="links"><a href="https://www.muye.dev/">Muye</a><a href="https://www.muye.dev/tools/">Tools</a><a href="https://www.muye.dev/games/">Games</a></div></main></body></html>`;
 let tabId = 0;
 let activeId = 0;
 const tabs = [];
-let proxyMode = false;
+let proxyMode = true;
+let sourceMode = false;
+let sourceLoadId = 0;
 
 function urlFromProxy(value) {
   try {
     const parsed = new URL(value, location.origin);
-    if (parsed.pathname !== "/misc/browser/proxy") return "";
+    if (parsed.pathname !== "/tools/browser/proxy") return "";
     return parsed.searchParams.get("url") || "";
   } catch {
     return "";
@@ -57,7 +62,11 @@ function activeTab() {
 }
 
 function proxiedUrl(url) {
-  return `/misc/browser/proxy?url=${encodeURIComponent(url)}`;
+  return `/tools/browser/proxy?url=${encodeURIComponent(url)}`;
+}
+
+function sourceUrl(url) {
+  return `/tools/browser/proxy?source=1&url=${encodeURIComponent(url)}`;
 }
 
 function syncButtons() {
@@ -67,6 +76,8 @@ function syncButtons() {
   addressInput.value = tab?.url || "";
   proxyButton.dataset.state = proxyMode ? "on" : "off";
   proxyButton.textContent = proxyMode ? "Proxy On" : "Proxy";
+  sourceButton.dataset.state = sourceMode ? "on" : "off";
+  sourceButton.textContent = sourceMode ? "Hide HTML" : "Show HTML";
 }
 
 function renderTabs() {
@@ -104,17 +115,45 @@ function showFallback(show) {
   fallback.hidden = !show;
 }
 
+async function loadSource(tab, loadId) {
+  sourceCode.textContent = "Loading HTML...";
+  try {
+    const response = await fetch(sourceUrl(tab.url), { headers: { Accept: "text/html,text/plain,*/*" } });
+    const text = await response.text();
+    if (loadId !== sourceLoadId) return;
+    sourceCode.textContent = response.ok ? text : `Could not load HTML (${response.status})\n\n${text}`;
+  } catch (error) {
+    if (loadId !== sourceLoadId) return;
+    sourceCode.textContent = `Could not load HTML.\n\n${error?.message || error}`;
+  }
+}
+
 function loadActive() {
   const tab = activeTab();
   if (!tab) return;
   showFallback(false);
+  sourceLoadId += 1;
+  sourceView.hidden = true;
+  viewer.hidden = false;
   addressInput.value = tab.url;
   tab.title = titleFromUrl(tab.url);
   renderTabs();
   if (tab.url === "about:home") {
     viewer.src = "about:blank";
     viewer.srcdoc = homeHtml;
+    if (sourceMode) {
+      viewer.hidden = true;
+      sourceView.hidden = false;
+      sourceCode.textContent = homeHtml;
+    }
     showFallback(false);
+    return;
+  }
+  if (sourceMode) {
+    viewer.hidden = true;
+    sourceView.hidden = false;
+    viewer.src = "about:blank";
+    loadSource(tab, sourceLoadId);
     return;
   }
   viewer.removeAttribute("srcdoc");
@@ -228,15 +267,20 @@ proxyButton.addEventListener("click", () => {
   proxyMode = !proxyMode;
   loadActive();
 });
+sourceButton.addEventListener("click", () => {
+  sourceMode = !sourceMode;
+  loadActive();
+});
 
 async function adminRequest(body) {
-  const response = await fetch("/misc/browser/proxy/admin", {
+  const response = await fetch("/tools/browser/proxy/admin", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ password: adminPassword.value, ...body }),
+    body: JSON.stringify({ password: adminPassword.value.trim(), ...body }),
   });
-  if (!response.ok) throw new Error("Admin failed");
-  return response.json();
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.error || "Admin failed");
+  return data;
 }
 
 function renderAdminHosts(hosts) {
@@ -264,7 +308,12 @@ function renderAdminHosts(hosts) {
 
 adminOpen.addEventListener("click", () => adminDialog.showModal());
 adminLoad.addEventListener("click", async () => {
-  const data = await adminRequest({});
-  renderAdminHosts(data.hosts || []);
+  adminList.textContent = "Loading...";
+  try {
+    const data = await adminRequest({});
+    renderAdminHosts(data.hosts || []);
+  } catch (error) {
+    adminList.textContent = error?.message || "Admin failed";
+  }
 });
 addTab();

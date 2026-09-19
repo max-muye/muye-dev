@@ -1,8 +1,8 @@
 {
   "name": "Lambda \u2192 2D",
   "short_name": "Lambda2D",
-  "start_url": "/misc/lambda/",
-  "scope": "/misc/lambda/",
+  "start_url": "/tools/lambda/",
+  "scope": "/tools/lambda/",
   "display": "standalone",
   "background_color": "#111111",
   "theme_color": "#111111",

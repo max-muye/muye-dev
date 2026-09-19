@@ -165,6 +165,29 @@
   background: #fff;
 }
 
+#viewer[hidden] {
+  display: none;
+}
+
+.source-view {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 18px;
+  overflow: auto;
+  border: 0;
+  background: #f7f4ec;
+  color: #151719;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.source-view[hidden] {
+  display: none !important;
+}
+
 .fallback {
   position: absolute;
   inset: 0;

@@ -24,7 +24,7 @@ const text = {
     verifyThree: "Compare the new hash with the stored hash.",
     verifyFour: "If they match, the password was right.",
     tryTool: "Try the password hash tool",
-    miscHome: "Back to Misc",
+    miscHome: "Back to Tools",
   },
   zh: {
     toolLink: "密码工具",
@@ -124,7 +124,7 @@ const text = {
     verifyThree: "Comparar el nuevo hash con el guardado.",
     verifyFour: "Si coinciden, la contraseña era correcta.",
     tryTool: "Probar la herramienta de hash",
-    miscHome: "Volver a Misc",
+    miscHome: "Volver a Tools",
   },
 };
 

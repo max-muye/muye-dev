@@ -98,7 +98,7 @@ async function requestHost(env, host) {
 }
 
 function proxyPath(url) {
-  return `/misc/browser/proxy?url=${encodeURIComponent(url.href)}`;
+  return `/tools/browser/proxy?url=${encodeURIComponent(url.href)}`;
 }
 
 function rewriteUrl(value, base) {
@@ -142,7 +142,7 @@ function proxyBridgeScript(baseUrl) {
     try {
       const url = new URL(value || "", ${base});
       if (!/^https?:$/.test(url.protocol)) return value;
-      return "/misc/browser/proxy?url=" + encodeURIComponent(url.href);
+      return "/tools/browser/proxy?url=" + encodeURIComponent(url.href);
     } catch {
       return value;
     }
@@ -177,6 +177,7 @@ function proxyBridgeScript(baseUrl) {
 
 async function proxyGet(request, env) {
   const requestUrl = new URL(request.url);
+  const sourceMode = requestUrl.searchParams.get("source") === "1";
   let target;
   try {
     target = cleanTarget(requestUrl.searchParams.get("url"));
@@ -204,7 +205,11 @@ async function proxyGet(request, env) {
     "X-Robots-Tag": "noindex, nofollow",
   });
   if (contentType.includes("text/html")) {
-    return new Response(rewriteHtml(await upstream.text(), new URL(upstream.url)), { status: upstream.status, headers });
+    const html = await upstream.text();
+    if (sourceMode) {
+      return new Response(html, { status: upstream.status, headers: TEXT_HEADERS });
+    }
+    return new Response(rewriteHtml(html, new URL(upstream.url)), { status: upstream.status, headers });
   }
   if (contentType.includes("text/css") || target.pathname.endsWith(".css")) {
     return new Response(rewriteCss(await upstream.text(), new URL(upstream.url)), { status: upstream.status, headers });

@@ -4,7 +4,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Lambda2D">
-<link rel="manifest" href="/misc/lambda/manifest.webmanifest">
+<link rel="manifest" href="/tools/lambda/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/assets/icon-lambda.svg">
 <link rel="stylesheet" href="/assets/site-footer.css?v=1">
 <title>Lambda Projects</title>
@@ -152,7 +152,7 @@ for (const el of document.querySelectorAll("[id]")) {
   if (!(el.id in window)) window[el.id] = el;
 }
 
-const API_BASE="/misc/lambda";
+const API_BASE="/tools/lambda";
 const CLERK_PUBLISHABLE_KEY="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA";
 let currentProject=null,clerk=null,PROJECT_FUNCTIONS={},saveTimer=null,USE_GLOBAL_BUILTINS=false,OUTPUT_JS="";
 const FALLBACK_FUNCTIONS={
@@ -189,7 +189,7 @@ function autosave(){if(!currentProject)return;let x=document.querySelector("#sav
 async function refreshFunctions(){let list=document.querySelector("#fnList");list.innerHTML="";for(let [name,expression] of Object.entries(PROJECT_FUNCTIONS)){let r=document.createElement("div");r.className="card row";let t=document.createElement("div");t.style.flex="1";t.textContent=name+" = "+expression;let e=document.createElement("button");e.textContent="Edit";e.onclick=()=>{fnName.value=name;fnExpr.value=expression};let d=document.createElement("button");d.textContent="Delete";d.className="danger";d.onclick=()=>{if(confirm("Delete function '"+name+"'?")){delete PROJECT_FUNCTIONS[name];refreshFunctions();autosave()}};r.append(t,e,d);list.append(r)}}
 async function saveFunction(){let name=fnName.value.trim().toLowerCase(),expression=fnExpr.value.trim();if(!name||/[\s()/.?#]/u.test(name))return alert("Invalid function name.");try{parse(expression)}catch(e){return alert(e.message)}PROJECT_FUNCTIONS[name]=expression;fnName.value="";fnExpr.value="";await refreshFunctions();autosave()}
 async function openProject(name){let p=await get(name);if(!p)return alert("Project not found");currentProject=name;PROJECT_FUNCTIONS={...(p.functions||{})};USE_GLOBAL_BUILTINS=!!p.useGlobalBuiltins;OUTPUT_JS=String(p.outputJs||"");home.style.display="none";adminPage.style.display="none";publishedPage.style.display="none";funcPage.style.display="none";auth.style.display="none";simulator.style.display="block";projectTitle.textContent=name;S.value=p.expression||"/x.x";reset();await refreshFunctions()}
-async function loadHome(){currentProject=null;simulator.style.display="none";auth.style.display="none";adminPage.style.display="none";publishedPage.style.display="none";funcPage.style.display="none";home.style.display="block";try{history.pushState(null,"","/misc/lambda/")}catch{}let ps=await all();projects.innerHTML=ps.length?"":'<div class="card">No projects yet. Tap Create new.</div>';ps.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));for(let p of ps){let r=document.createElement("div");r.className="card project";let n=document.createElement("b");n.textContent=p.name;let o=document.createElement("button");o.textContent="Open";o.onclick=()=>openProject(p.name);r.append(n,o);projects.append(r)}quota.textContent="Saved directly on this device. No 1 MiB app limit."}
+async function loadHome(){currentProject=null;simulator.style.display="none";auth.style.display="none";adminPage.style.display="none";publishedPage.style.display="none";funcPage.style.display="none";home.style.display="block";try{history.pushState(null,"","/tools/lambda/")}catch{}let ps=await all();projects.innerHTML=ps.length?"":'<div class="card">No projects yet. Tap Create new.</div>';ps.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));for(let p of ps){let r=document.createElement("div");r.className="card project";let n=document.createElement("b");n.textContent=p.name;let o=document.createElement("button");o.textContent="Open";o.onclick=()=>openProject(p.name);r.append(n,o);projects.append(r)}quota.textContent="Saved directly on this device. No 1 MiB app limit."}
 
 
 async function loadGlobalBuiltins(){
@@ -256,7 +256,7 @@ function showAdminForm(name="",expression=""){
 
 async function openAdminPage(){
   home.style.display="none";simulator.style.display="none";funcPage.style.display="none";auth.style.display="none";adminPage.style.display="block";
-  try{history.pushState(null,"","/misc/lambda/?admin=1")}catch{}
+  try{history.pushState(null,"","/tools/lambda/?admin=1")}catch{}
   if(ADMIN_TOKEN){
     try{adminLogin.style.display="none";adminEditor.style.display="block";await renderAdminBuiltins();return}
     catch{ADMIN_TOKEN="";sessionStorage.removeItem("lambdaAdminToken")}
@@ -406,11 +406,11 @@ async function openFunctionPage(){
   simulator.style.display="none";home.style.display="none";auth.style.display="none";funcPage.style.display="block";
   funcPageTitle.textContent=currentProject+" / Functions";
   funcSearch.value="";funcEditor.style.display="none";useBuiltins.checked=USE_GLOBAL_BUILTINS;outputJs.value=OUTPUT_JS;outputJsMsg.textContent="";renderFunctionPage();
-  try{history.pushState(null,"","/misc/lambda/?project="+encodeURIComponent(currentProject)+"&view=func")}catch{}
+  try{history.pushState(null,"","/tools/lambda/?project="+encodeURIComponent(currentProject)+"&view=func")}catch{}
 }
 function closeFunctionPage(){
   funcPage.style.display="none";simulator.style.display="block";
-  try{history.pushState(null,"","/misc/lambda/?project="+encodeURIComponent(currentProject))}catch{}
+  try{history.pushState(null,"","/tools/lambda/?project="+encodeURIComponent(currentProject))}catch{}
 }
 async function initClerk(){
   await loadHome();
@@ -808,7 +808,7 @@ function stop(){let wasFast=fastRunning;fastRunning=false;if(timer){clearInterva
 
 
 
-const API_V41="/misc/lambda";
+const API_V41="/tools/lambda";
 async function sessionToken(){
   if(!clerk && window.Clerk)clerk=window.Clerk;
   if(clerk && !clerk.loaded)try{await clerk.load()}catch{}
@@ -865,7 +865,7 @@ async function publishNow(){
       })
     });
     localStorage.setItem("lambdaPublicUser",userSlug);
-    const link="https://www.muye.dev/misc/lambda/?published="+encodeURIComponent(d.userSlug+"/"+d.projectSlug);
+    const link="https://www.muye.dev/tools/lambda/?published="+encodeURIComponent(d.userSlug+"/"+d.projectSlug);
     try{await navigator.clipboard.writeText(link)}catch{}
     alert("Published:\n"+link);
     loadAllPublished();
@@ -923,7 +923,7 @@ async function loadAllPublished(){
     history.pushState(
       null,
       "",
-      "/misc/lambda/?published="+encodeURIComponent(p.user_slug+"/"+p.project_slug)
+      "/tools/lambda/?published="+encodeURIComponent(p.user_slug+"/"+p.project_slug)
     );
   }catch{}
   await showPublished(p.user_slug,p.project_slug);
@@ -983,19 +983,19 @@ accountBtn.onclick=async()=>{
   if(clerk){
     try{
       await clerk.redirectToSignIn({
-        signInFallbackRedirectUrl:"https://www.muye.dev/misc/lambda/",
-        signUpFallbackRedirectUrl:"https://www.muye.dev/misc/lambda/"
+        signInFallbackRedirectUrl:"https://www.muye.dev/tools/lambda/",
+        signUpFallbackRedirectUrl:"https://www.muye.dev/tools/lambda/"
       });
       return;
     }catch(e){console.warn(e)}
   }
-  location.href="https://accounts.muye.dev/sign-in?redirect_url="+encodeURIComponent("https://www.muye.dev/misc/lambda/");
+  location.href="https://accounts.muye.dev/sign-in?redirect_url="+encodeURIComponent("https://www.muye.dev/tools/lambda/");
 };
 publishProject.onclick=publishNow;
 adminOpen.onclick=openAdminPage;
 adminBack.onclick=loadHome;
 adminCopyLink.onclick=async()=>{
-  const link="https://www.muye.dev/misc/lambda/?admin=1";
+  const link="https://www.muye.dev/tools/lambda/?admin=1";
   try{await navigator.clipboard.writeText(link);alert("Link copied:\n"+link)}catch{alert(link)}
 };
 adminLoginBtn.onclick=adminLoginNow;
@@ -1044,7 +1044,7 @@ useBuiltins.addEventListener("change",()=>{
 });
 funcBack.onclick=closeFunctionPage;
 funcCopyLink.onclick=async()=>{
-  const link="https://www.muye.dev/misc/lambda/?project="+encodeURIComponent(currentProject)+"&view=func";
+  const link="https://www.muye.dev/tools/lambda/?project="+encodeURIComponent(currentProject)+"&view=func";
   try{await navigator.clipboard.writeText(link);alert("Link copied:\n"+link)}catch{alert(link)}
 };
 funcSearch.addEventListener("input",renderFunctionPage);
@@ -1078,5 +1078,4 @@ initClerk().catch(e=>{
 });
 </script>
 </main>
-
 <script src="/assets/site-footer.js?v=1"></script>

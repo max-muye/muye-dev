@@ -2,7 +2,7 @@ const CACHE_NAME = "muye-app-v1";
 const APP_SHELL = [
   "/",
   "/styles.css?v=11",
-  "/assets/favicon.svg",
+  "/assets/favicon.png",
   "/assets/icon-localtalk.svg",
   "/assets/icon-mailbox.svg",
   "/assets/icon-lambda.svg",
@@ -10,9 +10,9 @@ const APP_SHELL = [
   "/mailbox/",
   "/mailbox/mailbox.css?v=8",
   "/mailbox/mailbox.js?v=20",
-  "/misc/lambda/",
-  "/misc/lambda/manifest.webmanifest",
-  "/misc/lambda/icon-192.png"
+  "/tools/lambda/",
+  "/tools/lambda/manifest.webmanifest",
+  "/tools/lambda/icon-192.png"
 ];
 
 self.addEventListener("install", (event) => {

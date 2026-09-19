@@ -257,7 +257,7 @@ export async function onRequest(context){
   const r=context.request;
   const e=context.env;
   let u=new URL(r.url);
-  u.pathname=u.pathname.replace(/^\/misc\/lambda\/api/, "/api");
+  u.pathname=u.pathname.replace(/^\/tools\/lambda\/api/, "/api");
 
     if(r.method==="OPTIONS")
       return new Response(null,{

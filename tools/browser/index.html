@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A small browser-like tool on Muye.">
     <title>Browser · Muye</title>
-    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
     <link rel="stylesheet" href="/styles.css?v=11">
-    <link rel="stylesheet" href="/misc/browser/browser.css?v=3">
+    <link rel="stylesheet" href="/tools/browser/browser.css?v=3">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body class="browser-page">
     <main class="browser-app" aria-label="Mini browser">
@@ -23,12 +24,14 @@
         <form class="address-form" id="address-form">
           <input id="address" type="text" autocomplete="off" spellcheck="false" aria-label="Address or search" placeholder="Search or enter website">
         </form>
-        <button class="mode-button" id="proxy-button" type="button">Proxy</button>
+        <button class="mode-button" id="proxy-button" type="button">Proxy On</button>
+        <button class="mode-button" id="source-button" type="button">Show HTML</button>
         <button class="icon-button" id="open-tab" type="button" title="Open outside" aria-label="Open outside">↗</button>
       </section>
 
       <section class="viewport-shell">
         <iframe id="viewer" title="Browser page preview" sandbox="allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        <pre class="source-view" id="source-view" hidden><code id="source-code"></code></pre>
         <div class="fallback" id="fallback" hidden>
           <h1 id="fallback-title">This page may not open here</h1>
           <p id="fallback-copy">Some websites block mini browsers. You can open it in a normal tab.</p>
@@ -38,7 +41,7 @@
 
       <footer class="browser-footer">
         <button id="admin-open" type="button">Proxy Admin</button>
-        <a href="/misc/">Misc</a>
+        <a href="/tools/">Tools</a>
         <a href="/">Home</a>
       </footer>
     </main>
@@ -55,6 +58,7 @@
         <div class="admin-list" id="admin-list"></div>
       </form>
     </dialog>
-    <script src="/misc/browser/browser.js?v=6"></script>
+    <script src="/tools/browser/browser.js?v=9"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

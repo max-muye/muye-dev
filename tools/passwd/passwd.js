@@ -17,7 +17,7 @@ const languages = [
 
 const text = {
   en: {
-    eyebrow: "Misc / Password Hash", title: "Password Hash", miscHome: "Misc Home", coder: "Coder", lambda: "Lambda Projects", hashExplainer: "What is a hash?",
+    eyebrow: "Tools / Password Hash", title: "Password Hash", miscHome: "Tools Home", coder: "Coder", lambda: "Lambda Projects", hashExplainer: "What is a hash?",
     note: "Hashes are one-way. This page runs locally in your browser and does not send the password anywhere.",
     generateTitle: "Generate hash", verifyTitle: "Test password", password: "Password", iterations: "Iterations", iterationsAdvice: "Recommended: 10,000–1,200,000. Other positive values are allowed.", makeHash: "Make hash", hash: "Hash", copy: "Copy", copied: "Copied", storedHash: "Stored hash", testHash: "Test password", made: "Hash generated.", ok: "Password matches the hash.", bad: "Password does not match.", invalid: "That hash is not in the supported format.",
   },

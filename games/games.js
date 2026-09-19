@@ -1,4 +1,5 @@
 const games = {
+  "mc-3d": { title: "MC3D", type: "Action", description: "Explore, mine, and build in a full 3D block world.", how: ["Move through a generated 3D world.", "Mine the block in the crosshair and place blocks from the hotbar.", "Your worlds save automatically for this user on this browser."] },
   "mc-2d": { title: "MC 2D", type: "Action", description: "Mine, build, explore, and save your own world.", how: ["Move through a generated block world.", "Mine blocks and place them from your hotbar.", "Your world saves automatically for this user on this browser."] },
   "2048": { title: "2048", type: "Action", description: "Slide matching tiles together and reach 2048.", how: ["Swipe or press the arrow buttons to move every tile.", "Matching numbers merge into one larger tile.", "Your board is saved for your user after every move."], render: render2048 },
   minesweeper: { title: "Minesweeper", type: "Action", description: "Clear the field without hitting a mine.", how: ["Tap a square to reveal it.", "Right-click, long-press, or hold to place a flag.", "Numbers show how many mines touch that square."], render: renderMinesweeper },
@@ -155,6 +156,20 @@ const gameText = {
 ["ja", "ko", "es", "fr", "de", "pt", "ru", "ar"].forEach((code) => {
   gameText[code] = { ...gameText.en, ...(gameText[code] || {}) };
 });
+
+const mc3dText = {
+  en: { title: "MC3D", type: "Action", description: "Explore, mine, and build in a full 3D block world." },
+  zh: { title: "MC3D", type: "动作", description: "在完整的 3D 方块世界中探索、挖掘和建造。" },
+  ja: { title: "MC3D", type: "アクション", description: "3Dブロック世界で探索、採掘、建築。" },
+  ko: { title: "MC3D", type: "액션", description: "3D 블록 월드에서 탐험하고 채굴하고 건설하세요." },
+  es: { title: "MC3D", type: "Acción", description: "Explora, mina y construye en un mundo 3D de bloques." },
+  fr: { title: "MC3D", type: "Action", description: "Explore, mine et construis dans un monde 3D en blocs." },
+  de: { title: "MC3D", type: "Action", description: "Erkunde, baue ab und baue in einer 3D-Blockwelt." },
+  pt: { title: "MC3D", type: "Ação", description: "Explore, minere e construa em um mundo 3D de blocos." },
+  ru: { title: "MC3D", type: "Экшен", description: "Исследуй, добывай и строй в трёхмерном мире блоков." },
+  ar: { title: "MC3D", type: "حركة", description: "استكشف واحفر وابن في عالم مكعبات ثلاثي الأبعاد." },
+};
+Object.keys(gameText).forEach((code) => { gameText[code]["mc-3d"] = mc3dText[code] || mc3dText.en; });
 
 const gameTranslations = {
   zh: {

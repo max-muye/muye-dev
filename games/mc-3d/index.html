@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+    <meta name="description" content="A touch-friendly 3D block-building game by Muye.">
+    <title>MC3D · Muye Games</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/games/mc-3d/mc-3d.css?v=1">
+  </head>
+  <body>
+    <main id="game-shell">
+      <canvas id="world" aria-label="MC3D world"></canvas>
+
+      <header class="game-bar">
+        <a class="brand" href="/games/">Muye Games</a>
+        <span id="world-name">MC3D</span>
+        <div class="bar-actions">
+          <button id="language-button" type="button" title="Change language" aria-label="Change language">A中</button>
+          <button id="menu-button" type="button" data-i18n="menu">Menu</button>
+        </div>
+      </header>
+
+      <section class="status-panel" aria-label="Player status">
+        <span><b aria-hidden="true">♥</b> <span id="health">10</span></span>
+        <span><b aria-hidden="true">●</b> <span id="hunger">10</span></span>
+        <span id="clock">Day 1 · 08:00</span>
+      </section>
+
+      <div id="crosshair" aria-hidden="true"></div>
+      <div id="target-label" aria-live="polite"></div>
+      <div id="toast" role="status" aria-live="polite"></div>
+
+      <nav id="hotbar" aria-label="Block hotbar"></nav>
+
+      <div class="touch-controls" aria-hidden="false">
+        <div class="move-pad">
+          <button data-move="forward" aria-label="Move forward">▲</button>
+          <button data-move="left" aria-label="Move left">◀</button>
+          <button data-move="back" aria-label="Move back">▼</button>
+          <button data-move="right" aria-label="Move right">▶</button>
+        </div>
+        <div class="action-pad">
+          <button id="jump-button" type="button" data-i18n-title="jump" aria-label="Jump">↑</button>
+          <button id="mine-button" type="button" data-i18n-title="mine" aria-label="Mine">−</button>
+          <button id="place-button" type="button" data-i18n-title="place" aria-label="Place">＋</button>
+        </div>
+      </div>
+
+      <dialog id="world-dialog">
+        <form method="dialog" class="dialog-card">
+          <div class="dialog-head">
+            <div>
+              <p class="eyebrow">MC3D</p>
+              <h1 data-i18n="worlds">Worlds</h1>
+            </div>
+            <button class="icon-button" id="close-dialog" value="cancel" aria-label="Close">×</button>
+          </div>
+          <p class="intro" data-i18n="intro">Build, explore, mine, and keep your worlds on this device.</p>
+
+          <label>
+            <span data-i18n="worldName">World name</span>
+            <input id="new-world-name" maxlength="28" value="New World" autocomplete="off">
+          </label>
+
+          <div class="option-row">
+            <div>
+              <span data-i18n="mode">Mode</span>
+              <div class="segmented">
+                <label><input type="radio" name="mode" value="survival" checked><span data-i18n="survival">Survival</span></label>
+                <label><input type="radio" name="mode" value="creative"><span data-i18n="creative">Creative</span></label>
+              </div>
+            </div>
+            <div>
+              <span data-i18n="speed">World speed</span>
+              <div class="segmented">
+                <label><input type="radio" name="speed" value="slow" checked><span data-i18n="slow">Slow</span></label>
+                <label><input type="radio" name="speed" value="fast"><span data-i18n="fast">Fast</span></label>
+              </div>
+            </div>
+          </div>
+
+          <button class="primary" id="create-world" type="button" data-i18n="create" disabled>Create world</button>
+
+          <div class="save-head">
+            <h2 data-i18n="saved">Saved worlds</h2>
+            <span id="save-kind" data-i18n="deviceSave">Saved on this device</span>
+          </div>
+          <div id="world-list"></div>
+
+          <details>
+            <summary data-i18n="how">How to play</summary>
+            <ul>
+              <li data-i18n="helpMove">WASD or the touch pad moves. Drag or move the mouse to look.</li>
+              <li data-i18n="helpMine">Click or tap Mine to break the block in the crosshair.</li>
+              <li data-i18n="helpPlace">Right-click or tap Place to place your selected block.</li>
+              <li data-i18n="helpSave">Worlds save automatically in your browser.</li>
+            </ul>
+          </details>
+        </form>
+      </dialog>
+    </main>
+    <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
+    <script type="module" src="/games/mc-3d/mc-3d.js?v=1"></script>
+  </body>
+</html>

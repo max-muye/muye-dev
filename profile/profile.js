@@ -1,6 +1,5 @@
 const form = document.querySelector("#profile-form");
 const message = document.querySelector("#profile-message");
-const clerkProfileButton = document.querySelector("#clerk-profile-button");
 
 function setMessage(text, error = false) {
   message.textContent = text;
@@ -32,7 +31,6 @@ window.addEventListener("load", async () => {
     setMessage(error.message || "Profile could not load. Please refresh and try again.", true);
   }
 });
-
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const data = new FormData(form);
@@ -45,16 +43,5 @@ form.addEventListener("submit", async (event) => {
     setMessage("Profile saved.");
   } catch (error) {
     setMessage(error.message || "Could not save the profile.", true);
-  }
-});
-
-
-clerkProfileButton?.addEventListener("click", async () => {
-  try {
-    const clerk = await waitForClerk();
-    await clerk.load();
-    if (clerk.isSignedIn && typeof clerk.openUserProfile === "function") clerk.openUserProfile();
-  } catch {
-    setMessage("Could not open Clerk profile. Please refresh and try again.", true);
   }
 });

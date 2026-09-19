@@ -8,6 +8,11 @@ const strings = {
   ko: { menu: "메뉴", worlds: "월드", intro: "건설하고 탐험하고 채굴하세요. 월드는 이 기기에 저장됩니다.", worldName: "월드 이름", mode: "모드", survival: "서바이벌", creative: "크리에이티브", speed: "속도", slow: "느림", fast: "빠름", create: "월드 만들기", saved: "저장된 월드", deviceSave: "이 기기에 저장", accountSave: "계정에 저장", how: "플레이 방법", helpMove: "WASD 또는 터치 패드로 이동하고 드래그나 마우스로 둘러봅니다.", helpMine: "클릭 또는 채굴 버튼으로 조준한 블록을 부숩니다.", helpPlace: "오른쪽 클릭 또는 놓기 버튼으로 블록을 놓습니다.", helpSave: "월드는 브라우저에 자동 저장됩니다.", load: "불러오기", delete: "삭제", noWorlds: "저장된 월드가 없습니다.", day: "일", mine: "채굴", place: "놓기", jump: "점프", savedToast: "월드 저장됨", mined: "{block} 채굴", placed: "{block} 놓음", tooFar: "더 가까이 이동하세요", empty: "{block} 없음", newWorld: "새 월드", grass: "잔디", dirt: "흙", stone: "돌", wood: "나무", leaves: "나뭇잎", sand: "모래" },
   es: { menu: "Menú", worlds: "Mundos", intro: "Construye, explora, mina y guarda mundos en este dispositivo.", worldName: "Nombre", mode: "Modo", survival: "Supervivencia", creative: "Creativo", speed: "Velocidad", slow: "Lenta", fast: "Rápida", create: "Crear mundo", saved: "Mundos guardados", deviceSave: "Guardado en este dispositivo", accountSave: "Guardado en tu cuenta", how: "Cómo jugar", helpMove: "WASD o el control táctil mueve. Arrastra o mueve el ratón para mirar.", helpMine: "Haz clic o toca Minar para romper el bloque en la mira.", helpPlace: "Clic derecho o toca Colocar para poner el bloque elegido.", helpSave: "Los mundos se guardan automáticamente.", load: "Cargar", delete: "Borrar", noWorlds: "No hay mundos guardados.", day: "Día", mine: "Minar", place: "Colocar", jump: "Saltar", savedToast: "Mundo guardado", mined: "Minaste {block}", placed: "Colocaste {block}", tooFar: "Acércate", empty: "No queda {block}", newWorld: "Mundo nuevo", grass: "Césped", dirt: "Tierra", stone: "Piedra", wood: "Madera", leaves: "Hojas", sand: "Arena" },
 };
+Object.assign(strings.en, { helpRedstone: "Use Place on a lever to switch it. Dust carries power, gates point forward, and powered TNT explodes.", redstone: "Redstone Dust", lever: "Lever", not_gate: "NOT Gate", one_way: "One-way Gate", tnt: "TNT", leverOn: "Lever on", leverOff: "Lever off", boom: "Boom!" });
+Object.assign(strings.zh, { helpRedstone: "对拉杆使用放置来开关。红石粉传递能量，门朝前工作，通电的 TNT 会爆炸。", redstone: "红石粉", lever: "拉杆", not_gate: "非门", one_way: "单向门", tnt: "TNT", leverOn: "拉杆已开", leverOff: "拉杆已关", boom: "爆炸！" });
+Object.assign(strings.ja, { helpRedstone: "レバーに設置を使って切り替えます。ダストは電力を運び、ゲートは前方に働き、給電された TNT は爆発します。", redstone: "レッドストーンダスト", lever: "レバー", not_gate: "NOTゲート", one_way: "単方向ゲート", tnt: "TNT", leverOn: "レバー ON", leverOff: "レバー OFF", boom: "ドカン！" });
+Object.assign(strings.ko, { helpRedstone: "레버에 놓기를 사용해 켜고 끄세요. 레드스톤 가루는 전력을 전달하고 게이트는 앞으로만 작동하며 전력을 받은 TNT는 폭발합니다.", redstone: "레드스톤 가루", lever: "레버", not_gate: "NOT 게이트", one_way: "일방향 게이트", tnt: "TNT", leverOn: "레버 켜짐", leverOff: "레버 꺼짐", boom: "쾅!" });
+Object.assign(strings.es, { helpRedstone: "Usa Colocar sobre una palanca para cambiarla. El polvo lleva energía, las compuertas apuntan hacia delante y el TNT con energía explota.", redstone: "Polvo de redstone", lever: "Palanca", not_gate: "Compuerta NOT", one_way: "Compuerta de una vía", tnt: "TNT", leverOn: "Palanca encendida", leverOff: "Palanca apagada", boom: "¡Bum!" });
 strings.fr = { ...strings.es, menu: "Menu", worlds: "Mondes", create: "Créer un monde", saved: "Mondes sauvegardés", load: "Charger", delete: "Supprimer", noWorlds: "Aucun monde sauvegardé", day: "Jour", mine: "Miner", place: "Placer", jump: "Sauter" };
 strings.de = { ...strings.en, menu: "Menü", worlds: "Welten", create: "Welt erstellen", saved: "Gespeicherte Welten", load: "Laden", delete: "Löschen", noWorlds: "Noch keine Welten", day: "Tag", mine: "Abbauen", place: "Platzieren", jump: "Springen" };
 strings.pt = { ...strings.es, menu: "Menu", worlds: "Mundos", create: "Criar mundo", saved: "Mundos salvos", load: "Carregar", delete: "Excluir", noWorlds: "Nenhum mundo salvo", day: "Dia", mine: "Minerar", place: "Colocar", jump: "Pular" };
@@ -21,6 +26,11 @@ const blockDefs = {
   wood: { color: 0x8a5a31, swatch: "#8a5a31" },
   leaves: { color: 0x3f7f45, swatch: "#3f7f45", transparent: true },
   sand: { color: 0xd3bd78, swatch: "#d3bd78" },
+  redstone: { color: 0x6f1717, poweredColor: 0xff3028, swatch: "#d72d27", shape: "dust" },
+  lever: { color: 0x8b806f, poweredColor: 0xffc34e, swatch: "#b5a58d", shape: "lever" },
+  not_gate: { color: 0x633866, poweredColor: 0xdb6ce3, swatch: "#9f56a5", shape: "gate" },
+  one_way: { color: 0x8a5c22, poweredColor: 0xffb43b, swatch: "#c47a29", shape: "gate" },
+  tnt: { color: 0xc7352f, poweredColor: 0xffe8ae, swatch: "#df3e36" },
 };
 const blockTypes = Object.keys(blockDefs);
 const canvas = document.querySelector("#world");
@@ -52,12 +62,65 @@ scene.add(sun.target);
 const worldGroup = new THREE.Group();
 scene.add(worldGroup);
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+const dustGeometry = new THREE.BoxGeometry(0.82, 0.08, 0.82).translate(0, -0.46, 0);
+const leverGeometry = new THREE.BoxGeometry(0.26, 0.5, 0.26).translate(0, -0.25, 0);
+const gateGeometry = new THREE.BoxGeometry(0.82, 0.16, 0.64).translate(0, -0.42, 0);
+const geometries = { dust: dustGeometry, lever: leverGeometry, gate: gateGeometry };
+const gateMarkerGeometry = new THREE.BufferGeometry();
+gateMarkerGeometry.setAttribute("position", new THREE.Float32BufferAttribute([
+  -0.22, -0.325, 0.18,
+  0.22, -0.325, 0.18,
+  0, -0.325, -0.25,
+], 3));
+gateMarkerGeometry.computeVertexNormals();
+const gateMarkerMaterials = {
+  not_gate: new THREE.MeshBasicMaterial({ color: 0xffd8ff, side: THREE.DoubleSide }),
+  one_way: new THREE.MeshBasicMaterial({ color: 0xfff0b2, side: THREE.DoubleSide }),
+};
 const materials = Object.fromEntries(Object.entries(blockDefs).map(([name, def]) => [name, new THREE.MeshLambertMaterial({ color: def.color, transparent: !!def.transparent, opacity: def.transparent ? 0.9 : 1 })]));
+const poweredMaterials = Object.fromEntries(Object.entries(blockDefs)
+  .filter(([, def]) => def.poweredColor)
+  .map(([name, def]) => [name, new THREE.MeshLambertMaterial({ color: def.poweredColor, emissive: def.poweredColor, emissiveIntensity: 0.34 })]));
+
+function makeTntMaterial(powered = false) {
+  const textureCanvas = document.createElement("canvas");
+  textureCanvas.width = 128;
+  textureCanvas.height = 128;
+  const context = textureCanvas.getContext("2d");
+  context.fillStyle = powered ? "#ff9b74" : "#c9342f";
+  context.fillRect(0, 0, 128, 128);
+  context.fillStyle = "#f7e5c8";
+  context.fillRect(0, 42, 128, 44);
+  context.fillStyle = "#18110d";
+  context.font = "900 38px sans-serif";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText("TNT", 64, 65);
+  const texture = new THREE.CanvasTexture(textureCanvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return new THREE.MeshLambertMaterial({ map: texture, emissive: powered ? 0xff4b2f : 0x000000, emissiveIntensity: powered ? 0.45 : 0 });
+}
+
+materials.tnt = makeTntMaterial(false);
+poweredMaterials.tnt = makeTntMaterial(true);
 const blocks = new Map();
 const heightMap = new Map();
 const generatedChunks = new Set();
+const tntTimers = new Map();
 const CHUNK_SIZE = 12;
 const CHUNK_EDGE_PRELOAD = 4;
+const NON_SOLID_BLOCKS = new Set(["leaves", "redstone", "lever", "not_gate", "one_way"]);
+const SIGNAL_NEIGHBORS = [
+  { x: 1, y: 0, z: 0 }, { x: -1, y: 0, z: 0 },
+  { x: 0, y: 1, z: 0 }, { x: 0, y: -1, z: 0 },
+  { x: 0, y: 0, z: 1 }, { x: 0, y: 0, z: -1 },
+];
+const DIRECTION_VECTORS = {
+  north: { x: 0, y: 0, z: -1 },
+  south: { x: 0, y: 0, z: 1 },
+  east: { x: 1, y: 0, z: 0 },
+  west: { x: -1, y: 0, z: 0 },
+};
 const raycaster = new THREE.Raycaster();
 raycaster.far = 6;
 const center = new THREE.Vector2(0, 0);
@@ -67,7 +130,7 @@ let playerKey = "device";
 let activeWorldId = "";
 let worldSeed = Date.now();
 let settings = { mode: "survival", speed: "slow" };
-let inventory = { grass: 12, dirt: 20, stone: 12, wood: 8, leaves: 8, sand: 10 };
+let inventory = { grass: 12, dirt: 20, stone: 12, wood: 8, leaves: 8, sand: 10, redstone: 24, lever: 4, not_gate: 4, one_way: 6, tnt: 6 };
 let selectedBlock = "grass";
 let running = false;
 let yaw = 0;
@@ -103,9 +166,29 @@ function applyLanguage() {
 function keyFor(x, y, z) { return `${x},${y},${z}`; }
 function columnKey(x, z) { return `${x},${z}`; }
 function chunkKey(x, z) { return `${x},${z}`; }
+function isSolidBlock(type) { return !NON_SOLID_BLOCKS.has(type); }
+function offsetKey(data, offset) { return keyFor(data.x + offset.x, data.y + offset.y, data.z + offset.z); }
+
+function placementDirection() {
+  const x = -Math.sin(yaw);
+  const z = -Math.cos(yaw);
+  if (Math.abs(x) > Math.abs(z)) return x > 0 ? "east" : "west";
+  return z > 0 ? "south" : "north";
+}
+
+function setBlockVisual(mesh) {
+  const { type, powered, on, armed, direction = "north" } = mesh.userData;
+  const active = type === "lever" ? on : (type === "tnt" ? armed : powered);
+  mesh.material = active && poweredMaterials[type] ? poweredMaterials[type] : materials[type];
+  if (type === "lever") mesh.rotation.z = on ? -0.65 : 0.65;
+  if (type === "not_gate" || type === "one_way") {
+    const rotations = { north: 0, east: -Math.PI / 2, south: Math.PI, west: Math.PI / 2 };
+    mesh.rotation.y = rotations[direction] || 0;
+  }
+}
 
 function updateColumnTop(x, z, y, type) {
-  if (type === "leaves") return;
+  if (!isSolidBlock(type)) return;
   const key = columnKey(x, z);
   heightMap.set(key, Math.max(heightMap.get(key) ?? -2, y));
 }
@@ -114,31 +197,41 @@ function refreshColumnTop(x, z) {
   let highest = -2;
   blocks.forEach((mesh) => {
     const data = mesh.userData;
-    if (data.x === x && data.z === z && data.type !== "leaves") highest = Math.max(highest, data.y);
+    if (data.x === x && data.z === z && isSolidBlock(data.type)) highest = Math.max(highest, data.y);
   });
   heightMap.set(columnKey(x, z), highest);
 }
 
-function addBlock(x, y, z, type, save = true) {
+function addBlock(x, y, z, type, save = true, extra = {}) {
   const id = keyFor(x, y, z);
   if (blocks.has(id)) return;
-  const mesh = new THREE.Mesh(boxGeometry, materials[type] || materials.dirt);
+  const definition = blockDefs[type] || blockDefs.dirt;
+  const mesh = new THREE.Mesh(geometries[definition.shape] || boxGeometry, materials[type] || materials.dirt);
   mesh.position.set(x, y, z);
-  mesh.castShadow = type !== "leaves";
+  mesh.castShadow = type !== "leaves" && type !== "redstone";
   mesh.receiveShadow = true;
-  mesh.userData = { x, y, z, type };
+  mesh.userData = { ...extra, x, y, z, type };
+  if (type === "tnt") mesh.userData.armed = false;
+  if ((type === "not_gate" || type === "one_way") && !mesh.userData.direction) mesh.userData.direction = "north";
+  if (type === "not_gate" || type === "one_way") mesh.add(new THREE.Mesh(gateMarkerGeometry, gateMarkerMaterials[type]));
+  setBlockVisual(mesh);
   blocks.set(id, mesh);
   worldGroup.add(mesh);
   updateColumnTop(x, z, y, type);
   if (save) scheduleSave();
 }
 
-function removeBlock(mesh) {
+function removeBlock(mesh, save = true) {
   const { x, y, z } = mesh.userData;
+  const id = keyFor(x, y, z);
+  if (tntTimers.has(id)) {
+    clearTimeout(tntTimers.get(id));
+    tntTimers.delete(id);
+  }
   blocks.delete(keyFor(x, y, z));
   worldGroup.remove(mesh);
-  if (mesh.userData.type !== "leaves" && heightMap.get(columnKey(x, z)) === y) refreshColumnTop(x, z);
-  scheduleSave();
+  if (isSolidBlock(mesh.userData.type) && heightMap.get(columnKey(x, z)) === y) refreshColumnTop(x, z);
+  if (save) scheduleSave();
 }
 
 function coordinateRandom(seed, x, z, salt = 0) {
@@ -208,6 +301,8 @@ function addTree(x, y, z) {
 }
 
 function clearWorld() {
+  tntTimers.forEach((timer) => clearTimeout(timer));
+  tntTimers.clear();
   while (worldGroup.children.length) worldGroup.remove(worldGroup.children[0]);
   blocks.clear();
   heightMap.clear();
@@ -258,7 +353,7 @@ function loadWorld(id) {
   const saved = JSON.parse(localStorage.getItem(saveKey(id)) || "null");
   if (!saved) return;
   clearWorld();
-  saved.blocks.forEach((block) => addBlock(block.x, block.y, block.z, block.type, false));
+  saved.blocks.forEach((block) => addBlock(block.x, block.y, block.z, block.type, false, block));
   worldSeed = Number(saved.seed) || [...id].reduce((seed, character) => Math.imul(seed ^ character.charCodeAt(0), 16777619), 2166136261) >>> 0;
   const savedChunks = Array.isArray(saved.generatedChunks) && saved.generatedChunks.length
     ? saved.generatedChunks
@@ -279,6 +374,7 @@ function loadWorld(id) {
   document.querySelector("#world-dialog").close();
   captureMouse();
   renderHotbar();
+  refreshRedstone();
 }
 
 function createWorld() {
@@ -289,7 +385,7 @@ function createWorld() {
   };
   inventory = settings.mode === "creative"
     ? Object.fromEntries(blockTypes.map((type) => [type, 99]))
-    : { grass: 12, dirt: 20, stone: 12, wood: 8, leaves: 8, sand: 10 };
+    : { grass: 12, dirt: 20, stone: 12, wood: 8, leaves: 8, sand: 10, redstone: 24, lever: 4, not_gate: 4, one_way: 6, tnt: 6 };
   activeWorldId = crypto.randomUUID();
   selectedBlock = "grass";
   timeOfDay = 0.32;
@@ -304,6 +400,7 @@ function createWorld() {
   document.querySelector("#world-dialog").close();
   captureMouse();
   renderHotbar();
+  refreshRedstone();
   saveWorld();
 }
 
@@ -361,6 +458,145 @@ function renderHotbar() {
   });
 }
 
+function frontKey(mesh) {
+  const direction = DIRECTION_VECTORS[mesh.userData.direction] || DIRECTION_VECTORS.north;
+  return offsetKey(mesh.userData, direction);
+}
+
+function circuitOutputs(gateStates) {
+  const outputs = new Set();
+  blocks.forEach((mesh, key) => {
+    if (mesh.userData.type === "lever" && mesh.userData.on) {
+      SIGNAL_NEIGHBORS.forEach((neighbor) => outputs.add(offsetKey(mesh.userData, neighbor)));
+    }
+    if ((mesh.userData.type === "not_gate" || mesh.userData.type === "one_way") && gateStates.get(key)) {
+      outputs.add(frontKey(mesh));
+    }
+  });
+  return outputs;
+}
+
+function poweredDustFrom(outputs) {
+  const powered = new Set();
+  const queue = [];
+  blocks.forEach((mesh, key) => {
+    if (mesh.userData.type === "redstone" && outputs.has(key)) {
+      powered.add(key);
+      queue.push(mesh);
+    }
+  });
+  while (queue.length) {
+    const mesh = queue.shift();
+    SIGNAL_NEIGHBORS.forEach((neighbor) => {
+      const nextKey = offsetKey(mesh.userData, neighbor);
+      const next = blocks.get(nextKey);
+      if (next?.userData.type === "redstone" && !powered.has(nextKey)) {
+        powered.add(nextKey);
+        queue.push(next);
+      }
+    });
+  }
+  return powered;
+}
+
+function gateInputPowered(mesh, poweredDust, gateStates) {
+  const front = DIRECTION_VECTORS[mesh.userData.direction] || DIRECTION_VECTORS.north;
+  const back = { x: -front.x, y: 0, z: -front.z };
+  const inputKey = offsetKey(mesh.userData, back);
+  const input = blocks.get(inputKey);
+  if (!input) return false;
+  if (input.userData.type === "lever") return !!input.userData.on;
+  if (input.userData.type === "redstone") return poweredDust.has(inputKey);
+  if (input.userData.type === "not_gate" || input.userData.type === "one_way") {
+    return !!gateStates.get(inputKey) && frontKey(input) === keyFor(mesh.userData.x, mesh.userData.y, mesh.userData.z);
+  }
+  return false;
+}
+
+function armTnt(mesh, delay = 2200) {
+  const key = keyFor(mesh.userData.x, mesh.userData.y, mesh.userData.z);
+  if (!blocks.has(key)) return;
+  if (tntTimers.has(key)) {
+    if (delay >= 1000) return;
+    clearTimeout(tntTimers.get(key));
+    tntTimers.delete(key);
+  }
+  mesh.userData.armed = true;
+  setBlockVisual(mesh);
+  const timer = setTimeout(() => {
+    tntTimers.delete(key);
+    explodeTnt(mesh);
+  }, delay);
+  tntTimers.set(key, timer);
+  scheduleSave();
+}
+
+function explodeTnt(mesh) {
+  const origin = mesh.position.clone();
+  const chained = [];
+  [...blocks.values()].forEach((candidate) => {
+    if (candidate.position.distanceTo(origin) > 3.2) return;
+    if (candidate !== mesh && candidate.userData.type === "tnt") chained.push(candidate);
+    else removeBlock(candidate, false);
+  });
+  chained.forEach((candidate) => armTnt(candidate, 360));
+  const flash = new THREE.PointLight(0xff6b2f, 18, 18);
+  flash.position.copy(origin);
+  scene.add(flash);
+  setTimeout(() => scene.remove(flash), 180);
+  const playerDistance = camera.position.distanceTo(origin);
+  if (playerDistance < 6) {
+    const push = camera.position.clone().sub(origin).normalize().multiplyScalar((6 - playerDistance) * 0.32);
+    camera.position.add(push);
+    velocityY = Math.max(velocityY, 4.5);
+  }
+  refreshRedstone();
+  scheduleSave();
+  showToast(t("boom"));
+}
+
+function refreshRedstone() {
+  let gateStates = new Map();
+  blocks.forEach((mesh, key) => {
+    if (mesh.userData.type === "not_gate" || mesh.userData.type === "one_way") gateStates.set(key, !!mesh.userData.powered);
+  });
+  let outputs = new Set();
+  let poweredDust = new Set();
+  for (let pass = 0; pass < 12; pass += 1) {
+    outputs = circuitOutputs(gateStates);
+    poweredDust = poweredDustFrom(outputs);
+    const nextStates = new Map();
+    blocks.forEach((mesh, key) => {
+      if (mesh.userData.type !== "not_gate" && mesh.userData.type !== "one_way") return;
+      const input = gateInputPowered(mesh, poweredDust, gateStates);
+      nextStates.set(key, mesh.userData.type === "not_gate" ? !input : input);
+    });
+    const stable = [...nextStates].every(([key, value]) => gateStates.get(key) === value);
+    gateStates = nextStates;
+    if (stable) break;
+  }
+  outputs = circuitOutputs(gateStates);
+  poweredDust = poweredDustFrom(outputs);
+  blocks.forEach((mesh, key) => {
+    const { type } = mesh.userData;
+    if (type === "redstone") mesh.userData.powered = poweredDust.has(key);
+    if (type === "not_gate" || type === "one_way") mesh.userData.powered = !!gateStates.get(key);
+    if (type === "lever" || type === "redstone" || type === "not_gate" || type === "one_way") setBlockVisual(mesh);
+    if (type === "tnt") {
+      const dustNearby = SIGNAL_NEIGHBORS.some((neighbor) => poweredDust.has(offsetKey(mesh.userData, neighbor)));
+      if (outputs.has(key) || dustNearby) armTnt(mesh);
+    }
+  });
+}
+
+function toggleLever(mesh) {
+  mesh.userData.on = !mesh.userData.on;
+  setBlockVisual(mesh);
+  refreshRedstone();
+  scheduleSave();
+  showToast(t(mesh.userData.on ? "leverOn" : "leverOff"));
+}
+
 function targetBlock() {
   raycaster.setFromCamera(center, camera);
   return raycaster.intersectObjects(worldGroup.children, false)[0] || null;
@@ -373,6 +609,7 @@ function mineBlock() {
   const type = hit.object.userData.type;
   removeBlock(hit.object);
   if (settings.mode !== "creative") inventory[type] = (inventory[type] || 0) + 1;
+  refreshRedstone();
   renderHotbar();
   showToast(t("mined", { block: t(type) }));
 }
@@ -381,13 +618,18 @@ function placeBlock() {
   if (!running) return;
   const hit = targetBlock();
   if (!hit || hit.distance > 6) return showToast(t("tooFar"));
+  if (hit.object.userData.type === "lever") return toggleLever(hit.object);
   if (settings.mode !== "creative" && !inventory[selectedBlock]) return showToast(t("empty", { block: t(selectedBlock) }));
   const normal = hit.face.normal;
   const pos = hit.object.position.clone().add(normal);
   pos.set(Math.round(pos.x), Math.round(pos.y), Math.round(pos.z));
   if (pos.distanceTo(camera.position) < 1.25) return;
-  addBlock(pos.x, pos.y, pos.z, selectedBlock);
+  const extra = selectedBlock === "lever"
+    ? { on: false }
+    : ((selectedBlock === "not_gate" || selectedBlock === "one_way") ? { direction: placementDirection(), powered: false } : {});
+  addBlock(pos.x, pos.y, pos.z, selectedBlock, true, extra);
   if (settings.mode !== "creative") inventory[selectedBlock] -= 1;
+  refreshRedstone();
   renderHotbar();
   showToast(t("placed", { block: t(selectedBlock) }));
 }
@@ -454,7 +696,14 @@ function updateWorld(delta) {
 
 function updateTargetLabel() {
   const hit = targetBlock();
-  document.querySelector("#target-label").textContent = hit && hit.distance <= 6 ? t(hit.object.userData.type) : "";
+  if (!hit || hit.distance > 6) {
+    document.querySelector("#target-label").textContent = "";
+    return;
+  }
+  const data = hit.object.userData;
+  document.querySelector("#target-label").textContent = data.type === "lever"
+    ? `${t("lever")} · ${t(data.on ? "leverOn" : "leverOff")}`
+    : t(data.type);
 }
 
 function resize() {

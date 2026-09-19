@@ -155,16 +155,22 @@ body.is-playing * { cursor: none !important; }
   z-index: 10;
   bottom: max(14px, env(safe-area-inset-bottom));
   left: 50%;
-  display: grid;
-  grid-template-columns: repeat(6, 54px);
+  display: flex;
   gap: 4px;
+  max-width: calc(100% - 24px);
+  padding: 5px;
+  overflow-x: auto;
+  scrollbar-width: none;
   transform: translateX(-50%);
 }
+
+#hotbar::-webkit-scrollbar { display: none; }
 
 .hotbar-slot {
   position: relative;
   width: 54px;
   height: 54px;
+  flex: 0 0 54px;
   border: 2px solid rgba(255, 255, 255, 0.35);
   background: rgba(7, 9, 8, 0.82);
   color: white;
@@ -243,8 +249,8 @@ details li { margin: 8px 0; line-height: 1.45; }
   .game-bar > span { display: none; }
   .touch-controls { display: block; }
   #mouse-capture { display: none; }
-  #hotbar { bottom: calc(max(12px, env(safe-area-inset-bottom)) + 122px); grid-template-columns: repeat(6, 44px); }
-  .hotbar-slot { width: 44px; height: 44px; }
+  #hotbar { bottom: calc(max(12px, env(safe-area-inset-bottom)) + 122px); }
+  .hotbar-slot { width: 44px; height: 44px; flex-basis: 44px; }
   .move-pad { position: fixed; z-index: 10; left: max(14px, env(safe-area-inset-left)); bottom: max(12px, env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(3, 48px); grid-template-rows: repeat(2, 48px); gap: 4px; }
   .move-pad button, .action-pad button { border: 1px solid var(--line); border-radius: 4px; color: white; background: rgba(7, 9, 8, .8); font-size: 20px; font-weight: 900; }
   .move-pad button[data-move="forward"] { grid-column: 2; }
@@ -259,8 +265,8 @@ details li { margin: 8px 0; line-height: 1.45; }
   .status-panel { max-width: calc(100% - 24px); gap: 9px; font-size: 11px; }
   .brand { font-size: 14px; }
   .game-bar button { font-size: 12px; }
-  #hotbar { grid-template-columns: repeat(6, minmax(0, 40px)); width: min(294px, calc(100% - 20px)); }
-  .hotbar-slot { width: 100%; height: 42px; }
+  #hotbar { width: calc(100% - 20px); }
+  .hotbar-slot { width: 40px; height: 42px; flex-basis: 40px; }
   .block-swatch { width: 20px; height: 20px; }
   .option-row { grid-template-columns: 1fr; }
   .dialog-card { padding: 18px; }

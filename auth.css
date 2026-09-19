@@ -67,6 +67,122 @@
   font-size: clamp(44px, 8vw, 76px);
 }
 
+.muye-mailbox-auth {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.muye-mailbox-continue {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(248, 244, 234, 0.28);
+  border-radius: 7px;
+  background: rgba(248, 244, 234, 0.08);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 760;
+}
+
+.muye-mailbox-continue[hidden] {
+  display: none;
+}
+
+.muye-mailbox-continue:hover,
+.muye-mailbox-continue:focus-visible {
+  border-color: var(--accent-strong);
+  background: rgba(242, 189, 121, 0.12);
+  outline: none;
+}
+
+.muye-mailbox-form {
+  display: grid;
+  gap: 14px;
+}
+
+.muye-mailbox-form[hidden] {
+  display: none;
+}
+
+.muye-mailbox-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.muye-mailbox-form input {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 0 13px;
+  background: rgba(248, 244, 234, 0.08);
+  color: var(--ink);
+  font: inherit;
+  outline: none;
+}
+
+.muye-mailbox-form input:focus {
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 0 3px rgba(242, 189, 121, 0.18);
+}
+
+.muye-mailbox-turnstile {
+  width: 100%;
+  min-height: 65px;
+  overflow: hidden;
+}
+
+.muye-mailbox-message {
+  min-height: 20px;
+  margin: 0;
+  color: var(--green);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.muye-mailbox-message.error {
+  color: var(--accent-strong);
+}
+
+.muye-mailbox-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.muye-mailbox-actions .button {
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.auth-divider {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  height: 1px;
+  background: var(--line);
+  content: "";
+}
+
 .auth-form {
   display: grid;
   gap: 16px;

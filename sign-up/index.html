@@ -7,7 +7,7 @@
     <title>Sign up · Muye</title>
     <link rel="icon" href="/assets/favicon.png" type="image/png">
     <link rel="stylesheet" href="/styles.css?v=10">
-    <link rel="stylesheet" href="/auth.css?v=11">
+    <link rel="stylesheet" href="/auth.css?v=13">
     <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body class="auth-page">
@@ -19,13 +19,29 @@
       <section class="auth-panel" aria-labelledby="auth-title">
         <p class="eyebrow">Create account</p>
         <h1 id="auth-title">Sign up</h1>
+        <div class="muye-mailbox-auth" data-muye-mailbox-auth>
+          <button class="muye-mailbox-continue" type="button" data-muye-mailbox-start>
+            <span data-muye-mailbox-continue>Continue with Muye Mailbox</span>
+          </button>
+          <form class="muye-mailbox-form" data-muye-mailbox-form hidden>
+            <label><span data-muye-mailbox-email-label>Muye email</span><input name="mailbox" type="email" autocomplete="username" placeholder="name@muye.dev" required></label>
+            <label><span data-muye-mailbox-password-label>Password</span><input name="password" type="password" autocomplete="current-password" required></label>
+            <div class="muye-mailbox-turnstile" data-muye-mailbox-turnstile></div>
+            <p class="muye-mailbox-message" data-muye-mailbox-message aria-live="polite"></p>
+            <div class="muye-mailbox-actions">
+              <button class="button primary" type="submit" data-muye-mailbox-submit>Continue</button>
+              <button class="button secondary" type="button" data-muye-mailbox-cancel>Cancel</button>
+            </div>
+          </form>
+          <div class="auth-divider"><span data-muye-mailbox-or>or</span></div>
+        </div>
         <div id="clerk-auth" data-clerk-auth="sign-up"></div>
         <p class="auth-switch">Need a Muye email? <a href="/create-email">Create email</a></p>
       </section>
     </main>
     <script defer crossorigin="anonymous" src="https://clerk.www.muye.dev/npm/@clerk/ui@1/dist/ui.browser.js"></script>
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script defer src="/auth.js?v=13"></script>
+    <script defer src="/auth.js?v=19"></script>
     <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

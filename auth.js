@@ -7,7 +7,19 @@ const authText = {
   en: { home: "Home", createAccount: "Create account", welcomeBack: "Welcome back", signUpTitle: "Sign up", signInTitle: "Sign in to muye.dev", needEmail: "Need a Muye email?", createEmail: "Create email", alreadyHave: "Already have one?", signIn: "Sign in", muyeMail: "Muye mail", requestHint: "Send Muye a short request. No outside email verification is needed.", ownerHint: "Signed in as owner. This will create the mailbox immediately.", email: "Email", request: "Request", requestPlaceholder: "A little text about who this is for and what name you want.", password: "Password", confirmPassword: "Confirm password", show: "Show", hide: "Hide", passwordPlaceholder: "At least 8 characters and one number", confirmPlaceholder: "Enter password again", sendRequest: "Send request", sendCode: "Send code", codeSent: "Code sent", creating: "Creating...", sending: "Sending...", requestSent: "Request sent", emailCreated: "Email created", createCopy: "Create email", enterName: "Enter the Muye email name you want.", enterRecoveryEmail: "Enter your verification email.", enterValidRecoveryEmail: "Enter a valid email address before sending a code.", validName: "Use only letters, numbers, dots, underscores, or hyphens for the email name.", shortRequest: "Your request must be at least 12 characters.", captcha: "Please complete the CAPTCHA.", serviceDown: "The mailbox service could not be reached. Please check your connection and try again.", createFailed: "We could not create that Muye email address.", codeSendFailed: "Could not send the code.", codeSentEmail: "Verification code sent by email.", passwordShort: "Password must be at least 8 characters and include a number.", passwordMismatch: "Passwords do not match.", authFailed: "Authentication could not load. Please refresh and try again.", confirmLabel: "Confirm password", missingFieldsSignUp: "Please enter your email and both password fields.", missingFieldsSignIn: "Please enter your email and password.", signInDetails: "Sign-in details received. Connect Clerk to authenticate." },
   zh: { home: "主页", createAccount: "创建账户", welcomeBack: "欢迎回来", signUpTitle: "注册", signInTitle: "登录 muye.dev", needEmail: "需要 Muye 邮箱？", createEmail: "创建邮箱", alreadyHave: "已经有了？", signIn: "登录", muyeMail: "Muye 邮箱", requestHint: "给 Muye 发送一个短请求。不需要外部邮箱验证。", ownerHint: "已作为站长登录，将立即创建邮箱。", email: "邮箱", request: "请求", requestPlaceholder: "写一点这是谁用、想要什么名字。", password: "密码", confirmPassword: "确认密码", show: "显示", hide: "隐藏", passwordPlaceholder: "至少 8 个字符", confirmPlaceholder: "再次输入密码", sendRequest: "发送请求", sendCode: "发送验证码", codeSent: "验证码已发送", creating: "创建中...", sending: "发送中...", requestSent: "请求已发送", emailCreated: "邮箱已创建", createCopy: "创建邮箱", enterName: "请输入想要的 Muye 邮箱名。", enterRecoveryEmail: "请输入验证邮箱。", enterValidRecoveryEmail: "发送验证码前请输入有效邮箱。", validName: "邮箱名只能使用字母、数字、点、下划线或连字符。", shortRequest: "请求至少需要 12 个字符。", captcha: "请完成人机验证。", serviceDown: "邮箱服务暂时无法连接，请检查网络后重试。", createFailed: "无法创建这个 Muye 邮箱。", codeSendFailed: "无法发送验证码。", codeSentEmail: "验证码已通过邮件发送。", passwordShort: "密码至少需要 8 个字符。", passwordMismatch: "两次密码不一致。", authFailed: "登录组件无法加载，请刷新后重试。", confirmLabel: "确认密码", missingFieldsSignUp: "请输入邮箱和两次密码。", missingFieldsSignIn: "请输入邮箱和密码。", signInDetails: "登录信息已收到，请连接 Clerk 完成登录。" },
 };
-["ja", "ko", "es", "fr", "de", "pt", "ru", "ar"].forEach((code) => { authText[code] = authText.en; });
+Object.assign(authText.en, { continueMailbox: "Continue with Muye Mailbox", or: "or", mailboxEmail: "Muye email", mailboxPassword: "Password", continue: "Continue", cancel: "Cancel", mailboxChecking: "Checking your mailbox...", mailboxSigningIn: "Signing in...", mailboxCaptcha: "Please complete the CAPTCHA.", mailboxAuthError: "Could not continue with Muye Mailbox." });
+Object.assign(authText.zh, { continueMailbox: "使用 Muye 邮箱继续", or: "或", mailboxEmail: "Muye 邮箱", mailboxPassword: "密码", continue: "继续", cancel: "取消", mailboxChecking: "正在验证邮箱...", mailboxSigningIn: "正在登录...", mailboxCaptcha: "请完成人机验证。", mailboxAuthError: "无法使用 Muye 邮箱继续。" });
+const mailboxAuthText = {
+  ja: { continueMailbox: "Muyeメールで続行", or: "または", mailboxEmail: "Muyeメール", mailboxPassword: "パスワード", continue: "続行", cancel: "キャンセル", mailboxChecking: "メールを確認中...", mailboxSigningIn: "ログイン中...", mailboxCaptcha: "CAPTCHAを完了してください。", mailboxAuthError: "Muyeメールで続行できません。" },
+  ko: { continueMailbox: "Muye 메일로 계속", or: "또는", mailboxEmail: "Muye 메일", mailboxPassword: "비밀번호", continue: "계속", cancel: "취소", mailboxChecking: "메일 확인 중...", mailboxSigningIn: "로그인 중...", mailboxCaptcha: "CAPTCHA를 완료하세요.", mailboxAuthError: "Muye 메일로 계속할 수 없습니다." },
+  es: { continueMailbox: "Continuar con Muye Mailbox", or: "o", mailboxEmail: "Correo Muye", mailboxPassword: "Contraseña", continue: "Continuar", cancel: "Cancelar", mailboxChecking: "Comprobando tu buzón...", mailboxSigningIn: "Iniciando sesión...", mailboxCaptcha: "Completa el CAPTCHA.", mailboxAuthError: "No se pudo continuar con Muye Mailbox." },
+  fr: { continueMailbox: "Continuer avec Muye Mailbox", or: "ou", mailboxEmail: "E-mail Muye", mailboxPassword: "Mot de passe", continue: "Continuer", cancel: "Annuler", mailboxChecking: "Vérification de votre boîte...", mailboxSigningIn: "Connexion...", mailboxCaptcha: "Veuillez terminer le CAPTCHA.", mailboxAuthError: "Impossible de continuer avec Muye Mailbox." },
+  de: { continueMailbox: "Mit Muye Mailbox fortfahren", or: "oder", mailboxEmail: "Muye-E-Mail", mailboxPassword: "Passwort", continue: "Fortfahren", cancel: "Abbrechen", mailboxChecking: "Postfach wird geprüft...", mailboxSigningIn: "Anmeldung...", mailboxCaptcha: "Bitte CAPTCHA abschließen.", mailboxAuthError: "Mit Muye Mailbox konnte nicht fortgefahren werden." },
+  pt: { continueMailbox: "Continuar com Muye Mailbox", or: "ou", mailboxEmail: "Email Muye", mailboxPassword: "Senha", continue: "Continuar", cancel: "Cancelar", mailboxChecking: "Verificando seu email...", mailboxSigningIn: "Entrando...", mailboxCaptcha: "Conclua o CAPTCHA.", mailboxAuthError: "Não foi possível continuar com Muye Mailbox." },
+  ru: { continueMailbox: "Продолжить с Muye Mailbox", or: "или", mailboxEmail: "Почта Muye", mailboxPassword: "Пароль", continue: "Продолжить", cancel: "Отмена", mailboxChecking: "Проверяем почту...", mailboxSigningIn: "Вход...", mailboxCaptcha: "Пройдите CAPTCHA.", mailboxAuthError: "Не удалось продолжить с Muye Mailbox." },
+  ar: { continueMailbox: "المتابعة باستخدام Muye Mailbox", or: "أو", mailboxEmail: "بريد Muye", mailboxPassword: "كلمة المرور", continue: "متابعة", cancel: "إلغاء", mailboxChecking: "جارٍ التحقق من البريد...", mailboxSigningIn: "جارٍ تسجيل الدخول...", mailboxCaptcha: "يرجى إكمال CAPTCHA.", mailboxAuthError: "تعذرت المتابعة باستخدام Muye Mailbox." },
+};
+["ja", "ko", "es", "fr", "de", "pt", "ru", "ar"].forEach((code) => { authText[code] = { ...authText.en, ...mailboxAuthText[code] }; });
 
 function authLang() {
   const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";
@@ -44,10 +56,24 @@ function applyAuthLanguage() {
     document.querySelectorAll("[data-password-toggle]").forEach((button) => { button.textContent = tt("show"); button.setAttribute("aria-label", `${tt("show")} ${tt("password")}`); });
   }
   document.querySelector(".auth-switch") && (document.querySelector(".auth-switch").innerHTML = mode === "create-email" ? `${tt("alreadyHave")} <a href="/sign-in">${tt("signIn")}</a>` : `${tt("needEmail")} <a href="/create-email">${tt("createEmail")}</a>`);
+  document.querySelector("[data-muye-mailbox-continue]") && (document.querySelector("[data-muye-mailbox-continue]").textContent = tt("continueMailbox"));
+  document.querySelector("[data-muye-mailbox-or]") && (document.querySelector("[data-muye-mailbox-or]").textContent = tt("or"));
+  document.querySelector("[data-muye-mailbox-email-label]") && (document.querySelector("[data-muye-mailbox-email-label]").textContent = tt("mailboxEmail"));
+  document.querySelector("[data-muye-mailbox-password-label]") && (document.querySelector("[data-muye-mailbox-password-label]").textContent = tt("mailboxPassword"));
+  document.querySelector("[data-muye-mailbox-submit]") && (document.querySelector("[data-muye-mailbox-submit]").textContent = tt("continue"));
+  document.querySelector("[data-muye-mailbox-cancel]") && (document.querySelector("[data-muye-mailbox-cancel]").textContent = tt("cancel"));
 }
 
 const clerkAuth = document.querySelector("[data-clerk-auth]");
 window.addEventListener("load", applyAuthLanguage);
+
+async function waitForClerk() {
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    if (window.Clerk) return window.Clerk;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  throw new Error("Clerk did not load. Check the production Frontend API DNS record.");
+}
 async function currentClerkToken() {
   if (!window.Clerk) return "";
   try {
@@ -80,15 +106,117 @@ function deviceId() {
   return value;
 }
 
-if (clerkAuth) {
-  async function waitForClerk() {
-    for (let attempt = 0; attempt < 80; attempt += 1) {
-      if (window.Clerk) return window.Clerk;
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    }
-    throw new Error("Clerk did not load. Check the production Frontend API DNS record.");
+function safeAuthRedirect() {
+  const params = new URLSearchParams(window.location.search);
+  const candidate = params.get("redirect_url") || params.get("redirectUrl") || params.get("after_sign_in_url") || "/";
+  try {
+    const url = new URL(candidate, window.location.origin);
+    return url.origin === window.location.origin ? `${url.pathname}${url.search}${url.hash}` : "/";
+  } catch {
+    return "/";
   }
+}
 
+async function waitForTurnstile() {
+  if (!document.querySelector('script[data-muye-mailbox-turnstile-script]')) {
+    const script = document.createElement("script");
+    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    script.async = true;
+    script.defer = true;
+    script.dataset.muyeMailboxTurnstileScript = "true";
+    document.head.appendChild(script);
+  }
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    if (window.turnstile?.render) return window.turnstile;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  throw new Error("CAPTCHA could not load.");
+}
+
+function setupMailboxAuth() {
+  const root = document.querySelector("[data-muye-mailbox-auth]");
+  if (!root) return;
+  const start = root.querySelector("[data-muye-mailbox-start]");
+  const form = root.querySelector("[data-muye-mailbox-form]");
+  const cancel = root.querySelector("[data-muye-mailbox-cancel]");
+  const submit = root.querySelector("[data-muye-mailbox-submit]");
+  const message = root.querySelector("[data-muye-mailbox-message]");
+  const captchaBox = root.querySelector("[data-muye-mailbox-turnstile]");
+  let captchaToken = "";
+  let widgetId = null;
+
+  const setMessage = (value, isError = false) => {
+    message.textContent = value;
+    message.classList.toggle("error", isError);
+  };
+
+  const renderCaptcha = async () => {
+    if (widgetId !== null) return;
+    const turnstile = await waitForTurnstile();
+    widgetId = turnstile.render(captchaBox, {
+      sitekey: "0x4AAAAAAEG-XIoYvPuejEbf",
+      theme: "dark",
+      size: "flexible",
+      callback(token) { captchaToken = token; setMessage(""); },
+      "expired-callback"() { captchaToken = ""; },
+      "error-callback"() { captchaToken = ""; },
+    });
+  };
+
+  start.addEventListener("click", async () => {
+    start.hidden = true;
+    form.hidden = false;
+    form.querySelector('input[name="mailbox"]')?.focus();
+    try {
+      await renderCaptcha();
+    } catch {
+      setMessage(tt("mailboxAuthError"), true);
+    }
+  });
+
+  cancel.addEventListener("click", () => {
+    form.hidden = true;
+    start.hidden = false;
+    setMessage("");
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!captchaToken) {
+      setMessage(tt("mailboxCaptcha"), true);
+      return;
+    }
+    const data = new FormData(form);
+    submit.disabled = true;
+    setMessage(tt("mailboxChecking"));
+    try {
+      const response = await fetch("/api/mailbox-clerk-auth", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ mailbox: data.get("mailbox"), password: data.get("password"), captcha: captchaToken }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result.ticket) throw new Error(result.error || tt("mailboxAuthError"));
+
+      setMessage(tt("mailboxSigningIn"));
+      const clerk = await waitForClerk();
+      await clerk.load({ ui: { ClerkUI: window.__internal_ClerkUICtor } });
+      const attempt = await clerk.client.signIn.create({ strategy: "ticket", ticket: result.ticket });
+      if (attempt.status !== "complete" || !attempt.createdSessionId) throw new Error(tt("mailboxAuthError"));
+      await clerk.setActive({ session: attempt.createdSessionId });
+      window.location.assign(safeAuthRedirect());
+    } catch (error) {
+      captchaToken = "";
+      if (widgetId !== null) window.turnstile?.reset?.(widgetId);
+      setMessage(error instanceof Error && error.message ? error.message : tt("mailboxAuthError"), true);
+      submit.disabled = false;
+    }
+  });
+}
+
+setupMailboxAuth();
+
+if (clerkAuth) {
   window.addEventListener("load", async () => {
     try {
       applyAuthLanguage();

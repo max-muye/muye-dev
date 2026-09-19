@@ -16,14 +16,16 @@
     <main class="note-shell">
       <a class="note-back" href="/#notes" data-i18n="backNotes">Back to notes</a>
       <p class="eyebrow" data-i18n="nowThinking">Now thinking about</p>
-      <h1 data-i18n="thinkingH1">Muye.dev is now v2.5.2.</h1>
+      <h1 data-i18n="thinkingH1">Muye.dev is now v2.6.0.</h1>
       <p class="note-meta">September 20, 2026</p>
       <article class="note-content">
         <p>This note is the living place for what changed, what shipped, and what the site is slowly turning into.</p>
 
         <h2 data-i18n="versionList">Version List</h2>
-        <p><strong>v2.5.2</strong> is the current version of muye.dev.</p>
+        <p><strong>v2.6.0</strong> is the current version of muye.dev.</p>
         <p>Versions use <code>major.normal.small</code>: the first number is for big updates, the middle number is for normal updates, and the last number is for small fixes.</p>
+        <h3>v2.6.0</h3>
+        <p>Added “Continue with Muye Mailbox” to sign-in and sign-up, using server-side mailbox verification and short-lived, one-use Clerk tickets without copying mailbox passwords into Clerk.</p>
         <h3>v2.5.2</h3>
         <p>Made daily check-in reset automatically at each local midnight and refresh after returning to a page that stayed open overnight.</p>
         <h3>v2.5.1</h3>
@@ -157,6 +159,7 @@
         </ul>
 
         <h2 data-i18n="deployNotes">Deploy Notes</h2>
+        <p><strong>September 20, 2026:</strong> Added Muye Mailbox as a secure Clerk sign-in and sign-up method, then bumped the site to <code>v2.6.0</code>.</p>
         <p><strong>September 20, 2026:</strong> Fixed the daily check-in day rollover and bumped the site to <code>v2.5.2</code>.</p>
         <p><strong>September 19, 2026:</strong> Isolated and restored HTML email formatting in Mailbox, then bumped the site to <code>v2.5.1</code>.</p>
         <p><strong>September 19, 2026:</strong> Added Mailbox quoting and multiple attachments, then bumped the site to <code>v2.5.0</code>.</p>
@@ -211,6 +214,6 @@
       <a href="mailto:muye@muye.dev">muye@muye.dev</a>
     </footer>
     <script>document.querySelector("#year").textContent = new Date().getFullYear();</script>
-    <script src="/assets/page-i18n.js?v=7"></script>
+    <script src="/assets/page-i18n.js?v=8"></script>
   </body>
 </html>

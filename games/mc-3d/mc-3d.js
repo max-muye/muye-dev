@@ -803,15 +803,18 @@ window.addEventListener("keydown", (event) => {
   if (slot >= 0 && slot < blockTypes.length) { selectedBlock = blockTypes[slot]; renderHotbar(); }
 });
 window.addEventListener("keyup", (event) => keys.delete(event.code));
-canvas.addEventListener("click", () => {
-  if (!running) return;
-  if (document.pointerLockElement !== canvas && !fallbackMouse) captureMouse();
-  else mineBlock();
+canvas.addEventListener("pointerdown", (event) => {
+  if (!running || event.pointerType !== "mouse") return;
+  event.preventDefault();
+  if (document.pointerLockElement !== canvas && !fallbackMouse) {
+    captureMouse();
+    return;
+  }
+  if (event.button === 0) mineBlock();
+  if (event.button === 2) placeBlock();
 });
 canvas.addEventListener("contextmenu", (event) => {
   event.preventDefault();
-  if (document.pointerLockElement !== canvas && !fallbackMouse) captureMouse();
-  else placeBlock();
 });
 document.addEventListener("mousemove", (event) => {
   if (document.pointerLockElement !== canvas && !fallbackMouse) return;

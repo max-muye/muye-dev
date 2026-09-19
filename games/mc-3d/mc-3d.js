@@ -47,6 +47,7 @@ sun.shadow.camera.right = 28;
 sun.shadow.camera.top = 28;
 sun.shadow.camera.bottom = -28;
 scene.add(sun);
+scene.add(sun.target);
 
 const worldGroup = new THREE.Group();
 scene.add(worldGroup);
@@ -54,6 +55,9 @@ const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 const materials = Object.fromEntries(Object.entries(blockDefs).map(([name, def]) => [name, new THREE.MeshLambertMaterial({ color: def.color, transparent: !!def.transparent, opacity: def.transparent ? 0.9 : 1 })]));
 const blocks = new Map();
 const heightMap = new Map();
+const generatedChunks = new Set();
+const CHUNK_SIZE = 12;
+const CHUNK_EDGE_PRELOAD = 4;
 const raycaster = new THREE.Raycaster();
 raycaster.far = 6;
 const center = new THREE.Vector2(0, 0);
@@ -61,6 +65,7 @@ const center = new THREE.Vector2(0, 0);
 let language = languages.includes(localStorage.getItem("muye-lang")) ? localStorage.getItem("muye-lang") : "en";
 let playerKey = "device";
 let activeWorldId = "";
+let worldSeed = Date.now();
 let settings = { mode: "survival", speed: "slow" };
 let inventory = { grass: 12, dirt: 20, stone: 12, wood: 8, leaves: 8, sand: 10 };
 let selectedBlock = "grass";
@@ -74,6 +79,7 @@ let day = 1;
 let lastSave = 0;
 let toastTimer = 0;
 let fallbackMouse = false;
+let lastChunkZone = "";
 const keys = new Set();
 
 function t(key, values = {}) {
@@ -95,6 +101,23 @@ function applyLanguage() {
 }
 
 function keyFor(x, y, z) { return `${x},${y},${z}`; }
+function columnKey(x, z) { return `${x},${z}`; }
+function chunkKey(x, z) { return `${x},${z}`; }
+
+function updateColumnTop(x, z, y, type) {
+  if (type === "leaves") return;
+  const key = columnKey(x, z);
+  heightMap.set(key, Math.max(heightMap.get(key) ?? -2, y));
+}
+
+function refreshColumnTop(x, z) {
+  let highest = -2;
+  blocks.forEach((mesh) => {
+    const data = mesh.userData;
+    if (data.x === x && data.z === z && data.type !== "leaves") highest = Math.max(highest, data.y);
+  });
+  heightMap.set(columnKey(x, z), highest);
+}
 
 function addBlock(x, y, z, type, save = true) {
   const id = keyFor(x, y, z);
@@ -106,6 +129,7 @@ function addBlock(x, y, z, type, save = true) {
   mesh.userData = { x, y, z, type };
   blocks.set(id, mesh);
   worldGroup.add(mesh);
+  updateColumnTop(x, z, y, type);
   if (save) scheduleSave();
 }
 
@@ -113,34 +137,68 @@ function removeBlock(mesh) {
   const { x, y, z } = mesh.userData;
   blocks.delete(keyFor(x, y, z));
   worldGroup.remove(mesh);
+  if (mesh.userData.type !== "leaves" && heightMap.get(columnKey(x, z)) === y) refreshColumnTop(x, z);
   scheduleSave();
 }
 
-function seeded(seed) {
-  let value = seed >>> 0;
-  return () => {
-    value = (value * 1664525 + 1013904223) >>> 0;
-    return value / 4294967296;
-  };
+function coordinateRandom(seed, x, z, salt = 0) {
+  let value = (seed ^ Math.imul(x, 374761393) ^ Math.imul(z, 668265263) ^ Math.imul(salt, 1442695041)) >>> 0;
+  value = Math.imul(value ^ (value >>> 13), 1274126177);
+  return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
 }
 
-function generateWorld(seed = Date.now()) {
-  clearWorld();
-  const random = seeded(seed);
-  const size = 24;
-  for (let x = -size / 2; x < size / 2; x += 1) {
-    for (let z = -size / 2; z < size / 2; z += 1) {
-      const wave = Math.sin(x * 0.38) * 0.7 + Math.cos(z * 0.31) * 0.65;
-      const height = Math.max(1, Math.min(5, Math.round(2.5 + wave + (random() - 0.5) * 1.2)));
-      heightMap.set(`${x},${z}`, height);
-      const beach = z > 8 && height <= 3;
+function generateChunk(chunkX, chunkZ, save = true) {
+  const id = chunkKey(chunkX, chunkZ);
+  if (generatedChunks.has(id)) return false;
+  generatedChunks.add(id);
+  const startX = chunkX * CHUNK_SIZE;
+  const startZ = chunkZ * CHUNK_SIZE;
+  const phaseX = (worldSeed % 997) * 0.013;
+  const phaseZ = (worldSeed % 991) * 0.017;
+  for (let x = startX; x < startX + CHUNK_SIZE; x += 1) {
+    for (let z = startZ; z < startZ + CHUNK_SIZE; z += 1) {
+      const wave = Math.sin(x * 0.18 + phaseX) * 0.8
+        + Math.cos(z * 0.15 + phaseZ) * 0.7
+        + Math.sin((x + z) * 0.07 + phaseX) * 0.55;
+      const jitter = (coordinateRandom(worldSeed, x, z) - 0.5) * 1.1;
+      const height = Math.max(1, Math.min(6, Math.round(2.5 + wave + jitter)));
+      const beach = height <= 2 && coordinateRandom(worldSeed, x, z, 1) > 0.36;
       for (let y = 0; y <= height; y += 1) {
         const type = y === height ? (beach ? "sand" : "grass") : (y >= height - 2 ? "dirt" : "stone");
         addBlock(x, y, z, type, false);
       }
-      if (!beach && random() > 0.965 && Math.abs(x) > 2 && Math.abs(z) > 2) addTree(x, height + 1, z);
+      if (!beach && coordinateRandom(worldSeed, x, z, 2) > 0.965 && Math.hypot(x, z) > 4) addTree(x, height + 1, z);
     }
   }
+  if (save) scheduleSave();
+  return true;
+}
+
+function generateWorld(seed = Date.now()) {
+  clearWorld();
+  worldSeed = Number(seed) || Date.now();
+  for (let chunkX = -1; chunkX <= 0; chunkX += 1) {
+    for (let chunkZ = -1; chunkZ <= 0; chunkZ += 1) generateChunk(chunkX, chunkZ, false);
+  }
+}
+
+function ensureTerrainAroundPlayer() {
+  const chunkX = Math.floor(camera.position.x / CHUNK_SIZE);
+  const chunkZ = Math.floor(camera.position.z / CHUNK_SIZE);
+  const localX = camera.position.x - chunkX * CHUNK_SIZE;
+  const localZ = camera.position.z - chunkZ * CHUNK_SIZE;
+  const chunkXs = [chunkX];
+  const chunkZs = [chunkZ];
+  if (localX <= CHUNK_EDGE_PRELOAD) chunkXs.push(chunkX - 1);
+  if (localX >= CHUNK_SIZE - CHUNK_EDGE_PRELOAD) chunkXs.push(chunkX + 1);
+  if (localZ <= CHUNK_EDGE_PRELOAD) chunkZs.push(chunkZ - 1);
+  if (localZ >= CHUNK_SIZE - CHUNK_EDGE_PRELOAD) chunkZs.push(chunkZ + 1);
+  const zone = `${chunkXs.join(":")}|${chunkZs.join(":")}`;
+  if (zone === lastChunkZone) return;
+  lastChunkZone = zone;
+  let added = false;
+  chunkXs.forEach((x) => chunkZs.forEach((z) => { added = generateChunk(x, z, false) || added; }));
+  if (added) scheduleSave();
 }
 
 function addTree(x, y, z) {
@@ -153,6 +211,8 @@ function clearWorld() {
   while (worldGroup.children.length) worldGroup.remove(worldGroup.children[0]);
   blocks.clear();
   heightMap.clear();
+  generatedChunks.clear();
+  lastChunkZone = "";
 }
 
 function serializeWorld() {
@@ -164,6 +224,8 @@ function serializeWorld() {
     selectedBlock,
     timeOfDay,
     day,
+    seed: worldSeed,
+    generatedChunks: [...generatedChunks],
     position: camera.position.toArray(),
     yaw,
     pitch,
@@ -197,6 +259,11 @@ function loadWorld(id) {
   if (!saved) return;
   clearWorld();
   saved.blocks.forEach((block) => addBlock(block.x, block.y, block.z, block.type, false));
+  worldSeed = Number(saved.seed) || [...id].reduce((seed, character) => Math.imul(seed ^ character.charCodeAt(0), 16777619), 2166136261) >>> 0;
+  const savedChunks = Array.isArray(saved.generatedChunks) && saved.generatedChunks.length
+    ? saved.generatedChunks
+    : ["-1,-1", "-1,0", "0,-1", "0,0"];
+  savedChunks.forEach((chunk) => generatedChunks.add(chunk));
   activeWorldId = id;
   settings = saved.settings || settings;
   inventory = saved.inventory || inventory;
@@ -206,6 +273,7 @@ function loadWorld(id) {
   yaw = saved.yaw || 0;
   pitch = saved.pitch || -0.16;
   camera.position.fromArray(saved.position || [0, 7, 4]);
+  ensureTerrainAroundPlayer();
   document.querySelector("#world-name").textContent = saved.name || "MC3D";
   running = true;
   document.querySelector("#world-dialog").close();
@@ -228,6 +296,7 @@ function createWorld() {
   day = 1;
   generateWorld(Date.now());
   camera.position.set(0, 7, 4);
+  ensureTerrainAroundPlayer();
   yaw = 0;
   pitch = -0.16;
   document.querySelector("#world-name").textContent = name;
@@ -332,14 +401,9 @@ function showToast(message) {
 }
 
 function groundHeight(x, z) {
-  let highest = -2;
   const bx = Math.round(x);
   const bz = Math.round(z);
-  blocks.forEach((mesh) => {
-    const data = mesh.userData;
-    if (data.x === bx && data.z === bz && data.y > highest && data.type !== "leaves") highest = data.y;
-  });
-  return highest + 1.92;
+  return (heightMap.get(columnKey(bx, bz)) ?? -2) + 1.92;
 }
 
 function updatePlayer(delta) {
@@ -351,8 +415,7 @@ function updatePlayer(delta) {
   const cos = Math.cos(yaw);
   camera.position.x += (side * cos - forward * sin) * speed;
   camera.position.z += (side * sin - forward * cos) * speed;
-  camera.position.x = THREE.MathUtils.clamp(camera.position.x, -11.5, 11.5);
-  camera.position.z = THREE.MathUtils.clamp(camera.position.z, -11.5, 11.5);
+  ensureTerrainAroundPlayer();
   velocityY -= 18 * delta;
   camera.position.y += velocityY * delta;
   const ground = groundHeight(camera.position.x, camera.position.z);
@@ -377,7 +440,8 @@ function updateWorld(delta) {
   if (timeOfDay >= 1) { timeOfDay -= 1; day += 1; }
   const angle = timeOfDay * Math.PI * 2;
   const daylight = THREE.MathUtils.clamp(Math.sin(angle) * 0.65 + 0.48, 0.08, 1);
-  sun.position.set(Math.cos(angle) * 28, Math.sin(angle) * 30, 12);
+  sun.position.set(camera.position.x + Math.cos(angle) * 28, Math.sin(angle) * 30, camera.position.z + 12);
+  sun.target.position.set(camera.position.x, 0, camera.position.z);
   sun.intensity = 0.3 + daylight * 2.2;
   hemi.intensity = 0.22 + daylight * 1.35;
   const sky = new THREE.Color().setHSL(0.56, 0.48, 0.08 + daylight * 0.62);

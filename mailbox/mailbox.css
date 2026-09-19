@@ -78,12 +78,7 @@
 .message-detail h3 { margin: 12px 0 16px; font-size: 20px; line-height: 1.25; }
 .message-detail pre { margin: 0; color: var(--ink); font: inherit; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
 .message-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
-.message-html { color: var(--ink); line-height: 1.55; overflow-wrap: anywhere; }
-.message-html :is(h1, h2, h3, h4, p, ul, ol, blockquote, table, pre) { margin: 0 0 14px; }
-.message-html a { color: var(--accent-strong); }
-.message-html img { max-width: 100%; height: auto; border-radius: 8px; }
-.message-html table { width: 100%; border-collapse: collapse; }
-.message-html :is(td, th) { border: 1px solid var(--line); padding: 8px; }
+.message-html-frame { display: block; width: 100%; height: 360px; max-height: 720px; border: 1px solid var(--line); border-radius: 7px; background: #fff; }
 .message-text-fallback { display: none; }
 .message-image { display: block; width: 100%; max-height: 360px; object-fit: contain; border: 1px solid var(--line); border-radius: 8px; background: rgba(248, 244, 234, 0.06); }
 .message-image { margin-top: 18px; }

@@ -204,7 +204,7 @@ function renderMessages(messages) {
 function renderMessageDetail(message) {
   const counterpart = message.direction === "sent" ? `${t("to")}: ${message.recipient}` : `${t("from")}: ${message.sender}`;
   const attachment = renderAttachment(message);
-  const htmlBody = message.body_html ? `<div class="message-html">${sanitizeHtml(message.body_html)}</div>` : "";
+  const htmlBody = renderHtmlBody(message);
   const textBody = `<pre ${htmlBody ? 'class="message-text-fallback"' : ""}>${escapeHtml(decodeStoredBody(message.body))}</pre>`;
   const readAction = message.is_read ? "unread" : "read";
   const readLabel = message.is_read ? t("markUnread") : t("markRead");
@@ -227,11 +227,12 @@ function renderMessageDetail(message) {
     button.addEventListener("click", async () => updateMessage(button.dataset.messageId, button.dataset.messageAction));
   });
   messageDetail.querySelector("[data-quote-message]")?.addEventListener("click", () => quoteMessage(message));
+  initializeHtmlFrames(messageDetail);
 }
 
 function renderAdminMessageDetail(message) {
   const attachment = renderAttachment(message);
-  const htmlBody = message.body_html ? `<div class="message-html">${sanitizeHtml(message.body_html)}</div>` : "";
+  const htmlBody = renderHtmlBody(message);
   const textBody = `<pre ${htmlBody ? 'class="message-text-fallback"' : ""}>${escapeHtml(decodeStoredBody(message.body))}</pre>`;
   adminMessageDetail.innerHTML = `
     <div class="message-detail-meta">
@@ -245,6 +246,7 @@ function renderAdminMessageDetail(message) {
       <button class="mailbox-button admin-danger" type="button" data-admin-delete-message="${message.id}">${t("deleteMessage")}</button>
     </div>`;
   adminMessageDetail.querySelector("[data-admin-delete-message]")?.addEventListener("click", () => deleteAdminMessage(message.id));
+  initializeHtmlFrames(adminMessageDetail);
 }
 
 function attachmentsForMessage(message) {
@@ -273,9 +275,9 @@ function renderAttachment(message) {
 function plainMessageText(message) {
   const text = decodeStoredBody(message.body).trim();
   if (text || !message.body_html) return text;
-  const template = document.createElement("template");
-  template.innerHTML = sanitizeHtml(message.body_html);
-  return (template.content.textContent || "").trim();
+  const document = new DOMParser().parseFromString(message.body_html, "text/html");
+  document.querySelectorAll("script, style, template, noscript").forEach((element) => element.remove());
+  return (document.body.textContent || "").replace(/\s+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
 function quoteMessage(message) {
@@ -297,30 +299,77 @@ function escapeAttribute(value) {
   return escapeHtml(value).replace(/`/g, "&#096;");
 }
 
-function sanitizeHtml(value) {
-  const template = document.createElement("template");
-  template.innerHTML = String(value || "");
-  const allowed = new Set(["A", "B", "BLOCKQUOTE", "BR", "CODE", "DIV", "EM", "H1", "H2", "H3", "H4", "HR", "I", "IMG", "LI", "OL", "P", "PRE", "SPAN", "STRONG", "TABLE", "TBODY", "TD", "TH", "THEAD", "TR", "UL"]);
-  template.content.querySelectorAll("*").forEach((element) => {
-    if (!allowed.has(element.tagName)) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
+function cleanEmailCss(value) {
+  return String(value || "")
+    .replace(/@import[^;]+;?/gi, "")
+    .replace(/url\s*\([^)]*\)/gi, "none")
+    .replace(/expression\s*\([^)]*\)/gi, "")
+    .replace(/javascript\s*:/gi, "");
+}
+
+function sanitizeEmailHtml(value) {
+  const document = new DOMParser().parseFromString(String(value || ""), "text/html");
+  document.querySelectorAll("script, iframe, object, embed, form, input, button, textarea, select, option, base, link, meta").forEach((element) => element.remove());
+  document.querySelectorAll("style").forEach((element) => { element.textContent = cleanEmailCss(element.textContent); });
+  document.querySelectorAll("*").forEach((element) => {
     [...element.attributes].forEach((attribute) => {
       const name = attribute.name.toLowerCase();
-      const value = attribute.value.trim();
-      if (name.startsWith("on") || name === "style") element.removeAttribute(attribute.name);
-      else if (element.tagName === "A" && name === "href" && /^https?:\/\//i.test(value)) {
-        element.setAttribute("target", "_blank");
-        element.setAttribute("rel", "noopener noreferrer");
-      } else if (element.tagName === "IMG" && name === "src" && /^https?:\/\//i.test(value)) {
-        element.setAttribute("loading", "lazy");
-      } else if (!["href", "src", "alt", "title", "colspan", "rowspan"].includes(name)) {
+      const content = attribute.value.trim();
+      if (name.startsWith("on") || ["srcdoc", "formaction"].includes(name)) {
+        element.removeAttribute(attribute.name);
+      } else if (name === "style") {
+        element.setAttribute("style", cleanEmailCss(content));
+      } else if (name === "href" && !/^(https?:|mailto:)/i.test(content)) {
+        element.removeAttribute(attribute.name);
+      } else if (name === "src" && !/^(https:|data:image\/)/i.test(content)) {
         element.removeAttribute(attribute.name);
       }
     });
+    if (element.tagName === "A" && element.hasAttribute("href")) {
+      element.setAttribute("target", "_blank");
+      element.setAttribute("rel", "noopener noreferrer");
+    }
+    if (element.tagName === "IMG") element.setAttribute("loading", "lazy");
   });
-  return template.innerHTML;
+
+  const policy = document.createElement("meta");
+  policy.httpEquiv = "Content-Security-Policy";
+  policy.content = "default-src 'none'; img-src https: data:; style-src 'unsafe-inline'; font-src https: data:; base-uri 'none'; form-action 'none'";
+  const viewport = document.createElement("meta");
+  viewport.name = "viewport";
+  viewport.content = "width=device-width, initial-scale=1";
+  const layout = document.createElement("style");
+  layout.textContent = `
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    html, body { min-width: 0; max-width: 100%; }
+    body { margin: 0; padding: 8px; background: #fff; color: #111; font-family: Arial, sans-serif; font-size: 14px; }
+    table { width: 100% !important; max-width: 100% !important; }
+    img { max-width: 100% !important; height: auto !important; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  `;
+  document.head.prepend(policy, viewport, layout);
+  return `<!doctype html>${document.documentElement.outerHTML}`;
+}
+
+function renderHtmlBody(message) {
+  if (!message.body_html) return "";
+  const source = escapeAttribute(sanitizeEmailHtml(message.body_html));
+  return `<iframe class="message-html-frame" title="${escapeAttribute(message.subject || t("preview"))}" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer" srcdoc="${source}"></iframe>`;
+}
+
+function initializeHtmlFrames(root) {
+  root.querySelectorAll(".message-html-frame").forEach((frame) => {
+    const resize = () => {
+      try {
+        const content = frame.contentDocument;
+        const height = Math.max(content.body?.scrollHeight || 0, content.documentElement?.scrollHeight || 0);
+        frame.style.height = `${Math.min(Math.max(height, 180), 720)}px`;
+      } catch {}
+    };
+    frame.addEventListener("load", resize, { once: true });
+    if (frame.contentDocument?.readyState === "complete") requestAnimationFrame(resize);
+  });
 }
 
 function fileToBase64(file) {

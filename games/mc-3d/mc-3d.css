@@ -28,6 +28,9 @@ input { font: inherit; }
 button,
 a { -webkit-tap-highlight-color: transparent; }
 
+body.is-playing,
+body.is-playing * { cursor: none !important; }
+
 #world {
   display: block;
   width: 100%;

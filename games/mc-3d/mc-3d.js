@@ -207,6 +207,7 @@ function loadWorld(id) {
   camera.position.fromArray(saved.position || [0, 7, 4]);
   document.querySelector("#world-name").textContent = saved.name || "MC3D";
   running = true;
+  document.body.classList.add("is-playing");
   document.querySelector("#world-dialog").close();
   if (matchMedia("(pointer: fine)").matches) canvas.requestPointerLock?.();
   renderHotbar();
@@ -231,6 +232,7 @@ function createWorld() {
   pitch = -0.16;
   document.querySelector("#world-name").textContent = name;
   running = true;
+  document.body.classList.add("is-playing");
   document.querySelector("#world-dialog").close();
   if (matchMedia("(pointer: fine)").matches) canvas.requestPointerLock?.();
   renderHotbar();
@@ -414,6 +416,7 @@ function frame(now) {
 
 function openMenu() {
   if (running) saveWorld();
+  document.body.classList.remove("is-playing");
   document.exitPointerLock?.();
   renderWorldList();
   document.querySelector("#world-dialog").showModal();
@@ -503,6 +506,9 @@ document.querySelector("#language-button").addEventListener("click", () => {
 });
 document.querySelector("#world-dialog").addEventListener("cancel", (event) => {
   if (!running) event.preventDefault();
+});
+document.querySelector("#world-dialog").addEventListener("close", () => {
+  if (running) document.body.classList.add("is-playing");
 });
 window.addEventListener("beforeunload", () => saveWorld());
 

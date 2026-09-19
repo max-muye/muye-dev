@@ -49,7 +49,7 @@ const text = {
     verifyThree: "比较新哈希和已保存的哈希。",
     verifyFour: "如果相同，密码就是正确的。",
     tryTool: "试试密码哈希工具",
-    miscHome: "回到杂项",
+    miscHome: "回到工具",
   },
   ja: {
     toolLink: "パスワードツール",
@@ -74,7 +74,7 @@ const text = {
     verifyThree: "新しいハッシュと保存済みハッシュを比べる。",
     verifyFour: "一致すれば、パスワードは正しいです。",
     tryTool: "パスワードハッシュツールを試す",
-    miscHome: "その他へ戻る",
+    miscHome: "ツールへ戻る",
   },
   ko: {
     toolLink: "비밀번호 도구",
@@ -99,7 +99,7 @@ const text = {
     verifyThree: "새 해시와 저장된 해시를 비교합니다.",
     verifyFour: "같으면 비밀번호가 맞습니다.",
     tryTool: "비밀번호 해시 도구 사용",
-    miscHome: "기타로 돌아가기",
+    miscHome: "도구로 돌아가기",
   },
   es: {
     toolLink: "Herramienta de contraseña",

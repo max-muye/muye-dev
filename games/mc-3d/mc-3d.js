@@ -73,6 +73,7 @@ let timeOfDay = 0.32;
 let day = 1;
 let lastSave = 0;
 let toastTimer = 0;
+let fallbackMouse = false;
 const keys = new Set();
 
 function t(key, values = {}) {
@@ -208,7 +209,7 @@ function loadWorld(id) {
   document.querySelector("#world-name").textContent = saved.name || "MC3D";
   running = true;
   document.querySelector("#world-dialog").close();
-  if (matchMedia("(pointer: fine)").matches) canvas.requestPointerLock?.();
+  captureMouse();
   renderHotbar();
 }
 
@@ -232,7 +233,7 @@ function createWorld() {
   document.querySelector("#world-name").textContent = name;
   running = true;
   document.querySelector("#world-dialog").close();
-  if (matchMedia("(pointer: fine)").matches) canvas.requestPointerLock?.();
+  captureMouse();
   renderHotbar();
   saveWorld();
 }
@@ -414,10 +415,32 @@ function frame(now) {
 
 function openMenu() {
   if (running) saveWorld();
+  fallbackMouse = false;
   document.body.classList.remove("is-playing");
   document.exitPointerLock?.();
   renderWorldList();
   document.querySelector("#world-dialog").showModal();
+}
+
+function enableMouseFallback() {
+  if (!running || document.querySelector("#world-dialog").open || matchMedia("(pointer: coarse)").matches) return;
+  fallbackMouse = true;
+  document.body.classList.add("is-playing");
+  document.querySelector("#mouse-capture").hidden = true;
+}
+
+function captureMouse() {
+  if (!running || matchMedia("(pointer: coarse)").matches) return;
+  document.querySelector("#mouse-capture").hidden = true;
+  try {
+    const attempt = canvas.requestPointerLock?.();
+    if (attempt?.catch) attempt.catch(enableMouseFallback);
+    setTimeout(() => {
+      if (document.pointerLockElement !== canvas) enableMouseFallback();
+    }, 180);
+  } catch {
+    enableMouseFallback();
+  }
 }
 
 async function findPlayerKey() {
@@ -438,6 +461,13 @@ async function findPlayerKey() {
 
 window.addEventListener("resize", resize);
 window.addEventListener("keydown", (event) => {
+  if (event.code === "Escape" && fallbackMouse) {
+    fallbackMouse = false;
+    keys.clear();
+    document.body.classList.remove("is-playing");
+    document.querySelector("#mouse-capture").hidden = false;
+    return;
+  }
   keys.add(event.code);
   if (event.code === "Space") { event.preventDefault(); jump(); }
   const slot = Number(event.key) - 1;
@@ -446,20 +476,25 @@ window.addEventListener("keydown", (event) => {
 window.addEventListener("keyup", (event) => keys.delete(event.code));
 canvas.addEventListener("click", () => {
   if (!running) return;
-  if (matchMedia("(pointer: fine)").matches && document.pointerLockElement !== canvas) canvas.requestPointerLock();
-  else if (document.pointerLockElement === canvas) mineBlock();
+  if (document.pointerLockElement !== canvas && !fallbackMouse) captureMouse();
+  else mineBlock();
 });
-canvas.addEventListener("contextmenu", (event) => { event.preventDefault(); placeBlock(); });
+canvas.addEventListener("contextmenu", (event) => {
+  event.preventDefault();
+  if (document.pointerLockElement !== canvas && !fallbackMouse) captureMouse();
+  else placeBlock();
+});
 document.addEventListener("mousemove", (event) => {
-  if (document.pointerLockElement !== canvas) return;
+  if (document.pointerLockElement !== canvas && !fallbackMouse) return;
   yaw -= event.movementX * 0.0024;
   pitch = THREE.MathUtils.clamp(pitch - event.movementY * 0.0024, -1.48, 1.48);
 });
 
 document.addEventListener("pointerlockchange", () => {
   const captured = document.pointerLockElement === canvas;
-  document.body.classList.toggle("is-playing", captured);
-  document.querySelector("#mouse-capture").hidden = captured || !running || document.querySelector("#world-dialog").open;
+  if (captured) fallbackMouse = false;
+  document.body.classList.toggle("is-playing", captured || fallbackMouse);
+  document.querySelector("#mouse-capture").hidden = captured || fallbackMouse || !running || document.querySelector("#world-dialog").open;
 });
 
 let touchLook = null;
@@ -486,7 +521,7 @@ document.querySelector("#jump-button").addEventListener("click", jump);
 document.querySelector("#mine-button").addEventListener("click", mineBlock);
 document.querySelector("#place-button").addEventListener("click", placeBlock);
 document.querySelector("#menu-button").addEventListener("click", openMenu);
-document.querySelector("#mouse-capture").addEventListener("click", () => canvas.requestPointerLock?.());
+document.querySelector("#mouse-capture").addEventListener("click", captureMouse);
 document.querySelector("#create-world").addEventListener("click", createWorld);
 document.querySelector("#language-button").addEventListener("click", () => {
   language = languages[(languages.indexOf(language) + 1) % languages.length];

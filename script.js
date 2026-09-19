@@ -12,6 +12,7 @@ const dailyCheckinStatus = document.querySelector("#daily-checkin-status");
 const dailyCheckinButton = document.querySelector("#daily-checkin-button");
 let currentHeroName = "";
 let currentCheckinUserKey = "";
+let checkinDayRolloverTimer = 0;
 
 const languages = [
   { code: "en", label: "English", short: "EN", dir: "ltr" },
@@ -141,8 +142,7 @@ function displayNameFor(user) {
   return user?.unsafeMetadata?.displayName || user?.username || user?.firstName || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "there";
 }
 
-function todayKey() {
-  const now = new Date();
+function todayKey(now = new Date()) {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 }
 
@@ -217,6 +217,21 @@ function syncDailyCheckin() {
   dailyCheckinButton.textContent = done ? textFor("dailyButtonDone") : textFor("dailyButton");
   dailyCheckinButton.disabled = done;
   dailyCheckin.classList.toggle("is-done", done);
+}
+
+function refreshDateSensitiveHome() {
+  syncDailyCheckin();
+  if (currentHeroName) renderSignedInHero(currentHeroName);
+}
+
+function scheduleCheckinDayRollover() {
+  window.clearTimeout(checkinDayRolloverTimer);
+  const now = new Date();
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  checkinDayRolloverTimer = window.setTimeout(() => {
+    refreshDateSensitiveHome();
+    scheduleCheckinDayRollover();
+  }, tomorrow.getTime() - now.getTime() + 100);
 }
 
 function applyHomeLanguage() {
@@ -327,6 +342,17 @@ dailyCheckinButton?.addEventListener("click", () => {
   syncDailyCheckin();
 });
 
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && currentCheckinUserKey) {
+    refreshDateSensitiveHome();
+    scheduleCheckinDayRollover();
+  }
+});
+
+window.addEventListener("focus", () => {
+  if (currentCheckinUserKey) refreshDateSensitiveHome();
+});
+
 function showUserNameForm() {
   const existing = document.querySelector("#hero-name-form");
   if (existing) {
@@ -385,6 +411,7 @@ window.addEventListener("load", async () => {
     currentCheckinUserKey = user?.id || user?.primaryEmailAddress?.emailAddress || displayNameFor(user);
     syncDailyCheckin();
     renderSignedInHero(displayNameFor(user));
+    scheduleCheckinDayRollover();
     homeClerkProfile.hidden = false;
     if (!homeClerkProfile.dataset.mounted) {
       if (typeof clerk.mountUserButton === "function") {

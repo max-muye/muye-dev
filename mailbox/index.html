@@ -13,7 +13,7 @@
     <link rel="manifest" href="/mailbox/manifest.webmanifest">
     <link rel="apple-touch-icon" href="/assets/icon-mailbox.svg">
     <link rel="stylesheet" href="/styles.css?v=10">
-    <link rel="stylesheet" href="/mailbox/mailbox.css?v=9">
+    <link rel="stylesheet" href="/mailbox/mailbox.css?v=10">
     <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body class="mailbox-page">
@@ -101,12 +101,8 @@
               <label>To<input name="recipient" type="email" placeholder="someone@example.com" required></label>
               <label>Subject<input name="subject" type="text" maxlength="160" required></label>
               <label>Message<textarea name="body" rows="8" maxlength="10000"></textarea></label>
-              <label>File<input name="attachment" type="file"></label>
-              <figure class="compose-image-preview" id="compose-image-preview" hidden>
-                <img alt="Selected image preview">
-                <figcaption></figcaption>
-                <button class="mailbox-button quiet" id="remove-image-button" type="button">Remove file</button>
-              </figure>
+              <label>Files<input name="attachment" type="file" multiple></label>
+              <div class="compose-attachments" id="compose-attachments" hidden></div>
               <button class="mailbox-button primary" type="submit">Send message</button>
               <p class="mailbox-message" id="compose-message" role="status" aria-live="polite"></p>
             </form>
@@ -147,7 +143,7 @@
       </section>
     </main>
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script src="/mailbox/mailbox.js?v=29"></script>
+    <script src="/mailbox/mailbox.js?v=30"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});</script>
     <script src="/assets/site-footer.js?v=1"></script>

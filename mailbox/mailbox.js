@@ -13,7 +13,7 @@ const changePasswordForm = document.querySelector("#change-password-form");
 const changePasswordMessage = document.querySelector("#change-password-message");
 const composeForm = document.querySelector("#compose-form");
 const composeMessage = document.querySelector("#compose-message");
-const composeImagePreview = document.querySelector("#compose-image-preview");
+const composeAttachments = document.querySelector("#compose-attachments");
 const inboxMessage = document.querySelector("#inbox-message");
 const messageList = document.querySelector("#message-list");
 const messageDetail = document.querySelector("#message-detail");
@@ -28,7 +28,7 @@ const adminMessageList = document.querySelector("#admin-message-list");
 const adminMessageDetail = document.querySelector("#admin-message-detail");
 const adminMessage = document.querySelector("#admin-message");
 const todayKey = new Date().toISOString().slice(0, 10);
-let selectedAttachment = null;
+let selectedAttachments = [];
 let currentView = "inbox";
 let adminToken = "";
 let selectedAdminMailbox = "";
@@ -57,13 +57,25 @@ mailboxText.pt = { ...mailboxText.en, home: "Início", loginTitle: "Sua caixa de
 mailboxText.ru = { ...mailboxText.en, home: "Домой", loginTitle: "Ваш почтовый ящик", loginCopy: "Войдите с Muye-почтой и паролем.", email: "Почта", password: "Пароль", show: "Показать", hide: "Скрыть", openMailbox: "Открыть почту", replacePassword: "Сменить пароль", signOut: "Выйти", inbox: "Входящие", outbox: "Отправленные", trash: "Корзина", messages: "Сообщения", refresh: "Обновить", preview: "Просмотр", close: "Закрыть", newMessage: "Новое письмо", to: "Кому", from: "От", subject: "Тема", message: "Сообщение", file: "Файл", sendMessage: "Отправить", sent: "Сообщение отправлено.", sending: "Отправка...", emptyInbox: "Входящих нет.", emptyOutbox: "Отправленных нет.", emptyTrash: "Корзина пуста." };
 mailboxText.ar = { ...mailboxText.en, home: "الرئيسية", loginTitle: "صندوق بريدك", loginCopy: "سجّل الدخول ببريد Muye وكلمة المرور.", email: "البريد", password: "كلمة المرور", show: "إظهار", hide: "إخفاء", openMailbox: "فتح البريد", replacePassword: "تغيير كلمة المرور", signOut: "خروج", inbox: "الوارد", outbox: "المرسل", trash: "المهملات", messages: "الرسائل", refresh: "تحديث", preview: "معاينة", close: "إغلاق", newMessage: "رسالة جديدة", to: "إلى", from: "من", subject: "الموضوع", message: "الرسالة", file: "ملف", sendMessage: "إرسال", sent: "تم إرسال الرسالة.", sending: "جار الإرسال...", emptyInbox: "الوارد فارغ.", emptyOutbox: "المرسل فارغ.", emptyTrash: "المهملات فارغة." };
 
+Object.assign(mailboxText.en, { file: "Files", removeFile: "Remove file", quote: "Quote", quotedHeader: "On {date}, {sender} wrote:", fileLimit: "Choose up to 5 files, 4 MB total.", tooManyFiles: "Choose no more than 5 files.", filesTooLarge: "Files must be 4 MB or less in total." });
+Object.assign(mailboxText.zh, { file: "文件", removeFile: "移除文件", quote: "引用", quotedHeader: "{sender} 于 {date} 写道：", fileLimit: "最多选择 5 个文件，总计不超过 4 MB。", tooManyFiles: "最多只能选择 5 个文件。", filesTooLarge: "所有文件总计不能超过 4 MB。" });
+Object.assign(mailboxText.ja, { file: "ファイル", removeFile: "ファイルを削除", quote: "引用", quotedHeader: "{date}、{sender} のメッセージ：", fileLimit: "最大5個、合計4 MBまで。", tooManyFiles: "ファイルは5個までです。", filesTooLarge: "ファイルの合計は4 MB以下にしてください。" });
+Object.assign(mailboxText.ko, { file: "파일", removeFile: "파일 제거", quote: "인용", quotedHeader: "{date}, {sender} 작성:", fileLimit: "최대 5개, 총 4 MB까지 선택하세요.", tooManyFiles: "파일은 최대 5개까지 선택할 수 있습니다.", filesTooLarge: "파일 합계는 4 MB 이하여야 합니다." });
+Object.assign(mailboxText.es, { file: "Archivos", removeFile: "Quitar archivo", quote: "Citar", quotedHeader: "El {date}, {sender} escribió:", fileLimit: "Elige hasta 5 archivos, 4 MB en total.", tooManyFiles: "Elige como máximo 5 archivos.", filesTooLarge: "Los archivos deben sumar 4 MB o menos." });
+Object.assign(mailboxText.fr, { file: "Fichiers", removeFile: "Retirer le fichier", quote: "Citer", quotedHeader: "Le {date}, {sender} a écrit :", fileLimit: "Choisissez jusqu’à 5 fichiers, 4 Mo au total.", tooManyFiles: "Choisissez au maximum 5 fichiers.", filesTooLarge: "Les fichiers doivent totaliser 4 Mo ou moins." });
+Object.assign(mailboxText.de, { file: "Dateien", removeFile: "Datei entfernen", quote: "Zitieren", quotedHeader: "Am {date} schrieb {sender}:", fileLimit: "Bis zu 5 Dateien, insgesamt 4 MB.", tooManyFiles: "Wähle höchstens 5 Dateien.", filesTooLarge: "Die Dateien dürfen zusammen höchstens 4 MB groß sein." });
+Object.assign(mailboxText.pt, { file: "Arquivos", removeFile: "Remover arquivo", quote: "Citar", quotedHeader: "Em {date}, {sender} escreveu:", fileLimit: "Escolha até 5 arquivos, 4 MB no total.", tooManyFiles: "Escolha no máximo 5 arquivos.", filesTooLarge: "Os arquivos devem somar no máximo 4 MB." });
+Object.assign(mailboxText.ru, { file: "Файлы", removeFile: "Удалить файл", quote: "Цитировать", quotedHeader: "{date}, {sender} написал(а):", fileLimit: "До 5 файлов, всего не более 4 МБ.", tooManyFiles: "Выберите не более 5 файлов.", filesTooLarge: "Общий размер файлов не должен превышать 4 МБ." });
+Object.assign(mailboxText.ar, { file: "الملفات", removeFile: "إزالة الملف", quote: "اقتباس", quotedHeader: "في {date}، كتب {sender}:", fileLimit: "اختر حتى 5 ملفات، بإجمالي 4 ميجابايت.", tooManyFiles: "اختر 5 ملفات كحد أقصى.", filesTooLarge: "يجب ألا يتجاوز مجموع الملفات 4 ميجابايت." });
+
 function currentLanguage() {
   const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";
   return mailboxText[saved] ? saved : "en";
 }
 
-function t(key) {
-  return mailboxText[currentLanguage()]?.[key] || mailboxText.en[key] || key;
+function t(key, values = {}) {
+  const source = mailboxText[currentLanguage()]?.[key] || mailboxText.en[key] || key;
+  return Object.entries(values).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), source);
 }
 
 function setLabelText(label, text) {
@@ -117,7 +129,7 @@ function applyMailboxLanguage() {
   setLabelText(document.querySelector('#compose-form label:nth-of-type(2)'), t("subject"));
   setLabelText(document.querySelector('#compose-form label:nth-of-type(3)'), t("message"));
   setLabelText(document.querySelector('#compose-form label:nth-of-type(4)'), t("file"));
-  document.querySelector("#remove-image-button").textContent = t("removeFile");
+  composeForm.attachment.title = t("fileLimit");
   document.querySelector('#compose-form button[type="submit"]').textContent = t("sendMessage");
   document.querySelector("#mailbox-admin .eyebrow").textContent = t("admin");
   document.querySelector("#admin-title").textContent = t("allMailboxes");
@@ -200,7 +212,8 @@ function renderMessageDetail(message) {
   const folderLabel = currentView === "trash" ? t("restore") : t("moveTrash");
   const readButton = currentView === "outbox" ? "" : `<button class="mailbox-button quiet" type="button" data-message-action="${readAction}" data-message-id="${message.id}">${readLabel}</button>`;
   const folderButton = currentView === "outbox" ? "" : `<button class="mailbox-button quiet" type="button" data-message-action="${folderAction}" data-message-id="${message.id}">${folderLabel}</button>`;
-  const actions = readButton || folderButton ? `<div class="message-actions">${readButton}${folderButton}</div>` : "";
+  const quoteButton = `<button class="mailbox-button quiet" type="button" data-quote-message>${t("quote")}</button>`;
+  const actions = `<div class="message-actions">${quoteButton}${readButton}${folderButton}</div>`;
   messageDetail.innerHTML = `
     <div class="message-detail-meta">
       <span>${escapeHtml(counterpart)}</span>
@@ -213,6 +226,7 @@ function renderMessageDetail(message) {
   messageDetail.querySelectorAll("[data-message-action]").forEach((button) => {
     button.addEventListener("click", async () => updateMessage(button.dataset.messageId, button.dataset.messageAction));
   });
+  messageDetail.querySelector("[data-quote-message]")?.addEventListener("click", () => quoteMessage(message));
 }
 
 function renderAdminMessageDetail(message) {
@@ -233,18 +247,46 @@ function renderAdminMessageDetail(message) {
   adminMessageDetail.querySelector("[data-admin-delete-message]")?.addEventListener("click", () => deleteAdminMessage(message.id));
 }
 
+function attachmentsForMessage(message) {
+  try {
+    const attachments = JSON.parse(message.attachments_json || "[]");
+    if (Array.isArray(attachments) && attachments.length) return attachments;
+  } catch {}
+  if (!message.image_data || !message.image_type) return [];
+  return [{ name: message.image_name || "attachment", type: message.image_type, data: message.image_data }];
+}
+
 function renderAttachment(message) {
-  if (!message.image_data || !message.image_type) return "";
-  const name = message.image_name || "attachment";
-  const src = `data:${escapeAttribute(message.image_type)};base64,${escapeAttribute(message.image_data)}`;
-  const preview = message.image_type.startsWith("image/")
-    ? `<img class="message-image" src="${src}" alt="${escapeAttribute(name)}">`
-    : "";
-  return `
-    <div class="message-attachment">
-      ${preview}
-      <a class="mailbox-button quiet attachment-link" href="${src}" download="${escapeAttribute(name)}">${t("download")} ${escapeHtml(name)}</a>
-    </div>`;
+  const attachments = attachmentsForMessage(message);
+  if (!attachments.length) return "";
+  return `<div class="message-attachments">${attachments.map((attachment) => {
+    const name = attachment.name || "attachment";
+    const type = attachment.type || "application/octet-stream";
+    const src = `data:${escapeAttribute(type)};base64,${escapeAttribute(attachment.data || "")}`;
+    const preview = type.startsWith("image/")
+      ? `<img class="message-image" src="${src}" alt="${escapeAttribute(name)}">`
+      : "";
+    return `<div class="message-attachment">${preview}<a class="mailbox-button quiet attachment-link" href="${src}" download="${escapeAttribute(name)}">${t("download")} ${escapeHtml(name)}</a></div>`;
+  }).join("")}</div>`;
+}
+
+function plainMessageText(message) {
+  const text = decodeStoredBody(message.body).trim();
+  if (text || !message.body_html) return text;
+  const template = document.createElement("template");
+  template.innerHTML = sanitizeHtml(message.body_html);
+  return (template.content.textContent || "").trim();
+}
+
+function quoteMessage(message) {
+  const sender = message.direction === "sent" ? message.recipient : message.sender;
+  const quoted = plainMessageText(message).slice(0, 7000).split("\n").map((line) => `> ${line}`).join("\n");
+  const header = t("quotedHeader", { date: formatDate(message.created_at), sender });
+  composeForm.elements.recipient.value = sender;
+  composeForm.elements.subject.value = /^re:/i.test(message.subject) ? message.subject : `Re: ${message.subject}`;
+  composeForm.elements.body.value = `${header}\n${quoted}`.slice(0, 10000);
+  document.querySelector(".compose-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+  composeForm.elements.body.focus();
 }
 
 function escapeHtml(value) {
@@ -744,33 +786,43 @@ resetForm.addEventListener("submit", async (event) => {
   setMessage(resetMessage, t("replaced"));
 });
 
+function renderSelectedAttachments() {
+  composeAttachments.hidden = selectedAttachments.length === 0;
+  composeAttachments.innerHTML = selectedAttachments.map((attachment, index) => {
+    const preview = attachment.type.startsWith("image/")
+      ? `<img src="data:${escapeAttribute(attachment.type)};base64,${escapeAttribute(attachment.data)}" alt="">`
+      : `<span class="compose-file-icon" aria-hidden="true">+</span>`;
+    return `<div class="compose-attachment">${preview}<span><strong>${escapeHtml(attachment.name)}</strong><small>${Math.ceil(attachment.size / 1024)} KB</small></span><button type="button" data-remove-attachment="${index}" title="${escapeAttribute(t("removeFile"))}" aria-label="${escapeAttribute(t("removeFile"))}">×</button></div>`;
+  }).join("");
+  composeAttachments.querySelectorAll("[data-remove-attachment]").forEach((button) => {
+    button.addEventListener("click", () => {
+      selectedAttachments.splice(Number(button.dataset.removeAttachment), 1);
+      renderSelectedAttachments();
+    });
+  });
+}
+
 composeForm.attachment.addEventListener("change", async () => {
-  const file = composeForm.attachment.files?.[0];
-  selectedAttachment = null;
-  composeImagePreview.hidden = true;
-  if (!file) return;
-  if (file.size > 4 * 1024 * 1024) {
-    setMessage(composeMessage, t("fileTooLarge"), true);
-    composeForm.attachment.value = "";
+  const files = [...(composeForm.attachment.files || [])];
+  composeForm.attachment.value = "";
+  if (!files.length) return;
+  if (selectedAttachments.length + files.length > 5) {
+    setMessage(composeMessage, t("tooManyFiles"), true);
+    return;
+  }
+  const totalSize = selectedAttachments.reduce((sum, file) => sum + file.size, 0) + files.reduce((sum, file) => sum + file.size, 0);
+  if (totalSize > 4 * 1024 * 1024) {
+    setMessage(composeMessage, t("filesTooLarge"), true);
     return;
   }
   try {
-    selectedAttachment = { name: file.name, type: file.type || "application/octet-stream", data: await fileToBase64(file) };
-    const image = composeImagePreview.querySelector("img");
-    image.hidden = !selectedAttachment.type.startsWith("image/");
-    image.src = image.hidden ? "" : `data:${selectedAttachment.type};base64,${selectedAttachment.data}`;
-    composeImagePreview.querySelector("figcaption").textContent = `${file.name} (${Math.ceil(file.size / 1024)} KB)`;
-    composeImagePreview.hidden = false;
+    const additions = await Promise.all(files.map(async (file) => ({ name: file.name, type: file.type || "application/octet-stream", size: file.size, data: await fileToBase64(file) })));
+    selectedAttachments.push(...additions);
+    renderSelectedAttachments();
     setMessage(composeMessage, "");
   } catch (error) {
     setMessage(composeMessage, error.message || t("fileLoadFailed"), true);
   }
-});
-
-document.querySelector("#remove-image-button").addEventListener("click", () => {
-  selectedAttachment = null;
-  composeForm.attachment.value = "";
-  composeImagePreview.hidden = true;
 });
 
 composeForm.addEventListener("submit", async (event) => {
@@ -783,12 +835,13 @@ composeForm.addEventListener("submit", async (event) => {
   const formData = new FormData(composeForm);
   const idempotencyKey = composeIdempotencyKey();
   try {
-    const response = await fetch("/api/mailbox-messages", { method: "POST", headers: { "content-type": "application/json", "idempotency-key": idempotencyKey }, body: JSON.stringify({ recipient: formData.get("recipient"), subject: formData.get("subject"), body: formData.get("body"), attachment: selectedAttachment, idempotencyKey }) });
+    const attachments = selectedAttachments.map(({ name, type, data }) => ({ name, type, data }));
+    const response = await fetch("/api/mailbox-messages", { method: "POST", headers: { "content-type": "application/json", "idempotency-key": idempotencyKey }, body: JSON.stringify({ recipient: formData.get("recipient"), subject: formData.get("subject"), body: formData.get("body"), attachments, idempotencyKey }) });
     const result = await response.json();
     if (!response.ok) { setMessage(composeMessage, result.error || t("sendFailed"), true); return; }
     composeForm.reset();
-    selectedAttachment = null;
-    composeImagePreview.hidden = true;
+    selectedAttachments = [];
+    renderSelectedAttachments();
     setMessage(composeMessage, t("sent"));
     loadMessages();
   } finally {

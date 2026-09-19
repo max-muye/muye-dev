@@ -72,7 +72,7 @@ export async function onRequestGet({ request, env }) {
     ).bind(mailbox).first();
     if (!mailboxRow) return json({ error: "Mailbox not found." }, 404);
     const messages = await env.muye_mailboxes.prepare(
-      `SELECT id, mailbox, direction, sender, recipient, subject, body, body_html, image_name, image_type, image_data, is_read, trashed_at, created_at
+      `SELECT id, mailbox, direction, sender, recipient, subject, body, body_html, image_name, image_type, image_data, attachments_json, is_read, trashed_at, created_at
        FROM messages WHERE mailbox = ? ORDER BY created_at DESC, id DESC LIMIT 500`,
     ).bind(mailbox).all();
     return json({ mailbox: mailboxRow, messages: messages.results || [] });

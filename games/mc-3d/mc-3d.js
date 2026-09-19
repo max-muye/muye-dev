@@ -208,6 +208,7 @@ function loadWorld(id) {
   document.querySelector("#world-name").textContent = saved.name || "MC3D";
   running = true;
   document.querySelector("#world-dialog").close();
+  if (matchMedia("(pointer: fine)").matches) canvas.requestPointerLock?.();
   renderHotbar();
 }
 
@@ -231,6 +232,7 @@ function createWorld() {
   document.querySelector("#world-name").textContent = name;
   running = true;
   document.querySelector("#world-dialog").close();
+  if (matchMedia("(pointer: fine)").matches) canvas.requestPointerLock?.();
   renderHotbar();
   saveWorld();
 }
@@ -347,7 +349,7 @@ function updatePlayer(delta) {
   const sin = Math.sin(yaw);
   const cos = Math.cos(yaw);
   camera.position.x += (side * cos - forward * sin) * speed;
-  camera.position.z += (side * sin + forward * cos) * speed;
+  camera.position.z += (side * sin - forward * cos) * speed;
   camera.position.x = THREE.MathUtils.clamp(camera.position.x, -11.5, 11.5);
   camera.position.z = THREE.MathUtils.clamp(camera.position.z, -11.5, 11.5);
   velocityY -= 18 * delta;
@@ -453,6 +455,21 @@ document.addEventListener("mousemove", (event) => {
   yaw -= event.movementX * 0.0024;
   pitch = THREE.MathUtils.clamp(pitch - event.movementY * 0.0024, -1.48, 1.48);
 });
+
+let desktopLook = null;
+canvas.addEventListener("mouseenter", (event) => {
+  if (event.pointerType && event.pointerType !== "mouse") return;
+  desktopLook = { x: event.clientX, y: event.clientY };
+});
+canvas.addEventListener("mousemove", (event) => {
+  if (!running || document.pointerLockElement === canvas || matchMedia("(pointer: coarse)").matches) return;
+  if (!desktopLook) desktopLook = { x: event.clientX, y: event.clientY };
+  yaw -= (event.clientX - desktopLook.x) * 0.004;
+  pitch = THREE.MathUtils.clamp(pitch - (event.clientY - desktopLook.y) * 0.004, -1.48, 1.48);
+  desktopLook.x = event.clientX;
+  desktopLook.y = event.clientY;
+});
+canvas.addEventListener("mouseleave", () => { desktopLook = null; });
 
 let touchLook = null;
 canvas.addEventListener("pointerdown", (event) => {

@@ -216,6 +216,7 @@ input[type="text"], input:not([type]) {
 
 .option-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .option-row > div { display: grid; gap: 8px; color: var(--muted); font-size: 12px; font-weight: 800; }
+.option-row .world-type-option { grid-column: 1 / -1; }
 .segmented { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); }
 .segmented label { cursor: pointer; }
 .segmented input { position: absolute; opacity: 0; }

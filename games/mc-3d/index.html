@@ -6,7 +6,7 @@
     <meta name="description" content="A touch-friendly 3D block-building game by Muye.">
     <title>MC3D · Muye Games</title>
     <link rel="icon" href="/assets/favicon.png" type="image/png">
-    <link rel="stylesheet" href="/games/mc-3d/mc-3d.css?v=3">
+    <link rel="stylesheet" href="/games/mc-3d/mc-3d.css?v=4">
   </head>
   <body>
     <main id="game-shell">
@@ -79,6 +79,13 @@
                 <label><input type="radio" name="speed" value="fast"><span data-i18n="fast">Fast</span></label>
               </div>
             </div>
+            <div class="world-type-option">
+              <span data-i18n="worldType">World type</span>
+              <div class="segmented">
+                <label><input type="radio" name="world-type" value="normal" checked><span data-i18n="normalWorld">Normal</span></label>
+                <label><input type="radio" name="world-type" value="superflat"><span data-i18n="superFlat">Super-flat</span></label>
+              </div>
+            </div>
           </div>
 
           <button class="primary" id="create-world" type="button" data-i18n="create" disabled>Create world</button>
@@ -103,6 +110,6 @@
       </dialog>
     </main>
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script type="module" src="/games/mc-3d/mc-3d.js?v=5"></script>
+    <script type="module" src="/games/mc-3d/mc-3d.js?v=6"></script>
   </body>
 </html>

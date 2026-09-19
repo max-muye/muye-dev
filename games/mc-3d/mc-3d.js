@@ -13,11 +13,16 @@ Object.assign(strings.zh, { helpRedstone: "对拉杆使用放置来开关。红�
 Object.assign(strings.ja, { helpRedstone: "レバーに設置を使って切り替えます。ダストは電力を運び、ゲートは前方に働き、給電された TNT は爆発します。", redstone: "レッドストーンダスト", lever: "レバー", not_gate: "NOTゲート", one_way: "単方向ゲート", tnt: "TNT", leverOn: "レバー ON", leverOff: "レバー OFF", boom: "ドカン！" });
 Object.assign(strings.ko, { helpRedstone: "레버에 놓기를 사용해 켜고 끄세요. 레드스톤 가루는 전력을 전달하고 게이트는 앞으로만 작동하며 전력을 받은 TNT는 폭발합니다.", redstone: "레드스톤 가루", lever: "레버", not_gate: "NOT 게이트", one_way: "일방향 게이트", tnt: "TNT", leverOn: "레버 켜짐", leverOff: "레버 꺼짐", boom: "쾅!" });
 Object.assign(strings.es, { helpRedstone: "Usa Colocar sobre una palanca para cambiarla. El polvo lleva energía, las compuertas apuntan hacia delante y el TNT con energía explota.", redstone: "Polvo de redstone", lever: "Palanca", not_gate: "Compuerta NOT", one_way: "Compuerta de una vía", tnt: "TNT", leverOn: "Palanca encendida", leverOff: "Palanca apagada", boom: "¡Bum!" });
-strings.fr = { ...strings.es, menu: "Menu", worlds: "Mondes", create: "Créer un monde", saved: "Mondes sauvegardés", load: "Charger", delete: "Supprimer", noWorlds: "Aucun monde sauvegardé", day: "Jour", mine: "Miner", place: "Placer", jump: "Sauter" };
-strings.de = { ...strings.en, menu: "Menü", worlds: "Welten", create: "Welt erstellen", saved: "Gespeicherte Welten", load: "Laden", delete: "Löschen", noWorlds: "Noch keine Welten", day: "Tag", mine: "Abbauen", place: "Platzieren", jump: "Springen" };
-strings.pt = { ...strings.es, menu: "Menu", worlds: "Mundos", create: "Criar mundo", saved: "Mundos salvos", load: "Carregar", delete: "Excluir", noWorlds: "Nenhum mundo salvo", day: "Dia", mine: "Minerar", place: "Colocar", jump: "Pular" };
-strings.ru = { ...strings.en, menu: "Меню", worlds: "Миры", create: "Создать мир", saved: "Сохранённые миры", load: "Загрузить", delete: "Удалить", noWorlds: "Нет сохранённых миров", day: "День", mine: "Копать", place: "Поставить", jump: "Прыжок" };
-strings.ar = { ...strings.en, menu: "القائمة", worlds: "العوالم", create: "إنشاء عالم", saved: "العوالم المحفوظة", load: "تحميل", delete: "حذف", noWorlds: "لا توجد عوالم محفوظة", day: "اليوم", mine: "تعدين", place: "وضع", jump: "قفز" };
+Object.assign(strings.en, { worldType: "World type", normalWorld: "Normal", superFlat: "Super-flat" });
+Object.assign(strings.zh, { worldType: "世界类型", normalWorld: "普通", superFlat: "超平坦" });
+Object.assign(strings.ja, { worldType: "ワールドタイプ", normalWorld: "通常", superFlat: "スーパーフラット" });
+Object.assign(strings.ko, { worldType: "월드 유형", normalWorld: "일반", superFlat: "초평지" });
+Object.assign(strings.es, { worldType: "Tipo de mundo", normalWorld: "Normal", superFlat: "Superplano" });
+strings.fr = { ...strings.es, menu: "Menu", worlds: "Mondes", create: "Créer un monde", saved: "Mondes sauvegardés", load: "Charger", delete: "Supprimer", noWorlds: "Aucun monde sauvegardé", day: "Jour", mine: "Miner", place: "Placer", jump: "Sauter", worldType: "Type de monde", normalWorld: "Normal", superFlat: "Superplat" };
+strings.de = { ...strings.en, menu: "Menü", worlds: "Welten", create: "Welt erstellen", saved: "Gespeicherte Welten", load: "Laden", delete: "Löschen", noWorlds: "Noch keine Welten", day: "Tag", mine: "Abbauen", place: "Platzieren", jump: "Springen", worldType: "Welttyp", normalWorld: "Normal", superFlat: "Superflach" };
+strings.pt = { ...strings.es, menu: "Menu", worlds: "Mundos", create: "Criar mundo", saved: "Mundos salvos", load: "Carregar", delete: "Excluir", noWorlds: "Nenhum mundo salvo", day: "Dia", mine: "Minerar", place: "Colocar", jump: "Pular", worldType: "Tipo de mundo", normalWorld: "Normal", superFlat: "Superplano" };
+strings.ru = { ...strings.en, menu: "Меню", worlds: "Миры", create: "Создать мир", saved: "Сохранённые миры", load: "Загрузить", delete: "Удалить", noWorlds: "Нет сохранённых миров", day: "День", mine: "Копать", place: "Поставить", jump: "Прыжок", worldType: "Тип мира", normalWorld: "Обычный", superFlat: "Суперплоский" };
+strings.ar = { ...strings.en, menu: "القائمة", worlds: "العوالم", create: "إنشاء عالم", saved: "العوالم المحفوظة", load: "تحميل", delete: "حذف", noWorlds: "لا توجد عوالم محفوظة", day: "اليوم", mine: "تعدين", place: "وضع", jump: "قفز", worldType: "نوع العالم", normalWorld: "عادي", superFlat: "مسطح جدًا" };
 
 const blockDefs = {
   grass: { color: 0x65a84f, swatch: "#65a84f" },
@@ -142,7 +147,7 @@ let language = languages.includes(localStorage.getItem("muye-lang")) ? localStor
 let playerKey = "device";
 let activeWorldId = "";
 let worldSeed = Date.now();
-let settings = { mode: "survival", speed: "slow" };
+let settings = { mode: "survival", speed: "slow", worldType: "normal" };
 let inventory = { grass: 12, dirt: 20, stone: 12, wood: 8, leaves: 8, sand: 10, redstone: 24, lever: 4, not_gate: 4, one_way: 6, tnt: 6 };
 let selectedBlock = "grass";
 let running = false;
@@ -263,6 +268,13 @@ function generateChunk(chunkX, chunkZ, save = true) {
   const phaseZ = (worldSeed % 991) * 0.017;
   for (let x = startX; x < startX + CHUNK_SIZE; x += 1) {
     for (let z = startZ; z < startZ + CHUNK_SIZE; z += 1) {
+      if (settings.worldType === "superflat") {
+        addBlock(x, 0, z, "stone", false);
+        addBlock(x, 1, z, "stone", false);
+        addBlock(x, 2, z, "dirt", false);
+        addBlock(x, 3, z, "grass", false);
+        continue;
+      }
       const wave = Math.sin(x * 0.18 + phaseX) * 0.8
         + Math.cos(z * 0.15 + phaseZ) * 0.7
         + Math.sin((x + z) * 0.07 + phaseX) * 0.55;
@@ -353,7 +365,7 @@ function saveWorld(showMessage = false) {
   const data = serializeWorld();
   localStorage.setItem(saveKey(activeWorldId), JSON.stringify(data));
   const worlds = readIndex().filter((item) => item.id !== activeWorldId);
-  worlds.unshift({ id: activeWorldId, name: data.name, savedAt: data.savedAt, mode: settings.mode });
+  worlds.unshift({ id: activeWorldId, name: data.name, savedAt: data.savedAt, mode: settings.mode, worldType: settings.worldType });
   localStorage.setItem(saveIndexKey(), JSON.stringify(worlds.slice(0, 12)));
   lastSave = performance.now();
   if (showMessage) showToast(t("savedToast"));
@@ -373,7 +385,7 @@ function loadWorld(id) {
     : ["-1,-1", "-1,0", "0,-1", "0,0"];
   savedChunks.forEach((chunk) => generatedChunks.add(chunk));
   activeWorldId = id;
-  settings = saved.settings || settings;
+  settings = { mode: "survival", speed: "slow", worldType: "normal", ...(saved.settings || {}) };
   inventory = saved.inventory || inventory;
   selectedBlock = saved.selectedBlock || "grass";
   timeOfDay = saved.timeOfDay || 0.32;
@@ -395,6 +407,7 @@ function createWorld() {
   settings = {
     mode: document.querySelector('input[name="mode"]:checked').value,
     speed: document.querySelector('input[name="speed"]:checked').value,
+    worldType: document.querySelector('input[name="world-type"]:checked').value,
   };
   inventory = settings.mode === "creative"
     ? Object.fromEntries(blockTypes.map((type) => [type, 99]))
@@ -436,7 +449,8 @@ function renderWorldList() {
     const title = document.createElement("strong");
     title.textContent = world.name;
     const meta = document.createElement("small");
-    meta.textContent = `${world.mode || "survival"} · ${new Date(world.savedAt).toLocaleString()}`;
+    const terrainLabel = t(world.worldType === "superflat" ? "superFlat" : "normalWorld");
+    meta.textContent = `${world.mode || "survival"} · ${terrainLabel} · ${new Date(world.savedAt).toLocaleString()}`;
     info.append(title, meta);
     const load = document.createElement("button");
     load.type = "button";

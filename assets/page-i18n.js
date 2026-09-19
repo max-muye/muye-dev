@@ -24,7 +24,7 @@
       localtalkH1: "How LocalTalk works.", rooms: "Rooms", signedChat: "Signed Chat", filesMessages: "Files And Messages", moderation: "Moderation", language: "Language",
       mailboxH1: "Mailbox version history.", creationRules: "Creation Rules", olderPaths: "Older Paths Removed",
       gamesH1: "Games.", currentSet: "Current Set", designRules: "Design Rules", nextIdeas: "Next Ideas",
-      thinkingH1: "Muye.dev is now v2.3.2.", versionList: "Version List", deployNotes: "Deploy Notes", nowThinkingHead: "Now Thinking About",
+      thinkingH1: "Muye.dev is now v2.4.0.", versionList: "Version List", deployNotes: "Deploy Notes", nowThinkingHead: "Now Thinking About",
     },
     zh: {
       home: "主页", backHome: "返回主页", backNotes: "返回笔记", built: "为 Cloudflare Pages 构建。", notes: "笔记",
@@ -37,7 +37,7 @@
       localtalkH1: "LocalTalk 如何工作。", rooms: "房间", signedChat: "登录聊天", filesMessages: "文件和消息", moderation: "管理", language: "语言",
       mailboxH1: "邮箱版本记录。", creationRules: "创建规则", olderPaths: "已移除的旧路径",
       gamesH1: "游戏。", currentSet: "当前集合", designRules: "设计规则", nextIdeas: "下一步想法",
-      thinkingH1: "Muye.dev 现在是 v2.3.2。", versionList: "版本列表", deployNotes: "部署记录", nowThinkingHead: "现在在想",
+      thinkingH1: "Muye.dev 现在是 v2.4.0。", versionList: "版本列表", deployNotes: "部署记录", nowThinkingHead: "现在在想",
     },
     ja: {
       home: "ホーム", backHome: "ホームへ戻る", backNotes: "ノートへ戻る", built: "Cloudflare Pages 用に構築。", notes: "ノート",
@@ -50,7 +50,7 @@
       localtalkH1: "LocalTalkの仕組み。", rooms: "部屋", signedChat: "ログインチャット", filesMessages: "ファイルとメッセージ", moderation: "管理", language: "言語",
       mailboxH1: "メール履歴。", creationRules: "作成ルール", olderPaths: "削除された古い経路",
       gamesH1: "ゲーム。", currentSet: "現在のセット", designRules: "デザインルール", nextIdeas: "次のアイデア",
-      thinkingH1: "Muye.dev は v2.3.2 です。", versionList: "バージョン一覧", deployNotes: "デプロイ記録", nowThinkingHead: "今考えていること",
+      thinkingH1: "Muye.dev は v2.4.0 です。", versionList: "バージョン一覧", deployNotes: "デプロイ記録", nowThinkingHead: "今考えていること",
     },
     ko: {
       home: "홈", backHome: "홈으로", backNotes: "노트로 돌아가기", built: "Cloudflare Pages용으로 제작.", notes: "노트",
@@ -63,7 +63,7 @@
       localtalkH1: "LocalTalk 작동 방식.", rooms: "방", signedChat: "로그인 채팅", filesMessages: "파일과 메시지", moderation: "관리", language: "언어",
       mailboxH1: "메일함 버전 기록.", creationRules: "생성 규칙", olderPaths: "삭제된 이전 경로",
       gamesH1: "게임.", currentSet: "현재 목록", designRules: "디자인 규칙", nextIdeas: "다음 아이디어",
-      thinkingH1: "Muye.dev는 v2.3.2입니다.", versionList: "버전 목록", deployNotes: "배포 기록", nowThinkingHead: "지금 생각하는 것",
+      thinkingH1: "Muye.dev는 v2.4.0입니다.", versionList: "버전 목록", deployNotes: "배포 기록", nowThinkingHead: "지금 생각하는 것",
     },
     es: {
       home: "Inicio", backHome: "Volver al inicio", backNotes: "Volver a notas", built: "Hecho para Cloudflare Pages.", notes: "Notas",
@@ -76,7 +76,7 @@
       localtalkH1: "Cómo funciona LocalTalk.", rooms: "Salas", signedChat: "Chat con sesión", filesMessages: "Archivos y mensajes", moderation: "Moderación", language: "Idioma",
       mailboxH1: "Historial del correo.", creationRules: "Reglas de creación", olderPaths: "Rutas antiguas eliminadas",
       gamesH1: "Juegos.", currentSet: "Conjunto actual", designRules: "Reglas de diseño", nextIdeas: "Próximas ideas",
-      thinkingH1: "Muye.dev ahora es v2.3.2.", versionList: "Lista de versiones", deployNotes: "Notas de despliegue", nowThinkingHead: "Pensando ahora",
+      thinkingH1: "Muye.dev ahora es v2.4.0.", versionList: "Lista de versiones", deployNotes: "Notas de despliegue", nowThinkingHead: "Pensando ahora",
     },
   };
   ["fr", "de", "pt", "ru", "ar"].forEach((code) => { text[code] = { ...text.es, ...(code === "fr" ? { home: "Accueil", notes: "Notes", captchaTitle: "Test CAPTCHA", captchaButton: "Tester CAPTCHA" } : {}), ...(code === "de" ? { home: "Start", notes: "Notizen", captchaTitle: "CAPTCHA-Test", captchaButton: "CAPTCHA testen" } : {}), ...(code === "pt" ? { home: "Início", notes: "Notas", captchaTitle: "Teste CAPTCHA", captchaButton: "Testar CAPTCHA" } : {}), ...(code === "ru" ? { home: "Главная", notes: "Заметки", captchaTitle: "Проверка CAPTCHA", captchaButton: "Проверить CAPTCHA" } : {}), ...(code === "ar" ? { home: "الرئيسية", notes: "ملاحظات", captchaTitle: "اختبار CAPTCHA", captchaButton: "اختبار CAPTCHA" } : {}) }; });

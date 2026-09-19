@@ -104,6 +104,24 @@ body.is-playing * { cursor: none !important; }
   pointer-events: none;
 }
 
+#mouse-capture {
+  position: fixed;
+  z-index: 7;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 44px);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 4px;
+  padding: 10px 13px;
+  color: white;
+  background: rgba(7, 9, 8, 0.82);
+  font-weight: 800;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+#mouse-capture[hidden] { display: none; }
+
 #crosshair::before,
 #crosshair::after {
   content: "";
@@ -224,6 +242,7 @@ details li { margin: 8px 0; line-height: 1.45; }
   .game-bar { grid-template-columns: 1fr auto; }
   .game-bar > span { display: none; }
   .touch-controls { display: block; }
+  #mouse-capture { display: none; }
   #hotbar { bottom: calc(max(12px, env(safe-area-inset-bottom)) + 122px); grid-template-columns: repeat(6, 44px); }
   .hotbar-slot { width: 44px; height: 44px; }
   .move-pad { position: fixed; z-index: 10; left: max(14px, env(safe-area-inset-left)); bottom: max(12px, env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(3, 48px); grid-template-rows: repeat(2, 48px); gap: 4px; }

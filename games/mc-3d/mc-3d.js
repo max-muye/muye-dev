@@ -2,8 +2,8 @@ import * as THREE from "/games/mc-3d/three.module.min.js";
 
 const languages = ["en", "zh", "ja", "ko", "es", "fr", "de", "pt", "ru", "ar"];
 const strings = {
-  en: { menu: "Menu", worlds: "Worlds", intro: "Build, explore, mine, and keep your worlds on this device.", worldName: "World name", mode: "Mode", survival: "Survival", creative: "Creative", speed: "World speed", slow: "Slow", fast: "Fast", create: "Create world", saved: "Saved worlds", deviceSave: "Saved on this device", accountSave: "Saved for your account", how: "How to play", helpMove: "WASD or the touch pad moves. Drag or move the mouse to look.", helpMine: "Click or tap Mine to break the block in the crosshair.", helpPlace: "Right-click or tap Place to place your selected block.", helpSave: "Worlds save automatically in your browser.", load: "Load", delete: "Delete", noWorlds: "No saved worlds yet.", day: "Day", mine: "Mine", place: "Place", jump: "Jump", savedToast: "World saved", mined: "Mined {block}", placed: "Placed {block}", tooFar: "Move closer", empty: "No {block} left", newWorld: "New World", grass: "Grass", dirt: "Dirt", stone: "Stone", wood: "Wood", leaves: "Leaves", sand: "Sand" },
-  zh: { menu: "菜单", worlds: "世界", intro: "建造、探索、挖掘，并把世界保存在这个设备上。", worldName: "世界名称", mode: "模式", survival: "生存", creative: "创造", speed: "世界速度", slow: "慢速", fast: "快速", create: "创建世界", saved: "已保存的世界", deviceSave: "保存在此设备", accountSave: "保存到你的账号", how: "玩法", helpMove: "WASD 或触控方向键移动，拖动或移动鼠标转向。", helpMine: "点击或点按挖掘来破坏准星中的方块。", helpPlace: "右键或点按放置来放置选中的方块。", helpSave: "世界会自动保存在浏览器中。", load: "加载", delete: "删除", noWorlds: "还没有保存的世界。", day: "第", mine: "挖掘", place: "放置", jump: "跳跃", savedToast: "世界已保存", mined: "挖到了{block}", placed: "放置了{block}", tooFar: "靠近一点", empty: "没有{block}了", newWorld: "新世界", grass: "草方块", dirt: "泥土", stone: "石头", wood: "木头", leaves: "树叶", sand: "沙子" },
+  en: { menu: "Menu", worlds: "Worlds", intro: "Build, explore, mine, and keep your worlds on this device.", worldName: "World name", mode: "Mode", survival: "Survival", creative: "Creative", speed: "World speed", slow: "Slow", fast: "Fast", create: "Create world", saved: "Saved worlds", deviceSave: "Saved on this device", accountSave: "Saved for your account", how: "How to play", helpMove: "WASD or the touch pad moves. Move the mouse to look; Esc releases it.", helpMine: "Click or tap Mine to break the block in the crosshair.", helpPlace: "Right-click or tap Place to place your selected block.", helpSave: "Worlds save automatically in your browser.", load: "Load", delete: "Delete", noWorlds: "No saved worlds yet.", day: "Day", mine: "Mine", place: "Place", jump: "Jump", capture: "Click to capture mouse", savedToast: "World saved", mined: "Mined {block}", placed: "Placed {block}", tooFar: "Move closer", empty: "No {block} left", newWorld: "New World", grass: "Grass", dirt: "Dirt", stone: "Stone", wood: "Wood", leaves: "Leaves", sand: "Sand" },
+  zh: { menu: "菜单", worlds: "世界", intro: "建造、探索、挖掘，并把世界保存在这个设备上。", worldName: "世界名称", mode: "模式", survival: "生存", creative: "创造", speed: "世界速度", slow: "慢速", fast: "快速", create: "创建世界", saved: "已保存的世界", deviceSave: "保存在此设备", accountSave: "保存到你的账号", how: "玩法", helpMove: "WASD 或触控方向键移动，移动鼠标转向，Esc 释放鼠标。", helpMine: "点击或点按挖掘来破坏准星中的方块。", helpPlace: "右键或点按放置来放置选中的方块。", helpSave: "世界会自动保存在浏览器中。", load: "加载", delete: "删除", noWorlds: "还没有保存的世界。", day: "第", mine: "挖掘", place: "放置", jump: "跳跃", capture: "点击锁定鼠标", savedToast: "世界已保存", mined: "挖到了{block}", placed: "放置了{block}", tooFar: "靠近一点", empty: "没有{block}了", newWorld: "新世界", grass: "草方块", dirt: "泥土", stone: "石头", wood: "木头", leaves: "树叶", sand: "沙子" },
   ja: { menu: "メニュー", worlds: "ワールド", intro: "建築、探索、採掘。ワールドはこの端末に保存されます。", worldName: "ワールド名", mode: "モード", survival: "サバイバル", creative: "クリエイティブ", speed: "速度", slow: "ゆっくり", fast: "高速", create: "ワールド作成", saved: "保存済み", deviceSave: "この端末に保存", accountSave: "アカウントに保存", how: "遊び方", helpMove: "WASD またはタッチパッドで移動。ドラッグかマウスで視点移動。", helpMine: "クリックまたは採掘ボタンで照準のブロックを壊します。", helpPlace: "右クリックまたは設置ボタンでブロックを置きます。", helpSave: "ワールドは自動保存されます。", load: "ロード", delete: "削除", noWorlds: "保存済みワールドはありません。", day: "日", mine: "採掘", place: "設置", jump: "ジャンプ", savedToast: "保存しました", mined: "{block}を採掘", placed: "{block}を設置", tooFar: "近づいてください", empty: "{block}がありません", newWorld: "新しいワールド", grass: "草", dirt: "土", stone: "石", wood: "木", leaves: "葉", sand: "砂" },
   ko: { menu: "메뉴", worlds: "월드", intro: "건설하고 탐험하고 채굴하세요. 월드는 이 기기에 저장됩니다.", worldName: "월드 이름", mode: "모드", survival: "서바이벌", creative: "크리에이티브", speed: "속도", slow: "느림", fast: "빠름", create: "월드 만들기", saved: "저장된 월드", deviceSave: "이 기기에 저장", accountSave: "계정에 저장", how: "플레이 방법", helpMove: "WASD 또는 터치 패드로 이동하고 드래그나 마우스로 둘러봅니다.", helpMine: "클릭 또는 채굴 버튼으로 조준한 블록을 부숩니다.", helpPlace: "오른쪽 클릭 또는 놓기 버튼으로 블록을 놓습니다.", helpSave: "월드는 브라우저에 자동 저장됩니다.", load: "불러오기", delete: "삭제", noWorlds: "저장된 월드가 없습니다.", day: "일", mine: "채굴", place: "놓기", jump: "점프", savedToast: "월드 저장됨", mined: "{block} 채굴", placed: "{block} 놓음", tooFar: "더 가까이 이동하세요", empty: "{block} 없음", newWorld: "새 월드", grass: "잔디", dirt: "흙", stone: "돌", wood: "나무", leaves: "나뭇잎", sand: "모래" },
   es: { menu: "Menú", worlds: "Mundos", intro: "Construye, explora, mina y guarda mundos en este dispositivo.", worldName: "Nombre", mode: "Modo", survival: "Supervivencia", creative: "Creativo", speed: "Velocidad", slow: "Lenta", fast: "Rápida", create: "Crear mundo", saved: "Mundos guardados", deviceSave: "Guardado en este dispositivo", accountSave: "Guardado en tu cuenta", how: "Cómo jugar", helpMove: "WASD o el control táctil mueve. Arrastra o mueve el ratón para mirar.", helpMine: "Haz clic o toca Minar para romper el bloque en la mira.", helpPlace: "Clic derecho o toca Colocar para poner el bloque elegido.", helpSave: "Los mundos se guardan automáticamente.", load: "Cargar", delete: "Borrar", noWorlds: "No hay mundos guardados.", day: "Día", mine: "Minar", place: "Colocar", jump: "Saltar", savedToast: "Mundo guardado", mined: "Minaste {block}", placed: "Colocaste {block}", tooFar: "Acércate", empty: "No queda {block}", newWorld: "Mundo nuevo", grass: "Césped", dirt: "Tierra", stone: "Piedra", wood: "Madera", leaves: "Hojas", sand: "Arena" },
@@ -207,7 +207,6 @@ function loadWorld(id) {
   camera.position.fromArray(saved.position || [0, 7, 4]);
   document.querySelector("#world-name").textContent = saved.name || "MC3D";
   running = true;
-  document.body.classList.add("is-playing");
   document.querySelector("#world-dialog").close();
   if (matchMedia("(pointer: fine)").matches) canvas.requestPointerLock?.();
   renderHotbar();
@@ -232,7 +231,6 @@ function createWorld() {
   pitch = -0.16;
   document.querySelector("#world-name").textContent = name;
   running = true;
-  document.body.classList.add("is-playing");
   document.querySelector("#world-dialog").close();
   if (matchMedia("(pointer: fine)").matches) canvas.requestPointerLock?.();
   renderHotbar();
@@ -444,7 +442,6 @@ window.addEventListener("keydown", (event) => {
   if (event.code === "Space") { event.preventDefault(); jump(); }
   const slot = Number(event.key) - 1;
   if (slot >= 0 && slot < blockTypes.length) { selectedBlock = blockTypes[slot]; renderHotbar(); }
-  if (event.code === "Escape") openMenu();
 });
 window.addEventListener("keyup", (event) => keys.delete(event.code));
 canvas.addEventListener("click", () => {
@@ -459,20 +456,11 @@ document.addEventListener("mousemove", (event) => {
   pitch = THREE.MathUtils.clamp(pitch - event.movementY * 0.0024, -1.48, 1.48);
 });
 
-let desktopLook = null;
-canvas.addEventListener("mouseenter", (event) => {
-  if (event.pointerType && event.pointerType !== "mouse") return;
-  desktopLook = { x: event.clientX, y: event.clientY };
+document.addEventListener("pointerlockchange", () => {
+  const captured = document.pointerLockElement === canvas;
+  document.body.classList.toggle("is-playing", captured);
+  document.querySelector("#mouse-capture").hidden = captured || !running || document.querySelector("#world-dialog").open;
 });
-canvas.addEventListener("mousemove", (event) => {
-  if (!running || document.pointerLockElement === canvas || matchMedia("(pointer: coarse)").matches) return;
-  if (!desktopLook) desktopLook = { x: event.clientX, y: event.clientY };
-  yaw -= (event.clientX - desktopLook.x) * 0.004;
-  pitch = THREE.MathUtils.clamp(pitch - (event.clientY - desktopLook.y) * 0.004, -1.48, 1.48);
-  desktopLook.x = event.clientX;
-  desktopLook.y = event.clientY;
-});
-canvas.addEventListener("mouseleave", () => { desktopLook = null; });
 
 let touchLook = null;
 canvas.addEventListener("pointerdown", (event) => {
@@ -498,6 +486,7 @@ document.querySelector("#jump-button").addEventListener("click", jump);
 document.querySelector("#mine-button").addEventListener("click", mineBlock);
 document.querySelector("#place-button").addEventListener("click", placeBlock);
 document.querySelector("#menu-button").addEventListener("click", openMenu);
+document.querySelector("#mouse-capture").addEventListener("click", () => canvas.requestPointerLock?.());
 document.querySelector("#create-world").addEventListener("click", createWorld);
 document.querySelector("#language-button").addEventListener("click", () => {
   language = languages[(languages.indexOf(language) + 1) % languages.length];
@@ -508,7 +497,7 @@ document.querySelector("#world-dialog").addEventListener("cancel", (event) => {
   if (!running) event.preventDefault();
 });
 document.querySelector("#world-dialog").addEventListener("close", () => {
-  if (running) document.body.classList.add("is-playing");
+  document.querySelector("#mouse-capture").hidden = !running || matchMedia("(pointer: coarse)").matches;
 });
 window.addEventListener("beforeunload", () => saveWorld());
 

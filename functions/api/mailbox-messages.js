@@ -89,6 +89,7 @@ export async function onRequestPost({ request, env }) {
   if (subject.length > 160 || messageBody.length > 10000) return json({ error: "That message is too long." }, 400);
 
   const mailboxFrom = mailbox;
+  const isInternalRecipient = recipient.endsWith("@muye.dev");
   const attachmentsJson = JSON.stringify(attachments);
   if (idempotencyKey && /^[a-zA-Z0-9._:-]{16,120}$/.test(idempotencyKey)) {
     try {
@@ -115,7 +116,7 @@ export async function onRequestPost({ request, env }) {
   ).bind(mailbox, recipient, subject, messageBody, attachmentsJson).first();
   if (recentDuplicate) return json({ ok: true, duplicate: true });
 
-  if (env.RESEND_API_KEY && mailboxFrom) {
+  if (env.RESEND_API_KEY && mailboxFrom && !isInternalRecipient) {
     const payload = { from: mailboxFrom, to: [recipient], subject, text: messageBody || "File attached." };
     if (attachments.length) payload.attachments = attachments.map((attachment) => ({ filename: attachment.name, content: attachment.data }));
     const response = await fetch("https://api.resend.com/emails", {
@@ -130,7 +131,7 @@ export async function onRequestPost({ request, env }) {
     "INSERT INTO messages (mailbox, direction, sender, recipient, subject, body, body_html, attachments_json, is_read) VALUES (?, 'sent', ?, ?, ?, ?, NULL, ?, 1)",
   ).bind(mailbox, mailbox, recipient, subject, messageBody, attachmentsJson).run();
 
-  if (recipient.endsWith("@muye.dev")) {
+  if (isInternalRecipient) {
     await env.muye_mailboxes.prepare(
       "INSERT INTO messages (mailbox, direction, sender, recipient, subject, body, body_html, attachments_json) VALUES (?, 'inbox', ?, ?, ?, ?, NULL, ?)",
     ).bind(recipient, mailbox, recipient, subject, messageBody, attachmentsJson).run();

@@ -71,6 +71,17 @@ Object.assign(mailboxText.pt, { file: "Arquivos", removeFile: "Remover arquivo",
 Object.assign(mailboxText.ru, { file: "Файлы", removeFile: "Удалить файл", quote: "Цитировать", quotedHeader: "{date}, {sender} написал(а):", fileLimit: "До 5 файлов, всего не более 4 МБ.", tooManyFiles: "Выберите не более 5 файлов.", filesTooLarge: "Общий размер файлов не должен превышать 4 МБ." });
 Object.assign(mailboxText.ar, { file: "الملفات", removeFile: "إزالة الملف", quote: "اقتباس", quotedHeader: "في {date}، كتب {sender}:", fileLimit: "اختر حتى 5 ملفات، بإجمالي 4 ميجابايت.", tooManyFiles: "اختر 5 ملفات كحد أقصى.", filesTooLarge: "يجب ألا يتجاوز مجموع الملفات 4 ميجابايت." });
 
+Object.assign(mailboxText.en, { quotedAttachments: "Attachments" });
+Object.assign(mailboxText.zh, { quotedAttachments: "附件" });
+Object.assign(mailboxText.ja, { quotedAttachments: "添付ファイル" });
+Object.assign(mailboxText.ko, { quotedAttachments: "첨부 파일" });
+Object.assign(mailboxText.es, { quotedAttachments: "Archivos adjuntos" });
+Object.assign(mailboxText.fr, { quotedAttachments: "Pièces jointes" });
+Object.assign(mailboxText.de, { quotedAttachments: "Anhänge" });
+Object.assign(mailboxText.pt, { quotedAttachments: "Anexos" });
+Object.assign(mailboxText.ru, { quotedAttachments: "Вложения" });
+Object.assign(mailboxText.ar, { quotedAttachments: "المرفقات" });
+
 Object.assign(mailboxText.en, { deleteOwnMailbox: "Delete email", deleteMailboxTitle: "Delete email", deleteMailboxWarning: "This permanently deletes your Muye email and every message stored in it. This cannot be undone.", currentPassword: "Current password", confirmMailbox: "Type your full Muye email", confirmMailboxHelp: "Enter the email shown above to confirm.", deletePermanently: "Delete permanently", deletingMailbox: "Deleting email...", confirmMailboxMismatch: "Type your full Muye email address exactly as shown above.", mailboxDeleteFailed: "Could not delete your email." });
 Object.assign(mailboxText.zh, { deleteOwnMailbox: "删除邮箱", deleteMailboxTitle: "删除邮箱", deleteMailboxWarning: "这会永久删除你的 Muye 邮箱和其中保存的所有邮件，且无法撤销。", currentPassword: "当前密码", confirmMailbox: "输入完整的 Muye 邮箱", confirmMailboxHelp: "输入上方显示的邮箱以确认。", deletePermanently: "永久删除", deletingMailbox: "正在删除邮箱……", confirmMailboxMismatch: "请完全按照上方显示的内容输入完整的 Muye 邮箱。", mailboxDeleteFailed: "无法删除你的邮箱。" });
 Object.assign(mailboxText.ja, { deleteOwnMailbox: "メールを削除", deleteMailboxTitle: "メールを削除", deleteMailboxWarning: "Muye メールと保存されたすべてのメッセージを完全に削除します。元に戻せません。", currentPassword: "現在のパスワード", confirmMailbox: "Muye メールをすべて入力", confirmMailboxHelp: "確認のため、上に表示されたメールを入力してください。", deletePermanently: "完全に削除", deletingMailbox: "メールを削除中...", confirmMailboxMismatch: "上に表示された Muye メールを正確に入力してください。", mailboxDeleteFailed: "メールを削除できませんでした。" });
@@ -315,7 +326,14 @@ function plainMessageText(message) {
 
 function quoteMessage(message) {
   const sender = message.direction === "sent" ? message.recipient : message.sender;
-  const quoted = plainMessageText(message).slice(0, 7000).split("\n").map((line) => `> ${line}`).join("\n");
+  const attachmentNames = attachmentsForMessage(message)
+    .map((attachment) => String(attachment.name || "attachment").replace(/[\r\n]+/g, " ").trim())
+    .filter(Boolean);
+  const attachmentText = attachmentNames.length
+    ? `${t("quotedAttachments")}:\n${attachmentNames.map((name) => `- ${name}`).join("\n")}`
+    : "";
+  const quoteSource = [plainMessageText(message), attachmentText].filter(Boolean).join("\n\n");
+  const quoted = quoteSource.slice(0, 7000).split("\n").map((line) => `> ${line}`).join("\n");
   const header = t("quotedHeader", { date: formatDate(message.created_at), sender });
   composeForm.elements.recipient.value = sender;
   composeForm.elements.subject.value = /^re:/i.test(message.subject) ? message.subject : `Re: ${message.subject}`;

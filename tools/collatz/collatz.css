@@ -1,0 +1,221 @@
+.collatz-page {
+  min-height: 100svh;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(111, 182, 154, 0.24), transparent 28%),
+    linear-gradient(140deg, #070908 0%, #111715 48%, #19140f 100%);
+}
+
+.collatz-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 40px;
+}
+
+.collatz-app {
+  padding-top: clamp(24px, 5vw, 56px);
+}
+
+.collatz-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.collatz-head h1 {
+  margin: 0;
+  font-size: clamp(44px, 8vw, 92px);
+  line-height: 0.92;
+}
+
+.collatz-status {
+  min-width: 108px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 10px 12px;
+  color: var(--accent-strong);
+  background: rgba(16, 21, 20, 0.78);
+  text-align: center;
+  font-weight: 760;
+}
+
+.collatz-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) 1fr;
+  gap: 14px;
+}
+
+.collatz-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(16, 21, 20, 0.78);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.28);
+}
+
+.controls-panel {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.controls-panel label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.controls-panel input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 0 12px;
+  color: var(--ink);
+  background: rgba(248, 244, 234, 0.08);
+  font: inherit;
+}
+
+.collatz-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.collatz-actions button {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--ink);
+  background: rgba(248, 244, 234, 0.1);
+  font: inherit;
+  font-weight: 760;
+  cursor: pointer;
+}
+
+.collatz-actions button:first-child {
+  background: var(--accent-strong);
+  color: #10100e;
+}
+
+.collatz-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.worker-downloads {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.worker-downloads a {
+  display: grid;
+  min-height: 42px;
+  align-items: center;
+  justify-items: center;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--ink);
+  background: rgba(248, 244, 234, 0.1);
+  font-weight: 760;
+  text-decoration: none;
+}
+
+.admin-import {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.admin-import summary {
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-weight: 760;
+}
+
+.admin-import button {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: #10100e;
+  background: var(--green);
+  font: inherit;
+  font-weight: 760;
+  cursor: pointer;
+}
+
+.admin-import input {
+  padding: 10px 0;
+  background: transparent;
+}
+
+.admin-import p {
+  min-height: 18px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stats-panel {
+  padding: 16px;
+}
+
+.stats-panel dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+}
+
+.stats-panel div {
+  min-width: 0;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.stats-panel dt {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 760;
+  text-transform: uppercase;
+}
+
+.stats-panel dd {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(20px, 4vw, 36px);
+  font-weight: 800;
+}
+
+.output-panel {
+  margin-top: 14px;
+  min-height: 360px;
+  max-height: 52svh;
+  overflow: auto;
+}
+
+.output-panel pre {
+  margin: 0;
+  padding: 16px;
+  color: #daf7e8;
+  font: 14px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 760px) {
+  .collatz-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .collatz-grid,
+  .stats-panel dl {
+    grid-template-columns: 1fr;
+  }
+}

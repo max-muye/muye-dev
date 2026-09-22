@@ -5,7 +5,6 @@ const maxTextBytes = 1024;
 const clerkIssuer = "https://clerk.www.muye.dev";
 const combiningMarkPattern = /[\u0300-\u036f\u1ab0-\u1aff\u1dc0-\u1dff\u20d0-\u20ff\ufe20-\ufe2f]/g;
 const hiddenControlPattern = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f\u00ad\u034f\u061c\u115f\u1160\u17b4\u17b5\u180e\u200b-\u200f\u2028-\u202e\u2060-\u206f\u3164\ufe00-\ufe0f\ufeff\uffa0]/g;
-const roomLimitHtml = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Room limit</title><link rel="stylesheet" href="/assets/site-footer.css?v=1"><style>body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#eef4f1;color:#132019}.box{width:min(520px,calc(100% - 32px));padding:22px;border:1px solid #d7e4dc;border-radius:8px;background:#fbfdfb;box-shadow:0 18px 60px rgba(18,43,28,.14)}h1{margin:0 0 8px;font-size:22px}p{margin:0 0 14px;color:#65736a;line-height:1.45}a{color:#16734d;font-weight:750}</style></head><body><main class="box"><h1>Room limit reached / 房间数量已达上限</h1><p>This IP can create up to 3 rooms. / 每个 IP 最多可以创建 3 个房间。</p><a href="/talk/">Back to Local Talk / 返回本地聊天</a></main><script src="/assets/site-footer.js?v=1"></script></body></html>`;
 let setupPromise;
 
 const appHtml = `<!doctype html>
@@ -42,6 +41,7 @@ const appHtml = `<!doctype html>
     <header>
       <div><h1 data-i18n="title">Local Talk</h1><div class="sub" data-i18n="sub">anonymous room</div></div>
       <div class="header-side">
+        <button class="secondary-button" id="encrypt-room" type="button" hidden>Encrypt room</button>
         <button class="secondary-button" id="notify-toggle" type="button">Notify</button>
         <button class="secondary-button" id="theme-toggle" type="button">Dark</button>
         <a class="button-link secondary-button" href="/" data-i18n="home">Home</a>
@@ -66,17 +66,26 @@ const appHtml = `<!doctype html>
   <script>
     if("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(()=>{});
     const dict={en:{title:"Local Talk",sub:"anonymous room",send:"Send",message:"Message",loading:"loading...",online:"online",banned:"banned",notAllowed:"this message is not allowed",sendFailed:"send failed",uploading:"uploading...",uploadFailed:"upload failed",download:"Download All",downloadFailed:"download failed",dark:"Dark",light:"Light",home:"Home",signedRoom:"Signed room",admin:"Admin",you:"You",someone:"Someone",nameSender:"Name this sender",namePrompt:"Name this sender. Leave empty to clear the name.",nameSaved:"name saved",nameFailed:"name failed",quote:"Quote",private:"Private",chooseUser:"choose a user",privateTo:"Private to",privateMsg:"Private message",name:"Name",fileQuote:"File",notify:"Notify",notificationsOn:"Notifications On",notificationsUnavailable:"notifications unavailable",notificationsBlocked:"notifications blocked",newMessage:"New message",dbError:"database error",disclaimerTitle:"Accuracy and Risk",disclaimer:"This site does not guarantee that all content is always accurate, complete, timely, or available. Users are responsible for the risks arising from downloading, accessing, and using related content; to the extent permitted by law, this site is not liable for losses caused by improper use."},zh:{title:"本地聊天",sub:"匿名聊天室",send:"发送",message:"消息",loading:"加载中...",online:"在线",banned:"已封禁",notAllowed:"这条消息不允许发送",sendFailed:"发送失败",uploading:"上传中...",uploadFailed:"上传失败",download:"下载全部",downloadFailed:"下载失败",dark:"深色",light:"浅色",home:"主页",signedRoom:"登录房间",admin:"管理",you:"你",someone:"某人",nameSender:"给发送者命名",namePrompt:"给这个发送者起名。留空可以清除名字。",nameSaved:"名字已保存",nameFailed:"保存名字失败",quote:"引用",private:"私聊",chooseUser:"选择一个用户",privateTo:"私聊给",privateMsg:"私聊消息",name:"命名",fileQuote:"文件",notify:"通知",notificationsOn:"通知已开启",notificationsUnavailable:"通知不可用",notificationsBlocked:"通知已阻止",newMessage:"新消息",dbError:"数据库错误",disclaimerTitle:"准确性与风险",disclaimer:"本站不保证所有内容始终准确、完整、及时或可用。用户下载、访问和使用相关内容所产生的风险由用户自行承担；因不当使用造成的损失，本站在法律允许的范围内不承担责任。"}};
+    Object.assign(dict.en,{encryptRoom:"Encrypt room",passwordPrompt:"Room password (8 or more characters)",passwordAgain:"Enter the password again",passwordMismatch:"passwords do not match",encryptFailed:"could not encrypt this room",encrypted:"encrypted room",wrongRoomPassword:"wrong room password",unlockCancelled:"room is locked",encryptedNoFiles:"files are disabled in encrypted rooms"});
+    Object.assign(dict.zh,{encryptRoom:"加密房间",passwordPrompt:"房间密码（至少 8 个字符）",passwordAgain:"再次输入密码",passwordMismatch:"两次密码不一致",encryptFailed:"无法加密这个房间",encrypted:"加密房间",wrongRoomPassword:"房间密码错误",unlockCancelled:"房间已锁定",encryptedNoFiles:"加密房间暂不支持文件"});
     const root=document.documentElement;root.dataset.theme=localStorage.getItem("localtalk-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
     const talkBase="/talk";
     const browserPath=location.pathname.replace(/\\/$/,"");
     const roomPath=browserPath===""||browserPath===talkBase?"":browserPath.startsWith(talkBase+"/")?browserPath.slice(talkBase.length):browserPath;
     ["ja","ko","es","fr","de","pt","ru","ar"].forEach(code=>{dict[code]=dict.en});
-    let lang=dict[localStorage.getItem("muye-lang")]?localStorage.getItem("muye-lang"):(localStorage.getItem("localtalk-lang")==="zh"?"zh":"en");let currentMessages=[];let mySenderKey="";let quote=null;let publicBanned=false;let publicBanReason="";let uploadBusy=false;let sendBusy=false;let filePickUntil=0;
-    const messages=document.querySelector("#messages"),form=document.querySelector("#form"),input=document.querySelector("#text"),file=document.querySelector("#file"),status=document.querySelector("#status"),themeToggle=document.querySelector("#theme-toggle"),notifyToggle=document.querySelector("#notify-toggle"),quoteBar=document.querySelector("#quote-bar"),quoteText=document.querySelector("#quote-text"),quoteClear=document.querySelector("#quote-clear");
+    let lang=dict[localStorage.getItem("muye-lang")]?localStorage.getItem("muye-lang"):(localStorage.getItem("localtalk-lang")==="zh"?"zh":"en");let currentMessages=[];let mySenderKey="";let quote=null;let publicBanned=false;let publicBanReason="";let uploadBusy=false;let sendBusy=false;let filePickUntil=0;let roomEncrypted=false;let roomKey=null;let roomVerifier="";let roomSalt="";let roomMessageCount=0;
+    const messages=document.querySelector("#messages"),form=document.querySelector("#form"),input=document.querySelector("#text"),file=document.querySelector("#file"),status=document.querySelector("#status"),themeToggle=document.querySelector("#theme-toggle"),notifyToggle=document.querySelector("#notify-toggle"),encryptRoomButton=document.querySelector("#encrypt-room"),quoteBar=document.querySelector("#quote-bar"),quoteText=document.querySelector("#quote-text"),quoteClear=document.querySelector("#quote-clear");
     function deviceId(){let id=localStorage.getItem("localtalk-device-id");if(!id){id=crypto.randomUUID();localStorage.setItem("localtalk-device-id",id)}return id}
     function api(path){return talkBase+roomPath+path}
     function t(k){return dict[lang][k]||dict.en[k]||k}
-    function syncText(){document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));document.querySelector("#public-disclaimer-title").textContent=t("disclaimerTitle");document.querySelector("#public-disclaimer").textContent=t("disclaimer");input.placeholder=t("message");themeToggle.textContent=root.dataset.theme==="dark"?t("light"):t("dark");syncNotify()}
+    function syncText(){document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));document.querySelector("#public-disclaimer-title").textContent=t("disclaimerTitle");document.querySelector("#public-disclaimer").textContent=t("disclaimer");input.placeholder=t("message");themeToggle.textContent=root.dataset.theme==="dark"?t("light"):t("dark");encryptRoomButton.textContent=roomEncrypted?t("encrypted"):t("encryptRoom");syncNotify()}
+    function bytesToBase64(bytes){let value="";for(const byte of bytes)value+=String.fromCharCode(byte);return btoa(value)}
+    function base64ToBytes(value){const binary=atob(value);return Uint8Array.from(binary,ch=>ch.charCodeAt(0))}
+    async function deriveRoomSecret(password,salt){const material=await crypto.subtle.importKey("raw",new TextEncoder().encode(password),"PBKDF2",false,["deriveBits"]);const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:base64ToBytes(salt),iterations:210000},material,256);const raw=new Uint8Array(bits);const marked=new Uint8Array(raw.length+21);marked.set(raw);marked.set(new TextEncoder().encode("localtalk-verifier-v1"),raw.length);const verifier=bytesToBase64(new Uint8Array(await crypto.subtle.digest("SHA-256",marked)));const key=await crypto.subtle.importKey("raw",raw,{name:"AES-GCM"},false,["encrypt","decrypt"]);return{key,verifier}}
+    async function encryptPayload(payload){const iv=crypto.getRandomValues(new Uint8Array(12));const data=new TextEncoder().encode(JSON.stringify(payload));const encrypted=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},roomKey,data));return"e2ee:v1:"+bytesToBase64(iv)+":"+bytesToBase64(encrypted)}
+    async function decryptPayload(value){const parts=String(value||"").split(":");if(parts.length!==4||parts[0]!=="e2ee"||parts[1]!=="v1")throw new Error("bad encrypted message");const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:base64ToBytes(parts[2])},roomKey,base64ToBytes(parts[3]));return JSON.parse(new TextDecoder().decode(plain))}
+    async function unlockRoom(){while(roomEncrypted&&!roomKey){const password=prompt(t("passwordPrompt"));if(password===null){status.textContent=t("unlockCancelled");return false}const secret=await deriveRoomSecret(password,roomSalt);if(secret.verifier===roomVerifier){roomKey=secret.key;return true}status.textContent=t("wrongRoomPassword")}return true}
+    async function decryptMessages(list){if(!roomEncrypted)return list;if(!await unlockRoom())return[];return Promise.all(list.map(async message=>{if(message.isMaster)return message;try{const payload=await decryptPayload(message.text);return{...message,text:payload.text||"",quoteText:payload.quoteText||"",quoteName:payload.quoteName||""}}catch{return{...message,text:"[encrypted message]",quoteText:"",quoteName:""}}}))}
     function displayText(value){return String(value||"").replace(/(?:\\\\b|\u0008)[\s\S]*/g,"").replace(/\\\\n/g,"\\n").replace(/\\\\\\\\/g,"\\\\")}
     function linkHref(value){return value.startsWith("https://")?value:"https://"+value}
     function appendLinkedText(node,value){const text=displayText(value);const re=/((?:https:\\/\\/|(?:localtalk|www)\\.muye\\.dev\\/)[^\\s<>"'\\\\]+)/g;let last=0;for(const match of text.matchAll(re)){if(match.index>last)node.append(document.createTextNode(text.slice(last,match.index)));const a=document.createElement("a");a.className="file-link";a.href=linkHref(match[0]).replace("https://www.muye.dev/talk/","https://www.muye.dev/talk/");a.target="_blank";a.rel="noopener noreferrer";a.textContent=match[0].replace("www.muye.dev/talk/","www.muye.dev/talk/");node.appendChild(a);last=match.index+match[0].length}if(last<text.length)node.append(document.createTextNode(text.slice(last)))}
@@ -97,9 +106,9 @@ const appHtml = `<!doctype html>
     function applyMessages(list){if(!currentMessages.length){renderMessages(list);return}const known=new Set(currentMessages.map(msg=>String(msg.id)));const fresh=list.filter(msg=>!known.has(String(msg.id)));if(!fresh.length){currentMessages=list;return}const first=firstPositions();currentMessages=list;for(const msg of fresh){messages.appendChild(makeMessageEl(msg,true));showMessageNotification(msg)}requestAnimationFrame(()=>animateShift(first));messages.scrollTo({top:messages.scrollHeight,behavior:"smooth"})}
     async function loadMySenderKey(){const r=await fetch(api("/sender-key"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({deviceId:deviceId()})});if(r.ok)mySenderKey=(await r.json()).senderKey||""}
     function banStatus(reason){const labels={en:{device_banned:"device banned",room_device_banned:"room device banned",ip_banned:"IP banned",ipv6_banned:"IPv6 banned",auto_message_spam:"auto-ban: too many messages",auto_upload_spam:"auto-ban: too many uploads"},zh:{device_banned:"设备已封禁",room_device_banned:"本房间设备已封禁",ip_banned:"IP 已封禁",ipv6_banned:"IPv6 已封禁",auto_message_spam:"自动封禁：消息过快",auto_upload_spam:"自动封禁：上传过快"}};return labels[lang][reason]||t("banned")}
-    function syncLock(){const disabled=publicBanned;input.disabled=disabled;file.disabled=disabled;form.querySelector('button[type="submit"]').disabled=disabled;status.textContent=publicBanned?banStatus(publicBanReason):t("online")}
-    async function loadRoomState(){const r=await fetch(api("/room-state")+"?deviceId="+encodeURIComponent(deviceId()),{cache:"no-store"});if(r.ok){const state=await r.json();publicBanned=state.banned;publicBanReason=state.banReason||"";syncLock()}}
-    async function loadHistory(){const r=await fetch(api("/history"),{cache:"no-store"});if(!r.ok)throw new Error("history failed");applyMessages(await r.json());await loadRoomState()}
+    function syncLock(){const disabled=publicBanned||(roomEncrypted&&!roomKey);input.disabled=disabled;file.disabled=disabled||roomEncrypted;form.querySelector('button[type="submit"]').disabled=disabled;encryptRoomButton.hidden=!roomPath||roomEncrypted||roomMessageCount!==0;status.textContent=publicBanned?banStatus(publicBanReason):(roomEncrypted&&!roomKey?t("unlockCancelled"):(roomEncrypted?t("encrypted"):t("online")));syncText()}
+    async function loadRoomState(){const r=await fetch(api("/room-state")+"?deviceId="+encodeURIComponent(deviceId()),{cache:"no-store"});if(r.ok){const state=await r.json();publicBanned=state.banned;publicBanReason=state.banReason||"";roomEncrypted=Boolean(state.encrypted);roomSalt=state.encryptionSalt||"";roomVerifier=state.passwordVerifier||"";roomMessageCount=Number(state.messageCount)||0;if(roomEncrypted)await unlockRoom();syncLock()}}
+    async function loadHistory(){await loadRoomState();const r=await fetch(api("/history"),{cache:"no-store"});if(!r.ok)throw new Error("history failed");applyMessages(await decryptMessages(await r.json()))}
     themeToggle.addEventListener("click",()=>{document.body.classList.add("theme-wash");setTimeout(()=>{root.dataset.theme=root.dataset.theme==="dark"?"light":"dark";localStorage.setItem("localtalk-theme",root.dataset.theme);syncText()},90);setTimeout(()=>document.body.classList.remove("theme-wash"),330)});
     quoteClear.addEventListener("click",clearQuote);
     notifyToggle.addEventListener("click",enableNotifications);
@@ -108,7 +117,8 @@ const appHtml = `<!doctype html>
     file.closest(".file-button")?.addEventListener("pointerdown",()=>{filePickUntil=Date.now()+4000});
     file.addEventListener("click",event=>{event.stopPropagation();filePickUntil=Date.now()+4000});
     async function handleForbidden(r){const data=await r.clone().json().catch(()=>({}));if(data.error==="not_allowed"){status.textContent=t("notAllowed");return}publicBanned=true;publicBanReason=data.error||"";syncLock()}
-    form.addEventListener("submit",async e=>{e.preventDefault();if(sendBusy||uploadBusy||Date.now()<filePickUntil)return;if(publicBanned){status.textContent=banStatus(publicBanReason);return}const text=input.value.trim();if(!text)return;sendBusy=true;input.value="";try{const r=await fetch(api("/send"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,deviceId:deviceId(),quoteText:quote?.quoteText||"",quoteName:quote?.quoteName||""})});if(r.status===403){await handleForbidden(r);return}if(!r.ok){status.textContent=t("sendFailed");input.value=text;return}clearQuote();await loadHistory();input.focus()}finally{sendBusy=false}});
+    encryptRoomButton.addEventListener("click",async()=>{if(roomEncrypted||roomMessageCount!==0||!roomPath)return;const password=prompt(t("passwordPrompt"));if(!password||password.length<8)return;const again=prompt(t("passwordAgain"));if(password!==again){status.textContent=t("passwordMismatch");return}const saltText=bytesToBase64(crypto.getRandomValues(new Uint8Array(16)));const secret=await deriveRoomSecret(password,saltText);const r=await fetch(api("/encrypt-room"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({salt:saltText,passwordVerifier:secret.verifier})});if(!r.ok){status.textContent=t("encryptFailed");return}roomKey=secret.key;await loadHistory()});
+    form.addEventListener("submit",async e=>{e.preventDefault();if(sendBusy||uploadBusy||Date.now()<filePickUntil)return;if(publicBanned){status.textContent=banStatus(publicBanReason);return}const text=input.value.trim();if(!text)return;if(roomEncrypted&&!await unlockRoom())return;sendBusy=true;input.value="";try{const payload=roomEncrypted?await encryptPayload({text,quoteText:quote?.quoteText||"",quoteName:quote?.quoteName||""}):text;const r=await fetch(api("/send"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:payload,deviceId:deviceId(),passwordVerifier:roomEncrypted?roomVerifier:"",quoteText:roomEncrypted?"":quote?.quoteText||"",quoteName:roomEncrypted?"":quote?.quoteName||""})});if(r.status===403){await handleForbidden(r);return}if(!r.ok){status.textContent=t("sendFailed");input.value=text;return}clearQuote();await loadHistory();input.focus()}finally{sendBusy=false}});
     file.addEventListener("change",async()=>{filePickUntil=Date.now()+4000;if(uploadBusy)return;if(publicBanned){status.textContent=banStatus(publicBanReason);file.value="";return}const f=file.files[0];if(!f)return;uploadBusy=true;input.value="";status.textContent=t("uploading");const reader=new FileReader();reader.onload=async()=>{try{const r=await fetch(api("/upload"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({deviceId:deviceId(),name:f.name,mime:f.type||"application/octet-stream",dataUrl:reader.result,quoteText:quote?.quoteText||"",quoteName:quote?.quoteName||""})});file.value="";if(r.status===403){await handleForbidden(r);return}if(!r.ok){status.textContent=t("uploadFailed");return}clearQuote();await loadHistory()}finally{uploadBusy=false;filePickUntil=Date.now()+1200}};reader.onerror=()=>{uploadBusy=false;filePickUntil=Date.now()+1200;file.value="";status.textContent=t("uploadFailed")};reader.readAsDataURL(f)});
     syncText();loadMySenderKey().then(loadHistory).catch(()=>{status.textContent=t("dbError")});
     setInterval(()=>loadHistory().catch(()=>{}),3000);
@@ -439,6 +449,9 @@ async function ensureTables(sql) {
       created_at timestamptz not null default now()
     )
   `;
+  await sql`alter table localtalk_rooms add column if not exists is_encrypted boolean not null default false`;
+  await sql`alter table localtalk_rooms add column if not exists encryption_salt text`;
+  await sql`alter table localtalk_rooms add column if not exists password_verifier text`;
   await sql`
     create table if not exists localtalk_bans (
       device_id text primary key,
@@ -778,9 +791,9 @@ function signedPrivateRoom(room = "") {
 }
 
 function publicRoomPath(pathname) {
-  const match = String(pathname || "").match(/^\/([a-zA-Z0-9_-]{1,40})(?:\/(history|room-state|file\/\d+|send|upload|sender-key|name-sender))?\/?$/);
+  const match = String(pathname || "").match(/^\/([a-zA-Z0-9_-]{1,40})(?:\/(history|room-state|encrypt-room|file\/\d+|send|upload|sender-key|name-sender))?\/?$/);
   if (!match) return null;
-  if (["admin", "signed", "download", "history", "room-state", "file", "send", "upload", "sender-key", "name-sender", "export"].includes(match[1].toLowerCase())) return null;
+  if (["admin", "signed", "download", "history", "room-state", "encrypt-room", "file", "send", "upload", "sender-key", "name-sender", "export"].includes(match[1].toLowerCase())) return null;
   return { room: cleanRoom(match[1]), action: match[2] ? "/" + match[2] : "/" };
 }
 
@@ -815,15 +828,11 @@ function signedRoomPath(pathname) {
   return null;
 }
 
-async function ensureRoomAccess(sql, room, ip, isAdmin = false) {
+export async function ensureRoomAccess(sql, room, ip, isAdmin = false) {
   const clean = cleanRoom(room);
   if (!clean) return true;
   const existing = await sql`select room from localtalk_rooms where room = ${clean} limit 1`;
   if (existing.length) return true;
-  if (!isAdmin) {
-    const rows = await sql`select count(*)::int as count from localtalk_rooms where creator_ip = ${ip} and is_admin = false`;
-    if ((Number(rows[0]?.count) || 0) >= 3) return false;
-  }
   await sql`
     insert into localtalk_rooms (room, creator_ip, is_admin)
     values (${clean}, ${ip || ""}, ${isAdmin})
@@ -832,28 +841,83 @@ async function ensureRoomAccess(sql, room, ip, isAdmin = false) {
   return true;
 }
 
+async function encryptedRoomState(sql, room) {
+  const clean = cleanRoom(room);
+  if (!clean) return { encrypted: false, encryptionSalt: "", passwordVerifier: "", messageCount: 0 };
+  const rows = await sql`
+    select r.is_encrypted, r.encryption_salt, r.password_verifier, count(m.id)::int as message_count
+    from localtalk_rooms r
+    left join localtalk_messages m on m.room = r.room and m.is_master = false
+    where r.room = ${clean}
+    group by r.room, r.is_encrypted, r.encryption_salt, r.password_verifier
+    limit 1
+  `;
+  return {
+    encrypted: Boolean(rows[0]?.is_encrypted),
+    encryptionSalt: rows[0]?.encryption_salt || "",
+    passwordVerifier: rows[0]?.password_verifier || "",
+    messageCount: Number(rows[0]?.message_count) || 0,
+  };
+}
+
+export function validEncryptedPayload(value) {
+  return /^e2ee:v1:[A-Za-z0-9+/=]+:[A-Za-z0-9+/=]+$/.test(String(value || ""));
+}
+
+export async function enableRoomEncryption(sql, room, salt, passwordVerifier) {
+  const clean = cleanRoom(room);
+  const safeSalt = String(salt || "");
+  const safeVerifier = String(passwordVerifier || "");
+  if (!clean || !/^[A-Za-z0-9+/=]{20,64}$/.test(safeSalt) || !/^[A-Za-z0-9+/=]{40,64}$/.test(safeVerifier)) return false;
+  const rows = await sql`
+    update localtalk_rooms r
+    set is_encrypted = true, encryption_salt = ${safeSalt}, password_verifier = ${safeVerifier}
+    where r.room = ${clean}
+      and r.is_encrypted = false
+      and not exists (select 1 from localtalk_messages m where m.room = r.room and m.is_master = false)
+    returning r.room
+  `;
+  return rows.length > 0;
+}
+
 async function getRooms(sql) {
+  await deleteEmptyTalkRooms(sql);
   const rows = await sql`
     select
       r.room,
       r.creator_ip,
       r.is_admin,
+      r.is_encrypted,
       r.created_at,
       count(m.id)::int as message_count,
       max(m.created_at) as last_message_at
     from localtalk_rooms r
     left join localtalk_messages m on m.room = r.room and m.is_master = false
-    group by r.room, r.creator_ip, r.is_admin, r.created_at
+    group by r.room, r.creator_ip, r.is_admin, r.is_encrypted, r.created_at
     order by r.room asc
   `;
   return rows.map((row) => ({
     room: row.room,
     creatorIp: row.creator_ip,
     isAdmin: Boolean(row.is_admin),
+    encrypted: Boolean(row.is_encrypted),
     createdAt: row.created_at,
     messageCount: Number(row.message_count) || 0,
     lastMessageAt: row.last_message_at,
   }));
+}
+
+export async function deleteEmptyTalkRooms(sql) {
+  const rows = await sql`
+    select r.room
+    from localtalk_rooms r
+    where not exists (
+      select 1 from localtalk_messages m
+      where m.room = r.room and m.is_master = false
+    )
+  `;
+  for (const row of rows) await deleteTalkRoom(sql, row.room);
+  return rows.map((row) => row.room);
 }
 
 export async function deleteTalkRoom(sql, value) {
@@ -1466,19 +1530,24 @@ export default {
       if (request.method === "GET" && url.pathname === "/") return new Response(appHtml, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
   if (request.method === "GET" && url.pathname === "/download") return Response.redirect(new URL("/download/#localtalk", request.url), 302);
       if (request.method === "GET" && roomRoute?.action === "/") {
-        const roomOk = await ensureRoomAccess(sql, roomRoute.room, clientIp(request), false);
-        if (!roomOk) return new Response(roomLimitHtml, { status: 429, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
+        await ensureRoomAccess(sql, roomRoute.room, clientIp(request), false);
         return new Response(appHtml, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
       }
       if (request.method === "GET" && (url.pathname === "/signed" || signedRoute?.action === "/")) return new Response(signedHtml(env.CLERK_PUBLISHABLE_KEY || ""), { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
       if (request.method === "GET" && url.pathname === "/admin") return new Response(adminHtml, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
-      if (roomRoute?.room && !(await ensureRoomAccess(sql, roomRoute.room, clientIp(request), false))) return json({ ok: false, error: "room_limit" }, { status: 429 });
+      if (roomRoute?.room) await ensureRoomAccess(sql, roomRoute.room, clientIp(request), false);
       if (request.method === "GET" && (url.pathname === "/history" || roomRoute?.action === "/history")) return json(await getMessages(sql, { room: roomRoute?.room || "", env }));
 	      if (request.method === "GET" && (url.pathname === "/room-state" || roomRoute?.action === "/room-state")) {
 	        const deviceId = String(url.searchParams.get("deviceId") || "").slice(0, 80);
 	        const currentRoom = roomRoute?.room || "";
 	        const banReason = await publicBanReason(sql, currentRoom, deviceId, clientIp(request));
-	        return json({ banned: Boolean(banReason), banReason });
+	        const encryption = await encryptedRoomState(sql, currentRoom);
+	        return json({ banned: Boolean(banReason), banReason, ...encryption });
+	      }
+	      if (request.method === "POST" && roomRoute?.action === "/encrypt-room") {
+	        const body = await readBody(request);
+	        const enabled = await enableRoomEncryption(sql, roomRoute.room, body.salt, body.passwordVerifier);
+	        return enabled ? new Response(null, { status: 204 }) : json({ ok: false, error: "room_not_empty_or_already_encrypted" }, { status: 409 });
 	      }
       if (request.method === "GET" && url.pathname === "/export") {
         const messages = await getMessages(sql, { includeDeviceId: true, env });
@@ -1565,13 +1634,17 @@ export default {
 	        const timeZone = clientTimeZone(request);
 	        const deviceId = String(body.deviceId || "").slice(0, 80);
 	        const currentRoom = roomRoute?.room || "";
+	        const encryption = await encryptedRoomState(sql, currentRoom);
+	        if (encryption.encrypted && (body.passwordVerifier !== encryption.passwordVerifier || !validEncryptedPayload(body.text))) return new Response("Forbidden", { status: 403 });
 	        const banReason = await publicBanReason(sql, currentRoom, deviceId, ip);
 	        if (banReason) return forbidden(banReason);
-	        const message = textFromBody(body);
+	        const message = encryption.encrypted
+	          ? { ok: new TextEncoder().encode(String(body.text || "")).length <= 8192, text: String(body.text || "") }
+	          : textFromBody(body);
 	        const quote = quoteFromBody(body);
 	        if (!message.ok) return json({ ok: false, error: "Message too large" }, { status: 413 });
-	        if (await hasBannedAnyText(sql, message.text, quote.quoteText, quote.quoteName)) return notAllowed();
-	        if (await hasRoomBannedAnyText(sql, currentRoom, message.text, quote.quoteText, quote.quoteName)) return notAllowed();
+	        if (!encryption.encrypted && await hasBannedAnyText(sql, message.text, quote.quoteText, quote.quoteName)) return notAllowed();
+	        if (!encryption.encrypted && await hasRoomBannedAnyText(sql, currentRoom, message.text, quote.quoteText, quote.quoteName)) return notAllowed();
 	        if (message.text && await isFastSpamMasterEnabled(sql) && await isRoomFastSpamEnabled(sql, currentRoom) && await checkMessageSpamAndAutoBan(sql, deviceId)) return forbidden("auto_message_spam");
 	        if (message.text) await addText(sql, message.text, deviceId, false, ip, timeZone, quote, currentRoom);
         return new Response(null, { status: 204 });
@@ -1582,6 +1655,7 @@ export default {
 	        const timeZone = clientTimeZone(request);
 	        const deviceId = String(body.deviceId || "").slice(0, 80);
 	        const currentRoom = roomRoute?.room || "";
+	        if ((await encryptedRoomState(sql, currentRoom)).encrypted) return json({ ok: false, error: "encrypted_rooms_do_not_accept_files" }, { status: 409 });
 	        const banReason = await publicBanReason(sql, currentRoom, deviceId, ip);
 	        if (banReason) return forbidden(banReason);
 	        if (await checkUploadSpamAndAutoBan(sql, deviceId)) return forbidden("auto_upload_spam");

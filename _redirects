@@ -11,8 +11,9 @@ https://muye.dev/* https://www.muye.dev/:splat 301
 /profile/* /profile/index.html 200
 /mailbox/* /mailbox/index.html 200
 /captcha/* /captcha/index.html 200
-/passwd/pbk/ /tools/passwd/pbk/index.html 200
-/passwd/pbk/what-is-a-hash/ /passwd/what-is-a-hash/index.html 200
+/passwd/ /passwd/hash/ 301
+/passwd/pbk/ /passwd/hash/ 301
+/passwd/pbk/what-is-a-hash/ /passwd/hash/what-is-a-hash/ 301
 /passwd/rsa/ /tools/passwd/rsa/index.html 200
-/tools/passwd/pbk/what-is-a-hash/ /passwd/what-is-a-hash/index.html 200
+/tools/passwd/pbk/what-is-a-hash/ /passwd/hash/what-is-a-hash/ 301
 /misc/* /tools/:splat 301

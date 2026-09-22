@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Opt-in Collatz lifespan record search.">
+    <title>Collatz · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/tools/collatz/collatz.css?v=2">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  </head>
+  <body class="collatz-page">
+    <main class="collatz-shell">
+      <header class="misc-topbar">
+        <a class="misc-brand" href="/">Muye</a>
+        <a class="misc-home" href="/tools/">Tools</a>
+      </header>
+
+      <section class="collatz-app" aria-labelledby="collatz-title">
+        <div class="collatz-head">
+          <div>
+            <p class="eyebrow">3n + 1</p>
+            <h1 id="collatz-title">Collatz Records</h1>
+          </div>
+          <div class="collatz-status" id="status">Idle</div>
+        </div>
+
+        <div class="collatz-grid">
+          <section class="collatz-panel controls-panel" aria-label="Controls">
+            <label>
+              Start number
+              <input id="startInput" inputmode="numeric" value="1">
+            </label>
+
+            <label>
+              Work per tick
+              <input id="batchInput" inputmode="numeric" value="20000">
+            </label>
+
+            <div class="collatz-actions">
+              <button id="startButton" type="button">Start</button>
+              <button id="allSearchButton" type="button">All Search</button>
+              <button id="stopButton" type="button" disabled>Stop</button>
+              <button id="resetButton" type="button">Reset</button>
+            </div>
+
+            <div class="collatz-actions">
+              <button id="downloadTextButton" type="button">Download TXT</button>
+              <button id="downloadZipButton" type="button">Download ZIP</button>
+            </div>
+
+            <div class="worker-downloads" aria-label="Native worker downloads">
+              <a href="/tools/collatz/downloads/collatz-worker-source.zip" download>Worker Source</a>
+              <a href="/tools/collatz/downloads/collatz-macos-arm64.zip" download>Mac Exec</a>
+              <a href="/tools/collatz/downloads/compile_linux.sh" download>Linux Compile</a>
+              <a href="/tools/collatz/downloads/compile_windows.bat" download>Windows Compile</a>
+              <a href="/tools/collatz/downloads/collatz_windows_no_compile.bat" download>Windows BAT</a>
+            </div>
+
+            <details class="admin-import">
+              <summary>Admin import</summary>
+              <label>
+                Records ZIP/TXT
+                <input id="adminFileInput" type="file" accept=".zip,.txt,text/plain,application/zip">
+              </label>
+              <label>
+                Admin password
+                <input id="adminPasswordInput" type="password" autocomplete="current-password">
+              </label>
+              <button id="adminUploadButton" type="button">Upload Init File</button>
+              <p id="adminMessage"></p>
+            </details>
+          </section>
+
+          <section class="collatz-panel stats-panel" aria-label="Stats">
+            <dl>
+              <div>
+                <dt>Checked Through</dt>
+                <dd id="checkedValue">0</dd>
+              </div>
+              <div>
+                <dt>Best Lifespan</dt>
+                <dd id="bestValue">0</dd>
+              </div>
+              <div>
+                <dt>Best Number</dt>
+                <dd id="bestNumber">1</dd>
+              </div>
+              <div>
+                <dt>Records Stored</dt>
+                <dd id="recordCount">0</dd>
+              </div>
+              <div>
+                <dt>Active Searchers</dt>
+                <dd id="activeSearchers">0</dd>
+              </div>
+              <div>
+                <dt>Shared Progress</dt>
+                <dd id="sharedProgress">0</dd>
+              </div>
+            </dl>
+          </section>
+        </div>
+
+        <section class="collatz-panel output-panel" aria-label="Record output">
+          <pre id="output"></pre>
+        </section>
+      </section>
+    </main>
+
+    <script src="/tools/collatz/collatz.js?v=5"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

@@ -16,14 +16,26 @@
     <main class="note-shell">
       <a class="note-back" href="/#notes" data-i18n="backNotes">Back to notes</a>
       <p class="eyebrow" data-i18n="nowThinking">Now thinking about</p>
-      <h1 data-i18n="thinkingH1">Muye.dev is now v2.8.0.</h1>
-      <p class="note-meta">September 20, 2026</p>
+      <h1 data-i18n="thinkingH1">Muye.dev is now v2.9.5.</h1>
+      <p class="note-meta">September 21, 2026</p>
       <article class="note-content">
         <p>This note is the living place for what changed, what shipped, and what the site is slowly turning into.</p>
 
         <h2 data-i18n="versionList">Version List</h2>
-        <p><strong>v2.8.0</strong> is the current version of muye.dev.</p>
+        <p><strong>v2.9.5</strong> is the current version of muye.dev.</p>
         <p>Versions use <code>major.normal.small</code>: the first number is for big updates, the middle number is for normal updates, and the last number is for small fixes.</p>
+        <h3>v2.9.5</h3>
+        <p>LocalTalk now automatically deletes named rooms with zero messages when the administrator room list is loaded.</p>
+        <h3>v2.9.4</h3>
+        <p>Moved the old password-hash route to <code>/passwd/hash/</code> and redirected the duplicate <code>/passwd/</code> page.</p>
+        <h3>v2.9.3</h3>
+        <p>Added AES to the main Tools page and removed the unrelated hash explainer from RSA navigation.</p>
+        <h3>v2.9.2</h3>
+        <p>Removed the three-rooms-per-IP limit from LocalTalk, so users can create any number of valid named rooms.</p>
+        <h3>v2.9.1</h3>
+        <p>Added the browser-only AES tool for password-derived AES-GCM encryption and decryption.</p>
+        <h3>v2.9.0</h3>
+        <p>Added password-protected encrypted LocalTalk rooms. The browser encrypts message text with AES-GCM before sending it, and the server and administrators retain only ciphertext while keeping deletion controls.</p>
         <h3>v2.8.0</h3>
         <p>Added complete room management to LocalTalk admin, including empty-room visibility and protected deletion of named rooms with their public messages and room settings.</p>
         <h3>v2.7.2</h3>
@@ -167,6 +179,12 @@
         </ul>
 
         <h2 data-i18n="deployNotes">Deploy Notes</h2>
+        <p><strong>September 21, 2026:</strong> Added automatic deletion for empty LocalTalk rooms and bumped the site to <code>v2.9.5</code>.</p>
+        <p><strong>September 21, 2026:</strong> Made <code>/passwd/hash/</code> the canonical public password-hash route and bumped the site to <code>v2.9.4</code>.</p>
+        <p><strong>September 21, 2026:</strong> Corrected the AES and RSA navigation and bumped the site to <code>v2.9.3</code>.</p>
+        <p><strong>September 21, 2026:</strong> Removed LocalTalk's per-IP room limit and bumped the site to <code>v2.9.2</code>.</p>
+        <p><strong>September 21, 2026:</strong> Added the AES encryption tool at <code>/tools/passwd/aes/</code> and bumped the site to <code>v2.9.1</code>.</p>
+        <p><strong>September 21, 2026:</strong> Added end-to-end encrypted LocalTalk rooms and bumped the site to <code>v2.9.0</code>.</p>
         <p><strong>September 20, 2026:</strong> Added administrator room deletion to LocalTalk and bumped the site to <code>v2.8.0</code>.</p>
         <p><strong>September 20, 2026:</strong> Removed the duplicate Resend delivery path for internal Muye mail and bumped the site to <code>v2.7.2</code>.</p>
         <p><strong>September 20, 2026:</strong> Added attachment filenames to Mailbox quotes and bumped the site to <code>v2.7.1</code>.</p>

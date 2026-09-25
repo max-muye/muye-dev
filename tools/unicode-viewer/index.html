@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Open and explore Unicode art in your browser.">
+    <title>Unicode Viewer · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/assets/tools.css?v=1">
+    <link rel="stylesheet" href="/tools/unicode-viewer/unicode-viewer.css?v=1">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  </head>
+  <body class="misc-page">
+    <main class="misc-shell">
+      <header class="misc-topbar">
+        <a class="misc-brand" href="/">Muye</a>
+        <div class="viewer-nav"><a class="misc-home" href="/tools/" data-i18n="tools">Tools</a><button class="misc-home" id="language" type="button" data-i18n-label="languageLabel">A中</button></div>
+      </header>
+      <section class="viewer-tool" aria-labelledby="viewer-title">
+        <div>
+          <p class="eyebrow" data-i18n="eyebrow">TEXT VIEWER</p>
+          <h1 id="viewer-title" data-i18n="title">Unicode Viewer</h1>
+          <p class="viewer-intro" data-i18n="intro">Open or paste Unicode art, then zoom with + and − and move with W, A, S, and D.</p>
+        </div>
+        <div class="viewer-source">
+          <label><span data-i18n="file">Unicode art file</span><input id="file" type="file" accept="text/plain,.txt"></label>
+          <label><span data-i18n="paste">Paste Unicode art</span><textarea id="source" rows="7" spellcheck="false" data-i18n-placeholder="placeholder" placeholder="Paste Unicode art here"></textarea></label>
+          <button id="show" class="primary-action" type="button" data-i18n="show">Show in viewer</button>
+        </div>
+        <section class="viewer-panel" aria-labelledby="canvas-title">
+          <div class="viewer-heading">
+            <div><h2 id="canvas-title" data-i18n="viewer">Viewer</h2><p data-i18n="instructions">Click the viewer, then use +, −, W, A, S, and D.</p></div>
+            <output id="zoom" aria-live="polite">100%</output>
+          </div>
+          <div class="viewer-layout">
+            <div id="viewport" class="viewport" tabindex="0" data-i18n-label="viewerLabel"><pre id="art"></pre></div>
+            <div class="viewer-controls" data-i18n-label="controlsLabel">
+              <button type="button" data-action="zoom-in" data-i18n-label="zoomIn">+</button>
+              <button type="button" data-action="up" data-i18n-label="moveUp">W</button>
+              <button type="button" data-action="zoom-out" data-i18n-label="zoomOut">−</button>
+              <button type="button" data-action="left" data-i18n-label="moveLeft">A</button>
+              <button type="button" data-action="down" data-i18n-label="moveDown">S</button>
+              <button type="button" data-action="right" data-i18n-label="moveRight">D</button>
+              <button class="reset" type="button" data-action="reset" data-i18n="reset">Reset</button>
+            </div>
+          </div>
+        </section>
+        <p class="codec-status" id="status" aria-live="polite" data-i18n="empty">Open a text file or paste Unicode art.</p>
+      </section>
+    </main>
+    <script src="/tools/unicode-viewer/unicode-viewer.js?v=1"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

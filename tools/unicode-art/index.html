@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Convert an image into Unicode art locally in your browser.">
+    <title>Unicode Art · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/assets/tools.css?v=1">
+    <link rel="stylesheet" href="/tools/unicode-art/unicode-art.css?v=1">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  </head>
+  <body class="misc-page">
+    <main class="misc-shell">
+      <header class="misc-topbar">
+        <a class="misc-brand" href="/">Muye</a>
+        <div class="unicode-nav">
+          <a class="misc-home" href="/tools/" data-i18n="tools">Tools</a>
+          <button class="misc-home" id="language" type="button" data-i18n-label="languageLabel">A中</button>
+        </div>
+      </header>
+      <section class="unicode-tool" aria-labelledby="unicode-title">
+        <div>
+          <p class="eyebrow" data-i18n="eyebrow">IMAGE TOOL</p>
+          <h1 id="unicode-title" data-i18n="title">Unicode Art</h1>
+          <p class="unicode-intro" data-i18n="intro">Upload an image and turn it into a custom-sized grid of Unicode characters. Your image stays in your browser.</p>
+        </div>
+        <div class="unicode-controls">
+          <label class="upload-field"><span data-i18n="image">Image</span><input id="image" type="file" accept="image/*"></label>
+          <label><span data-i18n="width">Width (a)</span><input id="art-width" type="number" min="1" value="48" inputmode="numeric"></label>
+          <span class="dimension-mark" aria-hidden="true">×</span>
+          <label><span data-i18n="height">Height (b)</span><input id="art-height" type="number" min="1" value="32" inputmode="numeric"></label>
+          <button id="convert" class="primary-action" type="button" data-i18n="convert">Convert</button>
+        </div>
+        <div class="unicode-workspace">
+          <figure class="image-preview">
+            <figcaption data-i18n="preview">Image preview</figcaption>
+            <div class="preview-frame"><img id="preview" alt=""></div>
+          </figure>
+          <section class="art-panel" aria-labelledby="result-title">
+            <div class="art-heading">
+              <h2 id="result-title" data-i18n="result">Unicode art</h2>
+              <div class="art-actions"><button id="copy" type="button" data-i18n="copy">Copy</button><button id="download" type="button" data-i18n="download">Download</button></div>
+            </div>
+            <pre id="art" tabindex="0" aria-live="polite"></pre>
+          </section>
+        </div>
+        <p class="codec-status" id="status" aria-live="polite" data-i18n="choose">Choose an image to begin.</p>
+      </section>
+    </main>
+    <canvas id="sampler" hidden></canvas>
+    <script src="/tools/unicode-art/unicode-art.js?v=1"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

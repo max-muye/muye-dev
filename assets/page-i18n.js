@@ -24,7 +24,9 @@
       localtalkH1: "How LocalTalk works.", rooms: "Rooms", signedChat: "Signed Chat", filesMessages: "Files And Messages", moderation: "Moderation", language: "Language",
       mailboxH1: "Mailbox version history.", creationRules: "Creation Rules", olderPaths: "Older Paths Removed",
       gamesH1: "Games.", currentSet: "Current Set", designRules: "Design Rules", nextIdeas: "Next Ideas",
-      thinkingH1: "Muye.dev is now v2.9.6.", versionList: "Version List", deployNotes: "Deploy Notes", nowThinkingHead: "Now Thinking About",
+      thinkingH1: "Muye.dev is now v2.9.7.", versionList: "Version List", deployNotes: "Deploy Notes", nowThinkingHead: "Now Thinking About",
+      lockAnswerUpdate: "Gave Locks 5 and 6 distinct word answers and updated their encoded clues.",
+      lockAnswerDeploy: "September 25, 2026: Updated the advanced lock answers and bumped the site to v2.9.7.",
       secretPuzzleUpdate: "Expanded the hidden puzzle path with distinct binary, XOR, and remainder challenges.",
       secretPuzzleDeploy: "September 25, 2026: Expanded the hidden puzzle path and bumped the site to v2.9.6.",
     },
@@ -39,7 +41,9 @@
       localtalkH1: "LocalTalk 如何工作。", rooms: "房间", signedChat: "登录聊天", filesMessages: "文件和消息", moderation: "管理", language: "语言",
       mailboxH1: "邮箱版本记录。", creationRules: "创建规则", olderPaths: "已移除的旧路径",
       gamesH1: "游戏。", currentSet: "当前集合", designRules: "设计规则", nextIdeas: "下一步想法",
-      thinkingH1: "Muye.dev 现在是 v2.9.6。", versionList: "版本列表", deployNotes: "部署记录", nowThinkingHead: "现在在想",
+      thinkingH1: "Muye.dev 现在是 v2.9.7。", versionList: "版本列表", deployNotes: "部署记录", nowThinkingHead: "现在在想",
+      lockAnswerUpdate: "为锁 5 和锁 6 设置了不同的单词答案，并更新了编码线索。",
+      lockAnswerDeploy: "2026 年 9 月 25 日：更新了高级锁答案，并将网站升级到 v2.9.7。",
       secretPuzzleUpdate: "扩展了隐藏谜题路径，加入答案各不相同的二进制、异或和余数挑战。",
       secretPuzzleDeploy: "2026 年 9 月 25 日：扩展了隐藏谜题路径，并将网站升级到 v2.9.6。",
     },
@@ -54,7 +58,9 @@
       localtalkH1: "LocalTalkの仕組み。", rooms: "部屋", signedChat: "ログインチャット", filesMessages: "ファイルとメッセージ", moderation: "管理", language: "言語",
       mailboxH1: "メール履歴。", creationRules: "作成ルール", olderPaths: "削除された古い経路",
       gamesH1: "ゲーム。", currentSet: "現在のセット", designRules: "デザインルール", nextIdeas: "次のアイデア",
-      thinkingH1: "Muye.dev は v2.9.6 です。", versionList: "バージョン一覧", deployNotes: "デプロイ記録", nowThinkingHead: "今考えていること",
+      thinkingH1: "Muye.dev は v2.9.7 です。", versionList: "バージョン一覧", deployNotes: "デプロイ記録", nowThinkingHead: "今考えていること",
+      lockAnswerUpdate: "ロック5と6に異なる単語の答えを設定し、暗号化された手掛かりを更新しました。",
+      lockAnswerDeploy: "2026年9月25日：高度なロックの答えを更新し、サイトを v2.9.7 にしました。",
       secretPuzzleUpdate: "隠しパズルに、答えが異なるバイナリ、XOR、剰余の課題を追加しました。",
       secretPuzzleDeploy: "2026年9月25日：隠しパズルを拡張し、サイトを v2.9.6 に更新しました。",
     },
@@ -69,7 +75,9 @@
       localtalkH1: "LocalTalk 작동 방식.", rooms: "방", signedChat: "로그인 채팅", filesMessages: "파일과 메시지", moderation: "관리", language: "언어",
       mailboxH1: "메일함 버전 기록.", creationRules: "생성 규칙", olderPaths: "삭제된 이전 경로",
       gamesH1: "게임.", currentSet: "현재 목록", designRules: "디자인 규칙", nextIdeas: "다음 아이디어",
-      thinkingH1: "Muye.dev는 v2.9.6입니다.", versionList: "버전 목록", deployNotes: "배포 기록", nowThinkingHead: "지금 생각하는 것",
+      thinkingH1: "Muye.dev는 v2.9.7입니다.", versionList: "버전 목록", deployNotes: "배포 기록", nowThinkingHead: "지금 생각하는 것",
+      lockAnswerUpdate: "잠금 5와 6에 서로 다른 단어 답을 설정하고 인코딩된 단서를 갱신했습니다.",
+      lockAnswerDeploy: "2026년 9월 25일: 고급 잠금 답을 갱신하고 사이트를 v2.9.7로 올렸습니다.",
       secretPuzzleUpdate: "서로 다른 답을 가진 이진수, XOR, 나머지 도전으로 숨겨진 퍼즐 경로를 확장했습니다.",
       secretPuzzleDeploy: "2026년 9월 25일: 숨겨진 퍼즐 경로를 확장하고 사이트를 v2.9.6으로 올렸습니다.",
     },
@@ -84,12 +92,19 @@
       localtalkH1: "Cómo funciona LocalTalk.", rooms: "Salas", signedChat: "Chat con sesión", filesMessages: "Archivos y mensajes", moderation: "Moderación", language: "Idioma",
       mailboxH1: "Historial del correo.", creationRules: "Reglas de creación", olderPaths: "Rutas antiguas eliminadas",
       gamesH1: "Juegos.", currentSet: "Conjunto actual", designRules: "Reglas de diseño", nextIdeas: "Próximas ideas",
-      thinkingH1: "Muye.dev ahora es v2.9.6.", versionList: "Lista de versiones", deployNotes: "Notas de despliegue", nowThinkingHead: "Pensando ahora",
+      thinkingH1: "Muye.dev ahora es v2.9.7.", versionList: "Lista de versiones", deployNotes: "Notas de despliegue", nowThinkingHead: "Pensando ahora",
+      lockAnswerUpdate: "Dimos respuestas de palabras distintas a los bloqueos 5 y 6 y actualizamos sus pistas codificadas.",
+      lockAnswerDeploy: "25 de septiembre de 2026: actualizamos las respuestas avanzadas y el sitio a v2.9.7.",
       secretPuzzleUpdate: "Ampliamos la ruta de acertijos oculta con desafíos distintos de binario, XOR y restos.",
       secretPuzzleDeploy: "25 de septiembre de 2026: ampliamos la ruta de acertijos oculta y actualizamos el sitio a v2.9.6.",
     },
   };
   ["fr", "de", "pt", "ru", "ar"].forEach((code) => { text[code] = { ...text.es, ...(code === "fr" ? { home: "Accueil", notes: "Notes", captchaTitle: "Test CAPTCHA", captchaButton: "Tester CAPTCHA", thinkingH1: "Muye.dev est maintenant en v2.9.6.", secretPuzzleUpdate: "Le parcours secret comprend maintenant des défis binaires, XOR et de restes avec des réponses distinctes.", secretPuzzleDeploy: "25 septembre 2026 : parcours secret enrichi et site mis à jour en v2.9.6." } : {}), ...(code === "de" ? { home: "Start", notes: "Notizen", captchaTitle: "CAPTCHA-Test", captchaButton: "CAPTCHA testen", thinkingH1: "Muye.dev ist jetzt v2.9.6.", secretPuzzleUpdate: "Der versteckte Rätselpfad enthält jetzt unterschiedliche Binär-, XOR- und Restaufgaben.", secretPuzzleDeploy: "25. September 2026: Versteckten Rätselpfad erweitert und die Website auf v2.9.6 aktualisiert." } : {}), ...(code === "pt" ? { home: "Início", notes: "Notas", captchaTitle: "Teste CAPTCHA", captchaButton: "Testar CAPTCHA", thinkingH1: "Muye.dev agora está na v2.9.6.", secretPuzzleUpdate: "O caminho secreto ganhou desafios distintos de binário, XOR e restos.", secretPuzzleDeploy: "25 de setembro de 2026: ampliamos o caminho secreto e atualizamos o site para v2.9.6." } : {}), ...(code === "ru" ? { home: "Главная", notes: "Заметки", captchaTitle: "Проверка CAPTCHA", captchaButton: "Проверить CAPTCHA", thinkingH1: "Muye.dev теперь версии v2.9.6.", secretPuzzleUpdate: "Скрытая цепочка дополнена разными задачами на двоичный код, XOR и остатки.", secretPuzzleDeploy: "25 сентября 2026 г.: расширена скрытая цепочка задач, сайт обновлён до v2.9.6." } : {}), ...(code === "ar" ? { home: "الرئيسية", notes: "ملاحظات", captchaTitle: "اختبار CAPTCHA", captchaButton: "اختبار CAPTCHA", thinkingH1: "أصبح Muye.dev الآن بالإصدار v2.9.6.", secretPuzzleUpdate: "تم توسيع مسار الألغاز المخفي بتحديات مختلفة للثنائي وXOR والبواقي.", secretPuzzleDeploy: "25 سبتمبر 2026: تم توسيع مسار الألغاز المخفي وتحديث الموقع إلى v2.9.6." } : {}) }; });
+  Object.assign(text.fr, { thinkingH1: "Muye.dev est maintenant en v2.9.7.", lockAnswerUpdate: "Les verrous 5 et 6 ont maintenant des réponses distinctes et des indices codés mis à jour.", lockAnswerDeploy: "25 septembre 2026 : réponses des verrous avancés mises à jour et site passé en v2.9.7." });
+  Object.assign(text.de, { thinkingH1: "Muye.dev ist jetzt v2.9.7.", lockAnswerUpdate: "Sperre 5 und 6 haben jetzt unterschiedliche Wortantworten und aktualisierte codierte Hinweise.", lockAnswerDeploy: "25. September 2026: Antworten der erweiterten Sperren aktualisiert und Website auf v2.9.7 angehoben." });
+  Object.assign(text.pt, { thinkingH1: "Muye.dev agora está na v2.9.7.", lockAnswerUpdate: "Os bloqueios 5 e 6 agora têm respostas diferentes e pistas codificadas atualizadas.", lockAnswerDeploy: "25 de setembro de 2026: atualizamos as respostas avançadas e o site para v2.9.7." });
+  Object.assign(text.ru, { thinkingH1: "Muye.dev теперь версии v2.9.7.", lockAnswerUpdate: "Блокировки 5 и 6 получили разные словесные ответы и обновлённые кодированные подсказки.", lockAnswerDeploy: "25 сентября 2026 г.: обновлены ответы сложных блокировок, сайт обновлён до v2.9.7." });
+  Object.assign(text.ar, { thinkingH1: "أصبح Muye.dev الآن بالإصدار v2.9.7.", lockAnswerUpdate: "أصبح للقفلين 5 و6 إجابتان مختلفتان مع تحديث التلميحات المشفرة.", lockAnswerDeploy: "25 سبتمبر 2026: تم تحديث إجابات الأقفال المتقدمة وترقية الموقع إلى v2.9.7." });
 
   function lang() {
     const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";

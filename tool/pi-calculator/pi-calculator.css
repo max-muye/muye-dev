@@ -1,0 +1,132 @@
+.pi-page {
+  min-height: 100svh;
+  color: #f4f2eb;
+  background: #030504;
+}
+
+.pi-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 48px;
+}
+
+.pi-nav,
+.pi-input-row,
+.pi-result-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pi-workspace {
+  padding-top: clamp(36px, 8vw, 92px);
+}
+
+.pi-heading {
+  max-width: 760px;
+}
+
+.pi-heading h1 {
+  margin: 8px 0 18px;
+  font-size: clamp(54px, 10vw, 112px);
+  line-height: 0.9;
+  letter-spacing: 0;
+}
+
+.pi-heading > p:last-child {
+  color: #b7c0bb;
+  font-size: clamp(18px, 2.4vw, 24px);
+}
+
+.pi-controls,
+.pi-result {
+  margin-top: 28px;
+  border: 1px solid #36403b;
+  border-radius: 8px;
+  background: #0c110e;
+}
+
+.pi-controls {
+  padding: clamp(18px, 4vw, 32px);
+}
+
+.pi-controls label {
+  display: block;
+  margin-bottom: 9px;
+  font-weight: 750;
+}
+
+.pi-input-row input {
+  min-width: 0;
+  min-height: 48px;
+  flex: 1;
+  border: 1px solid #4a5650;
+  border-radius: 6px;
+  padding: 0 14px;
+  color: #f4f2eb;
+  background: #050806;
+  font: 700 17px/1 system-ui, sans-serif;
+}
+
+.pi-input-row button,
+.pi-result-head button {
+  min-height: 48px;
+  border: 1px solid #e8b75e;
+  border-radius: 6px;
+  padding: 0 20px;
+  color: #14110a;
+  background: #e8b75e;
+  font: 750 15px/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.pi-hint,
+.pi-status {
+  color: #9ea8a2;
+}
+
+.pi-hint {
+  margin: 10px 0 0;
+  font-size: 14px;
+}
+
+.pi-result {
+  overflow: hidden;
+}
+
+.pi-result-head {
+  justify-content: space-between;
+  border-bottom: 1px solid #36403b;
+  padding: 14px 18px;
+}
+
+.pi-result-head h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.pi-result-head button {
+  min-height: 38px;
+  color: #f4f2eb;
+  background: transparent;
+}
+
+.pi-status {
+  min-height: 24px;
+  margin: 16px 18px 0;
+}
+
+.pi-result output {
+  display: block;
+  max-height: 48svh;
+  overflow: auto;
+  padding: 12px 18px 22px;
+  color: #b6f1d4;
+  font: 17px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .pi-input-row { align-items: stretch; flex-direction: column; }
+  .pi-input-row button { width: 100%; }
+}

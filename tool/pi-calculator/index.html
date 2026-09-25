@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Calculate digits of pi locally in your browser.">
+    <title>π Calculator · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/tool/pi-calculator/pi-calculator.css?v=1">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  </head>
+  <body class="pi-page">
+    <main class="pi-shell">
+      <header class="misc-topbar">
+        <a class="misc-brand" href="/">Muye</a>
+        <div class="pi-nav">
+          <a class="misc-home" href="/tools/" data-i18n="tools">Tools</a>
+          <button class="misc-home" id="language" type="button" data-i18n-label="languageLabel">A中</button>
+        </div>
+      </header>
+
+      <section class="pi-workspace" aria-labelledby="pi-title">
+        <div class="pi-heading">
+          <p class="eyebrow" data-i18n="eyebrow">NUMBER TOOL</p>
+          <h1 id="pi-title" data-i18n="title">π Calculator</h1>
+          <p data-i18n="intro">Calculate decimal places of π locally in your browser.</p>
+        </div>
+
+        <div class="pi-controls">
+          <label for="digits" data-i18n="digits">Decimal places</label>
+          <div class="pi-input-row">
+            <input id="digits" type="number" min="1" step="1" value="100" inputmode="numeric">
+            <button id="calculate" type="button" data-i18n="calculate">Calculate</button>
+          </div>
+          <p class="pi-hint" data-i18n="hint">Enter any positive whole number.</p>
+        </div>
+
+        <section class="pi-result" aria-live="polite">
+          <div class="pi-result-head">
+            <h2 data-i18n="result">Result</h2>
+            <button id="copy" type="button" data-i18n="copy">Copy</button>
+          </div>
+          <p id="status" class="pi-status" data-i18n="ready">Ready.</p>
+          <output id="output" dir="ltr">3.14159265358979323846264338327950288419716939937510</output>
+        </section>
+      </section>
+    </main>
+    <script src="/tool/pi-calculator/pi-calculator.js?v=2"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

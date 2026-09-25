@@ -24,7 +24,9 @@
       localtalkH1: "How LocalTalk works.", rooms: "Rooms", signedChat: "Signed Chat", filesMessages: "Files And Messages", moderation: "Moderation", language: "Language",
       mailboxH1: "Mailbox version history.", creationRules: "Creation Rules", olderPaths: "Older Paths Removed",
       gamesH1: "Games.", currentSet: "Current Set", designRules: "Design Rules", nextIdeas: "Next Ideas",
-      thinkingH1: "Muye.dev is now v2.9.5.", versionList: "Version List", deployNotes: "Deploy Notes", nowThinkingHead: "Now Thinking About",
+      thinkingH1: "Muye.dev is now v2.9.6.", versionList: "Version List", deployNotes: "Deploy Notes", nowThinkingHead: "Now Thinking About",
+      secretPuzzleUpdate: "Expanded the hidden puzzle path with distinct binary, XOR, and remainder challenges.",
+      secretPuzzleDeploy: "September 25, 2026: Expanded the hidden puzzle path and bumped the site to v2.9.6.",
     },
     zh: {
       home: "主页", backHome: "返回主页", backNotes: "返回笔记", built: "为 Cloudflare Pages 构建。", notes: "笔记",
@@ -37,7 +39,9 @@
       localtalkH1: "LocalTalk 如何工作。", rooms: "房间", signedChat: "登录聊天", filesMessages: "文件和消息", moderation: "管理", language: "语言",
       mailboxH1: "邮箱版本记录。", creationRules: "创建规则", olderPaths: "已移除的旧路径",
       gamesH1: "游戏。", currentSet: "当前集合", designRules: "设计规则", nextIdeas: "下一步想法",
-      thinkingH1: "Muye.dev 现在是 v2.9.5。", versionList: "版本列表", deployNotes: "部署记录", nowThinkingHead: "现在在想",
+      thinkingH1: "Muye.dev 现在是 v2.9.6。", versionList: "版本列表", deployNotes: "部署记录", nowThinkingHead: "现在在想",
+      secretPuzzleUpdate: "扩展了隐藏谜题路径，加入答案各不相同的二进制、异或和余数挑战。",
+      secretPuzzleDeploy: "2026 年 9 月 25 日：扩展了隐藏谜题路径，并将网站升级到 v2.9.6。",
     },
     ja: {
       home: "ホーム", backHome: "ホームへ戻る", backNotes: "ノートへ戻る", built: "Cloudflare Pages 用に構築。", notes: "ノート",
@@ -50,7 +54,9 @@
       localtalkH1: "LocalTalkの仕組み。", rooms: "部屋", signedChat: "ログインチャット", filesMessages: "ファイルとメッセージ", moderation: "管理", language: "言語",
       mailboxH1: "メール履歴。", creationRules: "作成ルール", olderPaths: "削除された古い経路",
       gamesH1: "ゲーム。", currentSet: "現在のセット", designRules: "デザインルール", nextIdeas: "次のアイデア",
-      thinkingH1: "Muye.dev は v2.9.5 です。", versionList: "バージョン一覧", deployNotes: "デプロイ記録", nowThinkingHead: "今考えていること",
+      thinkingH1: "Muye.dev は v2.9.6 です。", versionList: "バージョン一覧", deployNotes: "デプロイ記録", nowThinkingHead: "今考えていること",
+      secretPuzzleUpdate: "隠しパズルに、答えが異なるバイナリ、XOR、剰余の課題を追加しました。",
+      secretPuzzleDeploy: "2026年9月25日：隠しパズルを拡張し、サイトを v2.9.6 に更新しました。",
     },
     ko: {
       home: "홈", backHome: "홈으로", backNotes: "노트로 돌아가기", built: "Cloudflare Pages용으로 제작.", notes: "노트",
@@ -63,7 +69,9 @@
       localtalkH1: "LocalTalk 작동 방식.", rooms: "방", signedChat: "로그인 채팅", filesMessages: "파일과 메시지", moderation: "관리", language: "언어",
       mailboxH1: "메일함 버전 기록.", creationRules: "생성 규칙", olderPaths: "삭제된 이전 경로",
       gamesH1: "게임.", currentSet: "현재 목록", designRules: "디자인 규칙", nextIdeas: "다음 아이디어",
-      thinkingH1: "Muye.dev는 v2.9.5입니다.", versionList: "버전 목록", deployNotes: "배포 기록", nowThinkingHead: "지금 생각하는 것",
+      thinkingH1: "Muye.dev는 v2.9.6입니다.", versionList: "버전 목록", deployNotes: "배포 기록", nowThinkingHead: "지금 생각하는 것",
+      secretPuzzleUpdate: "서로 다른 답을 가진 이진수, XOR, 나머지 도전으로 숨겨진 퍼즐 경로를 확장했습니다.",
+      secretPuzzleDeploy: "2026년 9월 25일: 숨겨진 퍼즐 경로를 확장하고 사이트를 v2.9.6으로 올렸습니다.",
     },
     es: {
       home: "Inicio", backHome: "Volver al inicio", backNotes: "Volver a notas", built: "Hecho para Cloudflare Pages.", notes: "Notas",
@@ -76,10 +84,12 @@
       localtalkH1: "Cómo funciona LocalTalk.", rooms: "Salas", signedChat: "Chat con sesión", filesMessages: "Archivos y mensajes", moderation: "Moderación", language: "Idioma",
       mailboxH1: "Historial del correo.", creationRules: "Reglas de creación", olderPaths: "Rutas antiguas eliminadas",
       gamesH1: "Juegos.", currentSet: "Conjunto actual", designRules: "Reglas de diseño", nextIdeas: "Próximas ideas",
-      thinkingH1: "Muye.dev ahora es v2.9.5.", versionList: "Lista de versiones", deployNotes: "Notas de despliegue", nowThinkingHead: "Pensando ahora",
+      thinkingH1: "Muye.dev ahora es v2.9.6.", versionList: "Lista de versiones", deployNotes: "Notas de despliegue", nowThinkingHead: "Pensando ahora",
+      secretPuzzleUpdate: "Ampliamos la ruta de acertijos oculta con desafíos distintos de binario, XOR y restos.",
+      secretPuzzleDeploy: "25 de septiembre de 2026: ampliamos la ruta de acertijos oculta y actualizamos el sitio a v2.9.6.",
     },
   };
-  ["fr", "de", "pt", "ru", "ar"].forEach((code) => { text[code] = { ...text.es, ...(code === "fr" ? { home: "Accueil", notes: "Notes", captchaTitle: "Test CAPTCHA", captchaButton: "Tester CAPTCHA" } : {}), ...(code === "de" ? { home: "Start", notes: "Notizen", captchaTitle: "CAPTCHA-Test", captchaButton: "CAPTCHA testen" } : {}), ...(code === "pt" ? { home: "Início", notes: "Notas", captchaTitle: "Teste CAPTCHA", captchaButton: "Testar CAPTCHA" } : {}), ...(code === "ru" ? { home: "Главная", notes: "Заметки", captchaTitle: "Проверка CAPTCHA", captchaButton: "Проверить CAPTCHA" } : {}), ...(code === "ar" ? { home: "الرئيسية", notes: "ملاحظات", captchaTitle: "اختبار CAPTCHA", captchaButton: "اختبار CAPTCHA" } : {}) }; });
+  ["fr", "de", "pt", "ru", "ar"].forEach((code) => { text[code] = { ...text.es, ...(code === "fr" ? { home: "Accueil", notes: "Notes", captchaTitle: "Test CAPTCHA", captchaButton: "Tester CAPTCHA", thinkingH1: "Muye.dev est maintenant en v2.9.6.", secretPuzzleUpdate: "Le parcours secret comprend maintenant des défis binaires, XOR et de restes avec des réponses distinctes.", secretPuzzleDeploy: "25 septembre 2026 : parcours secret enrichi et site mis à jour en v2.9.6." } : {}), ...(code === "de" ? { home: "Start", notes: "Notizen", captchaTitle: "CAPTCHA-Test", captchaButton: "CAPTCHA testen", thinkingH1: "Muye.dev ist jetzt v2.9.6.", secretPuzzleUpdate: "Der versteckte Rätselpfad enthält jetzt unterschiedliche Binär-, XOR- und Restaufgaben.", secretPuzzleDeploy: "25. September 2026: Versteckten Rätselpfad erweitert und die Website auf v2.9.6 aktualisiert." } : {}), ...(code === "pt" ? { home: "Início", notes: "Notas", captchaTitle: "Teste CAPTCHA", captchaButton: "Testar CAPTCHA", thinkingH1: "Muye.dev agora está na v2.9.6.", secretPuzzleUpdate: "O caminho secreto ganhou desafios distintos de binário, XOR e restos.", secretPuzzleDeploy: "25 de setembro de 2026: ampliamos o caminho secreto e atualizamos o site para v2.9.6." } : {}), ...(code === "ru" ? { home: "Главная", notes: "Заметки", captchaTitle: "Проверка CAPTCHA", captchaButton: "Проверить CAPTCHA", thinkingH1: "Muye.dev теперь версии v2.9.6.", secretPuzzleUpdate: "Скрытая цепочка дополнена разными задачами на двоичный код, XOR и остатки.", secretPuzzleDeploy: "25 сентября 2026 г.: расширена скрытая цепочка задач, сайт обновлён до v2.9.6." } : {}), ...(code === "ar" ? { home: "الرئيسية", notes: "ملاحظات", captchaTitle: "اختبار CAPTCHA", captchaButton: "اختبار CAPTCHA", thinkingH1: "أصبح Muye.dev الآن بالإصدار v2.9.6.", secretPuzzleUpdate: "تم توسيع مسار الألغاز المخفي بتحديات مختلفة للثنائي وXOR والبواقي.", secretPuzzleDeploy: "25 سبتمبر 2026: تم توسيع مسار الألغاز المخفي وتحديث الموقع إلى v2.9.6." } : {}) }; });
 
   function lang() {
     const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";

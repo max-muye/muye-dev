@@ -40,8 +40,8 @@
   const draw = () => { art.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale})`; zoomOutput.textContent = `${Math.round(scale * 100)}%`; };
   const reset = () => { scale = 1; x = 0; y = 0; draw(); };
   const action = (name) => {
-    if (name === "zoom-in") scale = Math.min(20, scale * 1.2);
-    if (name === "zoom-out") scale = Math.max(0.05, scale / 1.2);
+    if (name === "zoom-in") scale *= 1.2;
+    if (name === "zoom-out") scale /= 1.2;
     if (name === "up") y += 36;
     if (name === "down") y -= 36;
     if (name === "left") x += 36;

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Encode and decode Base64 locally in your browser.">
+    <title>Base64 · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/assets/tools.css?v=1">
+    <link rel="stylesheet" href="/tools/base64/base64.css?v=1">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  </head>
+  <body class="misc-page">
+    <main class="misc-shell">
+      <header class="misc-topbar">
+        <a class="misc-brand" href="/">Muye</a>
+        <div class="base64-nav">
+          <a class="misc-home" href="/tools/" data-i18n="tools">Tools</a>
+          <button class="misc-home" id="language" type="button" data-i18n-label="languageLabel">A中</button>
+        </div>
+      </header>
+      <section class="codec-tool" aria-labelledby="base64-title">
+        <div>
+          <p class="eyebrow" data-i18n="eyebrow">TEXT TOOL</p>
+          <h1 id="base64-title">Base64</h1>
+          <p class="base64-intro" data-i18n="intro">Encode text as Base64 or decode Base64 back into text. Everything stays in your browser.</p>
+        </div>
+        <div class="codec-grid">
+          <label>
+            <span class="field-title"><span data-i18n="plainText">Plain text</span><button id="encode" class="copy-button primary-action" type="button" data-i18n="encode">Encode</button></span>
+            <textarea id="plain" rows="12" spellcheck="false" data-i18n-placeholder="plainPlaceholder" placeholder="Type text here"></textarea>
+          </label>
+          <label>
+            <span class="field-title"><span data-i18n="base64Text">Base64</span><button id="decode" class="copy-button primary-action" type="button" data-i18n="decode">Decode</button></span>
+            <textarea id="encoded" rows="12" dir="ltr" spellcheck="false" data-i18n-placeholder="base64Placeholder" placeholder="Base64 appears here"></textarea>
+          </label>
+        </div>
+        <div class="base64-actions">
+          <button id="copy-plain" type="button" data-i18n="copyPlain">Copy text</button>
+          <button id="copy-base64" type="button" data-i18n="copyBase64">Copy Base64</button>
+          <button id="clear" type="button" data-i18n="clear">Clear</button>
+        </div>
+        <p class="codec-status" id="status" aria-live="polite" data-i18n="ready">Ready.</p>
+      </section>
+    </main>
+    <script src="/tools/base64/base64.js?v=1"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

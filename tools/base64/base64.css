@@ -1,0 +1,7 @@
+.base64-nav, .base64-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.base64-intro { max-width: 720px; margin: 14px 0 0; color: var(--muted); font-size: clamp(17px, 2vw, 21px); }
+.primary-action { color: #151008; border-color: var(--accent-strong); background: var(--accent-strong); }
+.base64-actions button { min-height: 42px; border: 1px solid var(--line); border-radius: 7px; padding: 0 16px; color: var(--ink); background: rgba(255, 251, 241, 0.08); font: 750 14px/1 system-ui, sans-serif; cursor: pointer; }
+.base64-actions button:hover, .base64-actions button:focus-visible { border-color: var(--accent-strong); background: rgba(242, 189, 121, 0.16); outline: none; }
+.codec-status.is-error { color: #ff8f87; }
+@media (max-width: 560px) { .field-title { align-items: stretch; flex-direction: column; } .primary-action { width: 100%; min-height: 42px; } .codec-grid textarea { min-height: 220px; } }

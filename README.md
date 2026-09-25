@@ -11,7 +11,7 @@ Live site: https://www.muye.dev
 - Mailbox: open Muye mail at `/mailbox`
 - Games: play small touch-friendly games at `/games`
 - Lambda: use the lambda tool at `/tools/lambda`
-- Browser, coder, captcha, notes, and profile pages live under the main site too.
+- Browser, Base64, captcha, notes, and profile pages live under the main site too.
 
 Some pages are public. Some actions, like signed chat or mailbox admin tools, may ask you to sign in.
 

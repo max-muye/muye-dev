@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Convert text and ASCII values locally in your browser.">
+    <title>ASCII Converter · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/tool/ascii/ascii.css?v=1">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  </head>
+  <body class="ascii-page">
+    <main class="ascii-shell">
+      <header class="misc-topbar">
+        <a class="misc-brand" href="/">Muye</a>
+        <div class="ascii-nav">
+          <a class="misc-home" href="/tools/" data-i18n="tools">Tools</a>
+          <button class="misc-home" id="language" type="button" data-i18n-label="languageLabel">A中</button>
+        </div>
+      </header>
+      <section class="ascii-workspace" aria-labelledby="ascii-title">
+        <div class="ascii-heading">
+          <p class="eyebrow" data-i18n="eyebrow">TEXT TOOL</p>
+          <h1 id="ascii-title">ASCII</h1>
+          <p data-i18n="intro">Convert text to ASCII values or turn ASCII values back into text.</p>
+        </div>
+        <div class="ascii-grid">
+          <section class="ascii-panel">
+            <h2 data-i18n="encodeTitle">Text to ASCII</h2>
+            <label for="plain-text" data-i18n="textLabel">Text</label>
+            <textarea id="plain-text" spellcheck="false" data-i18n-placeholder="textPlaceholder" placeholder="Type text"></textarea>
+            <label for="format" data-i18n="formatLabel">Output format</label>
+            <select id="format">
+              <option value="decimal" data-i18n="decimal">Decimal</option>
+              <option value="binary" data-i18n="binary">Binary</option>
+              <option value="hex" data-i18n="hexadecimal">Hexadecimal</option>
+            </select>
+            <button id="encode" type="button" data-i18n="encode">Convert</button>
+          </section>
+          <section class="ascii-panel">
+            <h2 data-i18n="decodeTitle">ASCII to text</h2>
+            <label for="ascii-values" data-i18n="valuesLabel">ASCII values</label>
+            <textarea id="ascii-values" dir="ltr" spellcheck="false" data-i18n-placeholder="valuesPlaceholder" placeholder="72 101 108 108 111"></textarea>
+            <p class="ascii-hint" data-i18n="decodeHint">Separate values with spaces. Binary and hexadecimal are detected automatically.</p>
+            <button id="decode" type="button" data-i18n="decode">Decode</button>
+          </section>
+        </div>
+        <section class="ascii-result" aria-live="polite">
+          <div class="ascii-result-head">
+            <h2 data-i18n="result">Result</h2>
+            <button id="copy" type="button" data-i18n="copy">Copy</button>
+          </div>
+          <p id="status" class="ascii-status" data-i18n="ready">Ready.</p>
+          <output id="output" dir="ltr"></output>
+        </section>
+      </section>
+    </main>
+    <script src="/tool/ascii/ascii.js?v=2"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

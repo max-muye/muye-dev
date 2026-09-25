@@ -1,0 +1,25 @@
+.ascii-page { min-height: 100svh; color: #f4f2eb; background: #030504; }
+.ascii-shell { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 48px; }
+.ascii-nav, .ascii-result-head { display: flex; align-items: center; gap: 10px; }
+.ascii-workspace { padding-top: clamp(36px, 8vw, 92px); }
+.ascii-heading { max-width: 800px; }
+.ascii-heading h1 { margin: 8px 0 18px; font-size: clamp(58px, 11vw, 116px); line-height: .9; letter-spacing: 0; }
+.ascii-heading > p:last-child { color: #b7c0bb; font-size: clamp(18px, 2.4vw, 24px); }
+.ascii-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 30px; }
+.ascii-panel, .ascii-result { border: 1px solid #36403b; border-radius: 8px; background: #0c110e; }
+.ascii-panel { display: flex; flex-direction: column; gap: 10px; padding: clamp(18px, 4vw, 30px); }
+.ascii-panel h2 { margin: 0 0 8px; font-size: 25px; letter-spacing: 0; }
+.ascii-panel label { font-weight: 750; }
+.ascii-panel textarea, .ascii-panel select { border: 1px solid #4a5650; border-radius: 6px; padding: 13px; color: #f4f2eb; background: #050806; font: 16px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.ascii-panel textarea { min-height: 150px; resize: vertical; }
+.ascii-panel select { min-height: 48px; }
+.ascii-panel button, .ascii-result-head button { min-height: 46px; border: 1px solid #e8b75e; border-radius: 6px; padding: 0 20px; color: #14110a; background: #e8b75e; font: 750 15px/1 system-ui, sans-serif; cursor: pointer; }
+.ascii-hint, .ascii-status { color: #9ea8a2; }
+.ascii-hint { min-height: 42px; margin: 0; font-size: 14px; }
+.ascii-result { margin-top: 18px; overflow: hidden; }
+.ascii-result-head { justify-content: space-between; border-bottom: 1px solid #36403b; padding: 14px 18px; }
+.ascii-result-head h2 { margin: 0; font-size: 22px; }
+.ascii-result-head button { min-height: 38px; color: #f4f2eb; background: transparent; }
+.ascii-status { min-height: 24px; margin: 16px 18px 0; }
+.ascii-result output { display: block; min-height: 72px; padding: 8px 18px 22px; color: #b6f1d4; font: 17px/1.65 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; white-space: pre-wrap; }
+@media (max-width: 720px) { .ascii-grid { grid-template-columns: 1fr; } }

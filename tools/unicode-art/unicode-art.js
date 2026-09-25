@@ -1,18 +1,18 @@
 (() => {
   const languages = ["en", "zh", "ja", "ko", "es", "fr", "de", "pt", "ru", "ar"];
   const copy = {
-    en: ["Tools", "Change language", "IMAGE TOOL", "Unicode Art", "Upload an image and turn it into a custom-sized grid of Unicode characters. Your image stays in your browser.", "Image", "Width (a)", "Height (b)", "Convert", "Image preview", "Unicode art", "Copy", "Download", "Choose an image to begin.", "Unicode art created.", "Unicode art copied.", "Unicode art downloaded.", "Please choose a valid image.", "Width and height must be positive whole numbers."],
-    zh: ["工具", "切换语言", "图像工具", "Unicode 字符画", "上传图片并将它转换为自定义大小的 Unicode 字符网格。图片只会保留在浏览器中。", "图片", "宽度 (a)", "高度 (b)", "转换", "图片预览", "Unicode 字符画", "复制", "下载", "请选择一张图片开始。", "Unicode 字符画已生成。", "Unicode 字符画已复制。", "Unicode 字符画已下载。", "请选择有效的图片。", "宽度和高度必须是正整数。"],
-    ja: ["ツール", "言語を変更", "画像ツール", "Unicodeアート", "画像をアップロードし、指定した大きさのUnicode文字グリッドに変換します。画像はブラウザ内だけで処理されます。", "画像", "幅 (a)", "高さ (b)", "変換", "画像プレビュー", "Unicodeアート", "コピー", "ダウンロード", "画像を選択してください。", "Unicodeアートを作成しました。", "Unicodeアートをコピーしました。", "Unicodeアートをダウンロードしました。", "有効な画像を選択してください。", "幅と高さは正の整数にしてください。"],
-    ko: ["도구", "언어 변경", "이미지 도구", "유니코드 아트", "이미지를 업로드해 원하는 크기의 유니코드 문자 격자로 바꿉니다. 이미지는 브라우저 안에만 남습니다.", "이미지", "너비 (a)", "높이 (b)", "변환", "이미지 미리보기", "유니코드 아트", "복사", "다운로드", "시작할 이미지를 선택하세요.", "유니코드 아트를 만들었습니다.", "유니코드 아트를 복사했습니다.", "유니코드 아트를 다운로드했습니다.", "올바른 이미지를 선택하세요.", "너비와 높이는 양의 정수여야 합니다."],
-    es: ["Herramientas", "Cambiar idioma", "HERRAMIENTA DE IMAGEN", "Arte Unicode", "Sube una imagen y conviértela en una cuadrícula de caracteres Unicode del tamaño que elijas. La imagen permanece en tu navegador.", "Imagen", "Ancho (a)", "Alto (b)", "Convertir", "Vista previa", "Arte Unicode", "Copiar", "Descargar", "Elige una imagen para comenzar.", "Arte Unicode creado.", "Arte Unicode copiado.", "Arte Unicode descargado.", "Elige una imagen válida.", "El ancho y el alto deben ser números enteros positivos."],
-    fr: ["Outils", "Changer de langue", "OUTIL IMAGE", "Art Unicode", "Importez une image et transformez-la en grille de caractères Unicode aux dimensions choisies. L’image reste dans votre navigateur.", "Image", "Largeur (a)", "Hauteur (b)", "Convertir", "Aperçu de l’image", "Art Unicode", "Copier", "Télécharger", "Choisissez une image pour commencer.", "Art Unicode créé.", "Art Unicode copié.", "Art Unicode téléchargé.", "Choisissez une image valide.", "La largeur et la hauteur doivent être des entiers positifs."],
-    de: ["Werkzeuge", "Sprache ändern", "BILDWERKZEUG", "Unicode-Kunst", "Lade ein Bild hoch und verwandle es in ein Unicode-Zeichenraster deiner gewünschten Größe. Das Bild bleibt im Browser.", "Bild", "Breite (a)", "Höhe (b)", "Umwandeln", "Bildvorschau", "Unicode-Kunst", "Kopieren", "Herunterladen", "Wähle zuerst ein Bild aus.", "Unicode-Kunst erstellt.", "Unicode-Kunst kopiert.", "Unicode-Kunst heruntergeladen.", "Bitte wähle ein gültiges Bild.", "Breite und Höhe müssen positive ganze Zahlen sein."],
-    pt: ["Ferramentas", "Alterar idioma", "FERRAMENTA DE IMAGEM", "Arte Unicode", "Envie uma imagem e transforme-a em uma grade de caracteres Unicode com o tamanho escolhido. A imagem permanece no navegador.", "Imagem", "Largura (a)", "Altura (b)", "Converter", "Prévia da imagem", "Arte Unicode", "Copiar", "Baixar", "Escolha uma imagem para começar.", "Arte Unicode criada.", "Arte Unicode copiada.", "Arte Unicode baixada.", "Escolha uma imagem válida.", "A largura e a altura devem ser números inteiros positivos."],
-    ru: ["Инструменты", "Сменить язык", "ИНСТРУМЕНТ ДЛЯ ИЗОБРАЖЕНИЙ", "Unicode-арт", "Загрузите изображение и превратите его в сетку символов Unicode выбранного размера. Изображение остаётся в браузере.", "Изображение", "Ширина (a)", "Высота (b)", "Преобразовать", "Предпросмотр", "Unicode-арт", "Копировать", "Скачать", "Выберите изображение, чтобы начать.", "Unicode-арт создан.", "Unicode-арт скопирован.", "Unicode-арт скачан.", "Выберите допустимое изображение.", "Ширина и высота должны быть положительными целыми числами."],
-    ar: ["الأدوات", "تغيير اللغة", "أداة صور", "فن Unicode", "ارفع صورة وحوّلها إلى شبكة أحرف Unicode بالحجم الذي تختاره. تبقى الصورة داخل متصفحك.", "الصورة", "العرض (a)", "الارتفاع (b)", "تحويل", "معاينة الصورة", "فن Unicode", "نسخ", "تنزيل", "اختر صورة للبدء.", "تم إنشاء فن Unicode.", "تم نسخ فن Unicode.", "تم تنزيل فن Unicode.", "يرجى اختيار صورة صالحة.", "يجب أن يكون العرض والارتفاع عددين صحيحين موجبين."]
+    en: ["Tools", "Change language", "IMAGE TOOL", "Unicode Art", "Upload an image and turn it into a custom-sized grid of Unicode characters. Your image stays in your browser.", "Image", "Width (a)", "Height (b)", "Convert", "Image preview", "Unicode art", "Copy", "Download", "Choose an image to begin.", "Unicode art created.", "Unicode art copied.", "Unicode art downloaded.", "Please choose a valid image.", "Width and height must be positive whole numbers.", "Mode", "Monochrome", "Color"],
+    zh: ["工具", "切换语言", "图像工具", "Unicode 字符画", "上传图片并将它转换为自定义大小的 Unicode 字符网格。图片只会保留在浏览器中。", "图片", "宽度 (a)", "高度 (b)", "转换", "图片预览", "Unicode 字符画", "复制", "下载", "请选择一张图片开始。", "Unicode 字符画已生成。", "Unicode 字符画已复制。", "Unicode 字符画已下载。", "请选择有效的图片。", "宽度和高度必须是正整数。", "模式", "黑白", "彩色"],
+    ja: ["ツール", "言語を変更", "画像ツール", "Unicodeアート", "画像をアップロードし、指定した大きさのUnicode文字グリッドに変換します。画像はブラウザ内だけで処理されます。", "画像", "幅 (a)", "高さ (b)", "変換", "画像プレビュー", "Unicodeアート", "コピー", "ダウンロード", "画像を選択してください。", "Unicodeアートを作成しました。", "Unicodeアートをコピーしました。", "Unicodeアートをダウンロードしました。", "有効な画像を選択してください。", "幅と高さは正の整数にしてください。", "モード", "モノクロ", "カラー"],
+    ko: ["도구", "언어 변경", "이미지 도구", "유니코드 아트", "이미지를 업로드해 원하는 크기의 유니코드 문자 격자로 바꿉니다. 이미지는 브라우저 안에만 남습니다.", "이미지", "너비 (a)", "높이 (b)", "변환", "이미지 미리보기", "유니코드 아트", "복사", "다운로드", "시작할 이미지를 선택하세요.", "유니코드 아트를 만들었습니다.", "유니코드 아트를 복사했습니다.", "유니코드 아트를 다운로드했습니다.", "올바른 이미지를 선택하세요.", "너비와 높이는 양의 정수여야 합니다.", "모드", "흑백", "컬러"],
+    es: ["Herramientas", "Cambiar idioma", "HERRAMIENTA DE IMAGEN", "Arte Unicode", "Sube una imagen y conviértela en una cuadrícula de caracteres Unicode del tamaño que elijas. La imagen permanece en tu navegador.", "Imagen", "Ancho (a)", "Alto (b)", "Convertir", "Vista previa", "Arte Unicode", "Copiar", "Descargar", "Elige una imagen para comenzar.", "Arte Unicode creado.", "Arte Unicode copiado.", "Arte Unicode descargado.", "Elige una imagen válida.", "El ancho y el alto deben ser números enteros positivos.", "Modo", "Monocromo", "Color"],
+    fr: ["Outils", "Changer de langue", "OUTIL IMAGE", "Art Unicode", "Importez une image et transformez-la en grille de caractères Unicode aux dimensions choisies. L’image reste dans votre navigateur.", "Image", "Largeur (a)", "Hauteur (b)", "Convertir", "Aperçu de l’image", "Art Unicode", "Copier", "Télécharger", "Choisissez une image pour commencer.", "Art Unicode créé.", "Art Unicode copié.", "Art Unicode téléchargé.", "Choisissez une image valide.", "La largeur et la hauteur doivent être des entiers positifs.", "Mode", "Monochrome", "Couleur"],
+    de: ["Werkzeuge", "Sprache ändern", "BILDWERKZEUG", "Unicode-Kunst", "Lade ein Bild hoch und verwandle es in ein Unicode-Zeichenraster deiner gewünschten Größe. Das Bild bleibt im Browser.", "Bild", "Breite (a)", "Höhe (b)", "Umwandeln", "Bildvorschau", "Unicode-Kunst", "Kopieren", "Herunterladen", "Wähle zuerst ein Bild aus.", "Unicode-Kunst erstellt.", "Unicode-Kunst kopiert.", "Unicode-Kunst heruntergeladen.", "Bitte wähle ein gültiges Bild.", "Breite und Höhe müssen positive ganze Zahlen sein.", "Modus", "Monochrom", "Farbe"],
+    pt: ["Ferramentas", "Alterar idioma", "FERRAMENTA DE IMAGEM", "Arte Unicode", "Envie uma imagem e transforme-a em uma grade de caracteres Unicode com o tamanho escolhido. A imagem permanece no navegador.", "Imagem", "Largura (a)", "Altura (b)", "Converter", "Prévia da imagem", "Arte Unicode", "Copiar", "Baixar", "Escolha uma imagem para começar.", "Arte Unicode criada.", "Arte Unicode copiada.", "Arte Unicode baixada.", "Escolha uma imagem válida.", "A largura e a altura devem ser números inteiros positivos.", "Modo", "Monocromático", "Cor"],
+    ru: ["Инструменты", "Сменить язык", "ИНСТРУМЕНТ ДЛЯ ИЗОБРАЖЕНИЙ", "Unicode-арт", "Загрузите изображение и превратите его в сетку символов Unicode выбранного размера. Изображение остаётся в браузере.", "Изображение", "Ширина (a)", "Высота (b)", "Преобразовать", "Предпросмотр", "Unicode-арт", "Копировать", "Скачать", "Выберите изображение, чтобы начать.", "Unicode-арт создан.", "Unicode-арт скопирован.", "Unicode-арт скачан.", "Выберите допустимое изображение.", "Ширина и высота должны быть положительными целыми числами.", "Режим", "Монохром", "Цвет"],
+    ar: ["الأدوات", "تغيير اللغة", "أداة صور", "فن Unicode", "ارفع صورة وحوّلها إلى شبكة أحرف Unicode بالحجم الذي تختاره. تبقى الصورة داخل متصفحك.", "الصورة", "العرض (a)", "الارتفاع (b)", "تحويل", "معاينة الصورة", "فن Unicode", "نسخ", "تنزيل", "اختر صورة للبدء.", "تم إنشاء فن Unicode.", "تم نسخ فن Unicode.", "تم تنزيل فن Unicode.", "يرجى اختيار صورة صالحة.", "يجب أن يكون العرض والارتفاع عددين صحيحين موجبين.", "الوضع", "أحادي اللون", "ملون"]
   };
-  const keys = ["tools", "languageLabel", "eyebrow", "title", "intro", "image", "width", "height", "convert", "preview", "result", "copy", "download", "choose", "ready", "copied", "downloaded", "invalidImage", "invalidSize"];
+  const keys = ["tools", "languageLabel", "eyebrow", "title", "intro", "image", "width", "height", "convert", "preview", "result", "copy", "download", "choose", "ready", "copied", "downloaded", "invalidImage", "invalidSize", "mode", "monochrome", "color"];
   Object.keys(copy).forEach((language) => { copy[language] = Object.fromEntries(keys.map((key, index) => [key, copy[language][index]])); });
 
   const input = document.querySelector("#image");
@@ -24,9 +24,14 @@
   const status = document.querySelector("#status");
   const languageButton = document.querySelector("#language");
   const ramp = Array.from("█▓▒░ ");
+  const colors = [
+    ["⬛", 24, 24, 27], ["⬜", 235, 235, 235], ["🟥", 210, 48, 48], ["🟧", 230, 125, 35],
+    ["🟨", 232, 202, 55], ["🟩", 58, 165, 85], ["🟦", 55, 115, 205], ["🟪", 145, 70, 185], ["🟫", 125, 82, 55]
+  ];
   let image = null;
   let imageUrl = "";
   let statusKey = "choose";
+  let mode = "mono";
 
   const currentLanguage = () => languages.includes(localStorage.getItem("muye-lang")) ? localStorage.getItem("muye-lang") : "en";
   const renderLanguage = () => {
@@ -62,8 +67,18 @@
       for (let x = 0; x < size.width; x += 1) {
         const offset = (y * size.width + x) * 4;
         const alpha = pixels[offset + 3] / 255;
-        const light = (0.2126 * pixels[offset] + 0.7152 * pixels[offset + 1] + 0.0722 * pixels[offset + 2]) * alpha + 255 * (1 - alpha);
-        line += ramp[Math.min(ramp.length - 1, Math.floor(light / 256 * ramp.length))];
+        const red = pixels[offset] * alpha + 255 * (1 - alpha);
+        const green = pixels[offset + 1] * alpha + 255 * (1 - alpha);
+        const blue = pixels[offset + 2] * alpha + 255 * (1 - alpha);
+        if (mode === "color") {
+          line += colors.reduce((best, color) => {
+            const distance = (red - color[1]) ** 2 + (green - color[2]) ** 2 + (blue - color[3]) ** 2;
+            return distance < best.distance ? { symbol: color[0], distance } : best;
+          }, { symbol: "⬜", distance: Infinity }).symbol;
+        } else {
+          const light = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+          line += ramp[Math.min(ramp.length - 1, Math.floor(light / 256 * ramp.length))];
+        }
       }
       lines.push(line.replace(/\s+$/, ""));
     }
@@ -83,6 +98,11 @@
     nextImage.src = imageUrl;
   });
   document.querySelector("#convert").addEventListener("click", convert);
+  document.querySelectorAll("[data-mode]").forEach((button) => button.addEventListener("click", () => {
+    mode = button.dataset.mode;
+    document.querySelectorAll("[data-mode]").forEach((option) => option.setAttribute("aria-pressed", String(option === button)));
+    if (image) convert();
+  }));
   document.querySelector("#copy").addEventListener("click", async () => { if (!art.textContent) return setStatus("invalidImage"); await navigator.clipboard.writeText(art.textContent); setStatus("copied"); });
   document.querySelector("#download").addEventListener("click", () => {
     if (!art.textContent) return setStatus("invalidImage");

@@ -31,6 +31,13 @@
           <label><span data-i18n="width">Width (a)</span><input id="art-width" type="number" min="1" value="48" inputmode="numeric"></label>
           <span class="dimension-mark" aria-hidden="true">×</span>
           <label><span data-i18n="height">Height (b)</span><input id="art-height" type="number" min="1" value="32" inputmode="numeric"></label>
+          <fieldset class="mode-control">
+            <legend data-i18n="mode">Mode</legend>
+            <div class="mode-options">
+              <button type="button" data-mode="mono" aria-pressed="true" data-i18n="monochrome">Monochrome</button>
+              <button type="button" data-mode="color" aria-pressed="false" data-i18n="color">Color</button>
+            </div>
+          </fieldset>
           <button id="convert" class="primary-action" type="button" data-i18n="convert">Convert</button>
         </div>
         <div class="unicode-workspace">
@@ -50,7 +57,7 @@
       </section>
     </main>
     <canvas id="sampler" hidden></canvas>
-    <script src="/tools/unicode-art/unicode-art.js?v=1"></script>
+    <script src="/tools/unicode-art/unicode-art.js?v=2"></script>
     <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

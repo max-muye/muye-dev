@@ -3,11 +3,16 @@
 .unicode-tool { display: grid; gap: 22px; margin: 7vh auto 0; }
 .unicode-tool h1 { margin-bottom: 0; font-size: clamp(44px, 8vw, 92px); }
 .unicode-intro { max-width: 720px; color: var(--muted); }
-.unicode-controls { display: grid; grid-template-columns: minmax(220px, 1fr) 130px auto 130px auto; align-items: end; gap: 12px; }
+.unicode-controls { display: grid; grid-template-columns: minmax(190px, 1fr) 112px auto 112px minmax(190px, auto) auto; align-items: end; gap: 12px; }
 .unicode-controls label { display: grid; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 760; }
 .unicode-controls input { min-width: 0; min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; color: var(--ink); background: rgba(16, 21, 20, 0.86); font: inherit; }
 .unicode-controls input:focus { border-color: var(--accent-strong); box-shadow: 0 0 0 3px rgba(242, 189, 121, 0.18); outline: none; }
 .dimension-mark { padding-bottom: 13px; color: var(--muted); font-weight: 800; }
+.mode-control { min-width: 0; margin: 0; border: 0; padding: 0; }
+.mode-control legend { margin-bottom: 8px; color: var(--muted); font-size: 13px; font-weight: 760; }
+.mode-options { display: grid; grid-template-columns: 1fr 1fr; min-height: 48px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.mode-options button { border: 0; padding: 9px 11px; color: var(--muted); background: rgba(16, 21, 20, 0.86); font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
+.mode-options button[aria-pressed="true"] { color: #15120c; background: var(--accent-strong); }
 .primary-action, .art-actions button { min-height: 44px; border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; color: #15120c; background: var(--accent-strong); font: inherit; font-weight: 820; cursor: pointer; }
 .art-actions button { min-height: 38px; color: var(--ink); background: rgba(255, 251, 241, 0.08); }
 .primary-action:hover, .primary-action:focus-visible, .art-actions button:hover, .art-actions button:focus-visible { filter: brightness(1.08); outline: none; }
@@ -20,5 +25,5 @@
 .art-heading { justify-content: space-between; margin-bottom: 12px; }
 .art-heading h2 { margin: 0; font-size: 22px; }
 #art { min-height: 320px; margin: 0; overflow: auto; padding: 14px; color: var(--ink); background: #050706; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 8px; line-height: 1; letter-spacing: 0; white-space: pre; }
-@media (max-width: 820px) { .unicode-controls { grid-template-columns: 1fr 1fr; } .upload-field, .unicode-controls .primary-action { grid-column: 1 / -1; } .dimension-mark { display: none; } .unicode-workspace { grid-template-columns: 1fr; } .preview-frame { min-height: 220px; } }
+@media (max-width: 820px) { .unicode-controls { grid-template-columns: 1fr 1fr; } .upload-field, .mode-control, .unicode-controls .primary-action { grid-column: 1 / -1; } .dimension-mark { display: none; } .unicode-workspace { grid-template-columns: 1fr; } .preview-frame { min-height: 220px; } }
 @media (max-width: 480px) { .art-heading { align-items: flex-start; flex-direction: column; } .art-actions { width: 100%; } .art-actions button { flex: 1; } }

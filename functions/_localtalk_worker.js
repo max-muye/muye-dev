@@ -369,7 +369,7 @@ function signedHtml(publishableKey) {
     async function forbiddenText(r){const data=await r.clone().json().catch(()=>({}));return data.error==="not_allowed"?t("notAllowed"):t("banned")}
     async function loadHistory(){const sessionToken=await token();const r=await fetch(api("/history"),{headers:{Authorization:"Bearer "+sessionToken},cache:"no-store"});if(r.status===403){status.textContent=t("banned");form.style.display="none";privateForm.style.display="none";return}if(!r.ok){const data=await r.clone().json().catch(()=>({}));status.textContent=window.Clerk&&Clerk.isSignedIn?("auth "+r.status+" "+(data.reason||data.error||"failed")):t("loginNeeded");return}form.style.display="grid";privateForm.style.display="grid";apply(await r.json());const userStatus=await loadPrivateUsers();await loadPrivate();status.textContent=userStatus||t("online")}
     function loadScript(src,attrs={}){return new Promise((resolve,reject)=>{const s=document.createElement("script");s.src=src;s.defer=true;s.crossOrigin="anonymous";for(const [key,value] of Object.entries(attrs))s.setAttribute(key,value);s.onload=resolve;s.onerror=()=>reject(new Error("script: "+src));document.head.appendChild(s)})}
-    async function boot(){syncSignedText();if(!publishableKey){auth.innerHTML='<div class="setup"><strong>'+t("setupTitle")+'</strong><br>'+t("setupBody")+'</div>';status.textContent=t("setupNeeded");return}const domain=clerkDomain();await loadScript("https://"+domain+"/npm/@clerk/ui@1/dist/ui.browser.js");await loadScript("https://"+domain+"/npm/@clerk/clerk-js@6/dist/clerk.browser.js",{"data-clerk-publishable-key":publishableKey});await Clerk.load({ui:{ClerkUI:window.__internal_ClerkUICtor}});if(!Clerk.isSignedIn){room.style.display="none";auth.style.display="grid";auth.innerHTML='<div id="sign-in"></div>';Clerk.mountSignIn(document.querySelector("#sign-in"),{forceRedirectUrl:"/talk/signed",signUpForceRedirectUrl:"/talk/signed"});status.textContent=t("signedOut");return}auth.style.display="none";room.style.display="grid";status.textContent=t("online");Clerk.mountUserButton(user);await loadProfile().catch(()=>{});if(!profileName.value.trim())profileName.value=authName();await loadHistory().catch(()=>{status.textContent=t("online")})}
+    async function boot(){syncSignedText();if(!publishableKey){auth.innerHTML='<div class="setup"><strong>'+t("setupTitle")+'</strong><br>'+t("setupBody")+'</div>';status.textContent=t("setupNeeded");return}const domain=clerkDomain();await loadScript("https://"+domain+"/npm/@clerk/ui@1/dist/ui.browser.js");await loadScript("https://"+domain+"/npm/@clerk/clerk-js@6/dist/clerk.browser.js",{"data-clerk-publishable-key":publishableKey});await Clerk.load({ui:{ClerkUI:window.__internal_ClerkUICtor}});const returnUrl=location.pathname;if(!Clerk.isSignedIn){room.style.display="none";auth.style.display="grid";auth.innerHTML='<div id="sign-in"></div>';Clerk.mountSignIn(document.querySelector("#sign-in"),{forceRedirectUrl:returnUrl,signUpForceRedirectUrl:returnUrl});status.textContent=t("signedOut");return}if(returnUrl==="/talk/signed/secret"||returnUrl==="/talk/signed/secret/"){const access=await fetch("/api/secret?status=1",{headers:{Authorization:"Bearer "+await token()},cache:"no-store"});const result=await access.json().catch(()=>({}));if(!access.ok||!result.solved){location.replace("/secret/");return}}auth.style.display="none";room.style.display="grid";status.textContent=t("online");Clerk.mountUserButton(user);await loadProfile().catch(()=>{});if(!profileName.value.trim())profileName.value=authName();await loadHistory().catch(()=>{status.textContent=t("online")})}
     quoteClear.addEventListener("click",clearQuote);
     notify.addEventListener("click",enableNotifications);
     window.addEventListener("pointerdown",askNotificationsOnce,{once:true});
@@ -966,6 +966,19 @@ async function verifyClerkToken(request, env) {
   return result.user;
 }
 
+async function isSecretSolver(env, userId) {
+  if (!env.muye_mailboxes || !userId) return false;
+  try {
+    const row = await env.muye_mailboxes
+      .prepare("SELECT user_id FROM secret_solvers WHERE user_id = ? LIMIT 1")
+      .bind(userId)
+      .first();
+    return Boolean(row);
+  } catch {
+    return false;
+  }
+}
+
 async function verifyClerkTokenDebug(request, env) {
   const token = (request.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
   if (!token) return { user: null, reason: "no token" };
@@ -1527,6 +1540,11 @@ export default {
       await ensureSetup(sql);
       const roomRoute = publicRoomPath(url.pathname);
       const signedRoute = signedRoomPath(url.pathname);
+      if (signedRoute?.room === "secret" && signedRoute.action !== "/") {
+        const user = await verifyClerkToken(request, env);
+        if (!user) return new Response("Unauthorized", { status: 401 });
+        if (!(await isSecretSolver(env, user.sub))) return new Response("Solve required", { status: 403 });
+      }
       if (request.method === "GET" && url.pathname === "/") return new Response(appHtml, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
   if (request.method === "GET" && url.pathname === "/download") return Response.redirect(new URL("/download/#localtalk", request.url), 302);
       if (request.method === "GET" && roomRoute?.action === "/") {

@@ -39,8 +39,12 @@
   });
   document.querySelector("#decode").addEventListener("click", () => {
     const tokens = values.value.trim().split(/[\s,]+/).filter(Boolean);
+    const radix = tokens.some((token) => /^0x/i.test(token) || /[a-f]/i.test(token))
+      ? 16
+      : tokens.length && tokens.every((token) => /^(?:0b)?[01]{8}$/i.test(token))
+        ? 2
+        : 10;
     const bytes = tokens.map((token) => {
-      const radix = /^0b/i.test(token) || /^[01]{8}$/.test(token) ? 2 : /^0x/i.test(token) || /[a-f]/i.test(token) ? 16 : 10;
       return Number.parseInt(token.replace(/^0[bx]/i, ""), radix);
     });
     if (!tokens.length || bytes.some((byte) => !Number.isInteger(byte) || byte < 0 || byte > 127)) { setResult("", "invalid"); return; }

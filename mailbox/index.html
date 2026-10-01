@@ -13,7 +13,7 @@
     <link rel="manifest" href="/mailbox/manifest.webmanifest">
     <link rel="apple-touch-icon" href="/assets/icon-mailbox.svg">
     <link rel="stylesheet" href="/styles.css?v=10">
-    <link rel="stylesheet" href="/mailbox/mailbox.css?v=12">
+    <link rel="stylesheet" href="/mailbox/mailbox.css?v=13">
     <link rel="stylesheet" href="/assets/site-footer.css?v=1">
   </head>
   <body class="mailbox-page">
@@ -93,6 +93,23 @@
           <button class="mailbox-view-tab" id="outbox-view-button" type="button" role="tab" aria-selected="false" data-view="outbox">Outbox</button>
           <button class="mailbox-view-tab" id="trash-view-button" type="button" role="tab" aria-selected="false" data-view="trash">Trash</button>
         </div>
+        <div class="known-toolbar" id="known-toolbar">
+          <div class="mailbox-view-tabs inbox-filter-tabs" role="tablist" aria-label="Inbox senders">
+            <button class="mailbox-view-tab active" type="button" role="tab" aria-selected="true" data-inbox-filter="all">All</button>
+            <button class="mailbox-view-tab" type="button" role="tab" aria-selected="false" data-inbox-filter="known">Known</button>
+            <button class="mailbox-view-tab" type="button" role="tab" aria-selected="false" data-inbox-filter="unknown">Unknown</button>
+          </div>
+          <button class="mailbox-button quiet" id="known-list-toggle" type="button" aria-expanded="false">Known list</button>
+        </div>
+        <section class="known-list-panel" id="known-list-panel" hidden aria-labelledby="known-list-title">
+          <div class="panel-heading"><h2 id="known-list-title">Known senders</h2><button class="mailbox-button quiet" id="known-list-close" type="button">Close</button></div>
+          <form class="known-list-form" id="known-list-form">
+            <label for="known-email">Email</label>
+            <div><input id="known-email" name="sender" type="email" placeholder="someone@example.com" required><button class="mailbox-button primary" type="submit">Add</button></div>
+          </form>
+          <div class="known-list" id="known-list"></div>
+          <p class="mailbox-message" id="known-list-message" role="status" aria-live="polite"></p>
+        </section>
 
         <div class="mailbox-grid">
           <section class="message-list-panel" aria-labelledby="messages-title">
@@ -155,7 +172,7 @@
       </section>
     </main>
     <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
-    <script src="/mailbox/mailbox.js?v=33"></script>
+    <script src="/mailbox/mailbox.js?v=34"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});</script>
     <script src="/assets/site-footer.js?v=1"></script>

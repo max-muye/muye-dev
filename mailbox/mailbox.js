@@ -20,6 +20,12 @@ const composeAttachments = document.querySelector("#compose-attachments");
 const inboxMessage = document.querySelector("#inbox-message");
 const messageList = document.querySelector("#message-list");
 const messageDetail = document.querySelector("#message-detail");
+const knownToolbar = document.querySelector("#known-toolbar");
+const knownListPanel = document.querySelector("#known-list-panel");
+const knownListForm = document.querySelector("#known-list-form");
+const knownList = document.querySelector("#known-list");
+const knownListMessage = document.querySelector("#known-list-message");
+const inboxFilterButtons = document.querySelectorAll("[data-inbox-filter]");
 const address = document.querySelector("#mailbox-address");
 const mailboxTitle = document.querySelector("#mailbox-title");
 const viewButtons = document.querySelectorAll("[data-view]");
@@ -41,6 +47,9 @@ let notificationTimer = null;
 let messagesLoading = false;
 let pendingView = null;
 let composeSending = false;
+let inboxFilter = "all";
+let loadedMessages = [];
+let knownSenders = new Set();
 
 const mailboxText = {
   en: {
@@ -104,6 +113,17 @@ Object.assign(mailboxText.pt, { currentPasswordIncorrect: "A senha atual está i
 Object.assign(mailboxText.ru, { currentPasswordIncorrect: "Текущий пароль неверен." });
 Object.assign(mailboxText.ar, { currentPasswordIncorrect: "كلمة المرور الحالية غير صحيحة." });
 
+Object.assign(mailboxText.en, { allSenders: "All", known: "Known", unknown: "Unknown", inboxSenders: "Inbox senders", knownList: "Known list", knownSenders: "Known senders", add: "Add", removeKnown: "Remove", addKnown: "Add to known", noKnownSenders: "No known senders yet.", emptyKnown: "No messages from known senders.", emptyUnknown: "No messages from unknown senders.", knownAdded: "Sender added to known.", knownRemoved: "Sender removed from known.", knownFailed: "Could not update the known list." });
+Object.assign(mailboxText.zh, { allSenders: "全部", known: "已知", unknown: "未知", inboxSenders: "收件箱发件人", knownList: "已知列表", knownSenders: "已知发件人", add: "添加", removeKnown: "移除", addKnown: "添加到已知", noKnownSenders: "还没有已知发件人。", emptyKnown: "没有来自已知发件人的邮件。", emptyUnknown: "没有来自未知发件人的邮件。", knownAdded: "已添加到已知发件人。", knownRemoved: "已从已知发件人中移除。", knownFailed: "无法更新已知列表。" });
+Object.assign(mailboxText.ja, { allSenders: "すべて", known: "既知", unknown: "不明", inboxSenders: "受信箱の送信者", knownList: "既知リスト", knownSenders: "既知の送信者", add: "追加", removeKnown: "削除", addKnown: "既知に追加", noKnownSenders: "既知の送信者はまだいません。", emptyKnown: "既知の送信者からのメールはありません。", emptyUnknown: "不明な送信者からのメールはありません。", knownAdded: "既知の送信者に追加しました。", knownRemoved: "既知の送信者から削除しました。", knownFailed: "既知リストを更新できませんでした。" });
+Object.assign(mailboxText.ko, { allSenders: "전체", known: "아는 사람", unknown: "모르는 사람", inboxSenders: "받은메일 발신자", knownList: "아는 사람 목록", knownSenders: "아는 발신자", add: "추가", removeKnown: "제거", addKnown: "아는 사람에 추가", noKnownSenders: "아는 발신자가 아직 없습니다.", emptyKnown: "아는 발신자의 메일이 없습니다.", emptyUnknown: "모르는 발신자의 메일이 없습니다.", knownAdded: "아는 발신자에 추가했습니다.", knownRemoved: "아는 발신자에서 제거했습니다.", knownFailed: "아는 사람 목록을 업데이트할 수 없습니다." });
+Object.assign(mailboxText.es, { allSenders: "Todos", known: "Conocidos", unknown: "Desconocidos", inboxSenders: "Remitentes de entrada", knownList: "Lista de conocidos", knownSenders: "Remitentes conocidos", add: "Añadir", removeKnown: "Quitar", addKnown: "Añadir a conocidos", noKnownSenders: "Aún no hay remitentes conocidos.", emptyKnown: "No hay mensajes de remitentes conocidos.", emptyUnknown: "No hay mensajes de remitentes desconocidos.", knownAdded: "Remitente añadido a conocidos.", knownRemoved: "Remitente quitado de conocidos.", knownFailed: "No se pudo actualizar la lista de conocidos." });
+Object.assign(mailboxText.fr, { allSenders: "Tous", known: "Connus", unknown: "Inconnus", inboxSenders: "Expéditeurs reçus", knownList: "Liste connue", knownSenders: "Expéditeurs connus", add: "Ajouter", removeKnown: "Retirer", addKnown: "Ajouter aux connus", noKnownSenders: "Aucun expéditeur connu pour le moment.", emptyKnown: "Aucun message d’un expéditeur connu.", emptyUnknown: "Aucun message d’un expéditeur inconnu.", knownAdded: "Expéditeur ajouté aux connus.", knownRemoved: "Expéditeur retiré des connus.", knownFailed: "Impossible de mettre à jour la liste connue." });
+Object.assign(mailboxText.de, { allSenders: "Alle", known: "Bekannt", unknown: "Unbekannt", inboxSenders: "Posteingang-Absender", knownList: "Bekanntenliste", knownSenders: "Bekannte Absender", add: "Hinzufügen", removeKnown: "Entfernen", addKnown: "Zu Bekannt hinzufügen", noKnownSenders: "Noch keine bekannten Absender.", emptyKnown: "Keine Nachrichten von bekannten Absendern.", emptyUnknown: "Keine Nachrichten von unbekannten Absendern.", knownAdded: "Absender als bekannt hinzugefügt.", knownRemoved: "Absender aus Bekannt entfernt.", knownFailed: "Die Bekanntenliste konnte nicht aktualisiert werden." });
+Object.assign(mailboxText.pt, { allSenders: "Todos", known: "Conhecidos", unknown: "Desconhecidos", inboxSenders: "Remetentes da entrada", knownList: "Lista de conhecidos", knownSenders: "Remetentes conhecidos", add: "Adicionar", removeKnown: "Remover", addKnown: "Adicionar aos conhecidos", noKnownSenders: "Ainda não há remetentes conhecidos.", emptyKnown: "Não há mensagens de remetentes conhecidos.", emptyUnknown: "Não há mensagens de remetentes desconhecidos.", knownAdded: "Remetente adicionado aos conhecidos.", knownRemoved: "Remetente removido dos conhecidos.", knownFailed: "Não foi possível atualizar a lista de conhecidos." });
+Object.assign(mailboxText.ru, { allSenders: "Все", known: "Знакомые", unknown: "Незнакомые", inboxSenders: "Отправители входящих", knownList: "Список знакомых", knownSenders: "Знакомые отправители", add: "Добавить", removeKnown: "Удалить", addKnown: "Добавить в знакомые", noKnownSenders: "Знакомых отправителей пока нет.", emptyKnown: "Нет писем от знакомых отправителей.", emptyUnknown: "Нет писем от незнакомых отправителей.", knownAdded: "Отправитель добавлен в знакомые.", knownRemoved: "Отправитель удалён из знакомых.", knownFailed: "Не удалось обновить список знакомых." });
+Object.assign(mailboxText.ar, { allSenders: "الكل", known: "معروف", unknown: "غير معروف", inboxSenders: "مرسلو الوارد", knownList: "قائمة المعروفين", knownSenders: "المرسلون المعروفون", add: "إضافة", removeKnown: "إزالة", addKnown: "إضافة إلى المعروفين", noKnownSenders: "لا يوجد مرسلون معروفون بعد.", emptyKnown: "لا توجد رسائل من مرسلين معروفين.", emptyUnknown: "لا توجد رسائل من مرسلين غير معروفين.", knownAdded: "تمت إضافة المرسل إلى المعروفين.", knownRemoved: "تمت إزالة المرسل من المعروفين.", knownFailed: "تعذر تحديث قائمة المعروفين." });
+
 function currentLanguage() {
   const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";
   return mailboxText[saved] ? saved : "en";
@@ -164,6 +184,13 @@ function applyMailboxLanguage() {
   document.querySelector("#inbox-view-button").textContent = t("inbox");
   document.querySelector("#outbox-view-button").textContent = t("outbox");
   document.querySelector("#trash-view-button").textContent = t("trash");
+  inboxFilterButtons.forEach((button) => { button.textContent = t(button.dataset.inboxFilter === "all" ? "allSenders" : button.dataset.inboxFilter); });
+  document.querySelector(".inbox-filter-tabs").setAttribute("aria-label", t("inboxSenders"));
+  document.querySelector("#known-list-toggle").textContent = t("knownList");
+  document.querySelector("#known-list-title").textContent = t("knownSenders");
+  document.querySelector("#known-list-close").textContent = t("close");
+  document.querySelector('#known-list-form label').textContent = t("email");
+  document.querySelector('#known-list-form button[type="submit"]').textContent = t("add");
   document.querySelector("#messages-title").textContent = t("messages");
   document.querySelector("#refresh-button").textContent = t("refresh");
   document.querySelector("#preview-title").textContent = t("preview");
@@ -184,6 +211,8 @@ function applyMailboxLanguage() {
   document.querySelector("#admin-preview-title").textContent = t("preview");
   document.querySelector("#admin-message-detail .empty-state").textContent = t("chooseMailbox");
   updateViewTabs();
+  renderKnownList();
+  renderMessages(loadedMessages);
 }
 
 const viewLabels = {
@@ -223,21 +252,34 @@ function decodeStoredBody(value) {
   try { return new TextDecoder("utf-8").decode(new Uint8Array(bytes)); } catch { return text; }
 }
 
+function senderIdentity(value) {
+  const text = String(value || "").trim();
+  const bracketed = text.match(/<([^<>\s@]+@[^<>\s@]+\.[^<>\s@]+)>/);
+  const plain = text.match(/[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+/);
+  return String(bracketed?.[1] || plain?.[0] || text).toLowerCase();
+}
+
 function renderMessages(messages) {
-  if (!messages.length) {
-    messageList.innerHTML = `<div class="empty-state">${emptyText[currentView]?.() || emptyText.inbox()}</div>`;
+  loadedMessages = messages;
+  const visibleMessages = currentView === "inbox" && inboxFilter !== "all"
+    ? messages.filter((message) => knownSenders.has(senderIdentity(message.sender)) === (inboxFilter === "known"))
+    : messages;
+  if (!visibleMessages.length) {
+    const filteredEmpty = currentView === "inbox" && inboxFilter !== "all" ? t(inboxFilter === "known" ? "emptyKnown" : "emptyUnknown") : null;
+    messageList.innerHTML = `<div class="empty-state">${filteredEmpty || emptyText[currentView]?.() || emptyText.inbox()}</div>`;
     messageDetail.innerHTML = `<p class="empty-state">${t("clickPreview")}</p>`;
     return;
   }
-  messageList.innerHTML = messages.map((message) => `
+  messageList.innerHTML = visibleMessages.map((message) => `
     <button class="message-item ${message.is_read ? "" : "unread"}" data-message-id="${message.id}" type="button">
-      <span class="message-meta"><span>${message.direction === "sent" ? t("to") + ": " : t("from") + ": "}${message.direction === "sent" ? message.recipient : message.sender}</span><time>${formatDate(message.created_at)}</time></span>
+      <span class="message-meta"><span>${message.direction === "sent" ? t("to") + ": " : t("from") + ": "}${escapeHtml(message.direction === "sent" ? message.recipient : message.sender)}</span><time>${formatDate(message.created_at)}</time></span>
+      ${message.direction === "inbox" ? `<span class="sender-status ${knownSenders.has(senderIdentity(message.sender)) ? "known" : ""}">${t(knownSenders.has(senderIdentity(message.sender)) ? "known" : "unknown")}</span>` : ""}
       <span class="message-subject">${escapeHtml(message.subject)}</span>
       <span class="message-preview">${escapeHtml(decodeStoredBody(message.body))}</span>
     </button>`).join("");
   messageList.querySelectorAll("[data-message-id]").forEach((item) => {
     item.addEventListener("click", async () => {
-      const message = messages.find((entry) => String(entry.id) === item.dataset.messageId);
+      const message = visibleMessages.find((entry) => String(entry.id) === item.dataset.messageId);
       if (message) renderMessageDetail(message);
       if (message && !message.is_read) await updateMessage(message.id, "read", false);
       loadMessages();
@@ -257,7 +299,9 @@ function renderMessageDetail(message) {
   const readButton = currentView === "outbox" ? "" : `<button class="mailbox-button quiet" type="button" data-message-action="${readAction}" data-message-id="${message.id}">${readLabel}</button>`;
   const folderButton = currentView === "outbox" ? "" : `<button class="mailbox-button quiet" type="button" data-message-action="${folderAction}" data-message-id="${message.id}">${folderLabel}</button>`;
   const quoteButton = `<button class="mailbox-button quiet" type="button" data-quote-message>${t("quote")}</button>`;
-  const actions = `<div class="message-actions">${quoteButton}${readButton}${folderButton}</div>`;
+  const sender = senderIdentity(message.sender);
+  const knownButton = message.direction === "inbox" ? `<button class="mailbox-button quiet" type="button" data-known-action="${knownSenders.has(sender) ? "remove" : "add"}" data-known-sender="${escapeAttribute(sender)}">${t(knownSenders.has(sender) ? "removeKnown" : "addKnown")}</button>` : "";
+  const actions = `<div class="message-actions">${quoteButton}${knownButton}${readButton}${folderButton}</div>`;
   messageDetail.innerHTML = `
     <div class="message-detail-meta">
       <span>${escapeHtml(counterpart)}</span>
@@ -271,6 +315,10 @@ function renderMessageDetail(message) {
     button.addEventListener("click", async () => updateMessage(button.dataset.messageId, button.dataset.messageAction));
   });
   messageDetail.querySelector("[data-quote-message]")?.addEventListener("click", () => quoteMessage(message));
+  messageDetail.querySelector("[data-known-action]")?.addEventListener("click", async (event) => {
+    await updateKnownSender(event.currentTarget.dataset.knownSender, event.currentTarget.dataset.knownAction);
+    renderMessageDetail(message);
+  });
   initializeHtmlFrames(messageDetail);
 }
 
@@ -435,6 +483,53 @@ function fileToBase64(file) {
 function composeIdempotencyKey() {
   const bytes = crypto.getRandomValues(new Uint8Array(16));
   return [...bytes].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+function renderKnownList() {
+  if (!knownList) return;
+  const senders = [...knownSenders].sort((left, right) => left.localeCompare(right));
+  knownList.innerHTML = senders.length ? senders.map((sender) => `
+    <div class="known-list-entry">
+      <span>${escapeHtml(sender)}</span>
+      <button class="mailbox-button quiet" type="button" data-remove-known="${escapeAttribute(sender)}">${t("removeKnown")}</button>
+    </div>`).join("") : `<p class="empty-state">${t("noKnownSenders")}</p>`;
+  knownList.querySelectorAll("[data-remove-known]").forEach((button) => {
+    button.addEventListener("click", () => updateKnownSender(button.dataset.removeKnown, "remove"));
+  });
+}
+
+async function loadKnownSenders() {
+  try {
+    const response = await fetch("/api/mailbox-known", { cache: "no-store" });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) return false;
+    knownSenders = new Set((result.senders || []).map((sender) => String(sender).toLowerCase()));
+    renderKnownList();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function updateKnownSender(sender, action) {
+  setMessage(knownListMessage, "");
+  try {
+    const response = await fetch("/api/mailbox-known", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ sender, action }),
+    });
+    if (!response.ok) throw new Error("known-list");
+    if (action === "add") knownSenders.add(String(sender).toLowerCase());
+    else knownSenders.delete(String(sender).toLowerCase());
+    renderKnownList();
+    renderMessages(loadedMessages);
+    setMessage(knownListMessage, t(action === "add" ? "knownAdded" : "knownRemoved"));
+    return true;
+  } catch {
+    setMessage(knownListMessage, t("knownFailed"), true);
+    return false;
+  }
 }
 
 async function loadMessages() {
@@ -752,6 +847,8 @@ function updateViewTabs() {
     button.classList.toggle("active", selected);
     button.setAttribute("aria-selected", String(selected));
   });
+  knownToolbar.hidden = currentView !== "inbox";
+  if (currentView !== "inbox") knownListPanel.hidden = true;
 }
 
 function showApp(mailbox) {
@@ -759,14 +856,14 @@ function showApp(mailbox) {
   app.hidden = false;
   address.textContent = mailbox || "";
   startNotificationPolling();
-  loadMessages();
+  loadKnownSenders().finally(loadMessages);
 }
 
 function autoOpenApp() {
   login.hidden = true;
   app.hidden = false;
   startNotificationPolling();
-  loadMessages();
+  loadKnownSenders().finally(loadMessages);
 }
 
 function showLogin() {
@@ -993,7 +1090,34 @@ composeForm.addEventListener("submit", async (event) => {
   }
 });
 
-document.querySelector("#refresh-button").addEventListener("click", loadMessages);
+knownListForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const sender = String(new FormData(knownListForm).get("sender") || "").trim().toLowerCase();
+  if (await updateKnownSender(sender, "add")) knownListForm.reset();
+});
+document.querySelector("#known-list-toggle").addEventListener("click", () => {
+  knownListPanel.hidden = !knownListPanel.hidden;
+  document.querySelector("#known-list-toggle").setAttribute("aria-expanded", String(!knownListPanel.hidden));
+});
+document.querySelector("#known-list-close").addEventListener("click", () => {
+  knownListPanel.hidden = true;
+  document.querySelector("#known-list-toggle").setAttribute("aria-expanded", "false");
+});
+inboxFilterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    inboxFilter = ["known", "unknown"].includes(button.dataset.inboxFilter) ? button.dataset.inboxFilter : "all";
+    inboxFilterButtons.forEach((filterButton) => {
+      const selected = filterButton.dataset.inboxFilter === inboxFilter;
+      filterButton.classList.toggle("active", selected);
+      filterButton.setAttribute("aria-selected", String(selected));
+    });
+    renderMessages(loadedMessages);
+  });
+});
+document.querySelector("#refresh-button").addEventListener("click", async () => {
+  await loadKnownSenders();
+  loadMessages();
+});
 document.querySelector("#admin-refresh-button").addEventListener("click", loadAdminMailboxes);
 viewButtons.forEach((button) => {
   button.addEventListener("click", () => {

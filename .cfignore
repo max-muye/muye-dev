@@ -1,0 +1,6 @@
+node_modules/
+.git/
+.wrangler/
+.worker-downloads/
+tests/
+startupbg.bat

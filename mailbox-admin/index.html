@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mailbox admin · Muye</title>
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="/styles.css?v=10">
+  <link rel="stylesheet" href="/mailbox/mailbox.css?v=13">
+  <style>.admin-login{max-width:460px;margin:18vh auto}.admin-dashboard{padding-top:8vh}.admin-dashboard-grid{display:grid;grid-template-columns:minmax(260px,.8fr) minmax(320px,1.2fr);gap:18px;margin-top:28px}.admin-dashboard .message-list-panel{min-height:420px}@media(max-width:760px){.admin-dashboard-grid{grid-template-columns:1fr}.admin-login{margin-top:10vh}}</style>
+</head>
+<body class="mailbox-page">
+  <main class="mailbox-shell">
+    <header class="mailbox-topbar"><a class="mailbox-brand" href="/">Muye</a><a class="home-link" href="/">Home</a></header>
+    <section class="mailbox-login admin-login" id="admin-login" aria-labelledby="admin-login-title">
+      <p class="eyebrow" data-i18n="eyebrow">Muye mail</p><h1 id="admin-login-title" data-i18n="adminLogin">Mailbox admin</h1>
+      <p class="mailbox-copy" data-i18n="adminLoginCopy">Enter the admin password to view all mailboxes and messages.</p>
+      <form class="mailbox-form" id="admin-login-form"><label><span data-i18n="password">Password</span><input name="password" type="password" autocomplete="current-password" required></label><button class="mailbox-button primary" type="submit" data-i18n="openAdmin">Open admin</button><p class="mailbox-message" id="admin-login-message" role="status" aria-live="polite"></p></form>
+    </section>
+    <section class="mailbox-admin admin-dashboard" id="admin-dashboard" hidden>
+      <div class="mailbox-heading"><div><p class="eyebrow" data-i18n="admin">Admin</p><h1 data-i18n="allMailboxes">All mailboxes</h1><p class="mailbox-address" id="admin-summary"></p></div><button class="mailbox-button quiet" id="admin-logout" type="button" data-i18n="signOut">Sign out</button></div>
+      <div class="admin-dashboard-grid"><section class="message-list-panel"><div class="panel-heading"><h2 data-i18n="mailboxes">Mailboxes</h2><button class="mailbox-button quiet" id="admin-refresh" type="button" data-i18n="refresh">Refresh</button></div><div id="mailbox-list" class="message-list"></div></section><section class="message-preview-panel"><div class="panel-heading"><h2 id="message-title" data-i18n="messages">Messages</h2></div><div id="message-list" class="message-list"></div><article class="message-detail" id="message-detail"><p class="empty-state" data-i18n="chooseMailbox">Choose a mailbox.</p></article></section></div>
+    </section>
+  </main>
+  <script src="/mailbox-admin/admin.js?v=1"></script>
+  <script src="/assets/site-footer.js?v=1"></script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 import { clerkUserFromRequest } from "./_clerk.js";
+import { readAdminSession } from "./_admin-session.js";
 
 function json(body, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
@@ -27,6 +28,7 @@ async function mailboxFromRequest(request, env) {
 }
 
 async function requireSiteAdmin(request, env) {
+  if (await readAdminSession(request, env)) return { role: "admin" };
   try {
     const mailbox = await mailboxFromRequest(request, env);
     if (mailbox === "muye@muye.dev") return { mailbox };

@@ -249,7 +249,13 @@ function decodeStoredBody(value) {
       bytes.push(compact.charCodeAt(index));
     }
   }
-  try { return new TextDecoder("utf-8").decode(new Uint8Array(bytes)); } catch { return text; }
+  try { return decodeHtmlEntities(new TextDecoder("utf-8").decode(new Uint8Array(bytes))); } catch { return decodeHtmlEntities(text); }
+}
+
+function decodeHtmlEntities(value) {
+  const holder = document.createElement("textarea");
+  holder.innerHTML = String(value || "");
+  return holder.value;
 }
 
 function senderIdentity(value) {

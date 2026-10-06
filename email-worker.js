@@ -140,7 +140,12 @@ function contentTypeParam(contentType, name) {
   return match ? match[1] : "";
 }
 
-function decodeQuotedPrintable(value) {
+function decodeBytes(bytes, charset = "utf-8") {
+  try { return new TextDecoder(charset || "utf-8").decode(new Uint8Array(bytes)); }
+  catch { return new TextDecoder("utf-8").decode(new Uint8Array(bytes)); }
+}
+
+function decodeQuotedPrintable(value, charset = "utf-8") {
   const compact = value.replace(/=\r?\n/g, "");
   const bytes = [];
   for (let index = 0; index < compact.length; index += 1) {
@@ -151,12 +156,12 @@ function decodeQuotedPrintable(value) {
       bytes.push(compact.charCodeAt(index));
     }
   }
-  return new TextDecoder("utf-8").decode(new Uint8Array(bytes));
+  return decodeBytes(bytes, charset);
 }
 
-function decodeBase64Body(value) {
+function decodeBase64Body(value, charset = "utf-8") {
   const binary = atob(value.replace(/\s+/g, ""));
-  return new TextDecoder("utf-8").decode(Uint8Array.from(binary, (character) => character.charCodeAt(0)));
+  return decodeBytes(Uint8Array.from(binary, (character) => character.charCodeAt(0)), charset);
 }
 
 function maybeDecodeBareBase64(value) {
@@ -203,16 +208,18 @@ function sanitizeHtml(value) {
 
 function decodePart(headers, body) {
   const encoding = headerValueFromBlock(headers, "Content-Transfer-Encoding").toLowerCase();
+  const contentType = headerValueFromBlock(headers, "Content-Type");
+  const charset = contentTypeParam(contentType, "charset") || "utf-8";
   let decoded = body;
   try {
-    if (encoding.includes("quoted-printable")) decoded = decodeQuotedPrintable(body);
-    else if (encoding.includes("base64")) decoded = decodeBase64Body(body);
+    if (encoding.includes("quoted-printable")) decoded = decodeQuotedPrintable(body, charset);
+    else if (encoding.includes("base64")) decoded = decodeBase64Body(body, charset);
   } catch {
     decoded = body;
   }
-  const contentType = headerValueFromBlock(headers, "Content-Type").toLowerCase();
-  if (contentType.includes("text/html")) return { text: htmlToText(decoded), html: decoded };
-  if (contentType.includes("text/plain") || !contentType) return { text: maybeDecodeBareBase64(decoded), html: "" };
+  const normalizedContentType = contentType.toLowerCase();
+  if (normalizedContentType.includes("text/html")) return { text: htmlToText(decoded), html: decoded };
+  if (normalizedContentType.includes("text/plain") || !normalizedContentType) return { text: maybeDecodeBareBase64(decoded), html: "" };
   return { text: "", html: "" };
 }
 

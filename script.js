@@ -270,7 +270,7 @@ function applyHomeLanguage() {
   ["buildText", "writeText", "exploreText"].forEach((key, index) => { if (dds[index]) dds[index].textContent = textFor(key); });
   const headings = document.querySelectorAll(".section-heading");
   if (headings[0]) { headings[0].querySelector(".eyebrow").textContent = textFor("selectedWork"); headings[0].querySelector("h2").textContent = textFor("motion"); }
-  if (headings[1]) headings[1].querySelector("h2").textContent = textFor("notesTitle");
+  if (headings[1]) { headings[1].querySelector(".eyebrow").textContent = textFor("notes"); headings[1].querySelector("h2").textContent = textFor("notesTitle"); }
   document.querySelectorAll(".work-card").forEach((card, index) => {
     const keys = [
       ["01", "productSystems", "productSystemsText"],

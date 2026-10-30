@@ -1,3 +1,10 @@
+if (/^\/zh(?:\/|$)/.test(location.pathname)) {
+  try {
+    localStorage.setItem("muye-lang", "zh");
+    localStorage.setItem("localtalk-lang", "zh");
+  } catch {}
+}
+
 const year = document.querySelector("#year");
 
 if (year) {
@@ -166,6 +173,7 @@ function escapeHtml(value) {
 }
 
 function currentLanguage() {
+  if (/^\/zh(?:\/|$)/.test(location.pathname)) return "zh";
   const saved = localStorage.getItem("muye-lang") || localStorage.getItem("localtalk-lang") || "en";
   return languages.some((language) => language.code === saved) ? saved : "en";
 }
@@ -297,6 +305,9 @@ function applyHomeLanguage() {
 
 function setLanguage(code) {
   const language = languages.find((item) => item.code === code) || languages[0];
+  const url = new URL(location.href);
+  url.pathname = language.code === "zh" ? "/zh" : "/";
+  history.replaceState(null, "", url);
   localStorage.setItem("muye-lang", language.code);
   localStorage.setItem("localtalk-lang", language.code === "zh" ? "zh" : "en");
   applyHomeLanguage();

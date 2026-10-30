@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Muye 的个人网站，分享软件、系统和创意技术作品。">
+    <meta property="og:title" content="Muye">
+    <meta property="og:description" content="软件、系统和创意技术作品。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.muye.dev/zh">
+    <meta property="og:image" content="https://www.muye.dev/assets/hero-workspace-us.png">
+    <link rel="alternate" hreflang="en" href="https://www.muye.dev/">
+    <link rel="alternate" hreflang="zh" href="https://www.muye.dev/zh">
+    <title>Muye</title>
+    <meta name="theme-color" content="#050505">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Muye">
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+    <link rel="preload" href="/assets/hero-workspace-us.png" as="image">
+    <link rel="stylesheet" href="/styles.css?v=12">
+  </head>
+  <body>
+    <header class="site-header" aria-label="主导航">
+      <a class="brand" href="#top" aria-label="Muye 首页">Muye</a>
+      <nav>
+        <a href="#work">作品</a>
+        <a href="/games/">游戏</a>
+        <a href="/tools/">工具</a>
+        <a href="#notes">笔记</a>
+        <a href="mailto:muye@muye.dev">联系</a>
+        <a class="nav-auth sign-in" href="/create-email">创建邮箱</a>
+        <a href="/mailbox">邮箱</a>
+        <a href="/talk/">聊天</a>
+        <div class="language-switcher" data-language-switcher>
+          <button class="language-button" type="button" aria-label="切换语言" aria-haspopup="listbox" aria-expanded="false" data-language-button><span class="language-mark" aria-hidden="true"><span class="language-mark-a">A</span><span class="language-mark-zh">中</span></span></button>
+          <div class="language-menu" id="language-menu" role="listbox" hidden></div>
+        </div>
+        <a class="nav-auth sign-in" href="/sign-in">登录</a>
+        <a class="nav-auth sign-up" href="/sign-up">注册</a>
+        <div class="home-clerk-profile clerk-user-button" id="home-clerk-profile" hidden></div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <picture>
+          <img src="/assets/hero-workspace-us.png" alt="温暖的开发者工作空间，窗外是暮色中的纽约。">
+        </picture>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">www.muye.dev</p>
+          <h1 id="hero-title" class="hero-prompt">请注册或登录</h1>
+          <p class="lede">我做有想法的软件，把点子变成可用的系统，也记录一路学到的东西。</p>
+          <section class="daily-checkin" id="daily-checkin" aria-live="polite" hidden>
+            <div>
+              <span id="daily-checkin-label">每日签到</span>
+              <strong id="daily-checkin-status">今天签到了吗？</strong>
+            </div>
+            <button class="daily-checkin-button" id="daily-checkin-button" type="button">签到</button>
+          </section>
+          <div class="hero-actions" aria-label="主要操作">
+            <a class="button primary" href="/mailbox">邮箱</a>
+            <a class="button secondary" href="/create-email">创建邮箱</a>
+            <a class="button secondary" href="/games/">游戏</a>
+            <a class="button secondary" href="/tools/">工具</a>
+            <a class="button secondary" href="/talk/">聊天</a>
+            <a class="button secondary" href="#work">查看作品</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="intro" aria-label="关注领域">
+        <p>一个放项目、笔记、实验和一些值得分享的小东西的个人空间。</p>
+        <dl>
+          <div>
+            <dt>构建</dt>
+            <dd>可靠的产品、原型和自动化。</dd>
+          </div>
+          <div>
+            <dt>写作</dt>
+            <dd>关于工程、品味和工具的短笔记。</dd>
+          </div>
+          <div>
+            <dt>探索</dt>
+            <dd>界面、智能体、创意系统和网页手艺。</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section id="work" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">精选作品</p>
+          <h2>正在进行</h2>
+        </div>
+        <div class="work-grid">
+          <article class="work-card">
+            <span>01</span>
+            <h3>产品系统</h3>
+            <p>设计小而耐用的工具，让日常工作更轻、更清楚。</p>
+          </article>
+          <article class="work-card">
+            <span>02</span>
+            <h3>AI 工作流</h3>
+            <p>把智能体、自动化和人工检查组合成真正可用的流程。</p>
+          </article>
+          <article class="work-card">
+            <span>03</span>
+            <h3>网页实验</h3>
+            <p>探索快速、有表现力，并且交互细致的网站。</p>
+          </article>
+          <a class="work-card friend-card" href="https://wangruijie132435.com/" target="_blank" rel="noopener noreferrer">
+            <span>朋友</span>
+            <h3>wangruijie132435.com</h3>
+            <p>我朋友的网站。</p>
+          </a>
+          <a class="work-card friend-card" href="https://recall8z.cn/" target="_blank" rel="noopener noreferrer">
+            <span>朋友</span>
+            <h3>recall8z.cn</h3>
+            <p>我另一个朋友的游戏。</p>
+          </a>
+          <a class="work-card friend-card" href="/games/">
+            <span>游戏</span>
+            <h3>游戏</h3>
+            <p>适合触屏的经典、解谜和棋盘游戏。</p>
+          </a>
+        </div>
+      </section>
+
+      <section id="notes" class="section notes">
+        <div class="section-heading">
+          <p class="eyebrow">笔记</p>
+          <h2>最近在想</h2>
+        </div>
+        <div class="note-list">
+          <a href="/notes/now-thinking-about/">
+            <span>现在在想</span>
+            <strong>版本记录、最近部署和这个网站正在变成什么。</strong>
+          </a>
+          <a href="/notes/how-localtalk-works/">
+            <span>LocalTalk 如何工作</span>
+            <strong>关于房间、登录聊天、文件和管理的小指南。</strong>
+          </a>
+          <a href="/notes/mailbox-version-history/">
+            <span>邮箱版本记录</span>
+            <strong>Muye 邮箱如何从创建邮箱变到更安全地发送。</strong>
+          </a>
+          <a href="/notes/now-building-games/">
+            <span>正在构建</span>
+            <strong>游戏：小巧、适合触屏、没有分数压力。</strong>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> Muye. 为 Cloudflare Pages 构建。</p>
+      <div class="language-switcher footer-language-switcher" data-language-switcher>
+        <button class="language-button" type="button" aria-label="切换语言" aria-haspopup="listbox" aria-expanded="false" data-language-button><span class="language-mark" aria-hidden="true"><span class="language-mark-a">A</span><span class="language-mark-zh">中</span></span></button>
+        <div class="language-menu" role="listbox" hidden></div>
+      </div>
+      <a href="mailto:muye@muye.dev">muye@muye.dev</a>
+    </footer>
+
+    <script defer crossorigin="anonymous" src="https://clerk.www.muye.dev/npm/@clerk/ui@1/dist/ui.browser.js"></script>
+    <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsud3d3Lm11eWUuZGV2JA" src="https://clerk.www.muye.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"></script>
+    <script defer src="/script.js?v=31"></script>
+    <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});</script>
+  </body>
+</html>

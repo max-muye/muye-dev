@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Copy zero-width and other invisible Unicode characters, including all variation selectors.">
+    <title>Invisible Characters · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/assets/tools.css?v=1">
+    <link rel="stylesheet" href="/tools/invisible-characters/invisible-characters.css?v=1">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  </head>
+  <body class="misc-page">
+    <main class="misc-shell">
+      <header class="misc-topbar">
+        <a class="misc-brand" href="/">Muye</a>
+        <div class="invisible-nav"><a class="misc-home" href="/tools/" data-i18n="tools">Tools</a><button class="misc-home" id="language" type="button" data-i18n-label="languageLabel">A中</button></div>
+      </header>
+      <section class="codec-tool invisible-tool" aria-labelledby="invisible-title">
+        <div>
+          <p class="eyebrow" data-i18n="eyebrow">UNICODE TOOL</p>
+          <h1 id="invisible-title" data-i18n="title">Invisible Characters</h1>
+          <p class="invisible-intro" data-i18n="intro">Copy zero-width characters and other invisible Unicode controls. Each button copies only the character shown by its code point.</p>
+          <p class="invisible-note" data-i18n="caution">These characters can change joining, line breaks, text direction, or emoji presentation. Use them only when you need that behavior.</p>
+        </div>
+        <p class="invisible-name-note" data-i18n="nameNote">Official Unicode character names are shown in English.</p>
+        <section class="character-group" aria-labelledby="join-title">
+          <h2 id="join-title" data-i18n="joinTitle">Zero-width spaces and joiners</h2>
+          <p data-i18n="joinIntro">Common invisible characters for word breaks, script joining, and keeping words together.</p>
+          <div class="character-list" id="join-list"></div>
+        </section>
+        <section class="character-group" aria-labelledby="math-title">
+          <h2 id="math-title" data-i18n="mathTitle">Invisible math operators</h2>
+          <p data-i18n="mathIntro">Formatting characters used to represent mathematical operations without a visible symbol.</p>
+          <div class="character-list" id="math-list"></div>
+        </section>
+        <section class="character-group" aria-labelledby="direction-title">
+          <h2 id="direction-title" data-i18n="directionTitle">Direction controls</h2>
+          <p data-i18n="directionIntro">Invisible marks and embeddings that affect bidirectional text layout.</p>
+          <div class="character-list" id="direction-list"></div>
+        </section>
+        <section class="character-group" aria-labelledby="variation-title">
+          <h2 id="variation-title" data-i18n="variationTitle">Variation selectors · VS1–VS256</h2>
+          <p data-i18n="variationIntro">Choose any of the 256 variation selectors. The dotted circle is only a preview aid; it is not copied.</p>
+          <div class="variation-picker">
+            <label for="variation-number" data-i18n="variationNumber">Selector number</label>
+            <input id="variation-number" type="number" min="1" max="256" value="16" inputmode="numeric">
+            <div class="variation-preview"><span id="variation-display">◌️</span><code id="variation-code">U+FE0F</code></div>
+            <button id="copy-variation" class="primary-action" type="button" data-i18n="copySelected">Copy selector</button>
+          </div>
+        </section>
+        <section class="character-group" aria-labelledby="tag-title">
+          <h2 id="tag-title" data-i18n="tagTitle">Emoji tag characters</h2>
+          <p data-i18n="tagIntro">Tag characters can form subdivision flag sequences. Choose one ASCII character to copy its invisible tag form.</p>
+          <div class="variation-picker tag-picker">
+            <label for="tag-character" data-i18n="tagCharacter">ASCII character</label>
+            <input id="tag-character" type="text" maxlength="1" value="A" autocomplete="off" spellcheck="false">
+            <div class="variation-preview"><span id="tag-display">◌󠁁</span><code id="tag-code">U+E0041</code></div>
+            <button id="copy-tag" class="primary-action" type="button" data-i18n="copySelected">Copy character</button>
+          </div>
+          <div class="character-list" id="tag-list"></div>
+        </section>
+        <details class="character-group legacy-group">
+          <summary data-i18n="legacyTitle">Deprecated and legacy format controls</summary>
+          <p data-i18n="legacyIntro">These characters are retained for compatibility. New text should normally use Word Joiner (U+2060) instead of U+FEFF for word joining.</p>
+          <div class="character-list" id="legacy-list"></div>
+        </details>
+        <p class="codec-status" id="status" aria-live="polite" data-i18n="ready">Ready.</p>
+      </section>
+    </main>
+    <script src="/tools/invisible-characters/invisible-characters.js?v=1"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

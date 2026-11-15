@@ -10,7 +10,8 @@
 .character-list { display: grid; gap: 8px; }
 .character-row { display: grid; grid-template-columns: minmax(112px, 150px) minmax(0, 1fr) auto; align-items: center; gap: 12px; border-top: 1px solid rgba(255, 251, 241, 0.1); padding-top: 10px; }
 .character-row code, .variation-preview code { color: var(--accent-strong); font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
-.character-row .character-name { color: var(--ink); font-size: 13px; overflow-wrap: anywhere; }
+.character-row .character-name { display: grid; gap: 3px; color: var(--ink); font-size: 13px; overflow-wrap: anywhere; }
+.character-row .character-name small { color: var(--muted); font-size: 11px; }
 .character-row button { min-width: 82px; border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; color: var(--ink); background: rgba(255, 251, 241, 0.08); font: inherit; font-size: 12px; font-weight: 760; cursor: pointer; }
 .character-row button:hover, .character-row button:focus-visible { border-color: var(--accent-strong); outline: none; }
 .variation-picker { display: grid; grid-template-columns: minmax(120px, 1fr) minmax(80px, 110px) minmax(120px, 1fr) auto; align-items: center; gap: 12px; }

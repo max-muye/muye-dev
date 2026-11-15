@@ -28,6 +28,7 @@
           <a href="/tools/base64/">Base64</a>
           <a href="/tools/unicode-art/">Unicode Art</a>
           <a href="/tools/unicode-viewer/">Unicode Viewer</a>
+          <a href="/tools/emoji-joiner/" id="emoji-joiner-link">Emoji Joiner</a>
           <a href="/tools/passwd/">Password tools</a>
           <a href="/tools/passwd/aes/">AES</a>
           <a href="/tools/collatz/">Collatz</a>
@@ -36,6 +37,16 @@
         </nav>
       </section>
     </main>
+    <script>
+      (() => {
+        const labels = { en:"Emoji Joiner", zh:"表情连接器", ja:"絵文字ジョイナー", ko:"이모지 조합기", es:"Unidor de emojis", fr:"Assembleur d’émojis", de:"Emoji-Verbinder", pt:"Juntador de emojis", ru:"Сборщик эмодзи", ar:"موصّل الرموز التعبيرية" };
+        const link = document.querySelector("#emoji-joiner-link");
+        const render = () => { link.textContent = labels[localStorage.getItem("muye-lang")] || labels.en; };
+        render();
+        window.addEventListener("storage", render);
+        window.addEventListener("muye-language-change", render);
+      })();
+    </script>
     <script src="/assets/site-footer.js?v=1"></script>
   </body>
 </html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Combine emoji and Unicode characters with zero-width joiners in your browser.">
+    <title>Emoji Joiner · Muye</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/styles.css?v=11">
+    <link rel="stylesheet" href="/assets/tools.css?v=1">
+    <link rel="stylesheet" href="/tools/emoji-joiner/emoji-joiner.css?v=1">
+    <link rel="stylesheet" href="/assets/site-footer.css?v=1">
+  </head>
+  <body class="misc-page">
+    <main class="misc-shell">
+      <header class="misc-topbar">
+        <a class="misc-brand" href="/">Muye</a>
+        <div class="joiner-nav"><a class="misc-home" href="/tools/" data-i18n="tools">Tools</a><button class="misc-home" id="language" type="button" data-i18n-label="languageLabel">A中</button></div>
+      </header>
+      <section class="codec-tool joiner-tool" aria-labelledby="joiner-title">
+        <div>
+          <p class="eyebrow" data-i18n="eyebrow">UNICODE TOOL</p>
+          <h1 id="joiner-title" data-i18n="title">Emoji Joiner</h1>
+          <p class="joiner-intro" data-i18n="intro">Combine emoji pieces with a zero-width joiner (ZWJ) to build a sequence such as 👩‍❤️‍👩. Everything runs in your browser.</p>
+        </div>
+        <div class="joiner-examples">
+          <button type="button" data-example="couple" data-i18n="exampleCouple">👩‍❤️‍👩 Couple</button>
+          <button type="button" data-example="technologist" data-i18n="exampleTechnologist">👩‍💻 Technologist</button>
+          <button type="button" data-example="family" data-i18n="exampleFamily">👨‍👩‍👧 Family</button>
+        </div>
+        <label class="joiner-parts-label" for="parts" data-i18n="partsLabel">Parts — one emoji or text piece per line</label>
+        <textarea id="parts" rows="5" spellcheck="false" data-i18n-placeholder="partsPlaceholder" placeholder="👩&#10;❤️&#10;👩"></textarea>
+        <div class="joiner-options">
+          <label class="joiner-checkbox"><input id="use-zwj" type="checkbox" checked><span data-i18n="useZwj">Join with zero-width joiner (U+200D)</span></label>
+          <button id="clear" class="joiner-secondary" type="button" data-i18n="clear">Clear</button>
+        </div>
+        <section class="joiner-result" aria-labelledby="result-title">
+          <div class="joiner-result-heading"><h2 id="result-title" data-i18n="result">Result</h2><button id="copy" class="primary-action" type="button" data-i18n="copy">Copy result</button></div>
+          <output id="preview" aria-live="polite">👩‍❤️‍👩</output>
+          <p id="metrics" class="joiner-metrics" aria-live="polite"></p>
+        </section>
+        <details class="joiner-details"><summary data-i18n="detailsTitle">Why does it contain several characters?</summary><p data-i18n="detailsText">A joined emoji can contain multiple Unicode code points: the visible emoji pieces plus U+200D, a zero-width joiner that asks a compatible system to display them as one symbol. The sequence may look different across platforms.</p><pre id="codepoints" dir="ltr"></pre></details>
+        <p class="codec-status" id="status" aria-live="polite" data-i18n="ready">Ready.</p>
+      </section>
+    </main>
+    <script src="/tools/emoji-joiner/emoji-joiner.js?v=1"></script>
+    <script src="/assets/site-footer.js?v=1"></script>
+  </body>
+</html>

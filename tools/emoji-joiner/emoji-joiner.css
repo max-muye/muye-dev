@@ -1,0 +1,22 @@
+.joiner-nav { display: flex; align-items: center; gap: 16px; }
+.joiner-tool { width: min(820px, 100%); margin-top: 7vh; }
+.joiner-tool h1 { font-size: clamp(44px, 8vw, 82px); }
+.joiner-intro { max-width: 690px; color: var(--muted); font-size: 17px; line-height: 1.65; }
+.joiner-examples, .joiner-options, .joiner-result-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.joiner-examples button, .joiner-secondary { border: 1px solid var(--line); border-radius: 8px; padding: 10px 13px; color: var(--ink); background: rgba(255, 251, 241, 0.08); font: inherit; font-size: 14px; font-weight: 760; cursor: pointer; }
+.joiner-examples button:hover, .joiner-secondary:hover { border-color: var(--accent-strong); background: rgba(242, 189, 121, 0.16); }
+.joiner-parts-label { color: var(--muted); font-size: 14px; font-weight: 760; }
+#parts { width: 100%; min-height: 138px; resize: vertical; border: 1px solid var(--line); border-radius: 10px; padding: 14px; color: var(--ink); background: rgba(16, 21, 20, 0.86); font: 20px/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; outline: none; }
+#parts:focus { border-color: var(--accent-strong); box-shadow: 0 0 0 3px rgba(242, 189, 121, 0.18); }
+.joiner-options { justify-content: space-between; color: var(--muted); font-size: 14px; }
+.joiner-checkbox { display: flex; align-items: center; gap: 9px; cursor: pointer; }
+.joiner-checkbox input { accent-color: var(--accent-strong); width: 17px; height: 17px; }
+.joiner-result { display: grid; gap: 14px; border: 1px solid var(--line); border-radius: 14px; padding: clamp(17px, 4vw, 28px); background: rgba(16, 21, 20, 0.78); }
+.joiner-result-heading { justify-content: space-between; }
+.joiner-result h2 { margin: 0; font-size: 19px; }
+.joiner-result output { min-height: 70px; overflow-wrap: anywhere; color: var(--ink); font-size: clamp(44px, 10vw, 78px); line-height: 1.25; }
+.joiner-metrics { margin: 0; color: var(--muted); font-size: 13px; }
+.joiner-details { color: var(--muted); line-height: 1.65; }
+.joiner-details summary { color: var(--ink); font-weight: 760; cursor: pointer; }
+.joiner-details pre { overflow-wrap: anywhere; white-space: pre-wrap; color: var(--accent-strong); font: 12px/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; }
+@media (max-width: 600px) { .joiner-tool { margin-top: 5vh; } .joiner-options { align-items: flex-start; } }
